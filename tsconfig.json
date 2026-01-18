@@ -27,7 +27,20 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "SamuelGuerrero/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@atoms/*": ["./src/components/atoms/*"],
+      "@molecules/*": ["./src/components/molecules/*"],
+      "@organisms/*": ["./src/components/organisms/*"],
+      "@templates/*": ["./src/components/templates/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@types/*": ["./src/types/*"],
+      "@actions/*": ["./src/actions/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/lib/utils/*"]
     }
   },
   "include": [
