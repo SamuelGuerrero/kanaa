@@ -1,8 +1,10 @@
 'use client';
 
-import { CircleButton, Text } from '@/components/atoms';
-import { useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
+import { useState } from 'react';
+
+import { CircleButton } from '@/components/atoms';
+import { Input } from '@/components/molecules';
 
 type SearchData = {
     destination: string;
@@ -29,69 +31,46 @@ export const ReservationSearch = ({ onSearch }: ReservationSearchProps) => {
 
     return (
         <div className="bg-white rounded-full shadow-2xl flex items-center overflow-hidden h-16" style={{ width: '823px' }}>
-            <div className="relative px-8" style={{ width: '283px' }}>
+            <div className="relative px-6" style={{ width: '283px' }}>
                 <div className="absolute right-0 top-1/2 h-[85%] w-px -translate-y-1/2 bg-gray-200" />
 
-                <Text font="gilroy" size="xs" weight="medium" className="block text-black">
-                    Destino
-                </Text>
-
-                <input
-                    type="text"
+                <Input
+                    label='Destino'
                     value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
+                    onChange={setDestination}
                     placeholder="Escribe tu destino"
-                    className="w-full text-sm text-gray-600 placeholder-[#6A6A6A] outline-none bg-transparent text-gilroy"
                 />
             </div>
 
-            <div className="relative px-8" style={{ width: '142.5px' }}>
+            <div className="relative px-6" style={{ width: '142.5px' }}>
                 <div className="absolute right-0 top-1/2 h-[85%] w-px -translate-y-1/2 bg-gray-200" />
-                <Text font='gilroy' size='xs' weight='medium' className="block text-black">
-                    Entrada
-                </Text>
-                <input
-                    type="text"
+                <Input
+                    label='Entrada'
                     value={checkIn}
-                    onChange={(e) => setCheckIn(e.target.value)}
+                    onChange={setCheckIn}
                     placeholder="Añade fecha"
-                    onFocus={(e) => e.currentTarget.type = 'date'}
-                    onBlur={(e) => {
-                        if (!e.currentTarget.value) e.currentTarget.type = 'text';
-                    }}
-                    className="w-full text-sm text-gray-600 placeholder-[#6A6A6A] outline-none bg-transparent text-gilroy"
+                    variant='date-dynamic'
                 />
             </div>
 
-            <div className="relative px-8" style={{ width: '142.5px' }}>
+            <div className="relative px-6" style={{ width: '142.5px' }}>
                 <div className="absolute right-0 top-1/2 h-[85%] w-px -translate-y-1/2 bg-gray-200" />
-                <Text font='gilroy' size='xs' weight='medium' className="block text-black">
-                    Salida
-                </Text>
-                <input
-                    type="text"
+                <Input
+                    label='Salida'
                     value={checkOut}
-                    onChange={(e) => setCheckOut(e.target.value)}
+                    onChange={setCheckOut}
                     placeholder="Añade fecha"
-                    onFocus={(e) => e.currentTarget.type = 'date'}
-                    onBlur={(e) => {
-                        if (!e.currentTarget.value) e.currentTarget.type = 'text';
-                    }}
-                    className="w-full text-sm text-gray-600 placeholder-[#6A6A6A] outline-none bg-transparent text-gilroy"
+                    variant='date-dynamic'
                 />
             </div>
 
             <div className="flex items-center" style={{ width: '255px' }}>
-                <div className="flex-1 px-8">
-                    <Text font='gilroy' size='xs' weight='medium' className="block text-black">
-                        Huéspedes
-                    </Text>
-                    <input
-                        type="text"
+                <div className="flex-1 px-6">
+                    <Input
+                        label='Huéspedes'
                         value={guests}
-                        onChange={(e) => setGuests(e.target.value)}
+                        onChange={setGuests}
                         placeholder="Añade Huéspedes"
-                        className="w-full text-sm text-gray-600 placeholder-[#6A6A6A] outline-none bg-transparent"
                     />
                 </div>
 
