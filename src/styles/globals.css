@@ -1,6 +1,69 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Fuentes */
+  --font-roboto: "var(--font-roboto)", serif;
+  --font-gilroy: "var(--font-gilroy)", sans-serif;
+
+  /* Tamaños de fuente */
+  --font-size-xxs: 10px;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 60px;
+  --font-size-7xl: 72px;
+
+  /* Colores Grey */
+  --color-grey-light: #fbfcfb;
+  --color-grey-light-hover: #f9faf9;
+  --color-grey-light-active: #f4f4f3;
+  --color-grey-normal: #dadcd9;
+  --color-grey-normal-hover: #c4c6c3;
+  --color-grey-normal-active: #aeb0ae;
+  --color-grey-dark: #a4a5a3;
+  --color-grey-dark-hover: #838482;
+  --color-grey-dark-active: #626362;
+  --color-grey-darker: #4c4d4c;
+
+  /* Colores Gold */
+  --color-gold-light: #f6f5f1;
+  --color-gold-light-hover: #f2f0ea;
+  --color-gold-light-active: #e3dfd4;
+  --color-gold-normal: #a59973;
+  --color-gold-normal-hover: #958a68;
+  --color-gold-normal-active: #847a5c;
+  --color-gold-dark: #7c7356;
+  --color-gold-dark-hover: #635c45;
+  --color-gold-dark-active: #4a4534;
+  --color-gold-darker: #3a3628;
+
+  /* Colores Green */
+  --color-green-light: #edefec;
+  --color-green-light-hover: #e4e6e3;
+  --color-green-light-active: #c7ccc4;
+  --color-green-normal: #4a5b42;
+  --color-green-normal-hover: #43523b;
+  --color-green-normal-active: #3b4935;
+  --color-green-dark: #384432;
+  --color-green-dark-hover: #2c3728;
+  --color-green-dark-active: #21291e;
+  --color-green-darker: #1a2017;
+
+  /* Colores Beige */
+  --color-beige-light: #fcfbfb;
+  --color-beige-light-hover: #fbf9f8;
+  --color-beige-light-active: #f6f3f1;
+  --color-beige-normal: #e1d9d2;
+  --color-beige-normal-hover: #cbc3bd;
+  --color-beige-normal-active: #b4aea8;
+  --color-beige-dark: #a9a39e;
+  --color-beige-dark-hover: #87827e;
+  --color-beige-dark-active: #65625e;
+  --color-beige-darker: #4f4c4a;
 }
