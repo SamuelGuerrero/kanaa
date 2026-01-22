@@ -1,5 +1,6 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import tseslint from 'typescript-eslint';
+import importPlugin from 'eslint-plugin-import';
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
@@ -7,39 +8,61 @@ const compat = new FlatCompat({
 
 export default tseslint.config(
   {
-		ignores: ['.next']
-	},
+    ignores: ['.next']
+  },
   ...compat.extends("next/core-web-vitals"),
   {
     files: ['**/*.ts', '**/*.tsx'],
-		extends: [
-			...tseslint.configs.recommended,
-			...tseslint.configs.recommendedTypeChecked,
-			...tseslint.configs.stylisticTypeChecked
-		],
-      rules: {
-    "@typescript-eslint/array-type": "off",
-    "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/consistent-type-imports": [
-      "warn",
-      { prefer: "type-imports", fixStyle: "inline-type-imports" },
+    extends: [
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked
     ],
-    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-    "@typescript-eslint/require-await": "off",
-    "@typescript-eslint/no-misused-promises": [
-      "error",
-      { checksVoidReturn: { attributes: false } },
-    ],
-  },
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      "@typescript-eslint/array-type": "off",
+      "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
+      ],
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        { checksVoidReturn: { attributes: false } },
+      ],
+      "import/order": [
+        "warn",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+            "type"
+          ],
+          "newlines-between": "always",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true
+          }
+        }
+      ]
+    },
   },
   {
-		linterOptions: {
-			reportUnusedDisableDirectives: true
-		},
-		languageOptions: {
-			parserOptions: {
-				projectService: true
-			}
-		}
-	}
-)
+    linterOptions: {
+      reportUnusedDisableDirectives: true
+    },
+    languageOptions: {
+      parserOptions: {
+        projectService: true
+      }
+    }
+  }
+);
