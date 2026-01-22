@@ -55,7 +55,6 @@ export const Navbar = () => {
               />
             </CircleButton>
           }
-          iconPosition="right"
         >
           Reserva ahora
         </Button>
