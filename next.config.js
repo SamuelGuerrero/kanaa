@@ -5,6 +5,15 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hostaway-platform.s3.us-west-2.amazonaws.com',
+      },
+    ],
+  },
+};
 
 export default config;
