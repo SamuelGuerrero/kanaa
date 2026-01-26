@@ -1,3 +1,5 @@
+import type { ElementType, ReactNode } from "react";
+
 type FontFamily = "roboto" | "gilroy";
 
 type FontSize =
@@ -17,12 +19,13 @@ type FontSize =
 type FontWeight = "light" | "normal" | "medium" | "semibold" | "bold";
 
 type TextProps = {
-  children: React.ReactNode;
+  children?: ReactNode;
   font?: FontFamily;
   size?: FontSize;
   weight?: FontWeight;
-  as?: React.ElementType;
+  as?: ElementType;
   className?: string;
+  dangerouslySetInnerHTML?: { __html: string };
 };
 
 const fontFamilies: Record<FontFamily, string> = {
@@ -60,6 +63,7 @@ export const Text = ({
   weight = "normal",
   as: Component = "p",
   className = "",
+  dangerouslySetInnerHTML,
 }: TextProps) => {
   const classes = [
     fontFamilies[font],
@@ -70,5 +74,12 @@ export const Text = ({
     .filter(Boolean)
     .join(" ");
 
-  return <Component className={classes}>{children}</Component>;
+  return (
+    <Component
+      className={classes}
+      dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+    >
+      {children}
+    </Component>
+  );
 };
