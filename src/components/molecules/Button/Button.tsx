@@ -1,4 +1,8 @@
-import { type ButtonHTMLAttributes, type DetailedHTMLProps, type ReactNode } from "react";
+import {
+    type ButtonHTMLAttributes,
+    type DetailedHTMLProps,
+    type ReactNode
+} from "react";
 
 import { Text } from "@/components/atoms";
 
@@ -10,7 +14,19 @@ type ButtonProps = DetailedHTMLProps<
     icon?: ReactNode;
     iconPosition?: "left" | "right";
     textWeight?: "light" | "normal" | "medium" | "semibold" | "bold";
-    textSize?: "xxs" | "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl";
+    textSize?:
+    | "xxs"
+    | "xs"
+    | "sm"
+    | "base"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "6xl"
+    | "7xl";
     textClassName?: string;
 };
 
@@ -29,7 +45,7 @@ export const Button = (props: ButtonProps) => {
 
     const variantStyles =
         variant === "secondary"
-            ? ""
+            ? "bg-white"
             : variant === "primary"
                 ? "bg-gold-light-hover text-gold-normal"
                 : "";
@@ -37,18 +53,35 @@ export const Button = (props: ButtonProps) => {
     const baseStyles =
         "rounded-[10px] py-[14px] px-[24px] flex items-center cursor-pointer";
 
+    const textVariantOverrides =
+        variant === "secondary"
+            ? {
+                weight: "bold" as const,
+                className: "text-gold-normal text-gold-normal!",
+            }
+            : {};
+
     return (
-        <button {...rest} className={`${baseStyles} ${variantStyles} ${className}`}>
-            {icon && iconPosition === "left" && <span className="mr-2">{icon}</span>}
+        <button
+            {...rest}
+            className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
+        >
+            {icon && iconPosition === "left" && (
+                <span className="mr-2">{icon}</span>
+            )}
+
             <Text
                 font="gilroy"
-                weight={textWeight}
+                weight={textVariantOverrides.weight ?? textWeight}
                 size={textSize}
-                className={textClassName}
+                className={`${textVariantOverrides.className ?? ""} ${textClassName}`}
             >
                 {children}
             </Text>
-            {icon && iconPosition === "right" && <span className="ml-2">{icon}</span>}
+
+            {icon && iconPosition === "right" && (
+                <span className="ml-2">{icon}</span>
+            )}
         </button>
     );
 };
