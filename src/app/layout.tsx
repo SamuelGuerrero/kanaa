@@ -58,7 +58,13 @@ export default function RootLayout({
       lang="en"
       className={`${robotoSerif.variable} ${gilroy.variable}`}
     >
-      <body className="bg-gold-light-hover">
+      <body className="
+    bg-[url('/svg/main.svg')]
+    bg-repeat
+    bg-top
+    bg-contain
+    p-4
+  ">
         <Navbar />
         {children}
       </body>

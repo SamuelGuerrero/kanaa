@@ -18,7 +18,7 @@ export const Navbar = () => {
         WebkitBackdropFilter: 'blur(22.39px)',
       }}
 
-      className='fixed top-4 left-1/2 -translate-x-1/2 w-[98%] px-12 py-5 rounded-xl bg-white/1 backdrop-blur-md bordershadow-lg z-50 flex items-center justify-between'>
+      className='fixed top-8.5 left-1/2 -translate-x-1/2 w-[96%] px-12 py-5 rounded-xl bg-white/1 backdrop-blur-md bordershadow-lg z-50 flex items-center justify-between'>
       <KanaaLogo />
       <div className="flex items-center gap-7.5 text-white">
         <NavItem href="/" active={pathname === '/'}>
