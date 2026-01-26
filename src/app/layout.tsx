@@ -54,17 +54,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${robotoSerif.variable} ${gilroy.variable}`}
-    >
-      <body className="
-    bg-[url('/svg/main.svg')]
-    bg-repeat
-    bg-top
-    bg-contain
-    p-4
-  ">
+    <html lang="en" className={`${robotoSerif.variable} ${gilroy.variable}`}>
+      <body className="bg-[url('/svg/main.svg')] bg-contain bg-top bg-repeat p-4">
         <Navbar />
         {children}
       </body>

@@ -1,4 +1,8 @@
-import { FeaturedProperties, Hero, ValueProposition } from "@/components/templates";
+import {
+  FeaturedProperties,
+  Hero,
+  ValueProposition,
+} from "@/components/templates";
 
 export default function HomePage() {
   return (
@@ -6,6 +10,6 @@ export default function HomePage() {
       <Hero />
       <FeaturedProperties />
       <ValueProposition />
-    </main >
+    </main>
   );
 }

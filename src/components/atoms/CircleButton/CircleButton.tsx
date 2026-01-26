@@ -1,16 +1,16 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 interface CircleButtonProps {
-    className?: string
-    children?: ReactNode
+  className?: string;
+  children?: ReactNode;
 }
 
 export const CircleButton = ({ className, children }: CircleButtonProps) => {
-    return (
-        <div
-            className={`bg-white w-7.5 h-7.5 rounded-full flex items-center justify-center cursor-pointer ${className}`}
-        >
-            {children}
-        </div>
-    )
-}
+  return (
+    <div
+      className={`flex h-7.5 w-7.5 cursor-pointer items-center justify-center rounded-full bg-white ${className}`}
+    >
+      {children}
+    </div>
+  );
+};

@@ -1,75 +1,74 @@
-type FontFamily = 'roboto' | 'gilroy';
+type FontFamily = "roboto" | "gilroy";
 
 type FontSize =
-    | 'xxs'
-    | 'xs'
-    | 'sm'
-    | 'base'
-    | 'lg'
-    | 'xl'
-    | '2xl'
-    | '3xl'
-    | '4xl'
-    | '5xl'
-    | '6xl'
-    | '7xl';
+  | "xxs"
+  | "xs"
+  | "sm"
+  | "base"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+  | "6xl"
+  | "7xl";
 
-type FontWeight = 'light' | 'normal' | 'medium' | 'semibold' | 'bold';
-
+type FontWeight = "light" | "normal" | "medium" | "semibold" | "bold";
 
 type TextProps = {
-    children: React.ReactNode;
-    font?: FontFamily;
-    size?: FontSize;
-    weight?: FontWeight;
-    as?: React.ElementType;
-    className?: string;
+  children: React.ReactNode;
+  font?: FontFamily;
+  size?: FontSize;
+  weight?: FontWeight;
+  as?: React.ElementType;
+  className?: string;
 };
 
 const fontFamilies: Record<FontFamily, string> = {
-    roboto: 'font-roboto',
-    gilroy: 'font-gilroy',
+  roboto: "font-roboto",
+  gilroy: "font-gilroy",
 };
 
 const fontSizes: Record<FontSize, string> = {
-    xxs: 'text-xxs',
-    xs: 'text-xs',
-    sm: 'text-sm',
-    base: 'text-base',
-    lg: 'text-lg',
-    xl: 'text-xl',
-    '2xl': 'text-2xl',
-    '3xl': 'text-3xl',
-    '4xl': 'text-4xl',
-    '5xl': 'text-5xl',
-    '6xl': 'text-6xl',
-    '7xl': 'text-7xl',
+  xxs: "text-xxs",
+  xs: "text-xs",
+  sm: "text-sm",
+  base: "text-base",
+  lg: "text-lg",
+  xl: "text-xl",
+  "2xl": "text-2xl",
+  "3xl": "text-3xl",
+  "4xl": "text-4xl",
+  "5xl": "text-5xl",
+  "6xl": "text-6xl",
+  "7xl": "text-7xl",
 };
 
 const fontWeights: Record<FontWeight, string> = {
-    light: 'font-light',
-    normal: 'font-normal',
-    medium: 'font-medium',
-    semibold: 'font-semibold',
-    bold: 'font-bold',
+  light: "font-light",
+  normal: "font-normal",
+  medium: "font-medium",
+  semibold: "font-semibold",
+  bold: "font-bold",
 };
 
 export const Text = ({
-    children,
-    font = 'roboto',
-    size = 'base',
-    weight = 'normal',
-    as: Component = 'p',
-    className = '',
+  children,
+  font = "roboto",
+  size = "base",
+  weight = "normal",
+  as: Component = "p",
+  className = "",
 }: TextProps) => {
-    const classes = [
-        fontFamilies[font],
-        fontSizes[size],
-        fontWeights[weight],
-        className,
-    ]
-        .filter(Boolean)
-        .join(' ');
+  const classes = [
+    fontFamilies[font],
+    fontSizes[size],
+    fontWeights[weight],
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-    return <Component className={classes}>{children}</Component>;
+  return <Component className={classes}>{children}</Component>;
 };
