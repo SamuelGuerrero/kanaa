@@ -1,11 +1,11 @@
 "use client";
 
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import { useState, type DetailedHTMLProps, type HTMLAttributes } from "react";
-
+import { CarouselButton, PaginationDots } from "@/components/atoms";
 import { PropertyCard } from "@/components/molecules";
+import { useCarouselPagination } from "@/hooks/useCarouselPagination";
 
 import type { Property } from "@/types/property";
+import type { DetailedHTMLProps, HTMLAttributes } from "react";
 
 type PropertyCarouselProps = DetailedHTMLProps<
   HTMLAttributes<HTMLElement>,
@@ -14,31 +14,29 @@ type PropertyCarouselProps = DetailedHTMLProps<
   listings?: Property[];
   loading?: boolean;
   error?: string | null;
+  itemsPerPage?: number;
 };
 
 export const PropertyCarousel = ({
   listings = [],
   loading,
   error,
+  itemsPerPage = 4,
   className,
   ...rest
 }: PropertyCarouselProps) => {
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(listings.length / itemsPerPage);
-
-  const nextPage = () => {
-    setCurrentPage((prev) => (prev + 1) % totalPages);
-  };
-
-  const prevPage = () => {
-    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
-  };
-
-  const goToPage = (page: number) => {
-    setCurrentPage(page);
-  };
+  const {
+    currentPage,
+    totalPages,
+    visibleItems: visibleListings,
+    nextPage,
+    prevPage,
+    goToPage,
+    shouldShowControls,
+  } = useCarouselPagination({
+    items: listings,
+    itemsPerPage,
+  });
 
   if (loading) {
     return (
@@ -68,20 +66,14 @@ export const PropertyCarousel = ({
     );
   }
 
-  const startIndex = currentPage * itemsPerPage;
-  const visibleListings = listings.slice(startIndex, startIndex + itemsPerPage);
-
   return (
     <section className={className} {...rest}>
       <div className="relative">
-        <button
+        <CarouselButton
+          direction="prev"
           onClick={prevPage}
-          className="bg-gold-light-hover absolute top-1/2 -left-6 z-10 -translate-x-4 -translate-y-1/2 cursor-pointer rounded-full p-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
-          disabled={listings.length <= itemsPerPage}
-          aria-label="Anterior"
-        >
-          <ChevronLeftIcon className="text-gold-normal-hover h-6 w-6" />
-        </button>
+          disabled={!shouldShowControls}
+        />
 
         <div className="grid grid-cols-1 gap-6 px-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visibleListings.map((property) => {
@@ -103,32 +95,18 @@ export const PropertyCarousel = ({
           })}
         </div>
 
-        <button
+        <CarouselButton
+          direction="next"
           onClick={nextPage}
-          className="bg-gold-light-hover absolute top-1/2 -right-6 z-10 translate-x-4 -translate-y-1/2 cursor-pointer rounded-full p-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
-          disabled={listings.length <= itemsPerPage}
-          aria-label="Siguiente"
-        >
-          <ChevronRightIcon className="text-gold-normal-hover h-6 w-6" />
-        </button>
+          disabled={!shouldShowControls}
+        />
       </div>
 
-      {totalPages > 1 && (
-        <div className="mt-8 flex justify-center gap-2">
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToPage(index)}
-              className={`h-3.75 w-3.75 cursor-pointer rounded-full transition-all ${
-                currentPage === index
-                  ? "bg-gold-normal w-[37.5px]"
-                  : "bg-gold-light-active hover:bg-gold-light-active"
-              }`}
-              aria-label={`Ir a página ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
+      <PaginationDots
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={goToPage}
+      />
     </section>
   );
 };
