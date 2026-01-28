@@ -4,3 +4,5 @@ export * from './ValueProposition';
 export * from './KeyMetrics';
 export * from './InfoSection';
 export * from './BackedExperience';
+export * from "./GuideAndTips";
+export * from "./FrequentlyQuestions";
