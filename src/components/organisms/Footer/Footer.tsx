@@ -77,7 +77,7 @@ export const Footer = () => {
         ))}
       </div>
 
-      <div className="ml-20">
+      <div className="ml-18 flex flex-col items-end">
         <Button
           variant="primary"
           textWeight="bold"
