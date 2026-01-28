@@ -6,6 +6,8 @@ import {
   InfoSection,
   BackedExperience,
   type KeyMetricsProps,
+  GuideAndTips,
+  FrequentlyQuestions,
 } from "@/components/templates";
 import DiscoverGenerate from "@assets/images/Home/DiscoverGenerate.png";
 import PropertyManagement from "@assets/images/Home/PropertyManagement.png";
@@ -60,6 +62,8 @@ export default function HomePage() {
       />
 
       <BackedExperience />
+      <GuideAndTips />
+      <FrequentlyQuestions />
     </main>
   );
 }

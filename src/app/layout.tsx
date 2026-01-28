@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 import { Roboto_Serif } from "next/font/google";
 import localFont from "next/font/local";
 
-import { Navbar } from "@/components/organisms";
+import { Footer, Navbar } from "@/components/organisms";
 
 export const metadata: Metadata = {
   title: "Kanaa",
@@ -54,10 +54,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${robotoSerif.variable} ${gilroy.variable}`}>
+    <html lang="en" className={`${robotoSerif.variable} ${gilroy.variable}`} >
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      />
       <body className="bg-[url('/svg/main.svg')] bg-contain bg-top bg-repeat p-4">
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

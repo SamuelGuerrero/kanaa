@@ -66,4 +66,9 @@
   --color-beige-dark-hover: #87827e;
   --color-beige-dark-active: #65625e;
   --color-beige-darker: #4f4c4a;
+
+  /*Extras*/
+  --color-secondary-800: #181A2A;
+  --color-secondary-400: #97989F;
+  --color-secondary-100: #E8E8EA;
 }

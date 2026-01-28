@@ -6,3 +6,5 @@ export * from './RatingBadge';
 export * from './PriceDisplay';
 export * from './CarouselButton';
 export * from './PaginationDots';
+export * from './CopyrightText';
+export * from './SocialMediaIcon';
