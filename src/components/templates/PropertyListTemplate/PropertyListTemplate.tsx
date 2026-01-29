@@ -22,7 +22,7 @@ export const PropertyListTemplate = ({
   return (
     <div>
       <section className="bg-white">
-        <div className="text-green-normal mt-40 flex w-full flex-col items-center justify-center">
+        <div className="text-green-normal flex w-full flex-col items-center justify-center pt-40">
           <Text size="5xl">Conoce todas nuestras propiedades</Text>
 
           <Text className="mt-5" size="lg" font="gilroy">
