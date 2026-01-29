@@ -8,7 +8,35 @@ const HOSTAWAY_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxMzMyMjg
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
+                
+        const hostawayParams = new URLSearchParams();
+                
         const limit = searchParams.get('limit') ?? '10';
+        hostawayParams.append('limit', limit);
+                
+        if (searchParams.get('city')) {
+            hostawayParams.append('city', searchParams.get('city')!);
+        }
+        
+        if (searchParams.get('match')) {
+            hostawayParams.append('match', searchParams.get('match')!);
+        }
+        
+        if (searchParams.get('country')) {
+            hostawayParams.append('country', searchParams.get('country')!);
+        }
+                
+        if (searchParams.get('availabilityDateStart')) {
+            hostawayParams.append('availabilityDateStart', searchParams.get('availabilityDateStart')!);
+        }
+        
+        if (searchParams.get('availabilityDateEnd')) {
+            hostawayParams.append('availabilityDateEnd', searchParams.get('availabilityDateEnd')!);
+        }
+        
+        if (searchParams.get('availabilityGuestNumber')) {
+            hostawayParams.append('availabilityGuestNumber', searchParams.get('availabilityGuestNumber')!);
+        }
 
         if (!HOSTAWAY_TOKEN) {
             return NextResponse.json(
@@ -18,7 +46,7 @@ export async function GET(request: NextRequest) {
         }
 
         const response = await fetch(
-            `${HOSTAWAY_API_URL}/listings?limit=${limit}`,
+            `${HOSTAWAY_API_URL}/listings?${hostawayParams.toString()}`,
             {
                 method: 'GET',
                 headers: {
