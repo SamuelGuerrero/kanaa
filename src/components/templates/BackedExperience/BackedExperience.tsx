@@ -7,7 +7,7 @@ export const BackedExperience = () => {
       <Text size="5xl" className="text-green-normal">
         Experiencias que nos respaldan
       </Text>
-      <Text font="gilroy" size="lg" className="text-grey-darker mt-6">
+      <Text font="gilroy" size="lg" className="text-grey-darker mt-6 mb-8">
         Huéspedes y propietarios comparten cómo KANNA transformó su forma de
         viajar y de gestionar sus propiedades.
       </Text>
