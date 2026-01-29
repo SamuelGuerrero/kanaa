@@ -1,20 +1,46 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 import { CircleButton } from "@/components/atoms";
 import { Input } from "@/components/molecules";
 
-export const ReservationSearch = () => {
+export type SearchFilters = {
+  destination: string;
+  checkIn: string;
+  checkOut: string;
+  guests: string;
+};
+
+type ReservationSearchProps = {
+  className?: string;
+  onSearch?: (filters: SearchFilters) => void;
+};
+
+export const ReservationSearch = ({
+  className,
+  onSearch,
+}: ReservationSearchProps) => {
   const [destination, setDestination] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState("");
 
+  const handleSearch = (e?: FormEvent) => {
+    e?.preventDefault();
+    onSearch?.({
+      destination,
+      checkIn,
+      checkOut,
+      guests,
+    });
+  };
+
   return (
-    <div
-      className="flex h-16 items-center overflow-hidden rounded-full bg-white shadow-2xl"
+    <form
+      onSubmit={handleSearch}
+      className={`flex h-16 items-center overflow-hidden rounded-full bg-white ${className}`}
       style={{ width: "823px" }}
     >
       <div className="relative px-6" style={{ width: "283px" }}>
@@ -60,10 +86,12 @@ export const ReservationSearch = () => {
           />
         </div>
 
-        <CircleButton className="bg-green-normal! mx-3 h-12 w-12 transition-colors duration-200">
-          <MagnifyingGlassIcon className="w-5 text-white drop-shadow-[0_0_0.5px_currentColor]" />
-        </CircleButton>
+        <button type="submit">
+          <CircleButton className="bg-green-normal! hover:bg-green-dark mx-3 h-12 w-12 cursor-pointer transition-colors duration-200">
+            <MagnifyingGlassIcon className="w-5 text-white drop-shadow-[0_0_0.5px_currentColor]" />
+          </CircleButton>
+        </button>
       </div>
-    </div>
+    </form>
   );
 };
