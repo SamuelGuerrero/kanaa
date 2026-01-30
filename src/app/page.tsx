@@ -12,7 +12,7 @@ import {
 import DiscoverGenerate from "@assets/images/Home/DiscoverGenerate.png";
 import PropertyManagement from "@assets/images/Home/PropertyManagement.png";
 
-const METRICS: KeyMetricsProps["metrics"] = [
+export const METRICS: KeyMetricsProps["metrics"] = [
   { value: "+120", label: "Huéspedes felices" },
   { value: "+8", label: "Años de experiencia" },
   { value: "+300", label: "estancias realizadas" },
@@ -25,7 +25,7 @@ export default function HomePage() {
       <Hero />
       <FeaturedProperties />
       <ValueProposition />
-      <KeyMetrics metrics={METRICS} />
+      <KeyMetrics metrics={METRICS} bgColor="bg-gold-light" />
 
       <InfoSection
         title="Property Management <br /> pensado para propietarios"
@@ -36,6 +36,7 @@ export default function HomePage() {
         imageAlt="Property Management"
         imagePosition="right"
         backgroundColor="bg-green-dark-hover"
+        descriptionClassName="text-white"
         textClassName="mt-20 ml-2 text-white"
         buttonProps={{
           children: "Conocer más",
@@ -54,6 +55,7 @@ export default function HomePage() {
         imagePosition="left"
         backgroundColor="bg-white"
         textClassName="mt-20 ml-4 text-green-normal"
+        descriptionClassName="text-green-normal"
         buttonProps={{
           children: "Ir a la calculadora",
           className: "mt-6",
