@@ -1,1 +1,1 @@
-export * from './TrendingIcon'
+export * from "./TrendingIcon";

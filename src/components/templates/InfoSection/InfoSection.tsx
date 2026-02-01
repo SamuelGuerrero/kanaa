@@ -8,13 +8,12 @@ import { Button } from "@/components/molecules";
 type FeatureItem = {
   text: string;
   icon?: React.ReactNode;
-}
+};
 interface ImageConfig {
   src: StaticImageData;
   alt: string;
   className?: string;
 }
-
 
 type InfoSectionProps = {
   title: string;
@@ -34,7 +33,7 @@ type InfoSectionProps = {
     children: string;
     circleButtonClassName?: string;
   };
-}
+};
 
 export const InfoSection = ({
   title,
@@ -50,9 +49,8 @@ export const InfoSection = ({
   featuresClassName,
   buttonProps,
 }: InfoSectionProps) => {
-
   const textContent = (
-    <div >
+    <div>
       <Text
         className={`${textClassName} leading-[66.2px]`}
         size="5xl"
@@ -61,7 +59,7 @@ export const InfoSection = ({
       <Text
         font="gilroy"
         size="lg"
-        className={`mt-6 leading-8 ml-4 ${descriptionClassName}`}
+        className={`mt-6 ml-4 leading-8 ${descriptionClassName}`}
         dangerouslySetInnerHTML={{ __html: description }}
       />
 
@@ -70,11 +68,15 @@ export const InfoSection = ({
           {features.map((item, index) => (
             <li key={index} className="flex items-center gap-3">
               {item.icon && (
-                <span className=" flex h-12.5 w-12.5 items-center justify-center rounded-full bg-green-normal">
+                <span className="bg-green-normal flex h-12.5 w-12.5 items-center justify-center rounded-full">
                   {item.icon}
                 </span>
               )}
-              <Text font="gilroy" size="lg" className={`${featuresClassName} ml-2`}>
+              <Text
+                font="gilroy"
+                size="lg"
+                className={`${featuresClassName} ml-2`}
+              >
                 {item.text}
               </Text>
             </li>
@@ -96,14 +98,13 @@ export const InfoSection = ({
           </Button>
         )
       )}
-
     </div>
   );
 
   const imageContent = (
-    <div className="flex items-center mb-10 justify-center ">
+    <div className="mb-10 flex items-center justify-center">
       {imagesConfig?.length ? (
-        <div className="relative w-163.75 h-163.75">
+        <div className="relative h-163.75 w-163.75">
           {imagesConfig?.map((img, index) => (
             <Image
               key={index}
@@ -124,7 +125,6 @@ export const InfoSection = ({
       ) : null}
     </div>
   );
-
 
   return (
     <div className={`${backgroundColor} w-full px-8.5 py-6.25`}>
