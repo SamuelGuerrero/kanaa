@@ -1,74 +1,96 @@
+"use client";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
+import { useForm } from "react-hook-form";
 
 import { CircleButton } from '@/components/atoms'
 import { InputForm } from '@/components/atoms/InputForm'
 import { SelectForm } from '@/components/atoms/SelectForm'
 import { Button } from '@/components/molecules'
 
+type FormValues = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string;
+    city: string;
+    buildingName?: string;
+};
 
 export const BecomeHostForm = () => {
+    const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<FormValues>();
+
+    const onSubmit = async (data: FormValues) => {
+        try {
+            console.log("DATA:", data);
+            reset();
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
-        <form className="grid grid-cols-2 gap-4">
+        <form
+            className="grid grid-cols-2 gap-4"
+            onSubmit={handleSubmit(onSubmit)}
+        >
 
             <InputForm
-                label="Nombre"
-                name="firstName"
-                placeholder="Ingresa tu nombre"
+                placeholder="Nombre(s)"
                 type="text"
                 required
+                {...register("firstName")}
             />
             <InputForm
-                label="Apellidos"
-                name="lastName"
-                placeholder="Ingresa tus apellidos"
+                placeholder="Apellidos"
                 type="text"
                 required
+                {...register("lastName")}
             />
             <InputForm
-                label="Email*"
-                name="email"
-                placeholder="correo@ejemplo.com"
+                placeholder="Email*"
                 type="email"
                 required
+                {...register("email")}
             />
             <InputForm
-                label="Número telefónico"
-                name="phone"
-                placeholder="Ej. 55 1234 5678"
+                placeholder="Número telefónico"
                 type="tel"
+                {...register("phone")}
             />
 
-            {/* Select 1 (ocupa toda la fila) */}
+
             <div className="col-span-2">
                 <SelectForm
-                    label="Ciudad"
-                    name="city"
                     required
-                    defaultOptionLabel="Selecciona una ciudad"
+                    defaultOptionLabel="¿Dónde se encuntra tu propiedad?"
                     options={[
                         { value: "cdmx", label: "CDMX" },
                         { value: "gdl", label: "Guadalajara" },
                     ]}
+                    {...register("city", { required: true })}
                 />
             </div>
 
             <div className="col-span-2">
                 <SelectForm
-                    label="Nombre del edificio (si aplica)"
-                    name="buildingName"
-                    defaultOptionLabel="Selecciona una opción"
+                    defaultOptionLabel="Nombre del edificio (si aplica)"
                     options={[
                         { value: "ninguno", label: "No aplica" },
                         { value: "edificio-a", label: "Edificio A" },
                         { value: "edificio-b", label: "Edificio B" },
                     ]}
+                    {...register("buildingName")}
                 />
 
             </div>
             <Button
+                type="submit"
+                disabled={isSubmitting}
                 variant="primary"
                 textWeight="bold"
-                className="text-gold-normal-hover! font-bold w-min"
+                className={`
+                    w-min mt-5 text-gold-darker
+                    ${isSubmitting && "opacity-60 cursor-not-allowed"}
+                  `}
                 icon={
                     <CircleButton>
                         <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
