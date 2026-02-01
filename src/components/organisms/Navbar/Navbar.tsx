@@ -8,6 +8,14 @@ import { Button, NavItem } from "@/components/molecules";
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const isPropertiesPage = pathname.startsWith("/propiedades");
+
+  const navItems = [
+    { href: "/", label: "Inicio" },
+    { href: "/propiedades", label: "Propiedades" },
+    { href: "/gestion-propiedades", label: "Gestión de propiedades" },
+    { href: "/calculadora", label: "Calculadora de ingresos" },
+  ];
 
   return (
     <nav
@@ -21,31 +29,17 @@ export const Navbar = () => {
       className="bordershadow-lg fixed top-8.5 left-1/2 z-50 flex w-[96%] -translate-x-1/2 items-center justify-between rounded-xl bg-white/1 px-12 py-5 backdrop-blur-md"
     >
       <KanaaLogo />
-      <div className="flex items-center gap-7.5 text-white">
-        <NavItem href="/" active={pathname === "/"}>
-          Inicio
-        </NavItem>
-
-        <NavItem
-          href="/propiedades"
-          active={pathname.startsWith("/propiedades")}
-        >
-          Propiedades
-        </NavItem>
-
-        <NavItem
-          href="/gestion-propiedades"
-          active={pathname.startsWith("/gestion-propiedades")}
-        >
-          Gestión de propiedades
-        </NavItem>
-
-        <NavItem
-          href="/calculadora"
-          active={pathname.startsWith("/calculadora")}
-        >
-          Calculadora de ingresos
-        </NavItem>
+      <div className="flex items-center gap-7.5">
+        {navItems.map((item) => (
+          <NavItem
+            key={item.href}
+            href={item.href}
+            active={pathname === item.href}
+            className={isPropertiesPage ? "text-green-normal!" : ""}
+          >
+            {item.label}
+          </NavItem>
+        ))}
 
         <Button
           variant="primary"
