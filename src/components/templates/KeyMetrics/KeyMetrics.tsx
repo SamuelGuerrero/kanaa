@@ -7,11 +7,14 @@ export type KeyMetric = {
 
 export type KeyMetricsProps = {
   metrics: KeyMetric[];
+  bgColor: string;
 };
 
-export const KeyMetrics = ({ metrics }: KeyMetricsProps) => {
+export const KeyMetrics = ({ metrics, bgColor }: KeyMetricsProps) => {
   return (
-    <section className="bg-gold-light flex w-full flex-row items-center justify-center space-x-10 px-15 py-20">
+    <section
+      className={`${bgColor} flex w-full flex-row items-center justify-center space-x-10 px-15 py-20`}
+    >
       {metrics.map((metric) => (
         <div
           key={metric.label}

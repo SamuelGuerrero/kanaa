@@ -6,4 +6,5 @@ export * from './InfoSection';
 export * from './BackedExperience';
 export * from "./GuideAndTips";
 export * from "./FrequentlyQuestions";
-export * from './PropertyListTemplate';
+export * from "./IntelligentManagement"
+export * from "./BecomeHost"

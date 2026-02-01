@@ -8,3 +8,5 @@ export * from './CarouselButton';
 export * from './PaginationDots';
 export * from './CopyrightText';
 export * from './SocialMediaIcon';
+export * from './InputForm';
+export * from './SelectForm';
