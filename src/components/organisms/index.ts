@@ -6,3 +6,4 @@ export * from './Footer';
 export * from './BecomeHostForm';
 export * from "./PropertyDetails";
 export * from "./PropertyImages";
+export * from "./EarningsCalculatorForm"
