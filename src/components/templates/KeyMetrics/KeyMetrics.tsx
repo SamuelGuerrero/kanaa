@@ -18,7 +18,7 @@ export const KeyMetrics = ({ metrics, bgColor }: KeyMetricsProps) => {
       {metrics.map((metric) => (
         <div
           key={metric.label}
-          className="gap-4.2 flex flex-row items-center space-x-6"
+          className="flex flex-row items-center space-x-4"
         >
           <Text
             size="4xl"
@@ -30,7 +30,7 @@ export const KeyMetrics = ({ metrics, bgColor }: KeyMetricsProps) => {
           <Text
             font="gilroy"
             size="2xl"
-            className="text-grey-darker text-center font-medium"
+            className="text-grey-darker w-max font-medium"
           >
             {metric.label}
           </Text>

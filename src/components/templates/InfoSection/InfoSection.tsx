@@ -102,7 +102,7 @@ export const InfoSection = ({
   );
 
   const imageContent = (
-    <div className="mb-10 flex items-center justify-center">
+    <div className="flex items-center justify-center">
       {imagesConfig?.length ? (
         <div className="relative h-163.75 w-163.75">
           {imagesConfig?.map((img, index) => (

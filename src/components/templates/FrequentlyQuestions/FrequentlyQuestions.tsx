@@ -32,7 +32,7 @@ export const FrequentlyQuestions = () => {
         <Text size="5xl" weight="medium" className="text-green-normal">
           Preguntas frecuentes
         </Text>
-        <Text className="text-grey-dark mt-5" size="lg" font="gilroy">
+        <Text className="text-grey-darker mt-5" size="lg" font="gilroy">
           Consulta las preguntas más frecuentes y obtén información
           <br />
           rápida y clara sobre cómo trabajamos.
