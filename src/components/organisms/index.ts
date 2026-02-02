@@ -4,3 +4,5 @@ export * from './PropertyCarousel';
 export * from './TestimonialCarousel';
 export * from './Footer';
 export * from './BecomeHostForm';
+export * from "./PropertyDetails";
+export * from "./PropertyImages";
