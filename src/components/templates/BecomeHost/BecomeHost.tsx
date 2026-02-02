@@ -6,39 +6,35 @@ import BecomeHostBG from "@assets/images/Home/BecomeHostBG.png";
 
 export const BecomeHost = () => {
   return (
-    <section className="relative min-h-screen w-full pb-50">
-      <Image
-        src={BecomeHostBG}
-        alt="BecomeHostBG"
-        fill
-        priority
-        className="object-cover"
-      />
+    <section className="relative h-200 w-full overflow-hidden">
+      <div className="absolute inset-0">
+        <Image
+          src={BecomeHostBG}
+          alt="BecomeHostBG"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div
+          className="bg-beige-normal absolute inset-0 opacity-40"
+          style={{ mixBlendMode: "hue" }}
+        />
+      </div>
 
-      <div className="relative z-10 flex min-h-screen items-center justify-center space-x-15 text-white">
-        <div className="mt-15">
-          <Text size="6xl" className="">
+      <div className="relative z-10 flex h-full items-center justify-center gap-8 px-8">
+        <div className="mb-55 max-w-183.25">
+          <Text size="6xl" className="leading-17.5 text-white">
             Convierte tu propiedad
             <br />
             en un activo rentable
           </Text>
 
-          <Text size="xl" className="mt-5 mb-18" font="gilroy">
+          <Text size="xl" className="mt-5 text-white" font="gilroy">
             Encuentra tu próximo casa de descanso ideal.
           </Text>
         </div>
-        <div
-          style={{
-            background:
-              "radial-gradient(90.16% 143.01% at 15.32% 21.04%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.045) 77.08%, rgba(255, 255, 255, 0) 100%)",
-            backgroundBlendMode: "overlay, normal",
-            backdropFilter: "blur(22.39px)",
-            WebkitBackdropFilter: "blur(22.39px)",
-          }}
-          className="mt-45 rounded-lg border border-white/20 bg-white/1 p-8 backdrop-blur-md"
-        >
-          <BecomeHostForm />
-        </div>
+
+        <BecomeHostForm />
       </div>
     </section>
   );
