@@ -61,37 +61,39 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-green-dark-active mt-6 flex w-full flex-row items-start justify-center gap-30 pt-15 pb-15 pl-30">
-      <div>
-        <KanaaLogo />
-        <SocialMediaGroup className="mt-50" links={SOCIAL_LINKS} />
-      </div>
+    <footer className="bg-green-dark-active mt-6 flex w-full justify-center px-8 py-16">
+      <div className="flex w-full max-w-368 items-start justify-between gap-10">
+        <div className="flex flex-col">
+          <KanaaLogo />
+          <SocialMediaGroup className="mt-12" links={SOCIAL_LINKS} />
+        </div>
 
-      <div className="text-green-light-active grid grid-cols-4 gap-20">
-        {FOOTER_SECTIONS.map((section) => (
-          <FooterColumn
-            key={section.title}
-            title={section.title}
-            links={section.links}
-          />
-        ))}
-      </div>
+        <div className="text-green-light-active grid flex-1 grid-cols-4 gap-10">
+          {FOOTER_SECTIONS.map((section) => (
+            <FooterColumn
+              key={section.title}
+              title={section.title}
+              links={section.links}
+            />
+          ))}
+        </div>
 
-      <div className="ml-18 flex flex-col items-end">
-        <Button
-          variant="primary"
-          textWeight="bold"
-          className="text-gold-normal-hover! font-bold"
-          icon={
-            <CircleButton>
-              <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-            </CircleButton>
-          }
-        >
-          Contáctanos
-        </Button>
+        <div className="flex flex-col items-end">
+          <Button
+            variant="primary"
+            textWeight="bold"
+            className="text-gold-dark font-bold"
+            icon={
+              <CircleButton>
+                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+              </CircleButton>
+            }
+          >
+            Contáctanos
+          </Button>
 
-        <CopyrightText />
+          <CopyrightText />
+        </div>
       </div>
     </footer>
   );
