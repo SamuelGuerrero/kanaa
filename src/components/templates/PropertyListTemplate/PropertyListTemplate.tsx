@@ -87,8 +87,8 @@ export const PropertyListTemplate = ({
                       bathrooms={property.bathroomsNumber}
                       rating={property.averageReviewRating || 0}
                       title={property.name}
-                      price={property.price}
-                      priceLabel="por noche"
+                      price={2 * property.price}
+                      priceLabel="por 2 noches"
                     />
                   );
                 })}
