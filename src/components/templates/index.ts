@@ -8,3 +8,4 @@ export * from "./GuideAndTips";
 export * from "./FrequentlyQuestions";
 export * from "./IntelligentManagement"
 export * from "./BecomeHost"
+export * from "./PropertyListTemplate";
