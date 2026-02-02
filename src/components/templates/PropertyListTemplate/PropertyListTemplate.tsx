@@ -1,3 +1,7 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 import { Text } from "@/components/atoms";
 import { PropertyCard } from "@/components/molecules";
 import { ReservationSearch, type SearchFilters } from "@/components/organisms";
@@ -19,6 +23,8 @@ export const PropertyListTemplate = ({
   fetchProperties,
   handleSearch,
 }: PropertyListTemplateProps) => {
+  const router = useRouter();
+
   return (
     <div>
       <section className="bg-white">
@@ -71,29 +77,27 @@ export const PropertyListTemplate = ({
               </Text>
             </div>
           ) : (
-            <>
-              {" "}
-              <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {properties.map((property) => {
-                  const imageUrl =
-                    property.listingImages?.[0]?.url ?? property.thumbnailUrl;
+            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {properties.map((property) => {
+                const imageUrl =
+                  property.listingImages?.[0]?.url ?? property.thumbnailUrl;
 
-                  return (
-                    <PropertyCard
-                      key={property.id}
-                      image={imageUrl}
-                      guests={property.personCapacity}
-                      bedrooms={property.bedroomsNumber}
-                      bathrooms={property.bathroomsNumber}
-                      rating={property.averageReviewRating || 0}
-                      title={property.name}
-                      price={2 * property.price}
-                      priceLabel="por 2 noches"
-                    />
-                  );
-                })}
-              </div>
-            </>
+                return (
+                  <PropertyCard
+                    key={property.id}
+                    image={imageUrl}
+                    guests={property.personCapacity}
+                    bedrooms={property.bedroomsNumber}
+                    bathrooms={property.bathroomsNumber}
+                    rating={property.averageReviewRating || 0}
+                    title={property.name}
+                    price={2 * property.price}
+                    priceLabel="por 2 noches"
+                    onClick={() => router.push(`/propiedades/${property.id}`)}
+                  />
+                );
+              })}
+            </div>
           )}
         </div>
       </section>
