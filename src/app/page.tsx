@@ -12,11 +12,11 @@ import {
 import DiscoverGenerate from "@assets/images/Home/DiscoverGenerate.png";
 import PropertyManagement from "@assets/images/Home/PropertyManagement.png";
 
-export const METRICS: KeyMetricsProps["metrics"] = [
-  { value: "+120", label: "Huéspedes felices" },
-  { value: "+8", label: "Años de experiencia" },
-  { value: "+300", label: "estancias realizadas" },
-  { value: "4.8★", label: "Valoración promedio" },
+const METRICS: KeyMetricsProps["metrics"] = [
+  { value: "+1,300", label: "Huéspedes felices" },
+  { value: "+2", label: "Años de experiencia" },
+  { value: "+300", label: "Estancias realizadas" },
+  { value: "4.92★", label: "Valoración promedio" },
 ];
 
 export default function HomePage() {

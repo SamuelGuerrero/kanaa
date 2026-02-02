@@ -11,13 +11,17 @@ import {
   InfoSection,
   IntelligentManagement,
   KeyMetrics,
+  type KeyMetricsProps,
 } from "@/components/templates";
 import PeaceAndResults from "@assets/images/Home/PeaceAndResults.png";
 import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
 import rentalManagement2 from "@assets/images/Home/rentalManagement2.png";
 import RentProperty from "@assets/images/Home/RentProperty.png";
 
-import { METRICS } from "../page";
+const METRICS: KeyMetricsProps["metrics"] = [
+  { value: "+100", label: "Propiedades gestionadas" },
+  { value: "+2", label: "Años de experiencia" },
+];
 
 export default function HomePage() {
   return (
@@ -35,7 +39,7 @@ export default function HomePage() {
         textClassName="mt-20 ml-2 text-grey-light"
         buttonProps={{
           children: "Conocer más",
-          className: "mt-6",
+          className: "mt-10",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
         }}
@@ -49,16 +53,16 @@ export default function HomePage() {
             src: rentalManagement1,
             alt: "Top",
             className:
-              "absolute inset-0 top-[186px] left-[50.2px] object-contain z-20",
+              "absolute inset-0 top-[186px] left-[0px] object-contain z-20",
           },
           {
             src: rentalManagement2,
             alt: "Base",
-            className: "absolute top-[26px] left-[294.2px] z-10",
+            className: "absolute top-[26px] left-[244.2px] z-10",
           },
         ]}
         imagePosition="left"
-        backgroundColor="bg-grey-light"
+        backgroundColor="bg-grey-light pb-20 bg-gold-normal"
         descriptionClassName="text-grey-darker"
         textClassName="mt-20 ml-4 text-green-normal"
         features={[
