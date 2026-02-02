@@ -9,3 +9,5 @@ export * from "./FrequentlyQuestions";
 export * from "./IntelligentManagement"
 export * from "./BecomeHost"
 export * from "./PropertyListTemplate";
+export * from "./EarningsCalculator"
+export * from "./RealPropertyPotential"
