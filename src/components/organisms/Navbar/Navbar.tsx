@@ -34,7 +34,10 @@ export const Navbar = () => {
           <NavItem
             key={item.href}
             href={item.href}
-            active={pathname === item.href}
+            active={
+              pathname === item.href ||
+              (item.href === "/propiedades" && isPropertiesPage)
+            }
             className={isPropertiesPage ? "text-green-normal!" : ""}
           >
             {item.label}
