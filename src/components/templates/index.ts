@@ -6,8 +6,11 @@ export * from './InfoSection';
 export * from './BackedExperience';
 export * from "./GuideAndTips";
 export * from "./FrequentlyQuestions";
-export * from "./IntelligentManagement"
-export * from "./BecomeHost"
+export * from "./IntelligentManagement";
+export * from "./BecomeHost";
 export * from "./PropertyListTemplate";
-export * from "./EarningsCalculator"
-export * from "./RealPropertyPotential"
+export * from "./EarningsCalculator";
+export * from "./RealPropertyPotential";
+export * from "./HeroNosotros";
+export * from "./ExperienceInAction";
+export * from "./ProjectConversation";
