@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
                 
         const hostawayParams = new URLSearchParams();
                 
-        const limit = searchParams.get('limit') ?? '10';
+        const limit = searchParams.get('limit') ?? '16';
         hostawayParams.append('limit', limit);
                 
         if (searchParams.get('city')) {
