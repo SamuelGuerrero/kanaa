@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   type ReservationSearchInitialFilters,
@@ -98,19 +98,18 @@ export default function PropertiesPage() {
     [],
   );
 
-  const initialFilters = useMemo<ReservationSearchInitialFilters | undefined>(
-    () => {
-      const filters = buildFiltersFromParams(searchParams);
-      if (!filters) return undefined;
-      return {
-        destination: filters.destination,
-        checkIn: filters.checkIn,
-        checkOut: filters.checkOut,
-        guestCounts: filters.guestCounts,
-      };
-    },
-    [buildFiltersFromParams, searchParams],
-  );
+  const initialFilters = useMemo<
+    ReservationSearchInitialFilters | undefined
+  >(() => {
+    const filters = buildFiltersFromParams(searchParams);
+    if (!filters) return undefined;
+    return {
+      destination: filters.destination,
+      checkIn: filters.checkIn,
+      checkOut: filters.checkOut,
+      guestCounts: filters.guestCounts,
+    };
+  }, [buildFiltersFromParams, searchParams]);
 
   useEffect(() => {
     const filters = buildFiltersFromParams(searchParams);
