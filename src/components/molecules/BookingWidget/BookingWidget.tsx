@@ -1,4 +1,3 @@
-// src/components/molecules/BookingWidget.tsx
 "use client";
 
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
@@ -14,11 +13,10 @@ type BookingWidgetProps = {
   className?: string;
   maxCapacity?: number;
   occupiedDates?: Date[];
-  listingMapId: string; // ⭐ Nueva prop para Hostaway
-  onBookingClick?: (bookingData: BookingData) => void; // ⭐ Nueva prop para callback
+  listingMapId: string;
+  onBookingClick?: (bookingData: BookingData) => void;
 };
 
-// ⭐ Nuevo tipo para datos de reserva
 export type BookingData = {
   startDate: Date | null;
   endDate: Date | null;
@@ -94,8 +92,8 @@ export const BookingWidget = ({
   className = "",
   maxCapacity = 10,
   occupiedDates = [],
-  listingMapId, // ⭐
-  onBookingClick, // ⭐
+  listingMapId,
+  onBookingClick,
 }: BookingWidgetProps) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [showGuestSelector, setShowGuestSelector] = useState(false);
@@ -130,7 +128,6 @@ export const BookingWidget = ({
   const totalGuests = guests.adults + guests.children;
   const totalPrice = price * totalNights;
 
-  // ⭐ Nueva función para manejar la reserva
   const handleBookingClick = () => {
     if (!dateRange.startDate || !dateRange.endDate) {
       alert("Por favor selecciona las fechas de tu estadía");

@@ -105,7 +105,6 @@ export const BackedExperience = () => {
       );
     };
 
-    // Set initial value
     handleResize();
 
     window.addEventListener("resize", handleResize);

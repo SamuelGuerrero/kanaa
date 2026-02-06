@@ -1,4 +1,3 @@
-// src/app/api/hostaway/stripe/create-setup-intent/route.ts
 import { NextResponse } from 'next/server';
 
 import { env } from '@/env';

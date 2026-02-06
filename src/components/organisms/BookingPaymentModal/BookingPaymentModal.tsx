@@ -1,4 +1,3 @@
-// src/components/organisms/BookingPaymentModal.tsx
 "use client";
 
 import {
@@ -185,7 +184,6 @@ export const BookingPaymentModal = ({
     setError("");
 
     try {
-      // 1. Obtener publishable key
       const keyResponse = await fetch(
         `/api/hostaway/stripe/get-publishable-key?listingMapId=${bookingData.listingMapId}`,
       );
@@ -205,11 +203,9 @@ export const BookingPaymentModal = ({
         throw new Error("No se recibió la clave de Stripe");
       }
 
-      // 2. Inicializar Stripe
       const stripe = await loadStripe(publishableKey);
       setStripePromise(Promise.resolve(stripe));
 
-      // 3. Crear Setup Intent
       const intentResponse = await fetch(
         "/api/hostaway/stripe/create-setup-intent",
         {
@@ -242,7 +238,6 @@ export const BookingPaymentModal = ({
     }
   }, [bookingData.listingMapId]);
 
-  // Inicializar Stripe cuando se abra el modal
   useEffect(() => {
     if (isOpen && !isInitialized) {
       void initializeStripe();
@@ -256,7 +251,7 @@ export const BookingPaymentModal = ({
     appearance: {
       theme: "stripe",
       variables: {
-        colorPrimary: "#10b981", // green-normal (ajusta según tu color exacto)
+        colorPrimary: "#10b981",
         colorBackground: "#ffffff",
         colorText: "#1f2937",
         colorDanger: "#ef4444",
@@ -317,7 +312,6 @@ export const BookingPaymentModal = ({
                 bookingData={bookingData}
                 onSuccess={() => {
                   console.log("Pago exitoso");
-                  // Aquí puedes redirigir o mostrar un mensaje de éxito
                   onClose();
                 }}
               />
