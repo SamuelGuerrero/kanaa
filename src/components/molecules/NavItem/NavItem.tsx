@@ -23,7 +23,7 @@ export const NavItem = ({
         as="span"
         font="gilroy"
         weight={active ? "bold" : "normal"}
-        className={`text-white transition-opacity hover:opacity-80 ${className}`}
+        className={`transition-opacity hover:opacity-80 sm:text-white ${className}`}
       >
         {children}
       </Text>
