@@ -150,6 +150,7 @@ export const Calendar = ({
             return (
               <button
                 key={day}
+                type="button"
                 onClick={() => onDateClick(date)}
                 disabled={isDisabled || isOccupied}
                 className={`relative flex h-10 w-10 items-center justify-center text-sm font-medium transition-all ${
@@ -190,6 +191,7 @@ export const Calendar = ({
     >
       <div className="mb-4 flex items-center justify-between">
         <button
+          type="button"
           onClick={onPrevMonth}
           className="cursor-pointer rounded-full p-2 transition-colors hover:bg-gray-100"
           aria-label="Mes anterior"
@@ -197,6 +199,7 @@ export const Calendar = ({
           <ChevronLeft className="h-5 w-5" />
         </button>
         <button
+          type="button"
           onClick={onNextMonth}
           className="cursor-pointer rounded-full p-2 transition-colors hover:bg-gray-100"
           aria-label="Mes siguiente"
@@ -212,6 +215,7 @@ export const Calendar = ({
 
       <div className="mt-4 flex justify-end space-x-3 border-t border-gray-200 pt-4">
         <button
+          type="button"
           onClick={onClearDates}
           className="cursor-pointer text-sm font-semibold underline transition-colors hover:text-gray-900"
         >
@@ -219,6 +223,7 @@ export const Calendar = ({
         </button>
 
         <button
+          type="button"
           className="cursor-pointer rounded-lg bg-black px-4 py-1 text-sm text-white hover:bg-gray-800"
           onClick={onClose}
         >
