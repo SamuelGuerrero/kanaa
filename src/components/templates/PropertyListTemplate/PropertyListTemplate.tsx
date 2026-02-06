@@ -4,7 +4,11 @@ import { useRouter } from "next/navigation";
 
 import { Text } from "@/components/atoms";
 import { PropertyCard } from "@/components/molecules";
-import { ReservationSearch, type SearchFilters } from "@/components/organisms";
+import {
+  ReservationSearch,
+  type ReservationSearchInitialFilters,
+  type SearchFilters,
+} from "@/components/organisms";
 
 import type { Property } from "@/types/property";
 
@@ -14,6 +18,7 @@ type PropertyListTemplateProps = {
   error: string | null;
   fetchProperties: (filters?: SearchFilters) => void;
   handleSearch: (filters: SearchFilters) => void;
+  initialFilters?: ReservationSearchInitialFilters;
 };
 
 export const PropertyListTemplate = ({
@@ -22,6 +27,7 @@ export const PropertyListTemplate = ({
   error,
   fetchProperties,
   handleSearch,
+  initialFilters,
 }: PropertyListTemplateProps) => {
   const router = useRouter();
 
@@ -39,6 +45,7 @@ export const PropertyListTemplate = ({
           <ReservationSearch
             className="mt-10 border border-[#ddd]"
             onSearch={handleSearch}
+            initialFilters={initialFilters}
           />
         </div>
 

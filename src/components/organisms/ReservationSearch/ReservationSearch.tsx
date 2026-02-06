@@ -1,7 +1,7 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 
 import { CircleButton } from "@/components/atoms";
 import {
@@ -24,11 +24,20 @@ export type SearchFilters = {
 type ReservationSearchProps = {
   className?: string;
   onSearch?: (filters: SearchFilters) => void;
+  initialFilters?: ReservationSearchInitialFilters;
+};
+
+export type ReservationSearchInitialFilters = {
+  destination?: string;
+  checkIn?: string;
+  checkOut?: string;
+  guestCounts?: GuestCounts;
 };
 
 export const ReservationSearch = ({
   className,
   onSearch,
+  initialFilters,
 }: ReservationSearchProps) => {
   const [destination, setDestination] = useState("");
   const [showGuestSelector, setShowGuestSelector] = useState(false);
@@ -49,15 +58,15 @@ export const ReservationSearch = ({
     clearDates,
     openCalendar,
     closeCalendar,
+    setDateRange,
   } = useCalendar();
 
   const formatDate = (date: Date | null) => {
     if (!date) return "";
-    return date.toLocaleDateString("es-MX", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   const formatDateDisplay = (date: Date | null) => {
@@ -78,6 +87,52 @@ export const ReservationSearch = ({
       guestCounts: guests,
     });
   };
+
+  const parseDate = (value?: string) => {
+    if (!value) return null;
+    const isoMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (isoMatch) {
+      const [, year, month, day] = isoMatch;
+      return new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        12,
+        0,
+        0,
+      );
+    }
+    const parts = value.split("/");
+    if (parts.length === 3) {
+      const [day, month, year] = parts;
+      if (!day || !month || !year) return null;
+      return new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        12,
+        0,
+        0,
+      );
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    if (!initialFilters) return;
+    if (typeof initialFilters.destination === "string") {
+      setDestination(initialFilters.destination);
+    }
+    if (initialFilters.guestCounts) {
+      setGuests(initialFilters.guestCounts);
+    }
+    if (initialFilters.checkIn || initialFilters.checkOut) {
+      setDateRange({
+        startDate: parseDate(initialFilters.checkIn),
+        endDate: parseDate(initialFilters.checkOut),
+      });
+    }
+  }, [initialFilters, setDateRange]);
 
   const handleCheckInClick = (e: React.MouseEvent) => {
     e.preventDefault();
