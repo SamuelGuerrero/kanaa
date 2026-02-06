@@ -64,6 +64,7 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       {...rest}
+      type={props.type ?? "button"}
       className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
     >
       {icon && iconPosition === "left" && <span className="mr-2">{icon}</span>}
