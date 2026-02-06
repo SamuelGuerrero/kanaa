@@ -55,9 +55,9 @@ export const InfoSection = ({
   buttonProps,
 }: InfoSectionProps) => {
   const textContent = (
-    <div>
+    <div className="order-2  w-full">
       <Text
-        className={`${textClassName} leading-[66.2px]`}
+        className={`${textClassName}  leading-13.75 md:leading-[66.2px]`}
         size="5xl"
         dangerouslySetInnerHTML={{ __html: title }}
       />
@@ -129,7 +129,7 @@ export const InfoSection = ({
   );
 
   const imageContent = (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center w-full order-1 md:order-2 ">
       {imagesConfig?.length ? (
         <div className="relative h-163.75 w-163.75">
           {imagesConfig?.map((img, index) => (
@@ -154,9 +154,9 @@ export const InfoSection = ({
   );
 
   return (
-    <div className={`${backgroundColor} w-full px-8.5 py-6.25`}>
+    <div className={`${backgroundColor} w-full px-2 md:px-8.5 py-6.25`}>
       <div
-        className={`grid grid-cols-2 gap-8 ${imagePosition === "left" ? "direction-rtl" : ""}`}
+        className={`grid grid-cols-1 md:grid-cols-2 md:gap-8 ${imagePosition === "left" ? "direction-rtl" : ""}`}
       >
         {imagePosition === "left" ? (
           <>
