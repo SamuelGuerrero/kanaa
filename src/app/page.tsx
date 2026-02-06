@@ -36,11 +36,11 @@ export default function HomePage() {
         imageAlt="Property Management"
         imagePosition="right"
         backgroundColor="bg-green-dark-hover"
-        descriptionClassName="text-white"
-        textClassName="mt-20 ml-2 text-white"
+        descriptionClassName="text-white mt-8 text-center md:text-left"
+        textClassName="mt-10 md:mt-20 ml-2 text-white text-center md:text-left"
         buttonProps={{
           children: "Conocer más",
-          className: "mt-6",
+          className: "mt-10 w-full justify-center md:w-auto md:px-6 md:py-2",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
         }}
@@ -54,11 +54,11 @@ export default function HomePage() {
         imageAlt="Calculadora de ingresos"
         imagePosition="left"
         backgroundColor="bg-white"
-        textClassName="mt-20 ml-4 text-green-normal"
-        descriptionClassName="text-green-normal"
+        textClassName="mt-10 md:mt-20 ml-4 text-green-normal text-center md:text-left"
+        descriptionClassName="text-green-normal mt-8 text-center md:text-left"
         buttonProps={{
           children: "Ir a la calculadora",
-          className: "mt-6",
+          className: "mt-4 mt-6 md:mt-10 w-full justify-center md:w-auto md:px-6 md:py-2",
           textWeight: "bold",
         }}
       />
