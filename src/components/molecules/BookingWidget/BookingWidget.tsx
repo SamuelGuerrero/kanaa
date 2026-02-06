@@ -1,12 +1,14 @@
 "use client";
 
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
-import { useState, useMemo } from "react";
+import { ChevronRight, Minus, Plus } from "lucide-react";
+import { useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
+import { useCalendar } from "@/hooks/useCalendar";
 
 import { Button } from "../Button";
+import { Calendar } from "../Calendar";
 
 type BookingWidgetProps = {
   price: number;
@@ -36,57 +38,6 @@ type GuestCounts = {
   infants: number;
 };
 
-const DAYS = ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"];
-const MONTHS = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
-
-function getDaysInMonth(year: number, month: number): number {
-  return new Date(year, month + 1, 0).getDate();
-}
-
-function getFirstDayOfMonth(year: number, month: number): number {
-  return new Date(year, month, 1).getDay();
-}
-
-function isSameDay(date1: Date, date2: Date): boolean {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
-}
-
-function isDateInRange(
-  date: Date,
-  startDate: Date | null,
-  endDate: Date | null,
-): boolean {
-  if (!startDate || !endDate) return false;
-  return date > startDate && date < endDate;
-}
-
-function isDateBeforeToday(date: Date): boolean {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return date < today;
-}
-
-function isDateOccupied(date: Date, occupiedDates: Date[]): boolean {
-  return occupiedDates.some((occupiedDate) => isSameDay(date, occupiedDate));
-}
-
 export const BookingWidget = ({
   price,
   className = "",
@@ -95,27 +46,25 @@ export const BookingWidget = ({
   listingMapId,
   onBookingClick,
 }: BookingWidgetProps) => {
-  const [showCalendar, setShowCalendar] = useState(false);
   const [showGuestSelector, setShowGuestSelector] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [dateRange, setDateRange] = useState<{
-    startDate: Date | null;
-    endDate: Date | null;
-  }>({ startDate: null, endDate: null });
-  const [activeField, setActiveField] = useState<"checkin" | "checkout" | null>(
-    null,
-  );
   const [guests, setGuests] = useState<GuestCounts>({
     adults: 1,
     children: 0,
     infants: 0,
   });
 
-  const nextMonth = useMemo(() => {
-    const next = new Date(currentMonth);
-    next.setMonth(next.getMonth() + 1);
-    return next;
-  }, [currentMonth]);
+  const {
+    showCalendar,
+    currentMonth,
+    dateRange,
+    activeField,
+    handleDateClick,
+    handlePrevMonth,
+    handleNextMonth,
+    clearDates,
+    openCalendar,
+    closeCalendar,
+  } = useCalendar();
 
   const totalNights =
     dateRange.startDate && dateRange.endDate
@@ -151,41 +100,6 @@ export const BookingWidget = ({
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   };
 
-  const handleDateClick = (date: Date) => {
-    if (isDateBeforeToday(date) || isDateOccupied(date, occupiedDates)) return;
-
-    if (activeField === "checkin") {
-      setDateRange({ startDate: date, endDate: null });
-      setActiveField("checkout");
-    } else if (activeField === "checkout") {
-      if (dateRange.startDate && date <= dateRange.startDate) {
-        setDateRange({ startDate: date, endDate: null });
-        setActiveField("checkout");
-      } else {
-        setDateRange({ ...dateRange, endDate: date });
-        setShowCalendar(false);
-        setActiveField(null);
-      }
-    }
-  };
-
-  const handlePrevMonth = () => {
-    const prev = new Date(currentMonth);
-    prev.setMonth(prev.getMonth() - 1);
-    setCurrentMonth(prev);
-  };
-
-  const handleNextMonth = () => {
-    const next = new Date(currentMonth);
-    next.setMonth(next.getMonth() + 1);
-    setCurrentMonth(next);
-  };
-
-  const clearDates = () => {
-    setDateRange({ startDate: null, endDate: null });
-    setActiveField(null);
-  };
-
   const handleGuestChange = (type: keyof GuestCounts, increment: boolean) => {
     setGuests((prev) => {
       const newValue = increment
@@ -201,82 +115,6 @@ export const BookingWidget = ({
 
       return newGuests;
     });
-  };
-
-  const renderMonth = (monthDate: Date) => {
-    const year = monthDate.getFullYear();
-    const month = monthDate.getMonth();
-    const daysInMonth = getDaysInMonth(year, month);
-    const firstDay = getFirstDayOfMonth(year, month);
-    const days: (number | null)[] = [];
-
-    for (let i = 0; i < firstDay; i++) {
-      days.push(null);
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      days.push(day);
-    }
-
-    return (
-      <div className="min-w-70 flex-1">
-        <h3 className="mb-4 text-center font-semibold text-gray-900">
-          {MONTHS[month]} {year}
-        </h3>
-        <div className="grid grid-cols-7 gap-1">
-          {DAYS.map((day) => (
-            <div
-              key={day}
-              className="py-2 text-center text-xs font-medium text-gray-500"
-            >
-              {day}
-            </div>
-          ))}
-          {days.map((day, index) => {
-            if (day === null) {
-              return <div key={`empty-${index}`} className="h-10" />;
-            }
-
-            const date = new Date(year, month, day);
-            const isDisabled = isDateBeforeToday(date);
-            const isOccupied = isDateOccupied(date, occupiedDates);
-            const isStart =
-              dateRange.startDate && isSameDay(date, dateRange.startDate);
-            const isEnd =
-              dateRange.endDate && isSameDay(date, dateRange.endDate);
-            const isInRange = isDateInRange(
-              date,
-              dateRange.startDate,
-              dateRange.endDate,
-            );
-
-            const nextDay = new Date(year, month, day);
-            nextDay.setDate(nextDay.getDate() - 1);
-            const isAfterStart =
-              dateRange.startDate && isSameDay(nextDay, dateRange.startDate);
-
-            const prevDay = new Date(year, month, day);
-            prevDay.setDate(prevDay.getDate() + 1);
-            const isBeforeEnd =
-              dateRange.endDate && isSameDay(prevDay, dateRange.endDate);
-
-            return (
-              <button
-                key={day}
-                onClick={() => handleDateClick(date)}
-                disabled={isDisabled || isOccupied}
-                className={`relative flex h-10 w-10 items-center justify-center text-sm font-medium transition-all ${isDisabled || isOccupied ? "cursor-not-allowed text-gray-300" : "cursor-pointer hover:border hover:border-gray-900"} ${isStart || isEnd ? "rounded-full bg-gray-900 text-white hover:bg-gray-900" : ""} ${isInRange && !isStart && !isEnd ? "w-[40.5px] bg-gray-100" : ""} ${isInRange && isAfterStart ? "rounded-l-full" : ""} ${isInRange && isBeforeEnd ? "rounded-r-full" : ""} ${isInRange && !isAfterStart && !isBeforeEnd ? "rounded-none" : ""} ${!isStart && !isEnd && !isInRange ? "rounded-full" : ""} ${!isStart && !isEnd && !isInRange && !isDisabled && !isOccupied ? "text-gray-900" : ""} `}
-              >
-                {day}
-                {isOccupied && (
-                  <span className="absolute top-1/2 left-1/2 h-px w-6 -translate-x-1/2 -translate-y-1/2 bg-gray-400" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -298,9 +136,8 @@ export const BookingWidget = ({
             <div
               className={`cursor-pointer p-3 text-left transition-colors ${activeField === "checkin" ? "bg-gray-200" : ""}`}
               onClick={() => {
-                setShowCalendar(true);
+                openCalendar("checkin");
                 setShowGuestSelector(false);
-                setActiveField("checkin");
               }}
             >
               <Text
@@ -323,9 +160,8 @@ export const BookingWidget = ({
             <div
               className={`cursor-pointer p-3 text-left transition-colors ${activeField === "checkout" ? "bg-gray-200" : ""}`}
               onClick={() => {
-                setShowCalendar(true);
+                openCalendar("checkout");
                 setShowGuestSelector(false);
-                setActiveField("checkout");
               }}
             >
               <Text
@@ -351,8 +187,7 @@ export const BookingWidget = ({
               className="flex w-full cursor-pointer items-center justify-between p-3 text-left transition-colors hover:bg-gray-50"
               onClick={() => {
                 setShowGuestSelector(!showGuestSelector);
-                setShowCalendar(false);
-                setActiveField(null);
+                closeCalendar();
               }}
             >
               <div>
@@ -382,45 +217,18 @@ export const BookingWidget = ({
         </figure>
 
         {showCalendar && (
-          <div className="absolute right-0 z-50 mt-2 rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
-            <div className="mb-4 flex items-center justify-between">
-              <button
-                onClick={handlePrevMonth}
-                className="cursor-pointer rounded-full p-2 transition-colors hover:bg-gray-100"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                onClick={handleNextMonth}
-                className="cursor-pointer rounded-full p-2 transition-colors hover:bg-gray-100"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
-
-            <div className="flex gap-8">
-              {renderMonth(currentMonth)}
-              {renderMonth(nextMonth)}
-            </div>
-
-            <div className="mt-4 flex justify-end space-x-3 border-t border-gray-200 pt-4">
-              <button
-                onClick={clearDates}
-                className="cursor-pointer text-sm font-semibold underline transition-colors hover:text-gray-900"
-              >
-                Borrar fechas
-              </button>
-
-              <button
-                className="cursor-pointer rounded-lg bg-black px-4 py-1 text-sm text-white"
-                onClick={() => {
-                  setShowCalendar(false);
-                  setActiveField(null);
-                }}
-              >
-                Cerrar
-              </button>
-            </div>
+          <div className="absolute right-0 z-50 mt-2">
+            <Calendar
+              currentMonth={currentMonth}
+              dateRange={dateRange}
+              occupiedDates={occupiedDates}
+              onDateClick={(date) => handleDateClick(date, occupiedDates)}
+              onPrevMonth={handlePrevMonth}
+              onNextMonth={handleNextMonth}
+              onClearDates={clearDates}
+              onClose={closeCalendar}
+              showTwoMonths={true}
+            />
           </div>
         )}
 
