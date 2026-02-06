@@ -1,9 +1,18 @@
 "use client";
 
+import { UserGroupIcon } from "@heroicons/react/24/outline";
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { Text } from "@/components/atoms";
-import { BookingWidget, PropertyOverview } from "@/components/molecules";
+import { CircleButton, Text } from "@/components/atoms";
+import {
+  BookingWidget,
+  Button,
+  Calendar,
+  PropertyOverview,
+} from "@/components/molecules";
+import { useCalendar } from "@/hooks/useCalendar";
 import { useOccupiedDates } from "@/hooks/useOccupiedDates";
 
 import { PropertyImages } from "../PropertyImages";
@@ -19,6 +28,20 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
   const router = useRouter();
   const images = property.listingImages || [];
   const { occupiedDates } = useOccupiedDates(property.id.toString());
+  const [showAllAmenities, setShowAllAmenities] = useState(false);
+  const {
+    currentMonth,
+    dateRange,
+    handleDateClick,
+    handlePrevMonth,
+    handleNextMonth,
+    clearDates,
+    openCalendar,
+  } = useCalendar();
+
+  useEffect(() => {
+    openCalendar("checkin");
+  }, [openCalendar]);
 
   console.log("Fechas ocupadas", occupiedDates);
 
@@ -75,6 +98,97 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
           >
             {property.description}
           </Text>
+          <Button
+            variant="primary"
+            className="mt-4"
+            icon={
+              <CircleButton>
+                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+              </CircleButton>
+            }
+          >
+            Mostrar más
+          </Button>
+          <div className="border-t-grey-normal-hover mt-6 border-t">
+            <Text
+              font="gilroy"
+              size="2xl"
+              weight="bold"
+              className="text-green-normal mt-6"
+            >
+              Lo que te ofrece este lugar:{" "}
+            </Text>
+
+            <div className="grid w-full grid-cols-2 gap-5">
+              {(showAllAmenities
+                ? property.listingAmenities
+                : property.listingAmenities.slice(0, 8)
+              ).map((amenity) => (
+                <div className="flex items-center gap-2" key={amenity.id}>
+                  <UserGroupIcon className="text-gold-normal h-4 w-4" />
+                  <Text font="gilroy" size="lg" className="text-grey-darker">
+                    {amenity.amenityName}
+                  </Text>
+                </div>
+              ))}
+            </div>
+            {property.listingAmenities.length > 8 && (
+              <Button
+                type="button"
+                variant="primary"
+                className="mt-4"
+                icon={
+                  <CircleButton>
+                    <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+                  </CircleButton>
+                }
+                onClick={() => setShowAllAmenities((prev) => !prev)}
+              >
+                {showAllAmenities ? "Mostrar menos" : "Mostrar más"}
+              </Button>
+            )}
+          </div>
+
+          <div className="bg-grey-normal-hover my-8 h-px w-full" />
+
+          <div>
+            <Text
+              className="text-green-normal"
+              size="2xl"
+              font="gilroy"
+              weight="bold"
+            >
+              2 noches en {property.name}
+            </Text>
+            <Text font="gilroy" size="lg" className="text-grey-darker mt-2">
+              23 de ene. de 2026 - 25 de ene. de 2026
+            </Text>
+            <div className="mt-8">
+              <Calendar
+                currentMonth={currentMonth}
+                dateRange={dateRange}
+                occupiedDates={occupiedDates}
+                onDateClick={(date) => handleDateClick(date, occupiedDates)}
+                onPrevMonth={handlePrevMonth}
+                onNextMonth={handleNextMonth}
+                onClearDates={clearDates}
+                className="border-none shadow-none"
+                showButtons={false}
+                onClose={() => {
+                  /* noop */
+                }}
+                showTwoMonths={true}
+              />
+            </div>
+
+            <div>
+              <Text size="sm" font="gilroy" className="text-gray-darker">
+                Política de cancelación <br />
+                100% rembolsable hasta 14 días antes de la llegada <br />
+                50% rembolsable hasta 7 días antes de la llegada
+              </Text>
+            </div>
+          </div>
         </section>
 
         <section>
