@@ -19,3 +19,4 @@ export * from "./CheckoutHero";
 export * from "./CheckoutBookingSummary";
 export * from "./StripePoweredBy";
 export * from './Calendar';
+export * from "./GuestSelector";
