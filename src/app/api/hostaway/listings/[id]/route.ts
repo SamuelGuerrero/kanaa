@@ -8,10 +8,10 @@ const HOSTAWAY_API_URL = 'https://api.hostaway.com/v1';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }  // ← Cambio aquí
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;  // ← Y aquí
 
         if (!env.HOSTAWAY_TOKEN) {
             return NextResponse.json(
