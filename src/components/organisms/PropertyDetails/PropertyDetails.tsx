@@ -1,8 +1,14 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 import { Text } from "@/components/atoms";
-import { PropertyOverview } from "@/components/molecules";
+import { BookingWidget, PropertyOverview } from "@/components/molecules";
+import { useOccupiedDates } from "@/hooks/useOccupiedDates";
 
 import { PropertyImages } from "../PropertyImages";
 
+import type { BookingData } from "@/components/molecules/BookingWidget";
 import type { Property } from "@/types/property";
 
 type PropertyDetailsProps = {
@@ -10,7 +16,19 @@ type PropertyDetailsProps = {
 };
 
 export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
+  const router = useRouter();
   const images = property.listingImages || [];
+  const { occupiedDates } = useOccupiedDates(property.id.toString());
+
+  console.log("Fechas ocupadas", occupiedDates);
+
+  const handleBookingClick = (data: BookingData) => {
+    console.log("Datos de reserva:", data);
+
+    sessionStorage.setItem("bookingData", JSON.stringify(data));
+
+    router.push(`/checkout/${property.id}`);
+  };
 
   return (
     <main className="mt-20 flex max-w-7xl flex-col bg-white pt-20">
@@ -58,61 +76,15 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             {property.description}
           </Text>
         </section>
-        <section>
-          <figure className="bg-green-normal h-109.25 w-154 rounded-[10px] px-12.5 py-10">
-            <div className="flex space-x-2.5">
-              <Text
-                size="4xl"
-                font="gilroy"
-                weight="bold"
-                className="text-white"
-              >
-                ${property.price * 2} MXN
-              </Text>
-              <Text size="lg" font="gilroy" className="mt-2.5 text-white">
-                por 2 noches
-              </Text>
-            </div>
 
-            <figure className="mt-5 h-44.25 w-full rounded-[10px] bg-white">
-              <div className="border-grey-normal-hover flex h-1/2 w-full border-b">
-                <div className="border-grey-normal-hover w-1/2 border-r pt-2.5 pr-10 pb-5 pl-5">
-                  <Text
-                    font="gilroy"
-                    size="xl"
-                    weight="bold"
-                    className="text-green-darker"
-                  >
-                    Llegada
-                  </Text>
-                  {/* Placeholder for date picker */}
-                </div>
-                <div className="border-grey-normal-hover w-1/2 border-l pt-2.5 pr-10 pb-5 pl-5">
-                  <Text
-                    font="gilroy"
-                    size="xl"
-                    weight="bold"
-                    className="text-green-darker"
-                  >
-                    Salida
-                  </Text>
-                  {/* Placeholder for date picker */}
-                </div>
-              </div>
-              <div>
-                <div className="w-1/2 pt-2.5 pr-10 pb-5 pl-5">
-                  <Text
-                    font="gilroy"
-                    size="xl"
-                    weight="bold"
-                    className="text-green-darker"
-                  >
-                    Héspedes
-                  </Text>
-                </div>
-              </div>
-            </figure>
-          </figure>
+        <section>
+          <BookingWidget
+            price={property.price}
+            maxCapacity={property.personCapacity}
+            occupiedDates={occupiedDates}
+            listingMapId={property.id.toString()}
+            onBookingClick={handleBookingClick}
+          />
         </section>
       </div>
     </main>
