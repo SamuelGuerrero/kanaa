@@ -37,7 +37,7 @@ export async function GET(request: Request) {
       {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${env.HOSTAWAY_TOKEN}`,
+          'Authorization': `${env.HOSTAWAY_TOKEN}`,
           'Content-Type': 'application/json',
         },
       }

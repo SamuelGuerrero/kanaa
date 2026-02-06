@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
             {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${env.HOSTAWAY_TOKEN}`,
+                    'Authorization': `${env.HOSTAWAY_TOKEN}`,
                     'Content-Type': 'application/json',
                 },
                 next: { revalidate: 3600 }

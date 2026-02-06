@@ -44,7 +44,7 @@ export async function GET(
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${env.HOSTAWAY_TOKEN}`,
+                'Authorization': `${env.HOSTAWAY_TOKEN}`,
                 'Content-Type': 'application/json',
             },
             next: { revalidate: 3600 }

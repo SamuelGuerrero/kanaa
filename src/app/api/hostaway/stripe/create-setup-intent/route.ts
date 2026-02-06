@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${env.HOSTAWAY_TOKEN}`,
+          'Authorization': `${env.HOSTAWAY_TOKEN}`,
           'Content-Type': 'application/json',
         },
       }
