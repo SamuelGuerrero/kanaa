@@ -13,6 +13,7 @@ export const Navbar = () => {
   const navItems = [
     { href: "/", label: "Inicio" },
     { href: "/propiedades", label: "Propiedades" },
+    { href: "/nosotros", label: "Nosotros" },
     { href: "/gestion-propiedades", label: "Gestión de propiedades" },
     { href: "/calculadora", label: "Calculadora de ingresos" },
   ];

@@ -21,15 +21,15 @@ export const BecomeHost = () => {
         />
       </div>
 
-      <div className="relative z-10 flex h-full items-center justify-center gap-8 px-8">
+      <div className="relative z-10 flex h-full items-center justify-center gap-10 px-8">
         <div className="mb-55 max-w-183.25">
-          <Text size="6xl" className="leading-17.5 text-white">
+          <Text size="6xl" className="leading-17.5 text-white" weight="medium">
             Convierte tu propiedad
             <br />
             en un activo rentable
           </Text>
 
-          <Text size="xl" className="mt-5 text-white" font="gilroy">
+          <Text size="xl" className="mt-5 text-white" font="gilroy" weight="medium">
             Encuentra tu próximo casa de descanso ideal.
           </Text>
         </div>

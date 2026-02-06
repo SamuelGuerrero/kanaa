@@ -6,5 +6,7 @@ export * from './Footer';
 export * from './BecomeHostForm';
 export * from "./PropertyDetails";
 export * from "./PropertyImages";
+export * from "./EarningsCalculatorForm";
+export * from "./ContactanosForm";
 export * from "./BookingPaymentModal";
 export * from "./CheckoutPaymentForm";

@@ -8,6 +8,7 @@ import { Button } from "@/components/molecules";
 type FeatureItem = {
   text: string;
   icon?: React.ReactNode;
+  titulo?: string;
 };
 interface ImageConfig {
   src: StaticImageData;
@@ -25,7 +26,9 @@ type InfoSectionProps = {
   backgroundColor?: string;
   textClassName?: string;
   descriptionClassName?: string;
-  featuresClassName?: string;
+  featuresTextClassName?: string;
+  featuresIcon?: string;
+  featureClassName?: string;
   features?: FeatureItem[];
   buttonProps?: {
     textWeight?: "bold" | "normal" | "light";
@@ -46,7 +49,9 @@ export const InfoSection = ({
   textClassName = "text-white",
   descriptionClassName = "text-grey-darker",
   features,
-  featuresClassName,
+  featuresTextClassName,
+  featuresIcon,
+  featureClassName,
   buttonProps,
 }: InfoSectionProps) => {
   const textContent = (
@@ -64,21 +69,43 @@ export const InfoSection = ({
       />
 
       {features?.length ? (
-        <ul className="mt-6 ml-4 space-y-3">
+        <ul className="mt-8 ml-4 space-y-4">
           {features.map((item, index) => (
-            <li key={index} className="flex items-center gap-3">
+            <li key={index} className={`${featureClassName} flex items-center gap-3`}>
               {item.icon && (
-                <span className="bg-green-normal flex h-12.5 w-12.5 items-center justify-center rounded-full">
+                <span className={`${featuresIcon} flex  items-center justify-center rounded-full`}>
                   {item.icon}
                 </span>
               )}
-              <Text
-                font="gilroy"
-                size="lg"
-                className={`${featuresClassName} ml-2`}
-              >
-                {item.text}
-              </Text>
+              {title ?
+                <div>
+                  <Text
+                    font="gilroy"
+                    size="2xl"
+                    weight="bold"
+                    className={`${featuresTextClassName} ml-2`}>
+                    {item.titulo}
+                  </Text>
+                  <Text
+                    weight="medium"
+                    font="gilroy"
+                    size="lg"
+                    className={`${featuresTextClassName} ml-2`}
+                  >
+                    {item.text}
+                  </Text>
+                </div>
+
+                :
+
+                <Text
+                  font="gilroy"
+                  size="lg"
+                  className={`${featuresTextClassName} ml-2`}
+                >
+                  {item.text}
+                </Text>
+              }
             </li>
           ))}
         </ul>

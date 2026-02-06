@@ -74,7 +74,9 @@ export default function HomePage() {
             icon: <ProiconsDocument />,
           },
         ]}
-        featuresClassName="text-grey-darker"
+        featuresTextClassName="text-grey-darker"
+        featuresIcon="bg-green-normal h-12.5 w-12.5"
+
       />
 
       <KeyMetrics metrics={METRICS} bgColor="bg-grey-light" />

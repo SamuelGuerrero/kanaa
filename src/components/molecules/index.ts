@@ -12,6 +12,7 @@ export * from './PropertyOverview';
 export * from "./LoadingState";
 export * from "./ErrorState";
 export * from "./NotFoundState";
+export * from "./AppliedExperience";
 export * from "./BookingWidget";
 export * from "./CheckoutHeader";
 export * from "./CheckoutHero";
