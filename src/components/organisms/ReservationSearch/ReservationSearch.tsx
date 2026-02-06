@@ -4,7 +4,13 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useState, type FormEvent } from "react";
 
 import { CircleButton } from "@/components/atoms";
-import { Calendar, Input } from "@/components/molecules";
+import {
+  Calendar,
+  Input,
+  GuestSelector,
+  formatGuestsText,
+  type GuestCounts,
+} from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
 
 export type SearchFilters = {
@@ -12,6 +18,7 @@ export type SearchFilters = {
   checkIn: string;
   checkOut: string;
   guests: string;
+  guestCounts: GuestCounts;
 };
 
 type ReservationSearchProps = {
@@ -24,7 +31,12 @@ export const ReservationSearch = ({
   onSearch,
 }: ReservationSearchProps) => {
   const [destination, setDestination] = useState("");
-  const [guests, setGuests] = useState("");
+  const [showGuestSelector, setShowGuestSelector] = useState(false);
+  const [guests, setGuests] = useState<GuestCounts>({
+    adults: 1,
+    children: 0,
+    infants: 0,
+  });
 
   const {
     showCalendar,
@@ -62,21 +74,30 @@ export const ReservationSearch = ({
       destination,
       checkIn: formatDate(dateRange.startDate),
       checkOut: formatDate(dateRange.endDate),
-      guests,
+      guests: formatGuestsText(guests),
+      guestCounts: guests,
     });
   };
 
-  // Manejadores para abrir el calendario
   const handleCheckInClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     openCalendar("checkin");
+    setShowGuestSelector(false);
   };
 
   const handleCheckOutClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     openCalendar("checkout");
+    setShowGuestSelector(false);
+  };
+
+  const handleGuestsClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowGuestSelector(!showGuestSelector);
+    closeCalendar();
   };
 
   return (
@@ -138,13 +159,21 @@ export const ReservationSearch = ({
       </div>
 
       <div className="flex w-full flex-col sm:flex-row sm:items-center md:w-63.75">
-        <div className="flex-1 px-6 py-4 md:py-0">
-          <Input
-            label="Huéspedes"
-            value={guests}
-            onChange={setGuests}
-            placeholder="Añade Huéspedes"
-          />
+        <div
+          className="flex-1 cursor-pointer px-6 py-4 md:py-0"
+          onClick={handleGuestsClick}
+        >
+          <div className="pointer-events-none">
+            <Input
+              label="Huéspedes"
+              value={formatGuestsText(guests)}
+              onChange={() => {
+                /* empty */
+              }}
+              placeholder="Añade Huéspedes"
+              readOnly
+            />
+          </div>
         </div>
 
         <button
@@ -170,6 +199,18 @@ export const ReservationSearch = ({
             onClose={closeCalendar}
             showTwoMonths={true}
             className="mx-auto max-w-full"
+          />
+        </div>
+      )}
+
+      {/* Selector de huéspedes */}
+      {showGuestSelector && (
+        <div className="absolute top-full left-0 z-50 mt-2 w-full md:right-0 md:left-auto md:w-80">
+          <GuestSelector
+            guests={guests}
+            maxCapacity={20}
+            onGuestsChange={setGuests}
+            onClose={() => setShowGuestSelector(false)}
           />
         </div>
       )}
