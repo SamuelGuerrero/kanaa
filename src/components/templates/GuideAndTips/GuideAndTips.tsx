@@ -29,14 +29,14 @@ const CardGrid: GuideCardProps[] = [
 
 export const GuideAndTips = () => {
   return (
-    <section className="bg-green-dark-hover text-grey-light flex w-full flex-col items-center py-20">
+    <section className="bg-green-dark-hover text-grey-light flex w-full flex-col items-center py-20 text-center">
       <Text className="mb-8" weight="medium" size="5xl">
         Guías y consejos para viajeros y propietarios
       </Text>
       <Text className="mb-8" size="lg" font="gilroy">
         Planifica la estancia perfecta y saca el máximo provecho a tu propiedad.
       </Text>
-      <div className="flex flex-row justify-center gap-5">
+      <div className="flex flex-col justify-center gap-5 sm:flex-row">
         {CardGrid.map((card, index) => (
           <GuideCard key={index} {...card} />
         ))}

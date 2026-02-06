@@ -38,7 +38,7 @@ export const PropertyCard = ({
   return (
     <figure
       onClick={onClick}
-      className="bg-gold-light-hover flex h-[434.9px] w-75.5 cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px]"
+      className="bg-gold-light-hover flex w-[calc(100vw-30px)] cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px] sm:h-[434.9px] sm:w-75.5"
     >
       <div className="relative h-71.75 w-full overflow-hidden">
         <Image src={image} alt={title} fill className="object-cover" />
