@@ -40,11 +40,10 @@ export const ReservationSearch = ({
   return (
     <form
       onSubmit={handleSearch}
-      className={`flex h-16 items-center overflow-hidden rounded-full bg-white ${className}`}
-      style={{ width: "823px" }}
+      className={`flex h-92 w-[95%] flex-col items-center overflow-hidden rounded-xl bg-white text-left shadow-lg md:h-16 md:w-205.75 md:flex-row md:gap-0 md:rounded-full md:p-0 md:shadow-none ${className ?? ""}`}
     >
-      <div className="relative px-6" style={{ width: "283px" }}>
-        <div className="absolute top-1/2 right-0 h-[85%] w-px -translate-y-1/2 bg-gray-200" />
+      <div className="relative w-full border-b border-b-gray-300 px-6 py-4 md:w-70.75 md:border-b-0 md:py-0">
+        <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
 
         <Input
           label="Destino"
@@ -54,8 +53,8 @@ export const ReservationSearch = ({
         />
       </div>
 
-      <div className="relative px-6" style={{ width: "142.5px" }}>
-        <div className="absolute top-1/2 right-0 h-[85%] w-px -translate-y-1/2 bg-gray-200" />
+      <div className="relative w-full border-b border-b-gray-300 px-6 py-4 md:w-[142.5px] md:border-b-0 md:py-0">
+        <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
         <Input
           label="Entrada"
           value={checkIn}
@@ -65,8 +64,8 @@ export const ReservationSearch = ({
         />
       </div>
 
-      <div className="relative px-6" style={{ width: "142.5px" }}>
-        <div className="absolute top-1/2 right-0 h-[85%] w-px -translate-y-1/2 bg-gray-200" />
+      <div className="relative w-full border-b border-b-gray-300 px-6 py-4 md:w-[142.5px] md:border-b-0 md:py-0">
+        <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
         <Input
           label="Salida"
           value={checkOut}
@@ -76,8 +75,8 @@ export const ReservationSearch = ({
         />
       </div>
 
-      <div className="flex items-center" style={{ width: "255px" }}>
-        <div className="flex-1 px-6">
+      <div className="flex w-full flex-col sm:flex-row sm:items-center md:w-63.75">
+        <div className="flex-1 px-6 py-4 md:py-0">
           <Input
             label="Huéspedes"
             value={guests}
@@ -86,7 +85,10 @@ export const ReservationSearch = ({
           />
         </div>
 
-        <button type="submit">
+        <button
+          type="submit"
+          className="flex w-full justify-center border-t border-t-gray-300 py-4 sm:border-t-0 sm:py-0 md:w-auto md:justify-start"
+        >
           <CircleButton className="bg-green-normal! hover:bg-green-dark mx-3 h-12 w-12 cursor-pointer transition-colors duration-200">
             <MagnifyingGlassIcon className="w-5 text-white drop-shadow-[0_0_0.5px_currentColor]" />
           </CircleButton>

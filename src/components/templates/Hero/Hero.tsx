@@ -7,16 +7,16 @@ import HeroBackground from "@assets/images/Home/HeroBackground.png";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen w-full">
+    <section className="relative w-full sm:min-h-screen">
       <Image
         src={HeroBackground}
         alt="Hero background"
         fill
         priority
-        className="object-cover"
+        className="h-1/2 object-cover sm:h-screen"
       />
 
-      <div className="relative z-10 my-45 flex min-h-screen flex-col items-center justify-center text-white">
+      <div className="relative z-10 my-45 flex flex-col items-center justify-center text-center text-white sm:min-h-screen">
         <Text size="6xl" weight="medium">
           Siéntete como en casa,
           <br />
