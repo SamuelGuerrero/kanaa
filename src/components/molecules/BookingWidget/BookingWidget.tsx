@@ -1,14 +1,19 @@
 "use client";
 
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import { ChevronRight, Minus, Plus } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
+import {
+  Calendar,
+  GuestSelector,
+  formatGuestsText,
+  type GuestCounts,
+} from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
 
 import { Button } from "../Button";
-import { Calendar } from "../Calendar";
 
 type BookingWidgetProps = {
   price: number;
@@ -22,20 +27,10 @@ type BookingWidgetProps = {
 export type BookingData = {
   startDate: Date | null;
   endDate: Date | null;
-  guests: {
-    adults: number;
-    children: number;
-    infants: number;
-  };
+  guests: GuestCounts;
   totalNights: number;
   totalPrice: number;
   listingMapId: string;
-};
-
-type GuestCounts = {
-  adults: number;
-  children: number;
-  infants: number;
 };
 
 export const BookingWidget = ({
@@ -74,7 +69,6 @@ export const BookingWidget = ({
         )
       : 2;
 
-  const totalGuests = guests.adults + guests.children;
   const totalPrice = price * totalNights;
 
   const handleBookingClick = () => {
@@ -98,23 +92,6 @@ export const BookingWidget = ({
   const formatDate = (date: Date | null) => {
     if (!date) return "Añadir fecha";
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-  };
-
-  const handleGuestChange = (type: keyof GuestCounts, increment: boolean) => {
-    setGuests((prev) => {
-      const newValue = increment
-        ? prev[type] + 1
-        : Math.max(type === "adults" ? 1 : 0, prev[type] - 1);
-
-      const newGuests = { ...prev, [type]: newValue };
-      const newTotal = newGuests.adults + newGuests.children;
-
-      if (increment && newTotal > maxCapacity) {
-        return prev;
-      }
-
-      return newGuests;
-    });
   };
 
   return (
@@ -204,9 +181,7 @@ export const BookingWidget = ({
                   size="base"
                   className="text-green-darker mt-0.5"
                 >
-                  {totalGuests} {totalGuests === 1 ? "huésped" : "huéspedes"}
-                  {guests.infants > 0 &&
-                    `, ${guests.infants} ${guests.infants === 1 ? "bebé" : "bebés"}`}
+                  {formatGuestsText(guests)}
                 </Text>
               </div>
               <ChevronRight
@@ -233,116 +208,13 @@ export const BookingWidget = ({
         )}
 
         {showGuestSelector && (
-          <div className="absolute z-50 mt-2 w-full rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
-            <div className="flex items-center justify-between py-4">
-              <div>
-                <Text font="gilroy" size="base" weight="semibold">
-                  Adultos
-                </Text>
-                <Text font="gilroy" size="sm" className="text-gray-600">
-                  13 años o más
-                </Text>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => handleGuestChange("adults", false)}
-                  disabled={guests.adults <= 1}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 transition-colors hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30"
-                >
-                  <Minus className="h-4 w-4" />
-                </button>
-                <span className="w-6 text-center font-medium">
-                  {guests.adults}
-                </span>
-                <button
-                  onClick={() => handleGuestChange("adults", true)}
-                  disabled={totalGuests >= maxCapacity}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 transition-colors hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30"
-                >
-                  <Plus className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between border-t border-gray-200 py-4">
-              <div>
-                <Text font="gilroy" size="base" weight="semibold">
-                  Niños
-                </Text>
-                <Text font="gilroy" size="sm" className="text-gray-600">
-                  De 2 a 12 años
-                </Text>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => handleGuestChange("children", false)}
-                  disabled={guests.children <= 0}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 transition-colors hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30"
-                >
-                  <Minus className="h-4 w-4" />
-                </button>
-                <span className="w-6 text-center font-medium">
-                  {guests.children}
-                </span>
-                <button
-                  onClick={() => handleGuestChange("children", true)}
-                  disabled={totalGuests >= maxCapacity}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 transition-colors hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30"
-                >
-                  <Plus className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between border-t border-gray-200 py-4">
-              <div>
-                <Text font="gilroy" size="base" weight="semibold">
-                  Bebés
-                </Text>
-                <Text font="gilroy" size="sm" className="text-gray-600">
-                  Menores de 2 años
-                </Text>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => handleGuestChange("infants", false)}
-                  disabled={guests.infants <= 0}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 transition-colors hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30"
-                >
-                  <Minus className="h-4 w-4" />
-                </button>
-                <span className="w-6 text-center font-medium">
-                  {guests.infants}
-                </span>
-                <button
-                  onClick={() => handleGuestChange("infants", true)}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 transition-colors hover:border-gray-900"
-                >
-                  <Plus className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-
-            {totalGuests >= maxCapacity && (
-              <div className="mt-2 rounded-lg bg-gray-100 p-3">
-                <Text font="gilroy" size="sm" className="text-gray-700">
-                  En este alojamiento se pueden quedar {maxCapacity}{" "}
-                  {maxCapacity === 1 ? "huésped" : "huéspedes"} como máximo, sin
-                  incluir a los bebés.
-                </Text>
-              </div>
-            )}
-
-            <div className="mt-3 flex w-full justify-end">
-              <button
-                className="cursor-pointer rounded-lg bg-black px-4 py-1 text-sm text-white"
-                onClick={() => {
-                  setShowGuestSelector(false);
-                }}
-              >
-                Cerrar
-              </button>
-            </div>
+          <div className="absolute z-50 mt-2 w-full">
+            <GuestSelector
+              guests={guests}
+              maxCapacity={maxCapacity}
+              onGuestsChange={setGuests}
+              onClose={() => setShowGuestSelector(false)}
+            />
           </div>
         )}
       </div>
