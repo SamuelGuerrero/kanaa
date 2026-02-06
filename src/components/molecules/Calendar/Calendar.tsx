@@ -69,6 +69,7 @@ type CalendarProps = {
   onClearDates: () => void;
   onClose: () => void;
   showTwoMonths?: boolean;
+  showButtons?: boolean;
   className?: string;
 };
 
@@ -82,6 +83,7 @@ export const Calendar = ({
   onClearDates,
   onClose,
   showTwoMonths = true,
+  showButtons,
   className = "",
 }: CalendarProps) => {
   const nextMonth = useMemo(() => {
@@ -213,7 +215,9 @@ export const Calendar = ({
         {showTwoMonths && renderMonth(nextMonth)}
       </div>
 
-      <div className="mt-4 flex justify-end space-x-3 border-t border-gray-200 pt-4">
+      <div
+        className={`mt-4 flex justify-end space-x-3 border-t border-gray-200 pt-4 ${showButtons ? "" : "hidden"}`}
+      >
         <button
           type="button"
           onClick={onClearDates}
