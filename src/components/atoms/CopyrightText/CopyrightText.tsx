@@ -1,8 +1,17 @@
 import { Text } from "../Text";
 
-export const CopyrightText = () => {
+type CopyrightTextProps = {
+  className?: string;
+};
+
+export const CopyrightText = ({ className }: CopyrightTextProps) => {
   return (
-    <Text size="sm" className="mt-50 text-white" weight="medium" font="gilroy">
+    <Text
+      size="sm"
+      className={`text-white ${className}`}
+      weight="medium"
+      font="gilroy"
+    >
       © {new Date().getFullYear()} — KANAA All Rights Reserved
     </Text>
   );

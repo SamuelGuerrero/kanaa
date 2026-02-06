@@ -17,7 +17,7 @@ export const SocialMediaGroup = ({
   className,
 }: SocialMediaGroupProps) => {
   return (
-    <div className={`mt-50 flex space-x-4 ${className}`}>
+    <div className={`flex space-x-4 ${className}`}>
       {links.map((link) => (
         <SocialMediaIcon
           key={link.ariaLabel}

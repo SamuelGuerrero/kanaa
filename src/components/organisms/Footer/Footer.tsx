@@ -62,13 +62,16 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
 export const Footer = () => {
   return (
     <footer className="bg-green-dark-active mt-6 flex w-full justify-center px-8 py-16">
-      <div className="flex w-full max-w-368 items-start justify-between gap-10">
+      <div className="flex w-full flex-col items-start justify-between gap-10 sm:max-w-368 sm:flex-row">
         <div className="flex flex-col">
           <KanaaLogo />
-          <SocialMediaGroup className="mt-12" links={SOCIAL_LINKS} />
+          <SocialMediaGroup
+            className="mt-12 hidden sm:flex"
+            links={SOCIAL_LINKS}
+          />
         </div>
 
-        <div className="text-green-light-active grid flex-1 grid-cols-4 gap-10">
+        <div className="text-green-light-active grid flex-1 gap-14 sm:grid-cols-4 sm:gap-10">
           {FOOTER_SECTIONS.map((section) => (
             <FooterColumn
               key={section.title}
@@ -78,11 +81,11 @@ export const Footer = () => {
           ))}
         </div>
 
-        <div className="flex flex-col items-end">
+        <div className="flex w-full flex-col sm:w-fit sm:items-end">
           <Button
             variant="primary"
             textWeight="bold"
-            className="text-gold-dark font-bold"
+            className="text-gold-dark w-fit font-bold"
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
@@ -92,7 +95,13 @@ export const Footer = () => {
             Contáctanos
           </Button>
 
-          <CopyrightText />
+          <div className="my-10 block h-px w-full bg-gray-100 sm:hidden" />
+
+          <SocialMediaGroup
+            className="mx-auto flex sm:mt-50 sm:hidden"
+            links={SOCIAL_LINKS}
+          />
+          <CopyrightText className="mt-5 text-center sm:mt-50" />
         </div>
       </div>
     </footer>

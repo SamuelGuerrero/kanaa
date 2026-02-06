@@ -14,7 +14,7 @@ export type FooterColumnProps = {
 export const FooterColumn = ({ title, links }: FooterColumnProps) => {
   return (
     <div className="flex flex-col space-y-4">
-      <Text size="lg" className="mb-8" weight="bold" font="gilroy">
+      <Text size="lg" className="sm:mb-8" weight="bold" font="gilroy">
         {title}
       </Text>
       {links.map((link) => (
