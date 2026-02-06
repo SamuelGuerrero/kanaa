@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { CarouselButton, PaginationDots } from "@/components/atoms";
 import { PropertyCard } from "@/components/molecules";
 import { useCarouselPagination } from "@/hooks/useCarouselPagination";
@@ -38,6 +40,41 @@ export const PropertyCarousel = ({
     itemsPerPage,
   });
 
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0);
+    const touch = e.targetTouches[0];
+    if (touch) {
+      setTouchStart(touch.clientX);
+    }
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    const touch = e.targetTouches[0];
+    if (touch) {
+      setTouchEnd(touch.clientX);
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && shouldShowControls) {
+      nextPage();
+    }
+    if (isRightSwipe && shouldShowControls) {
+      prevPage();
+    }
+  };
+
   if (loading) {
     return (
       <section>
@@ -73,9 +110,15 @@ export const PropertyCarousel = ({
           direction="prev"
           onClick={prevPage}
           disabled={!shouldShowControls}
+          className="hidden sm:block"
         />
 
-        <div className="grid grid-cols-1 gap-6 px-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div
+          className="grid grid-cols-1 sm:gap-6 sm:px-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {visibleListings.map((property) => {
             const imageUrl =
               property.listingImages?.[0]?.url ?? property.thumbnailUrl;
@@ -99,6 +142,7 @@ export const PropertyCarousel = ({
           direction="next"
           onClick={nextPage}
           disabled={!shouldShowControls}
+          className="hidden sm:block"
         />
       </div>
 

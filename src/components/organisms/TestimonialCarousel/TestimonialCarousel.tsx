@@ -1,12 +1,14 @@
 "use client";
 
+import { useState } from "react";
+
 import { CarouselButton, PaginationDots } from "@/components/atoms";
 import { TestimonialCard } from "@/components/molecules";
 import { useCarouselPagination } from "@/hooks/useCarouselPagination";
 
 import type { DetailedHTMLProps, HTMLAttributes } from "react";
 
-type Testimonial = {
+export type Testimonial = {
   id: number;
   name: string;
   role?: string;
@@ -19,98 +21,14 @@ type TestimonialCarouselProps = DetailedHTMLProps<
   HTMLAttributes<HTMLElement>,
   HTMLElement
 > & {
-  testimonials?: Testimonial[];
+  testimonials: Testimonial[];
   loading?: boolean;
   error?: string | null;
   itemsPerPage?: number;
 };
 
-const mockTestimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "Alexander Montes de Oca",
-    role: "Huésped",
-    rating: 4,
-    testimonial:
-      "KANNA hizo que nuestras vacaciones en Mérida fueran inolvidables. La casa era hermosa, cómoda y perfectamente equipada. Nos sentimos como en casa desde el primer momento.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-  {
-    id: 2,
-    name: "María García López",
-    role: "Huésped verificado",
-    rating: 5,
-    testimonial:
-      "Excelente servicio y atención al detalle. La propiedad superó todas nuestras expectativas. Sin duda volveremos a reservar con KANNA.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-  {
-    id: 3,
-    name: "Carlos Rodríguez",
-    role: "Anfitrión",
-    rating: 4.5,
-    testimonial:
-      "Como anfitrión, KANNA me ha facilitado mucho la gestión de mis propiedades. Plataforma profesional y confiable.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-  {
-    id: 4,
-    name: "Ana Martínez",
-    role: "Huésped",
-    rating: 5,
-    testimonial:
-      "La mejor experiencia de alquiler vacacional que hemos tenido. Todo estaba impecable y la comunicación fue excelente.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-  {
-    id: 5,
-    name: "Roberto Sánchez",
-    role: "Huésped",
-    rating: 4,
-    testimonial:
-      "Muy buena ubicación y amenidades. El proceso de check-in fue súper sencillo. Recomendado al 100%.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-  {
-    id: 6,
-    name: "Laura Fernández",
-    role: "Huésped verificado",
-    rating: 4.5,
-    testimonial:
-      "Una experiencia maravillosa de principio a fin. La propiedad era tal como se mostraba en las fotos, incluso mejor.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-  {
-    id: 7,
-    name: "Diego Morales",
-    role: "Huésped",
-    rating: 5,
-    testimonial:
-      "Perfecto para una escapada familiar. Espaciosa, limpia y con todas las comodidades necesarias. Altamente recomendable.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-  {
-    id: 8,
-    name: "Patricia Jiménez",
-    role: "Anfitrión",
-    rating: 4.5,
-    testimonial:
-      "KANNA me ha ayudado a gestionar mis propiedades de manera eficiente. El soporte técnico es excelente.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-  {
-    id: 9,
-    name: "Javier Torres",
-    role: "Huésped",
-    rating: 5,
-    testimonial:
-      "Increíble atención al cliente y una propiedad de primera clase. Sin duda mi primera opción para futuras vacaciones.",
-    avatarUrl: "https://picsum.photos/50/50",
-  },
-];
-
 export const TestimonialCarousel = ({
-  testimonials = mockTestimonials,
+  testimonials,
   loading = false,
   error = null,
   itemsPerPage = 3,
@@ -129,6 +47,41 @@ export const TestimonialCarousel = ({
     items: testimonials,
     itemsPerPage,
   });
+
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0);
+    const touch = e.targetTouches[0];
+    if (touch) {
+      setTouchStart(touch.clientX);
+    }
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    const touch = e.targetTouches[0];
+    if (touch) {
+      setTouchEnd(touch.clientX);
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && shouldShowControls) {
+      nextPage();
+    }
+    if (isRightSwipe && shouldShowControls) {
+      prevPage();
+    }
+  };
 
   if (loading) {
     return (
@@ -175,9 +128,15 @@ export const TestimonialCarousel = ({
           direction="prev"
           onClick={prevPage}
           disabled={!shouldShowControls}
+          className="hidden sm:block"
         />
 
-        <div className="grid grid-cols-1 gap-6 px-8 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          className="grid grid-cols-1 sm:gap-6 sm:px-8 md:grid-cols-2 lg:grid-cols-3"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {visibleTestimonials.map((testimonial) => (
             <TestimonialCard
               key={testimonial.id}
@@ -194,6 +153,7 @@ export const TestimonialCarousel = ({
           direction="next"
           onClick={nextPage}
           disabled={!shouldShowControls}
+          className="hidden sm:block"
         />
       </div>
 

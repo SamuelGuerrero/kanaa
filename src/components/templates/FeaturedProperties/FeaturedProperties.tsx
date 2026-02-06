@@ -26,17 +26,32 @@ export const FeaturedProperties = ({
   const [listings, setListings] = useState<Property[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [itemsPerPage, setItemsPerPage] = useState(
+    typeof window !== "undefined" && window.innerWidth < 640 ? 1 : 4,
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(window.innerWidth < 640 ? 1 : 4);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     void fetchListings();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemsPerPage]);
 
   const fetchListings = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const response = await fetch("/api/hostaway/listings?limit=12");
+      const response = await fetch(
+        `/api/hostaway/listings?limit=${itemsPerPage * 3}`,
+      );
 
       if (!response.ok) {
         throw new Error("Error al cargar listings");
@@ -53,7 +68,7 @@ export const FeaturedProperties = ({
 
   return (
     <section
-      className={`flex flex-col items-center justify-center bg-white px-4 py-24 ${className}`}
+      className={`flex flex-col items-center justify-center bg-white px-4 py-24 text-center ${className}`}
       {...rest}
     >
       <Text size="5xl" className="text-green-normal mb-5">
@@ -81,6 +96,7 @@ export const FeaturedProperties = ({
         listings={listings}
         loading={loading}
         error={error}
+        itemsPerPage={itemsPerPage}
         className="mt-10"
       />
     </section>

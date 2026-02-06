@@ -1,6 +1,11 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
-type CarouselButtonProps = {
+import type { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+
+type CarouselButtonProps = DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+> & {
   direction: "prev" | "next";
   onClick: () => void;
   disabled?: boolean;
@@ -10,6 +15,8 @@ export const CarouselButton = ({
   direction,
   onClick,
   disabled,
+  className,
+  ...rest
 }: CarouselButtonProps) => {
   const Icon = direction === "prev" ? ChevronLeftIcon : ChevronRightIcon;
   const position =
@@ -19,9 +26,10 @@ export const CarouselButton = ({
   return (
     <button
       onClick={onClick}
-      className={`bg-gold-light-hover absolute top-1/2 ${position} z-10 -translate-y-1/2 cursor-pointer rounded-full p-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50`}
+      className={`bg-gold-light-hover absolute top-1/2 ${position} z-10 -translate-y-1/2 cursor-pointer rounded-full p-3 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
       disabled={disabled}
       aria-label={label}
+      {...rest}
     >
       <Icon className="text-gold-normal-hover h-6 w-6" />
     </button>
