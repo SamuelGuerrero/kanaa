@@ -16,14 +16,14 @@ export const Hero = () => {
         className="object-cover"
       />
 
-      <div className="relative z-10 flex min-h-screen flex-col items-center my-45 justify-center text-white">
+      <div className="relative z-10 my-45 flex min-h-screen flex-col items-center justify-center text-white">
         <Text size="6xl" weight="medium">
           Siéntete como en casa,
           <br />
           en cualquier lugar.
         </Text>
 
-        <Text size="xl" className="mt-5 mb-18" font="gilroy" weight="medium">
+        <Text size="xl" className="mt-8 mb-10" font="gilroy" weight="medium">
           Encuentra tu próxima casa de descanso ideal.
         </Text>
         <ReservationSearch />
