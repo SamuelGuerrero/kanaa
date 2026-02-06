@@ -95,10 +95,7 @@ export const Navbar = () => {
             aria-label="Cerrar menú"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <XMarkIcon
-              className="h-8 w-8 text-black"
-              onClick={() => setIsMobileMenuOpen(false)}
-            />
+            <XMarkIcon className="h-8 w-8 text-black" />
           </button>
         </div>
 
