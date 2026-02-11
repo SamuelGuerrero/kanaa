@@ -1,5 +1,6 @@
-import { Group, Management, Optimization, ProiconsDocument, PropertyCare, Reservations, SupportIcon, Vector } from "@/components/atoms";
+import { Management, Optimization, ProiconsDocument, PropertyCare, Reservations, ReservationsManagementIcon, SupportIcon, Vector } from "@/components/atoms";
 import { BackedExperience, EarningsCalculator, FrequentlyQuestions, InfoSection, KeyMetrics, RealPropertyPotential, type KeyMetricsProps } from "@/components/templates";
+import { DataCalculator } from "@/data/faqData";
 import ChooseKANNA from "@assets/images/Home/ChooseKANNA.png";
 import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
 import rentalManagement2 from "@assets/images/Home/rentalManagement2.png";
@@ -58,7 +59,7 @@ export default function HomePage() {
                 features={[
                     { text: "Análisis de datos", icon: <Vector /> },
                     { text: "Herramientas de fijación de precios robustas", icon: <SupportIcon /> },
-                    { text: "Predicciones de tendencias", icon: <Group /> },
+                    { text: "Predicciones de tendencias", icon: <ReservationsManagementIcon /> },
                     { text: "Informes transparentes", icon: <ProiconsDocument /> },
                 ]}
                 featuresTextClassName="text-grey-darker"
@@ -76,7 +77,7 @@ export default function HomePage() {
                 features={[
                     { text: "Gestión de listados", icon: <Vector /> },
                     { text: "Marketing y publicidad", icon: <SupportIcon /> },
-                    { text: "Gestión de reservas", icon: <Group /> },
+                    { text: "Gestión de reservas", icon: <ReservationsManagementIcon /> },
                     { text: "Asistencia en línea para huéspedes", icon: <ProiconsDocument /> },
                 ]}
                 featuresTextClassName="text-grey-light"
@@ -84,8 +85,8 @@ export default function HomePage() {
             />
             <KeyMetrics metrics={METRICS} bgColor="bg-grey-light" />
             <BackedExperience />
-            <FrequentlyQuestions />
-            <RealPropertyPotential />
+            <FrequentlyQuestions data={DataCalculator} />
+            <RealPropertyPotential title="Conoce el potencial real <br/> de tu propiedad" description="Ingresa algunos datos clave y obtén una estimación de ingresos anual <br/> basada en el tipo de inmueble, su capacidad y su ubicación." />
         </main>
     )
 }
