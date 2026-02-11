@@ -238,5 +238,4 @@ export const Calendar = ({
   );
 };
 
-// Exportar utilidades por si las necesitas en otros lugares
 export { isSameDay, isDateBeforeToday, isDateOccupied, isDateInRange };

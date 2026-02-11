@@ -35,7 +35,6 @@ export const GuestSelector = ({
     const newGuests = { ...guests, [type]: newValue };
     const newTotal = newGuests.adults + newGuests.children;
 
-    // No permitir exceder la capacidad máxima
     if (increment && newTotal > maxCapacity) {
       return;
     }
