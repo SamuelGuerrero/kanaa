@@ -41,9 +41,8 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
           <select
             ref={ref}
             defaultValue=""
-            className={`font-gilroy h-13.75 w-145.25 appearance-none bg-white/10 px-4 pr-12 text-[16.33px] font-bold text-white transition outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 ${
-              error ? "border-red-500" : "border-gray-300"
-            } ${className}`}
+            className={`font-gilroy h-13.75 w-145.25 appearance-none bg-white/10 px-4 pr-12 text-[16.33px] font-bold text-white transition outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 ${error ? "border-red-500" : "border-gray-300"
+              } ${className}`}
             aria-invalid={error ? "true" : "false"}
             aria-describedby={error ? `${props.id}-error` : undefined}
             {...props}
@@ -61,9 +60,7 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
             ))}
           </select>
 
-          <ChevronDownIcon
-            className="pointer-events-none absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 text-gray-400"
-            aria-hidden="true"
+          <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-7 w-7 text-grey-light "
           />
         </div>
 
