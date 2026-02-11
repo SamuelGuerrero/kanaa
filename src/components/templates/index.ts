@@ -9,6 +9,7 @@ export * from "./FrequentlyQuestions";
 export * from "./IntelligentManagement";
 export * from "./BecomeHost";
 export * from "./PropertyListTemplate";
+export * from "./PropertiesSearch";
 export * from "./EarningsCalculator";
 export * from "./RealPropertyPotential";
 export * from "./HeroNosotros";
