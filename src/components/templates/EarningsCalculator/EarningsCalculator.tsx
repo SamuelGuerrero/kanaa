@@ -14,7 +14,7 @@ export const EarningsCalculator = () => {
                     fill
                     className="object-cover"
                 />
-                <div className="absolute inset-0 bg-black/50" />
+                <div className="absolute inset-0 bg-black/20" />
                 <div
                     className="bg-beige-normal absolute inset-0 opacity-40"
                     style={{ mixBlendMode: "hue" }}
