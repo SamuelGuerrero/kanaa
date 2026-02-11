@@ -55,9 +55,9 @@ export const InfoSection = ({
   buttonProps,
 }: InfoSectionProps) => {
   const textContent = (
-    <div className="order-2  w-full">
+    <div className="order-2 w-full">
       <Text
-        className={`${textClassName}  leading-13.75 md:leading-[66.2px]`}
+        className={`${textClassName} leading-13.75 md:leading-[66.2px]`}
         size="5xl"
         dangerouslySetInnerHTML={{ __html: title }}
       />
@@ -71,19 +71,25 @@ export const InfoSection = ({
       {features?.length ? (
         <ul className="mt-8 ml-4 space-y-4">
           {features.map((item, index) => (
-            <li key={index} className={`${featureClassName} flex items-center gap-3`}>
+            <li
+              key={index}
+              className={`${featureClassName} flex items-center gap-3`}
+            >
               {item.icon && (
-                <span className={`${featuresIcon} flex  items-center justify-center rounded-full`}>
+                <span
+                  className={`${featuresIcon} flex items-center justify-center rounded-full`}
+                >
                   {item.icon}
                 </span>
               )}
-              {title ?
+              {title ? (
                 <div>
                   <Text
                     font="gilroy"
                     size="2xl"
                     weight="bold"
-                    className={`${featuresTextClassName} ml-2`}>
+                    className={`${featuresTextClassName} ml-2`}
+                  >
                     {item.titulo}
                   </Text>
                   <Text
@@ -95,9 +101,7 @@ export const InfoSection = ({
                     {item.text}
                   </Text>
                 </div>
-
-                :
-
+              ) : (
                 <Text
                   font="gilroy"
                   size="lg"
@@ -105,7 +109,7 @@ export const InfoSection = ({
                 >
                   {item.text}
                 </Text>
-              }
+              )}
             </li>
           ))}
         </ul>
@@ -129,7 +133,7 @@ export const InfoSection = ({
   );
 
   const imageContent = (
-    <div className="flex items-center justify-center w-full order-1 md:order-2 ">
+    <div className="order-1 flex w-full items-center justify-center md:order-2">
       {imagesConfig?.length ? (
         <div className="relative h-163.75 w-163.75">
           {imagesConfig?.map((img, index) => (
@@ -154,7 +158,7 @@ export const InfoSection = ({
   );
 
   return (
-    <div className={`${backgroundColor} w-full px-2 md:px-8.5 py-6.25`}>
+    <div className={`${backgroundColor} w-full px-2 py-6.25 md:px-8.5`}>
       <div
         className={`grid grid-cols-1 md:grid-cols-2 md:gap-8 ${imagePosition === "left" ? "direction-rtl" : ""}`}
       >

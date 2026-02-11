@@ -1,1 +1,1 @@
-export * from './IntelligentManagement'
+export * from "./IntelligentManagement";

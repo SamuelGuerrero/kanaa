@@ -93,27 +93,13 @@ export const ReservationSearch = ({
     const isoMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
     if (isoMatch) {
       const [, year, month, day] = isoMatch;
-      return new Date(
-        Number(year),
-        Number(month) - 1,
-        Number(day),
-        12,
-        0,
-        0,
-      );
+      return new Date(Number(year), Number(month) - 1, Number(day), 12, 0, 0);
     }
     const parts = value.split("/");
     if (parts.length === 3) {
       const [day, month, year] = parts;
       if (!day || !month || !year) return null;
-      return new Date(
-        Number(year),
-        Number(month) - 1,
-        Number(day),
-        12,
-        0,
-        0,
-      );
+      return new Date(Number(year), Number(month) - 1, Number(day), 12, 0, 0);
     }
     return null;
   };

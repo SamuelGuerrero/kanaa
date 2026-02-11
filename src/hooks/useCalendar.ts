@@ -19,8 +19,7 @@ export const useCalendar = (initialMonth: Date = new Date()) => {
     (date: Date, occupiedDates: Date[] = []) => {
       // Verificar si la fecha está disponible
       const isOccupied = occupiedDates.some(
-        (occupiedDate) =>
-          occupiedDate.toDateString() === date.toDateString(),
+        (occupiedDate) => occupiedDate.toDateString() === date.toDateString(),
       );
       if (isOccupied) return;
 

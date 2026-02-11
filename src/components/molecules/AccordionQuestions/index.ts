@@ -1,1 +1,1 @@
-export * from './AccordionQuestions'
+export * from "./AccordionQuestions";

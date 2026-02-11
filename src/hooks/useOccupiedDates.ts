@@ -12,14 +12,14 @@ interface OccupiedDatesResponse {
 
 /**
  * Hook para obtener las fechas ocupadas de un listing
- * 
+ *
  * @param id - ID del listing en Hostaway
  * @returns Objeto con las fechas ocupadas, estado de carga y errores
- * 
+ *
  * @example
  * ```tsx
  * const { occupiedDates, isLoading, error } = useOccupiedDates('385746');
- * 
+ *
  * <BookingWidget
  *   price={1500}
  *   maxCapacity={6}
@@ -51,8 +51,8 @@ export function useOccupiedDates(id: string) {
 
         const data = (await response.json()) as OccupiedDatesResponse;
 
-        const dates = data.result.map(dateString => new Date(dateString));
-        
+        const dates = data.result.map((dateString) => new Date(dateString));
+
         setOccupiedDates(dates);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error desconocido");

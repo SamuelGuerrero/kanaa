@@ -28,7 +28,12 @@ export const BecomeHost = () => {
             en un activo rentable
           </Text>
 
-          <Text size="xl" className="mt-5 text-white" font="gilroy" weight="medium">
+          <Text
+            size="xl"
+            className="mt-5 text-white"
+            font="gilroy"
+            weight="medium"
+          >
             Descurbre el potencial de tu
           </Text>
         </div>

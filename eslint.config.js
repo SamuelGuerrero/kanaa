@@ -1,6 +1,6 @@
 import { FlatCompat } from "@eslint/eslintrc";
-import tseslint from 'typescript-eslint';
-import importPlugin from 'eslint-plugin-import';
+import tseslint from "typescript-eslint";
+import importPlugin from "eslint-plugin-import";
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
@@ -8,15 +8,15 @@ const compat = new FlatCompat({
 
 export default tseslint.config(
   {
-    ignores: ['.next']
+    ignores: [".next"],
   },
   ...compat.extends("next/core-web-vitals"),
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ["**/*.ts", "**/*.tsx"],
     extends: [
       ...tseslint.configs.recommended,
       ...tseslint.configs.recommendedTypeChecked,
-      ...tseslint.configs.stylisticTypeChecked
+      ...tseslint.configs.stylisticTypeChecked,
     ],
     plugins: {
       import: importPlugin,
@@ -28,7 +28,10 @@ export default tseslint.config(
         "warn",
         { prefer: "type-imports", fixStyle: "inline-type-imports" },
       ],
-      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_" },
+      ],
       "@typescript-eslint/require-await": "off",
       "@typescript-eslint/no-misused-promises": [
         "error",
@@ -46,25 +49,25 @@ export default tseslint.config(
             "parent",
             "sibling",
             "index",
-            "type"
+            "type",
           ],
           "newlines-between": "always",
           alphabetize: {
             order: "asc",
-            caseInsensitive: true
-          }
-        }
-      ]
+            caseInsensitive: true,
+          },
+        },
+      ],
     },
   },
   {
     linterOptions: {
-      reportUnusedDisableDirectives: true
+      reportUnusedDisableDirectives: true,
     },
     languageOptions: {
       parserOptions: {
-        projectService: true
-      }
-    }
-  }
+        projectService: true,
+      },
+    },
+  },
 );

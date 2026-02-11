@@ -25,27 +25,27 @@ export function useCarouselPagination<T>({
 
   const totalPages = useMemo(
     () => Math.ceil(items.length / itemsPerPage),
-    [items.length, itemsPerPage]
+    [items.length, itemsPerPage],
   );
 
   const shouldShowControls = useMemo(
     () => items.length > itemsPerPage,
-    [items.length, itemsPerPage]
+    [items.length, itemsPerPage],
   );
 
   const startIndex = useMemo(
     () => currentPage * itemsPerPage,
-    [currentPage, itemsPerPage]
+    [currentPage, itemsPerPage],
   );
 
   const endIndex = useMemo(
     () => startIndex + itemsPerPage,
-    [startIndex, itemsPerPage]
+    [startIndex, itemsPerPage],
   );
 
   const visibleItems = useMemo(
     () => items.slice(startIndex, endIndex),
-    [items, startIndex, endIndex]
+    [items, startIndex, endIndex],
   );
 
   const nextPage = useCallback(() => {
@@ -62,7 +62,7 @@ export function useCarouselPagination<T>({
         setCurrentPage(page);
       }
     },
-    [totalPages]
+    [totalPages],
   );
 
   return {

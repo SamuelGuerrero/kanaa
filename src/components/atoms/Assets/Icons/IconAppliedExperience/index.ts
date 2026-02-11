@@ -1,1 +1,1 @@
-export * from './IconAppliedExperience'
+export * from "./IconAppliedExperience";

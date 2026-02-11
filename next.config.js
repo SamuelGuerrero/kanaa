@@ -9,12 +9,12 @@ const config = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'hostaway-platform.s3.us-west-2.amazonaws.com',
+        protocol: "https",
+        hostname: "hostaway-platform.s3.us-west-2.amazonaws.com",
       },
       {
-        protocol: 'https',
-        hostname: 'picsum.photos',
+        protocol: "https",
+        hostname: "picsum.photos",
       },
       {
         protocol: "https",

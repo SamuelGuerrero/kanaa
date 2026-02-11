@@ -1,1 +1,1 @@
-export * from './BecomeHost'
+export * from "./BecomeHost";

@@ -1,1 +1,1 @@
-export * from './BecomeHostForm'
+export * from "./BecomeHostForm";

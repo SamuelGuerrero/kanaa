@@ -1,9 +1,4 @@
-import {
-  CleanIcon,
-  Group,
-  ProiconsDocument,
-  Vector,
-} from "@/components/atoms";
+import { CleanIcon, Group, ProiconsDocument, Vector } from "@/components/atoms";
 import {
   BackedExperience,
   BecomeHost,
@@ -46,7 +41,10 @@ export default function HomePage() {
         }}
       />
       <IntelligentManagement />
-      <RealPropertyPotential title="Descubra el verdadero <br/> valor de su alquiler <br/> vacacional." description="Complete el formulario a continuación para obtener una <br/> estimación personalizada de sus ingresos anuales." />
+      <RealPropertyPotential
+        title="Descubra el verdadero <br/> valor de su alquiler <br/> vacacional."
+        description="Complete el formulario a continuación para obtener una <br/> estimación personalizada de sus ingresos anuales."
+      />
       <InfoSection
         title="Gestión de alquileres <br/> vacacionales simplificada "
         description="Agiliza la gestión del alquiler vacacional para su tranquilidad  <br />  y una mayor rentabilidad."
@@ -70,13 +68,14 @@ export default function HomePage() {
         features={[
           { text: "Soporte digital y presencial", icon: <Vector /> },
           { text: "Servicios de limpieza profesional", icon: <CleanIcon /> },
-          { text: "Controles de mantenimiento periódicos", icon: <ProiconsDocument /> },
+          {
+            text: "Controles de mantenimiento periódicos",
+            icon: <ProiconsDocument />,
+          },
           { text: "Servicios de concierge", icon: <Group /> },
-
         ]}
         featuresTextClassName="text-grey-darker"
         featuresIcon="bg-green-normal h-12.5 w-12.5"
-
       />
 
       <KeyMetrics metrics={METRICS} bgColor="bg-grey-light" />

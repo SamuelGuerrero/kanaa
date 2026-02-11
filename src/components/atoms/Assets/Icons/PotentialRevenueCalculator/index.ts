@@ -1,1 +1,1 @@
-export * from './PotentialRevenueCalculator'
+export * from "./PotentialRevenueCalculator";

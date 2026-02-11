@@ -1,1 +1,1 @@
-export * from './RealPropertyPotential'
+export * from "./RealPropertyPotential";

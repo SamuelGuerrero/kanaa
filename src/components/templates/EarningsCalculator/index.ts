@@ -1,1 +1,1 @@
-export * from './EarningsCalculator'
+export * from "./EarningsCalculator";

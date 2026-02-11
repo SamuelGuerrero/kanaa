@@ -59,7 +59,8 @@ export default function HomePage() {
         descriptionClassName="text-green-normal mt-8 text-center md:text-left"
         buttonProps={{
           children: "Ir a la calculadora",
-          className: "mt-4 mt-6 md:mt-10 w-full justify-center md:w-auto md:px-6 md:py-2",
+          className:
+            "mt-4 mt-6 md:mt-10 w-full justify-center md:w-auto md:px-6 md:py-2",
           textWeight: "bold",
         }}
       />
