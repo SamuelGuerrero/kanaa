@@ -1,31 +1,12 @@
 import { Text } from "@/components/atoms";
-import { AccordionQuestions, type FAQItem } from "@/components/molecules";
+import { AccordionQuestions } from "@/components/molecules";
 
-const FAQ_DATA: FAQItem[] = [
-  {
-    question: "¿Cómo funciona nuestro servicio?",
-    answer:
-      "Nuestro servicio está diseñado para ser simple y eficiente. Solo necesitas registrarte, elegir lo que necesitas y nosotros nos encargamos del resto.",
-  },
-  {
-    question: "¿Cuánto tiempo tarda en completarse una solicitud?",
-    answer: "Tarda",
-  },
-  {
-    question: "¿Puedo modificar o cancelar mi reservación?",
-    answer: "Sí",
-  },
-  {
-    question: "¿Qué métodos de pago aceptan?",
-    answer: "Aceptamos",
-  },
-  {
-    question: "¿Cómo contacto al soporte si tengo un problema?",
-    answer: "Contacta",
-  },
-] as const;
+import type { FAQItem } from "@/data/faqData";
 
-export const FrequentlyQuestions = () => {
+type FrequentlyQuestionsProps = {
+  data: FAQItem[]
+}
+export const FrequentlyQuestions = ({ data }: FrequentlyQuestionsProps) => {
   return (
     <section className="flex flex-col md:flex-row  md:justify-between  gap-8 md:space-x-10  bg-white px-6 md:px-14   py-10 md:py-16">
       <div>
@@ -39,7 +20,7 @@ export const FrequentlyQuestions = () => {
         </Text>
       </div>
 
-      <AccordionQuestions items={FAQ_DATA} />
+      <AccordionQuestions items={data} />
     </section>
   );
 };
