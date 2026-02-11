@@ -1,7 +1,7 @@
 import {
+  CleanIcon,
   Group,
   ProiconsDocument,
-  SupportIcon,
   Vector,
 } from "@/components/atoms";
 import {
@@ -11,8 +11,10 @@ import {
   InfoSection,
   IntelligentManagement,
   KeyMetrics,
+  RealPropertyPotential,
   type KeyMetricsProps,
 } from "@/components/templates";
+import { DataPropertyManagment } from "@/data/faqData";
 import PeaceAndResults from "@assets/images/Home/PeaceAndResults.png";
 import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
 import rentalManagement2 from "@assets/images/Home/rentalManagement2.png";
@@ -27,7 +29,6 @@ export default function HomePage() {
   return (
     <main className="flex flex-col space-y-6">
       <BecomeHost />
-      <IntelligentManagement />
       <InfoSection
         title="Pensado para quienes <br/> buscan tranquilidad <br/> y resultados"
         description="Ideal para propietarios que buscan maximizar ingresos sin <br/> encargarse de la gestión diaria de su propiedad."
@@ -44,10 +45,11 @@ export default function HomePage() {
           circleButtonClassName: "bg-grey-light!",
         }}
       />
-
+      <IntelligentManagement />
+      <RealPropertyPotential title="Descubra el verdadero <br/> valor de su alquiler <br/> vacacional." description="Complete el formulario a continuación para obtener una <br/> estimación personalizada de sus ingresos anuales." />
       <InfoSection
         title="Gestión de alquileres <br/> vacacionales simplificada "
-        description="agiliza la gestión del alquiler vacacional para su tranquilidad  <br />  y una mayor rentabilidad."
+        description="Agiliza la gestión del alquiler vacacional para su tranquilidad  <br />  y una mayor rentabilidad."
         imagesConfig={[
           {
             src: rentalManagement1,
@@ -67,12 +69,10 @@ export default function HomePage() {
         textClassName="mt-20 ml-4 text-green-normal"
         features={[
           { text: "Soporte digital y presencial", icon: <Vector /> },
-          { text: "Seguro de alquiler integral", icon: <SupportIcon /> },
-          { text: "Servicios de limpieza profesional", icon: <Group /> },
-          {
-            text: "Controles de mantenimiento periódicos",
-            icon: <ProiconsDocument />,
-          },
+          { text: "Servicios de limpieza profesional", icon: <CleanIcon /> },
+          { text: "Controles de mantenimiento periódicos", icon: <ProiconsDocument /> },
+          { text: "Servicios de concierge", icon: <Group /> },
+
         ]}
         featuresTextClassName="text-grey-darker"
         featuresIcon="bg-green-normal h-12.5 w-12.5"
@@ -82,7 +82,7 @@ export default function HomePage() {
       <KeyMetrics metrics={METRICS} bgColor="bg-grey-light" />
 
       <BackedExperience />
-      <FrequentlyQuestions />
+      <FrequentlyQuestions data={DataPropertyManagment} />
 
       <InfoSection
         title="Convierte tu propiedad  <br/> en un activo rentable"
@@ -94,7 +94,7 @@ export default function HomePage() {
         descriptionClassName="text-grey-light"
         textClassName="mt-20 ml-2 text-grey-light"
         buttonProps={{
-          children: "Habla con un asesor",
+          children: "Contáctanos",
           className: "mt-10",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",

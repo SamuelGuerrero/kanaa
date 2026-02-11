@@ -5,20 +5,18 @@ import { useState } from "react";
 
 import { Text } from "@/components/atoms";
 
-export type FAQItem = {
-  question: string;
-  answer: string;
-};
+import type { FAQItem } from "@/data/faqData";
+
 
 export type AccordionQuestionsProps = {
   items: FAQItem[];
 };
 
 export const AccordionQuestions = ({ items }: AccordionQuestionsProps) => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   const handleToggle = (index: number): void => {
-    setActiveIndex(activeIndex === index ? null : index);
+    setActiveIndex(activeIndex === index ? 0 : index);
   };
 
   return (
@@ -38,27 +36,25 @@ export const AccordionQuestions = ({ items }: AccordionQuestionsProps) => {
                 weight="bold"
                 font="gilroy"
                 size="2xl"
-                className="text-green-normal py-4 pr-10"
+                className="text-green-normal py-4 pr-10 w-[638px]"
               >
                 {faqItem.question}
               </Text>
 
               <ChevronDownIcon
-                className={`text-gold-normal-hover absolute top-3.75 right-2.5 h-8 w-8 transition-transform duration-300 ${
-                  isOpen ? "rotate-180" : "rotate-0"
-                }`}
+                className={`text-gold-normal-hover absolute top-3.75 right-2.5 h-8 w-8 transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"
+                  }`}
                 aria-hidden="true"
               />
             </button>
 
             <div
               id={`faq-answer-${index}`}
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                isOpen ? "max-h-40 px-6 pb-5" : "max-h-0 px-6"
-              }`}
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-40 px-6 pb-5" : "max-h-0 px-6"
+                }`}
             >
               <Text
-                className="text-grey-darker"
+                className="text-grey-darker w-[638px]"
                 weight="medium"
                 font="gilroy"
                 size="xl"

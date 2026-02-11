@@ -37,21 +37,21 @@ export const IntelligentManagement = () => {
       <div className="grid w-full grid-cols-2 grid-rows-2 gap-6">
         <Image
           src={IntelligentManagement1}
-          alt="Left Value Proposition"
+          alt="IntelligentManagement1"
           className="row-span-2 h-full w-full object-cover"
           priority
         />
 
         <Image
           src={IntelligentManagement2}
-          alt="Right Value Proposition"
+          alt="IntelligentManagement2"
           className="h-full w-full object-cover"
           priority
         />
 
         <Image
           src={IntelligentManagement3}
-          alt="Right Value Proposition"
+          alt="IntelligentManagement3"
           className="h-full w-full object-cover"
           priority
         />

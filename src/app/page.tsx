@@ -9,13 +9,14 @@ import {
   GuideAndTips,
   FrequentlyQuestions,
 } from "@/components/templates";
+import { DataHome } from "@/data/faqData";
 import DiscoverGenerate from "@assets/images/Home/DiscoverGenerate.png";
 import PropertyManagement from "@assets/images/Home/PropertyManagement.png";
 
 const METRICS: KeyMetricsProps["metrics"] = [
   { value: "+1,300", label: "Huéspedes felices" },
-  { value: "+2", label: "Años de experiencia" },
-  { value: "+300", label: "Estancias realizadas" },
+  { value: "+3", label: "Años de experiencia" },
+  { value: "+1200", label: "Estancias realizadas" },
   { value: "4.92★", label: "Valoración promedio" },
 ];
 
@@ -51,7 +52,7 @@ export default function HomePage() {
         description="Calcula el potencial de ingresos de tu inmueble en minutos y recibe una <br /> 
         estimación anual personalizada, clara y transparente."
         image={DiscoverGenerate}
-        imageAlt="Calculadora de ingresos"
+        imageAlt="DiscoverGenerate"
         imagePosition="left"
         backgroundColor="bg-white"
         textClassName="mt-10 md:mt-20 ml-4 text-green-normal text-center md:text-left"
@@ -65,7 +66,7 @@ export default function HomePage() {
 
       <BackedExperience />
       <GuideAndTips />
-      <FrequentlyQuestions />
+      <FrequentlyQuestions data={DataHome} />
     </main>
   );
 }

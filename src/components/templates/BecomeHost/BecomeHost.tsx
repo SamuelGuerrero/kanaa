@@ -14,10 +14,9 @@ export const BecomeHost = () => {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
         <div
-          className="bg-beige-normal absolute inset-0 opacity-40"
-          style={{ mixBlendMode: "hue" }}
+          className="absolute inset-0 bg-black opacity-40"
+          style={{ mixBlendMode: "multiply" }}
         />
       </div>
 
@@ -30,7 +29,7 @@ export const BecomeHost = () => {
           </Text>
 
           <Text size="xl" className="mt-5 text-white" font="gilroy" weight="medium">
-            Encuentra tu próximo casa de descanso ideal.
+            Descurbre el potencial de tu
           </Text>
         </div>
 

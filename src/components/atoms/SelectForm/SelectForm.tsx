@@ -61,10 +61,7 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
             ))}
           </select>
 
-          <ChevronDownIcon
-            className="pointer-events-none absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 text-gray-400"
-            aria-hidden="true"
-          />
+          <ChevronDownIcon className="text-grey-light pointer-events-none absolute top-1/2 right-4 h-7 w-7 -translate-y-1/2" />
         </div>
 
         {error && (

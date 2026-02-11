@@ -1,8 +1,9 @@
 import { ExperienceInAction, HeroNosotros, InfoSection } from "@/components/templates";
-import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
-import rentalManagement2 from "@assets/images/Home/rentalManagement2.png";
-import WhoAreWe from "@assets/images/Home/WhoAreWe.png";
 import JoinOurTeam from "@assets/images/Home/JoinOurTeam.png";
+import WhoAreWe from "@assets/images/Home/WhoAreWe.png";
+import WhoAreWeBase from "@assets/images/Home/WhoAreWeBase.png";
+import WhoAreWeTop from "@assets/images/Home/WhoAreWeTop.png";
+
 
 export default function HomePage() {
     return (
@@ -22,14 +23,14 @@ export default function HomePage() {
 
                 imagesConfig={[
                     {
-                        src: rentalManagement1,
-                        alt: "Top",
+                        src: WhoAreWeTop,
+                        alt: "WhoAreWeTop",
                         className:
                             "absolute inset-0 top-[186px] left-[0px] object-contain z-20",
                     },
                     {
-                        src: rentalManagement2,
-                        alt: "Base",
+                        src: WhoAreWeBase,
+                        alt: "WhoAreWeBase",
                         className: "absolute top-[26px] left-[244.2px] z-10",
                     },
                 ]}
@@ -71,7 +72,7 @@ export default function HomePage() {
             <InfoSection
                 title="Únete a nuestro equipo"
                 description="En KANAA buscamos personas que compartan nuestra visión: <br>
-                abajar con compromiso, claridad y enfoque a largo plazo.
+                trabajar con compromiso, claridad y enfoque a largo plazo.
                 <br>
                 <br>
                 Si te interesa formar parte de un equipo que construye proyectos con <br>
