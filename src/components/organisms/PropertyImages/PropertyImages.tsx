@@ -4,7 +4,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import "yet-another-react-lightbox/styles.css";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -25,8 +25,8 @@ export const PropertyImages = ({
 }: PropertyImagesProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
-
-  if (images.length === 0) return null;
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const lightboxSlides = images.map((img) => ({
     src: img.url,
@@ -34,9 +34,45 @@ export const PropertyImages = ({
     title: img.caption,
   }));
 
-  const handleImageClick = (index: number) => {
+  useEffect(() => {
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    updateIsMobile();
+    window.addEventListener("resize", updateIsMobile);
+    return () => window.removeEventListener("resize", updateIsMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isGalleryOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsGalleryOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isGalleryOpen]);
+
+  if (images.length === 0) return null;
+
+  const openLightbox = (index: number) => {
     setPhotoIndex(index);
     setIsOpen(true);
+  };
+
+  const handleImageClick = (index: number) => {
+    if (isMobile) {
+      openLightbox(index);
+      return;
+    }
+    setPhotoIndex(index);
+    setIsGalleryOpen(true);
   };
 
   return (
@@ -140,6 +176,126 @@ export const PropertyImages = ({
           </div>
         )}
       </div>
+
+      {isGalleryOpen && (
+        <div className="fixed inset-0 z-50 bg-white">
+          <button
+            type="button"
+            onClick={() => setIsGalleryOpen(false)}
+            aria-label="Cerrar galería"
+            className="fixed top-6 right-6 z-50 cursor-pointer rounded-full bg-black/80 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-black"
+          >
+            X
+          </button>
+
+          <div className="h-full w-full overflow-y-auto px-6 py-10">
+            <div className="mx-auto w-full max-w-5xl">
+              {Array.from({
+                length: Math.ceil(images.length / 5),
+              }).map((_, groupIndex) => {
+                const baseIndex = groupIndex * 5;
+                const group = images.slice(baseIndex, baseIndex + 5);
+
+                return (
+                  <div key={`group-${baseIndex}`} className="mt-4">
+                    <div className="grid grid-cols-3 gap-2.5">
+                      {group[0] && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsGalleryOpen(false);
+                            openLightbox(baseIndex);
+                          }}
+                          className="relative col-span-2 row-span-2 h-130 cursor-pointer overflow-hidden"
+                        >
+                          <Image
+                            src={group[0].url}
+                            alt={group[0].caption ?? propertyName}
+                            fill
+                            className="object-cover"
+                          />
+                        </button>
+                      )}
+
+                      {group[1] && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsGalleryOpen(false);
+                            openLightbox(baseIndex + 1);
+                          }}
+                          className="relative h-62.5 cursor-pointer overflow-hidden"
+                        >
+                          <Image
+                            src={group[1].url}
+                            alt={group[1].caption ?? propertyName}
+                            fill
+                            className="object-cover"
+                          />
+                        </button>
+                      )}
+
+                      {group[2] && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsGalleryOpen(false);
+                            openLightbox(baseIndex + 2);
+                          }}
+                          className="relative h-62.5 cursor-pointer overflow-hidden"
+                        >
+                          <Image
+                            src={group[2].url}
+                            alt={group[2].caption ?? propertyName}
+                            fill
+                            className="object-cover"
+                          />
+                        </button>
+                      )}
+
+                      {group[3] && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsGalleryOpen(false);
+                            openLightbox(baseIndex + 3);
+                          }}
+                          className="relative col-span-2 h-80 cursor-pointer overflow-hidden"
+                        >
+                          <Image
+                            src={group[3].url}
+                            alt={group[3].caption ?? propertyName}
+                            fill
+                            className="object-cover"
+                          />
+                        </button>
+                      )}
+
+                      {group[4] && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsGalleryOpen(false);
+                            openLightbox(baseIndex + 4);
+                          }}
+                          className="relative h-80 cursor-pointer overflow-hidden"
+                        >
+                          <Image
+                            src={group[4].url}
+                            alt={group[4].caption ?? propertyName}
+                            fill
+                            className="object-cover"
+                          />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       <Lightbox
         open={isOpen}
