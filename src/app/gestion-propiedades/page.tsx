@@ -37,7 +37,8 @@ export default function HomePage() {
           children: "Conocer más",
           className: "mt-10",
           textWeight: "bold",
-          circleButtonClassName: "bg-grey-light!",
+          circleButtonClassName: "bg-grey-light! !inline-flex",
+          href: "/contactanos",
         }}
       />
       <IntelligentManagement />
@@ -97,6 +98,7 @@ export default function HomePage() {
           className: "mt-10",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
+          href: "/contactanos",
         }}
       />
     </main>

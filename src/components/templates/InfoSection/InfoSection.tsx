@@ -35,6 +35,7 @@ type InfoSectionProps = {
     className?: string;
     children: string;
     circleButtonClassName?: string;
+    href?: string;
   };
 };
 
@@ -119,6 +120,7 @@ export const InfoSection = ({
             textWeight={buttonProps.textWeight}
             variant="primary"
             className={buttonProps.className}
+            href={buttonProps.href}
             icon={
               <CircleButton className={buttonProps.circleButtonClassName}>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

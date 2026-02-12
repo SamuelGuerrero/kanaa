@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   type ButtonHTMLAttributes,
   type DetailedHTMLProps,
@@ -10,6 +11,7 @@ type ButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 > & {
+  href?: string;
   variant: "primary" | "secondary";
   icon?: ReactNode;
   iconPosition?: "left" | "right";
@@ -32,6 +34,7 @@ type ButtonProps = DetailedHTMLProps<
 
 export const Button = (props: ButtonProps) => {
   const {
+    href,
     variant,
     className,
     children,
@@ -51,7 +54,7 @@ export const Button = (props: ButtonProps) => {
         : "";
 
   const baseStyles =
-    "rounded-[10px] py-[14px] px-[24px] flex items-center cursor-pointer";
+    "rounded-[10px] py-[14px] px-[24px] inline-flex items-center cursor-pointer";
 
   const textVariantOverrides =
     variant === "secondary"
@@ -62,23 +65,53 @@ export const Button = (props: ButtonProps) => {
       : {};
 
   return (
-    <button
-      {...rest}
-      type={props.type ?? "button"}
-      className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
-    >
-      {icon && iconPosition === "left" && <span className="mr-2">{icon}</span>}
+    <>
+      {href ? (
+        <Link
+          href={href}
+          className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
+        >
+          {icon && iconPosition === "left" && (
+            <span className="mr-2">{icon}</span>
+          )}
 
-      <Text
-        font="gilroy"
-        weight={textVariantOverrides.weight ?? textWeight}
-        size={textSize}
-        className={`${textVariantOverrides.className ?? ""} ${textClassName}`}
-      >
-        {children}
-      </Text>
+          <Text
+            font="gilroy"
+            weight={textVariantOverrides.weight ?? textWeight}
+            size={textSize}
+            className={`${textVariantOverrides.className ?? ""} ${textClassName}`}
+          >
+            {children}
+          </Text>
 
-      {icon && iconPosition === "right" && <span className="ml-2">{icon}</span>}
-    </button>
+          {icon && iconPosition === "right" && (
+            <span className="ml-2">{icon}</span>
+          )}
+        </Link>
+      ) : (
+        <button
+          {...rest}
+          type={props.type ?? "button"}
+          className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
+        >
+          {icon && iconPosition === "left" && (
+            <span className="mr-2">{icon}</span>
+          )}
+
+          <Text
+            font="gilroy"
+            weight={textVariantOverrides.weight ?? textWeight}
+            size={textSize}
+            className={`${textVariantOverrides.className ?? ""} ${textClassName}`}
+          >
+            {children}
+          </Text>
+
+          {icon && iconPosition === "right" && (
+            <span className="ml-2">{icon}</span>
+          )}
+        </button>
+      )}
+    </>
   );
 };

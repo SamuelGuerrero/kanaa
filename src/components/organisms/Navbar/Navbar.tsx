@@ -60,6 +60,7 @@ export const Navbar = () => {
 
           <Button
             variant="primary"
+            href="/propiedades"
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
@@ -121,6 +122,7 @@ export const Navbar = () => {
             <Button
               variant="primary"
               className="mt-2 w-full justify-center"
+              href="/propiedades"
               icon={
                 <CircleButton>
                   <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

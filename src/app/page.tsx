@@ -44,6 +44,7 @@ export default function HomePage() {
           className: "mt-10 w-full justify-center md:w-auto md:px-6 md:py-2",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
+          href: "/gestion-propiedades",
         }}
       />
 
@@ -62,6 +63,7 @@ export default function HomePage() {
           className:
             "mt-4 mt-6 md:mt-10 w-full justify-center md:w-auto md:px-6 md:py-2",
           textWeight: "bold",
+          href: "/calculadora",
         }}
       />
 

@@ -25,6 +25,7 @@ export default function HomePage() {
           className: "mt-10 bg-grey-light text-gold-normal!",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
+          href: "/vacantes",
         }}
       />
     </main>

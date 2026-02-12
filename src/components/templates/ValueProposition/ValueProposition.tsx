@@ -49,6 +49,7 @@ export const ValueProposition = () => {
           <Button
             variant="secondary"
             className="mt-4 w-full justify-center md:w-auto md:px-6 md:py-2"
+            href="/propiedades"
             icon={
               <CircleButton className="bg-gold-light-active! ml-3 md:ml-0">
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

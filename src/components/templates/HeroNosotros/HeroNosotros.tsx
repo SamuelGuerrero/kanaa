@@ -31,6 +31,7 @@ export const HeroNosotros = () => {
           textWeight="bold"
           variant="primary"
           className="text-gold-dark! mt-10"
+          href="/propiedades"
           icon={
             <CircleButton className="bg-grey-light!">
               <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

@@ -86,6 +86,7 @@ export const Footer = () => {
             variant="primary"
             textWeight="bold"
             className="text-gold-dark w-fit font-bold"
+            href="/contactanos"
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
