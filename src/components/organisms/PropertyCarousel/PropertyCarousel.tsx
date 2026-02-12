@@ -30,7 +30,6 @@ export const PropertyCarousel = ({
   const {
     currentPage,
     totalPages,
-    visibleItems: visibleListings,
     nextPage,
     prevPage,
     goToPage,
@@ -103,46 +102,66 @@ export const PropertyCarousel = ({
     );
   }
 
+  const pages = Array.from({
+    length: Math.ceil(listings.length / itemsPerPage),
+  }).map((_, pageIndex) =>
+    listings.slice(
+      pageIndex * itemsPerPage,
+      pageIndex * itemsPerPage + itemsPerPage,
+    ),
+  );
+
   return (
     <section className={className} {...rest}>
-      <div className="relative">
+      <div className="relative mx-auto w-full max-w-7xl">
         <CarouselButton
           direction="prev"
           onClick={prevPage}
           disabled={!shouldShowControls}
-          className="hidden sm:block"
+          className="-left-10 hidden sm:block"
         />
 
         <div
-          className="grid grid-cols-1 sm:gap-6 sm:px-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          className="overflow-hidden"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          {visibleListings.map((property) => {
-            const imageUrl =
-              property.listingImages?.[0]?.url ?? property.thumbnailUrl;
-            return (
-              <PropertyCard
-                key={property.id}
-                image={imageUrl}
-                guests={property.personCapacity}
-                bedrooms={property.bedroomsNumber}
-                bathrooms={property.bathroomsNumber}
-                rating={property.averageReviewRating / 2 || 0}
-                title={property.name}
-                price={2 * property.price}
-                priceLabel="por 2 noches"
-              />
-            );
-          })}
+          <div
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${currentPage * 100}%)` }}
+          >
+            {pages.map((page, pageIndex) => (
+              <div key={`page-${pageIndex}`} className="w-full shrink-0">
+                <div className="grid grid-cols-1 gap-3.75 sm:px-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {page.map((property) => {
+                    const imageUrl =
+                      property.listingImages?.[0]?.url ?? property.thumbnailUrl;
+                    return (
+                      <PropertyCard
+                        key={property.id}
+                        image={imageUrl}
+                        guests={property.personCapacity}
+                        bedrooms={property.bedroomsNumber}
+                        bathrooms={property.bathroomsNumber}
+                        rating={property.averageReviewRating / 2 || 0}
+                        title={property.name}
+                        price={2 * property.price}
+                        priceLabel="por 2 noches"
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <CarouselButton
           direction="next"
           onClick={nextPage}
           disabled={!shouldShowControls}
-          className="hidden sm:block"
+          className="-right-10 hidden sm:block"
         />
       </div>
 

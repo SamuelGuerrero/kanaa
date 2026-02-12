@@ -38,7 +38,6 @@ export const TestimonialCarousel = ({
   const {
     currentPage,
     totalPages,
-    visibleItems: visibleTestimonials,
     nextPage,
     prevPage,
     goToPage,
@@ -121,39 +120,59 @@ export const TestimonialCarousel = ({
     );
   }
 
+  const pages = Array.from({
+    length: Math.ceil(testimonials.length / itemsPerPage),
+  }).map((_, pageIndex) =>
+    testimonials.slice(
+      pageIndex * itemsPerPage,
+      pageIndex * itemsPerPage + itemsPerPage,
+    ),
+  );
+
   return (
     <section className={className} {...rest}>
-      <div className="relative">
+      <div className="relative mx-auto w-full max-w-6xl">
         <CarouselButton
           direction="prev"
           onClick={prevPage}
           disabled={!shouldShowControls}
-          className="hidden sm:block"
+          className="-left-12 hidden sm:block"
         />
 
         <div
-          className="grid grid-cols-1 sm:gap-6 sm:px-8 md:grid-cols-2 lg:grid-cols-3"
+          className="overflow-hidden"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          {visibleTestimonials.map((testimonial) => (
-            <TestimonialCard
-              key={testimonial.id}
-              name={testimonial.name}
-              role={testimonial.role}
-              rating={testimonial.rating}
-              testimonial={testimonial.testimonial}
-              avatarUrl={testimonial.avatarUrl}
-            />
-          ))}
+          <div
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${currentPage * 100}%)` }}
+          >
+            {pages.map((page, pageIndex) => (
+              <div key={`page-${pageIndex}`} className="w-full shrink-0">
+                <div className="grid grid-cols-1 gap-3.75 sm:px-4 md:grid-cols-2 lg:grid-cols-3">
+                  {page.map((testimonial) => (
+                    <TestimonialCard
+                      key={testimonial.id}
+                      name={testimonial.name}
+                      role={testimonial.role}
+                      rating={testimonial.rating}
+                      testimonial={testimonial.testimonial}
+                      avatarUrl={testimonial.avatarUrl}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <CarouselButton
           direction="next"
           onClick={nextPage}
           disabled={!shouldShowControls}
-          className="hidden sm:block"
+          className="-right-12 hidden sm:block"
         />
       </div>
 
