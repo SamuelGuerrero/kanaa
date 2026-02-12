@@ -20,6 +20,10 @@ const config = {
         protocol: "https",
         hostname: "stripe.com",
       },
+      {
+        protocol: "https",
+        hostname: "a0.muscache.com",
+      }
     ],
   },
 };
