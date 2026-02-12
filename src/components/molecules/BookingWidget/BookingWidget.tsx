@@ -22,6 +22,7 @@ type BookingWidgetProps = {
   occupiedDates?: Date[];
   listingMapId: string;
   onBookingClick?: (bookingData: BookingData) => void;
+  disableCheckout?: boolean;
 };
 
 export type BookingData = {
@@ -40,6 +41,7 @@ export const BookingWidget = ({
   occupiedDates = [],
   listingMapId,
   onBookingClick,
+  disableCheckout = false,
 }: BookingWidgetProps) => {
   const [showGuestSelector, setShowGuestSelector] = useState(false);
   const [guests, setGuests] = useState<GuestCounts>({
@@ -72,6 +74,9 @@ export const BookingWidget = ({
   const totalPrice = price * totalNights;
 
   const handleBookingClick = () => {
+    if (disableCheckout) {
+      return;
+    }
     if (!dateRange.startDate || !dateRange.endDate) {
       alert("Por favor selecciona las fechas de tu estadía");
       return;
@@ -224,6 +229,7 @@ export const BookingWidget = ({
           variant="secondary"
           textClassName="text-base font-medium"
           className="w-fit"
+          disabled={disableCheckout}
           onClick={handleBookingClick}
           icon={
             <CircleButton className="bg-gold-light-active!">
@@ -231,7 +237,7 @@ export const BookingWidget = ({
             </CircleButton>
           }
         >
-          Reserva ahora
+          {disableCheckout ? "Reserva proximamente" : "Reserva ahora"}
         </Button>
 
         <Text

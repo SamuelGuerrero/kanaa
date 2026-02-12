@@ -16,6 +16,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const params = useParams();
   const propertyId = params?.propertyId as string;
+  const isCheckoutDisabled = true;
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [stripePromise, setStripePromise] = useState<ReturnType<
@@ -26,6 +27,10 @@ export default function CheckoutPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (isCheckoutDisabled) {
+      router.replace("/");
+      return;
+    }
     const savedBookingData = sessionStorage.getItem("bookingData");
     if (!savedBookingData) {
       router.push(`/property/${propertyId}`);
@@ -99,7 +104,7 @@ export default function CheckoutPage() {
     };
 
     void initializeStripe();
-  }, [propertyId, router]);
+  }, [propertyId, router, isCheckoutDisabled]);
 
   const options: StripeElementsOptions | undefined = clientSecret
     ? {
@@ -119,6 +124,21 @@ export default function CheckoutPage() {
         },
       }
     : undefined;
+
+  if (isCheckoutDisabled) {
+    return (
+      <main className="mx-auto flex min-h-[60vh] max-w-4xl items-center justify-center px-6 py-20">
+        <div className="text-center">
+          <Text size="3xl" weight="bold" className="text-green-normal">
+            Checkout deshabilitado
+          </Text>
+          <Text size="lg" font="gilroy" className="mt-3 text-gray-600">
+            Esta ruta está bloqueada temporalmente.
+          </Text>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">

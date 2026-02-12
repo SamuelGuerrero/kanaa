@@ -198,6 +198,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             occupiedDates={occupiedDates}
             listingMapId={property.id.toString()}
             onBookingClick={handleBookingClick}
+            disableCheckout={true}
           />
         </section>
       </div>
