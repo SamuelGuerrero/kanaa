@@ -54,7 +54,7 @@ export const Button = (props: ButtonProps) => {
         : "";
 
   const baseStyles =
-    "rounded-[10px] py-[14px] px-[24px] inline-flex items-center cursor-pointer";
+    "rounded-[10px] py-[14px] px-[24px] inline-flex items-center cursor-pointer transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-normal/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none";
 
   const textVariantOverrides =
     variant === "secondary"

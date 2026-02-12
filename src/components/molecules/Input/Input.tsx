@@ -58,7 +58,7 @@ export const Input = ({
         placeholder={placeholder}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={`text-gilroy w-full bg-transparent text-sm text-gray-600 placeholder-[#6A6A6A] outline-none ${className}`}
+        className={`text-gilroy w-full bg-transparent text-sm text-gray-600 placeholder-[#6A6A6A] outline-none transition-colors duration-150 focus:text-gray-900 focus:placeholder:text-gray-400 ${className}`}
         {...rest}
       />
     </div>

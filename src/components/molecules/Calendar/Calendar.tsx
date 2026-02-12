@@ -155,10 +155,10 @@ export const Calendar = ({
                 type="button"
                 onClick={() => onDateClick(date)}
                 disabled={isDisabled || isOccupied}
-                className={`relative flex h-10 w-10 items-center justify-center text-sm font-medium transition-all ${
+                className={`relative flex h-10 w-10 items-center justify-center text-sm font-medium transition-all duration-200 ease-out ${
                   isDisabled || isOccupied
                     ? "cursor-not-allowed text-gray-300"
-                    : "cursor-pointer hover:border hover:border-gray-900"
+                    : "cursor-pointer hover:border hover:border-gray-900 hover:scale-105"
                 } ${
                   isStart || isEnd
                     ? "rounded-full bg-gray-900 text-white hover:bg-gray-900"
@@ -195,7 +195,7 @@ export const Calendar = ({
         <button
           type="button"
           onClick={onPrevMonth}
-          className="cursor-pointer rounded-full p-2 transition-colors hover:bg-gray-100"
+          className="cursor-pointer rounded-full p-2 transition-all duration-200 ease-out hover:bg-gray-100 hover:scale-105"
           aria-label="Mes anterior"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -203,7 +203,7 @@ export const Calendar = ({
         <button
           type="button"
           onClick={onNextMonth}
-          className="cursor-pointer rounded-full p-2 transition-colors hover:bg-gray-100"
+          className="cursor-pointer rounded-full p-2 transition-all duration-200 ease-out hover:bg-gray-100 hover:scale-105"
           aria-label="Mes siguiente"
         >
           <ChevronRight className="h-5 w-5" />
