@@ -61,7 +61,7 @@ export default function HomePage() {
         buttonProps={{
           children: "Ir a la calculadora",
           className:
-            "mt-4 mt-6 md:mt-10 w-full justify-center md:w-auto md:px-6 md:py-2",
+            "mt-4 mt-6 md:mt-10 w-full justify-center md:w-auto md:px-6 md:py-2 text-gold-dark!",
           textWeight: "bold",
           href: "/calculadora",
         }}

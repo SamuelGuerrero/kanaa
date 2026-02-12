@@ -24,36 +24,38 @@ export const TestimonialCard = ({
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
   return (
-    <figure className="bg-green-normal flex h-74 w-92.5 flex-col items-center rounded-2xl p-6">
-      <Image
-        src={avatarUrl}
-        width={50}
-        height={50}
-        alt={`${name} avatar`}
-        className="border-green-light-active rounded-full border object-cover"
-      />
+    <figure className="bg-green-normal relative flex h-74 w-92.5 flex-col items-center rounded-2xl p-5">
+      <div className="flex flex-col items-center">
+        <Image
+          src={avatarUrl}
+          width={50}
+          height={50}
+          alt={`${name} avatar`}
+          className="border-green-light-active max-h-12.5 max-w-12.5 rounded-full border object-cover"
+        />
 
-      <Text
-        font="gilroy"
-        weight="bold"
-        size="xl"
-        className="text-grey-light mt-4 text-center"
-      >
-        {name}
-      </Text>
-
-      <figure className="bg-green-light-hover rounded-full px-5 py-1.25">
-        <Text font="gilroy" size="xxs" className="text-[10px]!">
-          {role}
+        <Text
+          font="gilroy"
+          weight="bold"
+          size="xl"
+          className="text-grey-light mt-4 text-center"
+        >
+          {name}
         </Text>
-      </figure>
 
-      <Text font="gilroy" size="xs" className="mt-4 text-center text-white">
-        {testimonial}
-      </Text>
+        <figure className="bg-green-light-hover rounded-full px-5 py-1.25">
+          <Text font="gilroy" size="xxs" className="text-[10px]!">
+            {role}
+          </Text>
+        </figure>
+
+        <Text font="gilroy" size="xs" className="mt-4 text-center text-white">
+          {testimonial}
+        </Text>
+      </div>
 
       <footer
-        className="mt-10 flex gap-1"
+        className="absolute bottom-5 mt-10 flex gap-1"
         aria-label={`${normalizedRating} de 5 estrellas`}
       >
         {Array.from({ length: fullStars }, (_, i) => (

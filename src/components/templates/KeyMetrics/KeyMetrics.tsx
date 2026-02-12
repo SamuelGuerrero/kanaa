@@ -13,7 +13,7 @@ export type KeyMetricsProps = {
 export const KeyMetrics = ({ metrics, bgColor }: KeyMetricsProps) => {
   return (
     <section
-      className={`${bgColor} pay-y-6 flex w-full flex-row flex-wrap items-center justify-center gap-x-10 px-6 py-12 md:px-6 md:py-20`}
+      className={`${bgColor} pay-y-6 flex w-full flex-row flex-wrap items-center justify-center gap-x-12 px-6 py-12 shadow md:px-6 md:py-20`}
     >
       {metrics.map((metric) => (
         <div

@@ -61,7 +61,7 @@ export const PropertyCard = ({
         <Text
           font="gilroy"
           weight="bold"
-          className="text-green-darker text-xl leading-7.5"
+          className="text-green-darker text-left text-xl leading-7.5"
         >
           {title}
         </Text>

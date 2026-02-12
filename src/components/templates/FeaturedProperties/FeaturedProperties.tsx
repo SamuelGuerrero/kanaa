@@ -68,7 +68,7 @@ export const FeaturedProperties = ({
 
   return (
     <section
-      className={`flex flex-col items-center justify-center bg-white px-4 py-24 text-center ${className}`}
+      className={`flex flex-col items-center justify-center bg-white px-4 py-22 text-center shadow ${className}`}
       {...rest}
     >
       <Text size="5xl" className="text-green-normal mb-5">
