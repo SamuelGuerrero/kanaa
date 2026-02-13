@@ -87,7 +87,7 @@ export const TestimonialCarousel = ({
       <section className={className} {...rest}>
         <div className="flex min-h-100 items-center justify-center">
           <div className="text-center">
-            <div className="border-gold-normal mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2"></div>
+            <div className="border-gold-normal mx-auto mb-4 h-12 w-12  animate-spin rounded-full border-b-2"></div>
             <p className="text-gray-600">Cargando testimonios...</p>
           </div>
         </div>
@@ -131,7 +131,7 @@ export const TestimonialCarousel = ({
 
   return (
     <section className={className} {...rest}>
-      <div className="relative mx-auto w-full max-w-6xl">
+      <div className="relative mx-auto w-full mr-3 max-w-6xl">
         <CarouselButton
           direction="prev"
           onClick={prevPage}
