@@ -1,9 +1,9 @@
 import {
+  IconApplied,
   Management,
   Optimization,
   ProiconsDocument,
   PropertyCare,
-  Reservations,
   ReservationsManagementIcon,
   SupportIcon,
   Vector,
@@ -19,10 +19,9 @@ import {
 } from "@/components/templates";
 import { DataCalculator } from "@/data/faqData";
 import ChooseKANNA from "@assets/images/Home/ChooseKANNA.png";
-import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
-import rentalManagement2 from "@assets/images/Home/rentalManagement2.png";
 import ReservationManagement from "@assets/images/Home/ReservationManagement.png";
-
+import RevenueOptimization from "@assets/images/Home/RevenueOptimization.png";
+import RevenueOptimizationBase from "@assets/images/Home/RevenueOptimizationBase.png";
 const METRICS: KeyMetricsProps["metrics"] = [
   { value: "+100", label: "Propiedades gestionadas" },
   { value: "+2", label: "Años de experiencia" },
@@ -30,22 +29,23 @@ const METRICS: KeyMetricsProps["metrics"] = [
 
 export default function HomePage() {
   return (
-    <main className="flex flex-col space-y-6">
+    <main className="flex flex-col space-y-1.5 md:space-y-6">
       <EarningsCalculator />
       <InfoSection
-        title="¿Por qué elegir KANNA para <br/> gestionar tu propiedad?"
+        title="¿Por qué elegir KANNA para gestionar tu propiedad?"
         description="Porque cuidamos tu propiedad, optimizamos tus ingresos y nos <br/> encargamos de todo para que tú disfrutes tranquilidad y resultados."
         image={ChooseKANNA}
         imageAlt="Calculadora de ingresos"
         imagePosition="left"
+        block="hidden md:block"
         backgroundColor="bg-white"
-        textClassName="mt-20 ml-4 text-green-normal"
+        textClassName="ml-2 text-green-normal"
         descriptionClassName="text-green-normal"
         features={[
           {
             titulo: "Reservas y canales",
             text: "Más visibilidad, mayor ocupación.",
-            icon: <Reservations />,
+            icon: <IconApplied />,
           },
           {
             titulo: "Cuidado de la propiedad",
@@ -69,25 +69,25 @@ export default function HomePage() {
       />
       <InfoSection
         title="Optimización de ingresos "
-        description="Asegúrese de obtener la mayor rentabilidad posible. Utilizamos <br/>
-                estrategias integrales y tecnología de vanguardia para  <br/> optimizar el potencial de ingresos de su propiedad"
+        description="Asegúrese de obtener la mayor rentabilidad posible. Utilizamos 
+                estrategias integrales y tecnología de vanguardia para optimizar el potencial de ingresos de su propiedad"
         imagesConfig={[
           {
-            src: rentalManagement1,
+            src: RevenueOptimization,
             alt: "Top",
             className:
-              "absolute inset-0 top-[186px] left-[0px] object-contain z-20",
+              "absolute top-[29%] left-0 w-[70%] object-contain z-20",
           },
           {
-            src: rentalManagement2,
+            src: RevenueOptimizationBase,
             alt: "Base",
-            className: "absolute top-[26px] left-[244.2px] z-10",
+            className: "absolute top-[0%] left-[37%] w-[75%] z-10",
           },
         ]}
         imagePosition="right"
         backgroundColor="bg-grey-light pb-20 bg-gold-normal"
-        descriptionClassName="text-grey-darker"
-        textClassName="mt-20 ml-4 text-green-normal"
+        descriptionClassName="text-grey-darker w-[346px] md:w-[525px]"
+        textClassName="ml-2 text-green-normal"
         features={[
           { text: "Análisis de datos", icon: <Vector /> },
           {
@@ -111,7 +111,7 @@ export default function HomePage() {
         imagePosition="left"
         backgroundColor="bg-green-dark-hover"
         descriptionClassName="text-grey-light"
-        textClassName="mt-20 ml-2 text-grey-light"
+        textClassName="ml-2 text-grey-light"
         features={[
           { text: "Gestión de listados", icon: <Vector /> },
           { text: "Marketing y publicidad", icon: <SupportIcon /> },
@@ -128,7 +128,7 @@ export default function HomePage() {
       <BackedExperience />
       <FrequentlyQuestions data={DataCalculator} />
       <RealPropertyPotential
-        title="Conoce el potencial real <br/> de tu propiedad"
+        title="Conoce el potencial real de tu propiedad"
         description="Ingresa algunos datos clave y obtén una estimación de ingresos anual <br/> basada en el tipo de inmueble, su capacidad y su ubicación."
       />
     </main>
