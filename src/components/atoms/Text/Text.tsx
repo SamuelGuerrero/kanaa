@@ -45,7 +45,7 @@ const fontSizes: Record<FontSize, string> = {
   "4xl": "text-2xl md:text-4xl",
   "5xl": "text-3xl md:text-5xl",
   "6xl": "text-4xl md:text-6xl",
-  "7xl": "text-5xl md:text-7xl",
+  "7xl": "text-5xl md:text-50xl",
 };
 
 const fontWeights: Record<FontWeight, string> = {
