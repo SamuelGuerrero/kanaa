@@ -22,17 +22,17 @@ const METRICS: KeyMetricsProps["metrics"] = [
 
 export default function HomePage() {
   return (
-    <main className="flex flex-col space-y-6">
+    <main className="flex flex-col space-y-1.5 md:space-y-6">
       <BecomeHost />
       <InfoSection
         title="Pensado para quienes <br/> buscan tranquilidad <br/> y resultados"
-        description="Ideal para propietarios que buscan maximizar ingresos sin <br/> encargarse de la gestión diaria de su propiedad."
+        description="Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de su propiedad."
         image={PeaceAndResults}
         imageAlt="Property Management2"
         imagePosition="right"
         backgroundColor="bg-green-dark-hover"
         descriptionClassName="text-grey-light"
-        textClassName="mt-20 ml-2 text-grey-light"
+        textClassName="mt-5 md:mt-15 ml-2 text-grey-light"
         buttonProps={{
           children: "Conocer más",
           className: "mt-10",
@@ -48,24 +48,24 @@ export default function HomePage() {
       />
       <InfoSection
         title="Gestión de alquileres <br/> vacacionales simplificada "
-        description="Agiliza la gestión del alquiler vacacional para su tranquilidad  <br />  y una mayor rentabilidad."
+        description="Agiliza la gestión del alquiler vacacional para su tranquilidad  y una mayor rentabilidad."
         imagesConfig={[
           {
             src: rentalManagement1,
             alt: "Top",
             className:
-              "absolute inset-0 top-[186px] left-[0px] object-contain z-20",
+              "absolute top-[29%] left-0 w-[70%] object-contain z-20",
           },
           {
             src: rentalManagement2,
             alt: "Base",
-            className: "absolute top-[26px] left-[244.2px] z-10",
+            className: "absolute top-[0%] left-[37%] w-[75%] z-10",
           },
         ]}
         imagePosition="left"
         backgroundColor="bg-grey-light pb-20 bg-gold-normal"
         descriptionClassName="text-grey-darker"
-        textClassName="mt-20 ml-4 text-green-normal"
+        textClassName=" ml-3 text-green-normal"
         features={[
           { text: "Soporte digital y presencial", icon: <Vector /> },
           { text: "Servicios de limpieza profesional", icon: <CleanIcon /> },
@@ -85,17 +85,17 @@ export default function HomePage() {
       <FrequentlyQuestions data={DataPropertyManagment} />
 
       <InfoSection
-        title="Convierte tu propiedad  <br/> en un activo rentable"
+        title="Convierte tu propiedad  en un activo rentable"
         description="Nos encargamos de la gestión completa de tu inmueble para que tú  <br/> obtengas ingresos constantes sin preocuparte por la operación diaria."
         image={RentProperty}
         imageAlt="RentProperty"
         imagePosition="left"
         backgroundColor="bg-green-dark-hover"
         descriptionClassName="text-grey-light"
-        textClassName="mt-20 ml-2 text-grey-light"
+        textClassName=" mx-2 md:ml-10 mr-6 text-grey-light"
         buttonProps={{
           children: "Contáctanos",
-          className: "mt-10",
+          className: "",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
           href: "/contactanos",
