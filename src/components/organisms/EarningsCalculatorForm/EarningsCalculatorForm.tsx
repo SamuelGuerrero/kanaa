@@ -34,7 +34,7 @@ export const EarningsCalculatorForm = () => {
 
   return (
     <div
-      className="relative w-160.25 rounded-lg p-8 backdrop-blur-[22.39px]"
+      className="relative w-full md:w-160.25 rounded-lg p-3.5 md:p-8 backdrop-blur-[22.39px]"
       style={{
         background: `
           radial-gradient(
@@ -59,83 +59,91 @@ export const EarningsCalculatorForm = () => {
       />
 
       <form
-        className="relative z-10 grid grid-cols-2 gap-4"
+        className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="col-span-2">
           <InputForm
-            className="h-13.75 w-full"
+            className="h-11 md:h-13.75 w-full"
             placeholder="Dirección de propiedad"
             type="text"
             required
             {...register("propertyAddress")}
           />
         </div>
+        <div className="col-span-2 md:col-span-1">
+          <SelectForm
+            required
+            className="h-11 md:h-13.75 w-full "
+            defaultOptionLabel="Cantidad de huéspedes"
+            options={[
+              { value: "1", label: "1 huésped" },
+              { value: "2", label: "2 huéspedes" },
+              { value: "3", label: "3 huéspedes" },
+              { value: "4", label: "4 huéspedes" },
+              { value: "5", label: "5 huéspedes" },
+              { value: "6", label: "6+ huéspedes" },
+            ]}
+            {...register("guestCount", { required: true })}
+          />
+        </div>
 
-        <SelectForm
-          required
-          className="h-13.75 w-full"
-          defaultOptionLabel="Cantidad de huéspedes"
-          options={[
-            { value: "1", label: "1 huésped" },
-            { value: "2", label: "2 huéspedes" },
-            { value: "3", label: "3 huéspedes" },
-            { value: "4", label: "4 huéspedes" },
-            { value: "5", label: "5 huéspedes" },
-            { value: "6", label: "6+ huéspedes" },
-          ]}
-          {...register("guestCount", { required: true })}
-        />
+        <div className="col-span-2 md:col-span-1">
+          <SelectForm
+            required
+            className="h-11 md:h-13.755 w-full "
+            defaultOptionLabel="Tipo de propiedad"
+            options={[
+              { value: "apartment", label: "Departamento" },
+              { value: "house", label: "Casa" },
+              { value: "loft", label: "Loft" },
+              { value: "studio", label: "Estudio" },
+              { value: "townhouse", label: "Townhouse" },
+              { value: "other", label: "Otro" },
+            ]}
+            {...register("propertyType", { required: true })}
+          />
+        </div>
 
-        <SelectForm
-          required
-          className="h-13.75 w-full"
-          defaultOptionLabel="Tipo de propiedad"
-          options={[
-            { value: "apartment", label: "Departamento" },
-            { value: "house", label: "Casa" },
-            { value: "loft", label: "Loft" },
-            { value: "studio", label: "Estudio" },
-            { value: "townhouse", label: "Townhouse" },
-            { value: "other", label: "Otro" },
-          ]}
-          {...register("propertyType", { required: true })}
-        />
+        <div className="col-span-2 md:col-span-1">
+          <SelectForm
+            required
+            className="h-11 md:h-13.75 w-full"
+            defaultOptionLabel="No. de habitaciones"
+            options={[
+              { value: "studio", label: "Studio (sin habitación)" },
+              { value: "1", label: "1 habitación" },
+              { value: "2", label: "2 habitaciones" },
+              { value: "3", label: "3 habitaciones" },
+              { value: "4", label: "4 habitaciones" },
+              { value: "5", label: "5+ habitaciones" },
+            ]}
+            {...register("bedroomCount")}
+          />
+        </div>
 
-        <SelectForm
-          required
-          className="h-13.75 w-full"
-          defaultOptionLabel="No. de habitaciones"
-          options={[
-            { value: "studio", label: "Studio (sin habitación)" },
-            { value: "1", label: "1 habitación" },
-            { value: "2", label: "2 habitaciones" },
-            { value: "3", label: "3 habitaciones" },
-            { value: "4", label: "4 habitaciones" },
-            { value: "5", label: "5+ habitaciones" },
-          ]}
-          {...register("bedroomCount")}
-        />
+        <div className="col-span-2 md:col-span-1">
+          <SelectForm
+            required
+            className="h-11 md:h-13.75 w-full"
+            defaultOptionLabel="No. de baños"
+            options={[
+              { value: "1", label: "1 baño" },
+              { value: "1.5", label: "1.5 baños" },
+              { value: "2", label: "2 baños" },
+              { value: "2.5", label: "2.5 baños" },
+              { value: "3", label: "3 baños" },
+              { value: "4", label: "4+ baños" },
+            ]}
+            {...register("bathroomCount", { required: true })}
+          />
 
-        <SelectForm
-          required
-          className="h-13.75 w-full"
-          defaultOptionLabel="No. de baños"
-          options={[
-            { value: "1", label: "1 baño" },
-            { value: "1.5", label: "1.5 baños" },
-            { value: "2", label: "2 baños" },
-            { value: "2.5", label: "2.5 baños" },
-            { value: "3", label: "3 baños" },
-            { value: "4", label: "4+ baños" },
-          ]}
-          {...register("bathroomCount", { required: true })}
-        />
+        </div>
 
         <div className="col-span-2">
           <SelectForm
             required
-            className="h-13.75 w-full"
+            className="h-11 md:h-13.75 w-full"
             defaultOptionLabel="Años de propiedad"
             options={[
               { value: "less1", label: "Menos de 1 año" },
@@ -153,7 +161,7 @@ export const EarningsCalculatorForm = () => {
           disabled={isSubmitting}
           variant="primary"
           textWeight="bold"
-          className={`text-gold-darker mt-5 w-fit ${isSubmitting && "cursor-not-allowed opacity-60"} `}
+          className={`text-gold-darker mt-3 md:mt-5 h-11.5 w-[80%] flex justify-center md:text-start md:w-fit ${isSubmitting && "cursor-not-allowed opacity-60"} `}
           icon={
             <CircleButton>
               <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
