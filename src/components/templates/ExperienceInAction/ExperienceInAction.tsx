@@ -34,7 +34,7 @@ export const experiences: Experience[] = [
 
 export const ExperienceInAction = () => {
   return (
-    <section className="flex flex-col items-center bg-white px-4 py-16">
+    <section className="flex flex-col items-center bg-white px-4 py-8 md:py-16">
       <Text size="5xl" className="text-green-normal" weight="medium">
         Nuestra experiencia en acción
       </Text>
