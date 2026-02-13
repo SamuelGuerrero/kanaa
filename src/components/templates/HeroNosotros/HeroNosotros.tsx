@@ -17,9 +17,9 @@ export const HeroNosotros = () => {
         className="object-cover"
       />
 
-      <div className="relative z-10 my-45 flex min-h-screen flex-col items-center justify-center text-white">
+      <div className="relative w-80 md:w-full z-10 -mt-25 md:mt-0 md:py-45 ml-3 md:ml-0 flex h-full md:min-h-screen flex-col md:items-center justify-center text-white">
         <Text size="6xl" weight="medium">
-          Alquileres vacacionales fáciles
+          Alquileres vacacionales fáciles
         </Text>
 
         <Text size="xl" className="mt-5" font="gilroy" weight="medium">
@@ -30,7 +30,7 @@ export const HeroNosotros = () => {
         <Button
           textWeight="bold"
           variant="primary"
-          className="text-gold-dark! mt-10"
+          className="text-gold-dark! mt-10 w-fit "
           href="/propiedades"
           icon={
             <CircleButton className="bg-grey-light!">
