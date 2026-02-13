@@ -7,7 +7,7 @@ import ContactanosHeroBg from "@assets/images/Home/ContactanosHeroBg.png";
 
 export const ProjectConversation = () => {
   return (
-    <section className="relative h-200 w-full overflow-hidden">
+    <section className="relative h-200 w-full  overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src={ContactanosHeroBg}
@@ -15,9 +15,9 @@ export const ProjectConversation = () => {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 " />
         <div
-          className="bg-beige-normal absolute inset-0 opacity-40"
+          className="bg-beige-normal absolute inset-0 opacity-30"
           style={{ mixBlendMode: "hue" }}
         />
       </div>
@@ -29,11 +29,9 @@ export const ProjectConversation = () => {
             className="mt-20 leading-17.5 text-white"
             weight="medium"
           >
-            Descubre cuánto
+            Hablemos de
             <br />
-            puede generar
-            <br />
-            tu propiedad
+            tu proyecto
           </Text>
 
           <Text
@@ -42,11 +40,11 @@ export const ProjectConversation = () => {
             font="gilroy"
             weight="medium"
           >
-            Calcula el potencial de ingresos de tu inmueble en minutos
+            Déjanos tus datos y uno de nuestros asesores se pondrá
             <br />
-            y recibe una estimación anual personalizada, clara y
+            en contacto contigo para entender tu necesidad y
             <br />
-            transparente.
+            acompañarte en el siguiente paso.
           </Text>
         </div>
 
