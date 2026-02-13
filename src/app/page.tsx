@@ -37,11 +37,11 @@ export default function HomePage() {
         imageAlt="Property Management"
         imagePosition="right"
         backgroundColor="bg-green-dark-hover"
-        descriptionClassName="text-white mt-8 text-center md:text-left"
-        textClassName="mt-10 md:mt-20 ml-2 text-white text-center md:text-left"
+        descriptionClassName="text-white mt-8"
+        textClassName="md:mt-20 ml-2 text-white  "
         buttonProps={{
           children: "Conocer más",
-          className: "mt-10 w-full justify-center md:w-auto md:px-6 md:py-2",
+          className: " justify-center md:w-auto md:px-6 md:py-2",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
           href: "/gestion-propiedades",
@@ -49,19 +49,19 @@ export default function HomePage() {
       />
 
       <InfoSection
-        title="Descubre cuánto puede <br /> generar tu propiedad"
+        title="Descubre cuánto puede generar tu propiedad"
         description="Calcula el potencial de ingresos de tu inmueble en minutos y recibe una <br /> 
         estimación anual personalizada, clara y transparente."
         image={DiscoverGenerate}
         imageAlt="DiscoverGenerate"
         imagePosition="left"
         backgroundColor="bg-white"
-        textClassName="mt-10 md:mt-20 ml-4 text-green-normal text-center md:text-left"
-        descriptionClassName="text-green-normal mt-8 text-center md:text-left"
+        textClassName="md:mt-20 mx-2 text-green-normal "
+        descriptionClassName="text-green-normal mt-8"
         buttonProps={{
           children: "Ir a la calculadora",
           className:
-            "mt-4 mt-6 md:mt-10 w-full justify-center md:w-auto md:px-6 md:py-2 text-gold-dark!",
+            " justify-center md:w-auto md:px-6 md:py-2 text-gold-dark!",
           textWeight: "bold",
           href: "/calculadora",
         }}
