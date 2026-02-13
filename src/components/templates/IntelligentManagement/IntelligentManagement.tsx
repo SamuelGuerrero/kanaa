@@ -7,12 +7,12 @@ import IntelligentManagement3 from "@assets/images/Home/IntelligentManagement3.p
 
 export const IntelligentManagement = () => {
   return (
-    <section className="bg-gold-light pt-15 pb-10 text-center">
+    <section className="bg-gold-light pt-5 md:pt-15 pb-3 md:pb-10 mx-3 md:text-center">
       <Text size="5xl" weight="medium" className="text-green-normal">
         Gestión inteligente de propiedades
       </Text>
 
-      <div className="my-10 grid gap-2">
+      <div className="my-8 md:my-10 grid gap-2">
         <Text
           font="gilroy"
           size="lg"
@@ -34,7 +34,7 @@ export const IntelligentManagement = () => {
         </Text>
       </div>
 
-      <div className="grid w-full grid-cols-2 grid-rows-2 gap-6">
+      <div className="grid w-full md:grid-cols-2 md:grid-rows-2 gap-2 px-2 md:px-0 md:gap-6">
         <Image
           src={IntelligentManagement1}
           alt="IntelligentManagement1"
@@ -45,7 +45,7 @@ export const IntelligentManagement = () => {
         <Image
           src={IntelligentManagement2}
           alt="IntelligentManagement2"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover hidden sm:block"
           priority
         />
 
