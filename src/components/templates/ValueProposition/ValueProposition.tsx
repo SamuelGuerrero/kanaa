@@ -8,7 +8,7 @@ import RightValueProposition from "@assets/images/Home/RightValueProposition.png
 
 export const ValueProposition = () => {
   return (
-    <section className="flex w-full flex-col gap-5 text-center md:grid md:grid-cols-2 md:text-left">
+    <section className="flex w-full flex-col gap-5 md:grid md:grid-cols-2 ">
       <div className="w-full">
         <Image
           src={LeftValueProposition}
@@ -26,10 +26,10 @@ export const ValueProposition = () => {
           priority
         />
 
-        <div className="order-2 mb-5 p-6 md:mb-0 md:p-12">
+        <div className="order-2 mb-5 p-3 md:mb-0 md:p-12">
           <Text
             size="5xl"
-            className="text-green-normal mb-5 leading-tight md:leading-[66.2px]"
+            className="text-green-normal mb-5 md:leading-[66.2px]"
           >
             Más que hospedaje, <br />
             una mejor forma de <br />
@@ -48,7 +48,7 @@ export const ValueProposition = () => {
 
           <Button
             variant="secondary"
-            className="mt-4 w-full justify-center md:w-auto md:px-6 md:py-2"
+            className="mt-4  justify-center md:w-auto md:px-6 md:py-2"
             href="/propiedades"
             icon={
               <CircleButton className="bg-gold-light-active! ml-3 md:ml-0">
