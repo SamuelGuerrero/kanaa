@@ -23,6 +23,7 @@ type InfoSectionProps = {
   imageAlt?: string;
   imagesConfig?: ImageConfig[];
   imagePosition?: "left" | "right";
+  block?: string;
   backgroundColor?: string;
   textClassName?: string;
   descriptionClassName?: string;
@@ -46,6 +47,7 @@ export const InfoSection = ({
   imageAlt,
   imagesConfig,
   imagePosition = "right",
+  block,
   backgroundColor = "bg-green-dark-hover",
   textClassName = "text-white",
   descriptionClassName = "text-grey-darker",
@@ -56,25 +58,29 @@ export const InfoSection = ({
   buttonProps,
 }: InfoSectionProps) => {
   const textContent = (
-    <div className="order-2 w-full">
+    <div className=" w-full order-1 md:order-0 ">
       <Text
-        className={`${textClassName} leading-13.75 md:leading-[66.2px]`}
+        className={`${textClassName} md:leading-[66.2px]`}
         size="5xl"
         dangerouslySetInnerHTML={{ __html: title }}
       />
       <Text
         font="gilroy"
         size="lg"
-        className={`mt-6 ml-4 leading-8 ${descriptionClassName}`}
+        className={`mt-6 ml-3 md:leading-8 ${descriptionClassName}`}
         dangerouslySetInnerHTML={{ __html: description }}
       />
 
       {features?.length ? (
-        <ul className="mt-8 ml-4 space-y-4">
+        <ul className="mt-8 mb-10  md:ml-4 px-1 md:px-0 space-y-4">
           {features.map((item, index) => (
             <li
               key={index}
-              className={`${featureClassName} flex items-center gap-3`}
+              className={` ${featureClassName} 
+              flex 
+              ${item.titulo ? "flex-col md:flex-row items-start md:items-center" : "items-center"}
+              gap-3 
+              rounded-[10px]`}
             >
               {item.icon && (
                 <span
@@ -84,7 +90,7 @@ export const InfoSection = ({
                 </span>
               )}
               {title ? (
-                <div>
+                <div className="mt-2 md:mt-0">
                   <Text
                     font="gilroy"
                     size="2xl"
@@ -119,7 +125,7 @@ export const InfoSection = ({
           <Button
             textWeight={buttonProps.textWeight}
             variant="primary"
-            className={buttonProps.className}
+            className={`${buttonProps.className} mt-10 mb-11 ml-3 md:ml-2`}
             href={buttonProps.href}
             icon={
               <CircleButton className={buttonProps.circleButtonClassName}>
@@ -135,9 +141,9 @@ export const InfoSection = ({
   );
 
   const imageContent = (
-    <div className="order-1 flex w-full items-center justify-center md:order-2">
+    <div className="flex w-full items-center justify-center order-2 md:order-0">
       {imagesConfig?.length ? (
-        <div className="relative h-163.75 w-163.75">
+        <div className="relative w-full max-w-163.75 aspect-655/680 mx-auto mr-11 md:mr-15 -mb-10 md:mb-0">
           {imagesConfig?.map((img, index) => (
             <Image
               key={index}
@@ -145,6 +151,7 @@ export const InfoSection = ({
               alt={img.alt}
               className={img.className}
               priority
+
             />
           ))}
         </div>
@@ -152,7 +159,7 @@ export const InfoSection = ({
         <Image
           src={image}
           alt={imageAlt}
-          className="h-auto w-full object-contain"
+          className={`h-auto w-full object-contain ${block}`}
           priority
         />
       ) : null}
@@ -160,7 +167,7 @@ export const InfoSection = ({
   );
 
   return (
-    <div className={`${backgroundColor} w-full px-2 py-6.25 md:px-8.5`}>
+    <div className={`${backgroundColor} w-full px-2 py-3 md:px-8.5`}>
       <div
         className={`grid grid-cols-1 md:grid-cols-2 md:gap-8 ${imagePosition === "left" ? "direction-rtl" : ""}`}
       >
