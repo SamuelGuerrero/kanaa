@@ -10,7 +10,7 @@ import WhoAreWeTop from "@assets/images/Home/WhoAreWeTop.png";
 
 export default function HomePage() {
   return (
-    <main className="flex flex-col space-y-6">
+    <main className="flex flex-col space-y-1.5 md:space-y-6">
       <HeroNosotros />
       <InfoSection
         title="¿Quiénes somos?"
@@ -21,28 +21,28 @@ export default function HomePage() {
                 <br>
                 En KANAA combinamos estrategia inmobiliaria, tecnología y operación <br> 
                 profesional para transformar propiedades en activos rentables, bien <br> 
-                administrados y sin complicaciones. Nos enfocamos en cada detalle <br> 
+                administrados y sin complicaciones. Nos enfocamos en cada detalle 
                 para que tú solo disfrutes los resultados."
         imagesConfig={[
           {
             src: WhoAreWeTop,
             alt: "WhoAreWeTop",
             className:
-              "absolute inset-0 top-[186px] left-[0px] object-contain z-20",
+              "absolute top-[29%] left-0 w-[70%] object-contain z-20",
           },
           {
             src: WhoAreWeBase,
             alt: "WhoAreWeBase",
-            className: "absolute top-[26px] left-[244.2px] z-10",
+            className: "absolute top-[0%] left-[37%] w-[75%] z-10",
           },
         ]}
         imagePosition="right"
         backgroundColor="bg-grey-light pb-20 bg-gold-normal"
-        descriptionClassName="text-grey-darker"
-        textClassName="mt-20 ml-4 text-green-normal"
+        descriptionClassName="text-grey-darker w-[340px] md:w-[600px]"
+        textClassName="mt-0 md:mt-20 ml-4 text-green-normal"
         buttonProps={{
           children: "Conoce nuestros proyectos",
-          className: "mt-10",
+          className: "",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
           href: "/propiedades",
@@ -51,7 +51,7 @@ export default function HomePage() {
       <InfoSection
         title="¿Por qué estamos aquí?"
         description="Creemos que una segunda residencia no debería convertirse en una carga <br/>
-                 operativa, sino en una fuente de tranquilidad, ingresos constantes y crecimiento a <br/>
+                 operativa, sino en una fuente de tranquilidad, ingresos constantes y crecimiento a
                   largo plazo.
                   <br>
                   <br>
@@ -63,10 +63,10 @@ export default function HomePage() {
         imagePosition="left"
         backgroundColor="bg-green-dark-hover"
         descriptionClassName="text-grey-light"
-        textClassName="mt-20 ml-2 text-grey-light"
+        textClassName=" mt-3 md:mt-10 md:mt-20 ml-2 text-grey-light"
         buttonProps={{
           children: "Contáctanos",
-          className: "mt-10",
+          className: "",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
           href: "/contactanos",
@@ -87,10 +87,10 @@ export default function HomePage() {
         imagePosition="left"
         backgroundColor="bg-gold-light-hover"
         descriptionClassName="text-grey-darker"
-        textClassName="mt-20 ml-2 text-green-normal"
+        textClassName=" md:mt-20 ml-2 text-green-normal"
         buttonProps={{
           children: "Conoce nuestras vacantes",
-          className: "mt-10 bg-grey-light text-gold-normal!",
+          className: " bg-grey-light text-gold-normal!",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
           href: "/vacantes",
