@@ -34,7 +34,7 @@ export const BecomeHostForm = () => {
 
   return (
     <div
-      className="relative w-160.25 rounded-lg p-8 backdrop-blur-[22.39px]"
+      className="relative w-full md:w-160.25 rounded-lg p-3.5 md:px-8 md:pb-8 backdrop-blur-[22.39px]"
       style={{
         background: `
           radial-gradient(
@@ -59,36 +59,50 @@ export const BecomeHostForm = () => {
       />
 
       <form
-        className="relative z-10 grid grid-cols-2 gap-4"
+        className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <InputForm
-          placeholder="Nombre(s)"
-          type="text"
-          required
-          {...register("firstName")}
-        />
-        <InputForm
-          placeholder="Apellidos"
-          type="text"
-          required
-          {...register("lastName")}
-        />
-        <InputForm
-          placeholder="Email*"
-          type="email"
-          required
-          {...register("email")}
-        />
-        <InputForm
-          placeholder="Número telefónico"
-          type="tel"
-          {...register("phone")}
-        />
+        <div className="col-span-2 md:col-span-1">
+          <InputForm
+            placeholder="Nombre(s)"
+            className="h-12 md:h-13.75 w-full"
+            type="text"
+            required
+            {...register("firstName")}
+          />
+        </div>
+        <div className="col-span-2 md:col-span-1">
+          <InputForm
+            placeholder="Apellidos"
+            className="h-12 md:h-13.75 w-full"
+            type="text"
+            required
+            {...register("lastName")}
+          />
+        </div>
+        <div className="col-span-2 md:col-span-1">
+          <InputForm
+            placeholder="Email*"
+            className="h-12 md:h-13.75 w-full"
+            type="email"
+            required
+            {...register("email")}
+          />
+        </div>
+        <div className="col-span-2 md:col-span-1">
+          <InputForm
+            placeholder="Número telefónico"
+            className="h-12 md:h-13.75 w-full"
+            type="tel"
+            {...register("phone")}
+          />
+
+        </div>
 
         <div className="col-span-2">
           <SelectForm
             required
+            className="h-12 md:h-13.75 w-full"
             defaultOptionLabel="¿Dónde se encuentra tu propiedad?"
             options={[
               { value: "cdmx", label: "CDMX" },
@@ -101,6 +115,7 @@ export const BecomeHostForm = () => {
         <div className="col-span-2">
           <SelectForm
             defaultOptionLabel="Nombre del edificio (si aplica)"
+            className="h-12 md:h-13.75 w-full"
             options={[
               { value: "ninguno", label: "No aplica" },
               { value: "edificio-a", label: "Edificio A" },
@@ -114,7 +129,7 @@ export const BecomeHostForm = () => {
           disabled={isSubmitting}
           variant="primary"
           textWeight="bold"
-          className={`text-gold-darker mt-5 w-min ${isSubmitting && "cursor-not-allowed opacity-60"} `}
+          className={`text-gold-darker mt-5 flex w-[80%] justify-center space-x-2 md:text-start md:w-min ${isSubmitting && "cursor-not-allowed opacity-60"} `}
           icon={
             <CircleButton>
               <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
