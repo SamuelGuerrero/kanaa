@@ -1,9 +1,9 @@
 import { InfoSection, ProjectConversation } from "@/components/templates";
-import JoinOurTeam from "@assets/images/Home/JoinOurTeam.png";
+import TeamRecruitment from "@assets/images/Home/TeamRecruitment.png";
 
 export default function HomePage() {
   return (
-    <main className="flex flex-col space-y-6">
+    <main className="flex flex-col space-y-1.5 md:space-y-6">
       <ProjectConversation />
       <InfoSection
         title="Únete a nuestro equipo"
@@ -14,8 +14,8 @@ export default function HomePage() {
                 Si te interesa formar parte de un equipo que construye proyectos con <br>
                 propósito, toma decisiones basadas en datos y apuesta por la excelencia <br>
                 operativa, nos encantará conocerte."
-        image={JoinOurTeam}
-        imageAlt="JoinOurTeam"
+        image={TeamRecruitment}
+        imageAlt="TeamRecruitment"
         imagePosition="left"
         backgroundColor="bg-gold-light-hover"
         descriptionClassName="text-grey-darker"
