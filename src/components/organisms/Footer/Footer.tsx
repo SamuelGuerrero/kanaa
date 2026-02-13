@@ -61,17 +61,13 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-green-dark-active mt-6 flex w-full justify-center px-8 py-16">
-      <div className="flex w-full flex-col items-start justify-between gap-10 sm:max-w-368 sm:flex-row">
-        <div className="flex flex-col">
+    <footer className="bg-green-dark-active mt-1.5 md:mt-6 w-full px-8 py-5 md:py-16">
+      <div className="flex flex-col md:flex-row md:item-center gap-12 w-full">
+        <div className="flex justify-center md:justify-start">
           <KanaaLogo />
-          <SocialMediaGroup
-            className="mt-12 hidden sm:flex"
-            links={SOCIAL_LINKS}
-          />
         </div>
 
-        <div className="text-green-light-active grid flex-1 gap-14 sm:grid-cols-4 sm:gap-10">
+        <div className="text-green-light-active grid grid-cols-2 gap-10 md:flex md:flex-row md:gap-14 md:mx-10 flex-1 ">
           {FOOTER_SECTIONS.map((section) => (
             <FooterColumn
               key={section.title}
@@ -81,11 +77,11 @@ export const Footer = () => {
           ))}
         </div>
 
-        <div className="flex w-full flex-col sm:w-fit sm:items-end">
+        <div className="">
           <Button
             variant="primary"
             textWeight="bold"
-            className="text-gold-dark w-fit font-bold"
+            className="text-gold-dark font-bold w-full md:w-fit flex justify-center items-center"
             href="/contactanos"
             icon={
               <CircleButton>
@@ -95,15 +91,16 @@ export const Footer = () => {
           >
             Contáctanos
           </Button>
-
-          <div className="my-10 block h-px w-full bg-gray-100 sm:hidden" />
-
-          <SocialMediaGroup
-            className="mx-auto flex sm:mt-50 sm:hidden"
-            links={SOCIAL_LINKS}
-          />
-          <CopyrightText className="mt-5 text-center sm:mt-50" />
         </div>
+      </div>
+
+      <div className="mt-10 md:mt-20 flex flex-col items-center gap-6 md:flex-row md:justify-between md:items-center">
+        <CopyrightText className="order-1 md:order-2 text-center md:text-right" />
+        <SocialMediaGroup
+          className="order-2 md:order-1 flex justify-center"
+          links={SOCIAL_LINKS}
+        />
+
       </div>
     </footer>
   );
