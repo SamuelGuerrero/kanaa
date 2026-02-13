@@ -6,7 +6,7 @@ import BecomeHostBG from "@assets/images/Home/BecomeHostBG.png";
 
 export const BecomeHost = () => {
   return (
-    <section className="relative h-200 w-full overflow-hidden">
+    <section className="relative h-200 w-full">
       <div className="absolute inset-0">
         <Image
           src={BecomeHostBG}
@@ -20,12 +20,10 @@ export const BecomeHost = () => {
         />
       </div>
 
-      <div className="relative z-10 flex h-full items-center justify-center gap-10 px-8">
-        <div className="mb-55 max-w-183.25">
-          <Text size="6xl" className="leading-17.5 text-white" weight="medium">
-            Convierte tu propiedad
-            <br />
-            en un activo rentable
+      <div className="relative z-10 flex flex-col md:flex-row items-center md:justify-center h-full px-3  gap-10 mt-30 md:mt-0">
+        <div className="md:mb-55 max-w-183.25">
+          <Text size="6xl" className="md:leading-17.5 text-white" weight="medium">
+            Convierte tu propiedad en un activo rentable
           </Text>
 
           <Text
