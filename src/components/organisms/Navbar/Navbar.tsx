@@ -37,9 +37,9 @@ export const Navbar = () => {
   return (
     <>
       <nav
-        className={`bordershadow-lg fixed left-1/2 z-50 flex w-full -translate-x-1/2 items-center justify-between px-5 py-4 transition-colors duration-300 sm:top-8.5 sm:w-[96%] sm:rounded-xl md:px-12 md:py-5 md:[background-blend-mode:overlay,normal] md:[backdrop-filter:blur(22.39px)] md:[-webkit-backdrop-filter:blur(22.39px)] md:[background:radial-gradient(90.16%_143.01%_at_15.32%_21.04%,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.045)_77.08%,rgba(255,255,255,0)_100%)] ${
-          isScrolled ? "bg-white md:bg-transparent" : ""
-        }`}
+        className={`bordershadow-lg fixed left-1/2 flex w-full -translate-x-1/2 items-center justify-between px-5 py-4 transition-colors duration-300 sm:top-8.5 sm:w-[96%] sm:rounded-xl md:px-12 md:py-5 md:[background-blend-mode:overlay,normal] md:[backdrop-filter:blur(22.39px)] md:[-webkit-backdrop-filter:blur(22.39px)] md:[background:radial-gradient(90.16%_143.01%_at_15.32%_21.04%,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.045)_77.08%,rgba(255,255,255,0)_100%)] ${
+          isMobileMenuOpen ? "pointer-events-none z-30" : "z-50"
+        } ${isScrolled ? "bg-white md:bg-transparent" : ""}`}
       >
         <KanaaLogo />
 
@@ -86,11 +86,12 @@ export const Navbar = () => {
 
       <nav
         aria-hidden={!isMobileMenuOpen}
-        className={`fixed inset-0 z-40 bg-white px-6 pt-8 transition-opacity duration-200 md:hidden ${
+        className={`fixed inset-0 z-50 bg-white px-6 pt-8 transition-opacity duration-200 md:hidden ${
           isMobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-between">
+          <KanaaLogo />
           <button
             type="button"
             aria-label="Cerrar menú"

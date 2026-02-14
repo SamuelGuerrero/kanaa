@@ -31,7 +31,7 @@ export const TestimonialCard = ({
           width={50}
           height={50}
           alt={`${name} avatar`}
-          className="border-green-light-active max-h-12.5 max-w-12.5 rounded-full border object-cover"
+          className="border-green-light-active min-h-12.5 min-w-12.5 rounded-full border object-cover"
         />
 
         <Text

@@ -27,8 +27,7 @@ export default function HomePage() {
           {
             src: WhoAreWeTop,
             alt: "WhoAreWeTop",
-            className:
-              "absolute top-[29%] left-0 w-[70%] object-contain z-20",
+            className: "absolute top-[29%] left-0 w-[70%] object-contain z-20",
           },
           {
             src: WhoAreWeBase,
@@ -63,7 +62,7 @@ export default function HomePage() {
         imagePosition="left"
         backgroundColor="bg-green-dark-hover"
         descriptionClassName="text-grey-light"
-        textClassName=" mt-3 md:mt-10 md:mt-20 ml-2 text-grey-light"
+        textClassName="mt-3 md:mt-10 md:mt-20 ml-2 text-grey-light"
         buttonProps={{
           children: "Contáctanos",
           className: "",

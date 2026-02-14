@@ -54,7 +54,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
   };
 
   return (
-    <main className="mt-20 flex max-w-7xl flex-col bg-white pt-20">
+    <section className="mt-20 flex max-w-7xl flex-col pt-20">
       <Text size="5xl" className="text-green-normal" weight="medium">
         {property.name}
       </Text>
@@ -72,7 +72,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
       <PropertyImages images={images} propertyName={property.name} />
 
       <div className="mt-10 flex w-full gap-10">
-        <section>
+        <section className="pb-10">
           <Text
             font="gilroy"
             size="2xl"
@@ -202,6 +202,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
           />
         </section>
       </div>
-    </main>
+    </section>
   );
 };

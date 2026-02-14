@@ -49,7 +49,7 @@ export const PropertyListTemplate = ({
           />
         </div>
 
-        <div className="px-14 py-10">
+        <div className="px-3 py-10 sm:px-14">
           {error ? (
             <div className="flex flex-col items-center justify-center py-20">
               <Text size="2xl" weight="bold" className="text-red-600">
@@ -84,7 +84,7 @@ export const PropertyListTemplate = ({
               </Text>
             </div>
           ) : (
-            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid w-full grid-cols-1 gap-6 md:mx-auto md:max-w-7xl md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {properties.map((property) => {
                 const imageUrl =
                   property.listingImages?.[0]?.url ?? property.thumbnailUrl;
