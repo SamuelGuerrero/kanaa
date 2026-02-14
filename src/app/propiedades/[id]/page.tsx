@@ -1,19 +1,66 @@
 "use client";
 
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { Text } from "@/components/atoms";
+import { CircleButton, Text } from "@/components/atoms";
 import { ErrorState } from "@/components/molecules/ErrorState";
 import { LoadingState } from "@/components/molecules/LoadingState";
 import { NotFoundState } from "@/components/molecules/NotFoundState";
+import { Button } from "@/components/molecules";
+import { PropertyCarousel } from "@/components/organisms/PropertyCarousel";
 import { PropertyDetails } from "@/components/organisms/PropertyDetails";
 import { useProperty } from "@/hooks/useProperty";
+
+import type { ApiResponse, Property } from "@/types/property";
 
 export default function PropertyDetailsPage() {
   const params = useParams();
   const id = params.id as string;
 
   const { property, isLoading, error } = useProperty(id);
+  const [listings, setListings] = useState<Property[]>([]);
+  const [listingsError, setListingsError] = useState<string | null>(null);
+  const [listingsLoading, setListingsLoading] = useState(true);
+  const [itemsPerPage, setItemsPerPage] = useState(
+    typeof window !== "undefined" && window.innerWidth < 640 ? 1 : 4,
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(window.innerWidth < 640 ? 1 : 4);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        setListingsLoading(true);
+        setListingsError(null);
+
+        const response = await fetch(
+          `/api/hostaway/listings?limit=${itemsPerPage * 3}`,
+        );
+
+        if (!response.ok) {
+          throw new Error("Error al cargar listings");
+        }
+
+        const data = (await response.json()) as ApiResponse<Property[]>;
+        setListings(data.result || []);
+      } catch (err) {
+        setListingsError(err instanceof Error ? err.message : "Error desconocido");
+      } finally {
+        setListingsLoading(false);
+      }
+    };
+
+    void fetchListings();
+  }, [itemsPerPage]);
 
   if (isLoading) {
     return <LoadingState />;
@@ -155,6 +202,37 @@ export default function PropertyDetailsPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-14 w-full border-t border-t-[#D9D4CC] pt-14 text-center">
+          <Text className="text-green-normal" size="5xl">
+            Algunas sugerencias
+          </Text>
+          <Text className="text-grey-darker mt-3" font="gilroy" size="lg">
+            Te pueden interesar otras casas para tu relajación.
+          </Text>
+
+          <Button
+            variant="primary"
+            textWeight="bold"
+            className="text-gold-normal-hover! mt-6 font-bold"
+            href="/propiedades"
+            icon={
+              <CircleButton>
+                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+              </CircleButton>
+            }
+          >
+            Ver todos los alojamientos
+          </Button>
+
+          <PropertyCarousel
+            listings={listings}
+            loading={listingsLoading}
+            error={listingsError}
+            itemsPerPage={itemsPerPage}
+            className="mt-10"
+          />
         </div>
       </div>
     </main>
