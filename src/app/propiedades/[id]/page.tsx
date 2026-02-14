@@ -33,7 +33,7 @@ export default function PropertyDetailsPage() {
   const lng = property.lng;
   const googleMapsKey =
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY ??
-    "AIzaSyBBEdLc_mvADyvULxPr8wbmAh-yQ4ThPz4";
+    "AIzaSyCFzAPw7K-QhDDh5_Oswa7oMEqn_KCCWsc";
   const mapSrc =
     hasCoordinates && googleMapsKey
       ? `https://www.google.com/maps/embed/v1/place?key=${googleMapsKey}&q=${lat.toFixed(
@@ -75,6 +75,61 @@ export default function PropertyDetailsPage() {
               </Text>
             </div>
           )}
+        </div>
+
+        <div className="mt-12 w-full border-t border-t-[#D9D4CC] pt-10">
+          <Text className="text-green-normal" size="3xl" weight="bold">
+            Qué debes saber
+          </Text>
+
+          <div className="mt-8 grid w-full grid-cols-1 gap-10 md:grid-cols-3">
+            <div className="flex gap-4">
+              <div className="text-gold-normal mt-1">
+                <i className="fa-solid fa-users"></i>
+              </div>
+              <div>
+                <Text className="text-green-normal" font="gilroy" size="lg">
+                  Política de cancelación
+                </Text>
+                <Text className="text-grey-darker mt-2" font="gilroy" size="base">
+                  Cancelación gratuita durante 24 horas. Pasado ese plazo, la
+                  reservación no será reembolsable. Consulta la política completa
+                  de este anfitrión para obtener más información.
+                </Text>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="text-gold-normal mt-1">
+                <i className="fa-solid fa-users"></i>
+              </div>
+              <div>
+                <Text className="text-green-normal" font="gilroy" size="lg">
+                  Reglas de la casa
+                </Text>
+                <div className="text-grey-darker mt-2 space-y-1 font-gilroy text-base">
+                  <div>Llegada a partir de las 2:00 p.m.</div>
+                  <div>Salida antes de las 11:00 a.m.</div>
+                  <div>2 huéspedes como máximo</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="text-gold-normal mt-1">
+                <i className="fa-solid fa-users"></i>
+              </div>
+              <div>
+                <Text className="text-green-normal" font="gilroy" size="lg">
+                  Seguridad y propiedad
+                </Text>
+                <div className="text-grey-darker mt-2 space-y-1 font-gilroy text-base">
+                  <div>Alarma de monóxido de carbono</div>
+                  <div>Alarma de humo</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
