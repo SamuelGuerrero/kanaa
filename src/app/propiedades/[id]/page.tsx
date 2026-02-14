@@ -78,7 +78,12 @@ export default function PropertyDetailsPage() {
         </div>
 
         <div className="mt-12 w-full border-t border-t-[#D9D4CC] pt-10">
-          <Text className="text-green-normal" size="3xl" weight="bold">
+          <Text
+            className="text-green-normal"
+            size="2xl"
+            weight="bold"
+            font="gilroy"
+          >
             Qué debes saber
           </Text>
 
@@ -88,13 +93,23 @@ export default function PropertyDetailsPage() {
                 <i className="fa-solid fa-users"></i>
               </div>
               <div>
-                <Text className="text-green-normal" font="gilroy" size="lg">
+                <Text
+                  className="text-green-normal"
+                  font="gilroy"
+                  size="xl"
+                  weight="bold"
+                >
                   Política de cancelación
                 </Text>
-                <Text className="text-grey-darker mt-2" font="gilroy" size="base">
-                  Cancelación gratuita durante 24 horas. Pasado ese plazo, la
-                  reservación no será reembolsable. Consulta la política completa
-                  de este anfitrión para obtener más información.
+                <Text
+                  className="text-grey-darker mt-2"
+                  font="gilroy"
+                  size="base"
+                >
+                  Cancelación gratuita durante 24 horas. Pasado <br /> ese
+                  plazo, la reservación no será reembolsable. <br /> Consulta la
+                  política completa de este anfitrión <br /> para obtener más
+                  información.
                 </Text>
               </div>
             </div>
@@ -104,10 +119,15 @@ export default function PropertyDetailsPage() {
                 <i className="fa-solid fa-users"></i>
               </div>
               <div>
-                <Text className="text-green-normal" font="gilroy" size="lg">
+                <Text
+                  className="text-green-normal"
+                  font="gilroy"
+                  size="xl"
+                  weight="bold"
+                >
                   Reglas de la casa
                 </Text>
-                <div className="text-grey-darker mt-2 space-y-1 font-gilroy text-base">
+                <div className="text-grey-darker font-gilroy mt-2 space-y-1 text-base">
                   <div>Llegada a partir de las 2:00 p.m.</div>
                   <div>Salida antes de las 11:00 a.m.</div>
                   <div>2 huéspedes como máximo</div>
@@ -120,10 +140,15 @@ export default function PropertyDetailsPage() {
                 <i className="fa-solid fa-users"></i>
               </div>
               <div>
-                <Text className="text-green-normal" font="gilroy" size="lg">
+                <Text
+                  className="text-green-normal"
+                  font="gilroy"
+                  size="xl"
+                  weight="bold"
+                >
                   Seguridad y propiedad
                 </Text>
-                <div className="text-grey-darker mt-2 space-y-1 font-gilroy text-base">
+                <div className="text-grey-darker font-gilroy mt-2 space-y-1 text-base">
                   <div>Alarma de monóxido de carbono</div>
                   <div>Alarma de humo</div>
                 </div>
