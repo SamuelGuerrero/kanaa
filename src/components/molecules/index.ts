@@ -5,6 +5,7 @@ export * from "./PropertyCard";
 export * from "./TestimonialCard";
 export * from "./GuideCard";
 export * from "./TextLink";
+export * from "./InfoCard";
 export * from "./AccordionQuestions";
 export * from "./SocialMediaGroup";
 export * from "./FooterColumn";

@@ -15,3 +15,4 @@ export * from "./RealPropertyPotential";
 export * from "./HeroNosotros";
 export * from "./ExperienceInAction";
 export * from "./ProjectConversation";
+export * from "./PropertyDetailsPage";
