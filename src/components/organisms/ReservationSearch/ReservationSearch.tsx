@@ -3,7 +3,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState, type FormEvent } from "react";
 
-import { CircleButton } from "@/components/atoms";
+import { CircleButton, Text } from "@/components/atoms";
 import {
   Calendar,
   Input,
@@ -144,11 +144,10 @@ export const ReservationSearch = ({
   return (
     <form
       onSubmit={handleSearch}
-      className={`relative flex h-92 w-[95%] flex-col items-center overflow-visible rounded-xl bg-white text-left shadow-lg md:h-16 md:w-205.75 md:flex-row md:gap-0 md:rounded-full md:p-0 md:shadow-none ${className ?? ""}`}
+      className={`relative flex h-92 w-[95%] flex-col items-center overflow-visible rounded-xl bg-white p-3 text-left sm:shadow-lg md:h-16 md:w-205.75 md:flex-row md:gap-0 md:rounded-full md:p-0 md:shadow-none ${className ?? ""}`}
     >
-      <div className="relative w-full border-b border-b-gray-300 px-6 py-4 md:w-70.75 md:border-b-0 md:py-0">
+      <div className="relative mb-3 w-full rounded-full border border-gray-200 px-6 py-4 md:mb-0 md:w-70.75 md:min-w-70.75 md:rounded-none md:border-0 md:py-0">
         <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
-
         <Input
           label="Destino"
           value={destination}
@@ -157,51 +156,55 @@ export const ReservationSearch = ({
         />
       </div>
 
-      <div
-        className="relative w-full cursor-pointer border-b border-b-gray-300 px-6 py-4 md:w-[142.5px] md:border-b-0 md:py-0"
-        onClick={handleCheckInClick}
-      >
-        <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
+      <div className="mb-3 w-full md:mb-0 md:contents md:w-auto">
+        <div className="relative flex w-full items-center rounded-full border border-gray-200 md:rounded-none md:border-0">
+          <div
+            className="relative flex-1 cursor-pointer px-6 py-4 md:w-[142.5px] md:min-w-[142.5px] md:flex-none md:py-0"
+            onClick={handleCheckInClick}
+          >
+            <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
+            <div className="pointer-events-none">
+              <Input
+                label="Entrada"
+                value={formatDateDisplay(dateRange.startDate)}
+                onChange={() => {
+                  /* empty */
+                }}
+                placeholder="Añade fecha"
+                variant="date-dynamic"
+                readOnly
+                className={activeField === "checkin" ? "bg-gray-50" : ""}
+              />
+            </div>
+          </div>
 
-        <div className="pointer-events-none">
-          <Input
-            label="Entrada"
-            value={formatDateDisplay(dateRange.startDate)}
-            onChange={() => {
-              /* empty */
-            }}
-            placeholder="Añade fecha"
-            variant="date-dynamic"
-            readOnly
-            className={activeField === "checkin" ? "bg-gray-50" : ""}
-          />
-        </div>
-      </div>
+          <div className="h-8 w-px bg-gray-200 md:hidden" />
 
-      <div
-        className="relative w-full cursor-pointer border-b border-b-gray-300 px-6 py-4 md:w-[142.5px] md:border-b-0 md:py-0"
-        onClick={handleCheckOutClick}
-      >
-        <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
-
-        <div className="pointer-events-none">
-          <Input
-            label="Salida"
-            value={formatDateDisplay(dateRange.endDate)}
-            onChange={() => {
-              /* empty */
-            }}
-            placeholder="Añade fecha"
-            variant="date-dynamic"
-            readOnly
-            className={activeField === "checkout" ? "bg-gray-50" : ""}
-          />
+          <div
+            className="relative flex-1 cursor-pointer px-6 py-4 md:w-[142.5px] md:min-w-[142.5px] md:flex-none md:py-0"
+            onClick={handleCheckOutClick}
+          >
+            <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
+            <div className="pointer-events-none">
+              <Input
+                label="Salida"
+                value={formatDateDisplay(dateRange.endDate)}
+                onChange={() => {
+                  /* empty */
+                }}
+                placeholder="Añade fecha"
+                variant="date-dynamic"
+                readOnly
+                className={activeField === "checkout" ? "bg-gray-50" : ""}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="flex w-full flex-col sm:flex-row sm:items-center md:w-63.75">
         <div
-          className="flex-1 cursor-pointer px-6 py-4 md:py-0"
+          className="mb-3 flex-1 cursor-pointer rounded-full border border-gray-200 px-6 py-4 sm:mb-0 md:min-w-45 md:rounded-none md:border-0 md:py-0"
           onClick={handleGuestsClick}
         >
           <div className="pointer-events-none">
@@ -213,21 +216,30 @@ export const ReservationSearch = ({
               }}
               placeholder="Añade Huéspedes"
               readOnly
+              className=""
             />
           </div>
         </div>
 
         <button
           type="submit"
-          className="flex w-full justify-center border-t border-t-gray-300 py-4 sm:border-t-0 sm:py-0 md:w-auto md:justify-start"
+          className="flex w-full justify-center sm:border-t-0 sm:py-0 md:w-auto md:justify-start"
         >
-          <CircleButton className="bg-green-normal! hover:bg-green-dark mx-3 h-12 w-12 cursor-pointer transition-colors duration-200">
+          <div className="bg-green-normal hover:bg-green-dark flex w-full items-center justify-center gap-3 rounded-[10px] py-4 text-white transition-colors duration-200 md:hidden">
+            <Text font="gilroy" className="text-sm">
+              Realizar búsqueda
+            </Text>
+            <span className="bg-green-dark flex h-8 w-8 items-center justify-center rounded-full">
+              <MagnifyingGlassIcon className="w-4 text-white" />
+            </span>
+          </div>
+
+          <CircleButton className="bg-green-normal! hover:bg-green-dark mx-3 hidden h-12 w-12 cursor-pointer transition-colors duration-200 md:flex">
             <MagnifyingGlassIcon className="w-5 text-white drop-shadow-[0_0_0.5px_currentColor]" />
           </CircleButton>
         </button>
       </div>
 
-      {/* Calendario flotante */}
       {showCalendar && (
         <div className="absolute top-full left-0 z-50 mt-2 w-full md:right-0 md:left-auto md:w-auto">
           <Calendar
@@ -244,7 +256,6 @@ export const ReservationSearch = ({
         </div>
       )}
 
-      {/* Selector de huéspedes */}
       {showGuestSelector && (
         <div className="absolute top-full left-0 z-50 mt-2 w-full md:right-0 md:left-auto md:w-80">
           <GuestSelector
