@@ -26,7 +26,7 @@ export default function HomePage() {
       <BecomeHost />
       <InfoSection
         title="Pensado para quienes <br/> buscan tranquilidad <br/> y resultados"
-        description="Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de su propiedad."
+        description="Ideal para propietarios que buscan maximizar ingresos sin <br/> encargarse de la gestión diaria de su propiedad."
         image={PeaceAndResults}
         imageAlt="Property Management2"
         imagePosition="right"
@@ -35,7 +35,7 @@ export default function HomePage() {
         textClassName="mt-5 md:mt-15 ml-2 text-grey-light"
         buttonProps={{
           children: "Conocer más",
-          className: "mt-10",
+          className: "mt-10 text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light! !inline-flex",
           href: "/contactanos",
@@ -53,8 +53,7 @@ export default function HomePage() {
           {
             src: rentalManagement1,
             alt: "Top",
-            className:
-              "absolute top-[29%] left-0 w-[70%] object-contain z-20",
+            className: "absolute top-[29%] left-0 w-[70%] object-contain z-20",
           },
           {
             src: rentalManagement2,
@@ -63,9 +62,9 @@ export default function HomePage() {
           },
         ]}
         imagePosition="left"
-        backgroundColor="bg-grey-light pb-20 bg-gold-normal"
+        backgroundColor="bg-white! pb-20"
         descriptionClassName="text-grey-darker"
-        textClassName=" ml-3 text-green-normal"
+        textClassName="ml-3 mt-10 text-green-normal"
         features={[
           { text: "Soporte digital y presencial", icon: <Vector /> },
           { text: "Servicios de limpieza profesional", icon: <CleanIcon /> },
@@ -79,7 +78,11 @@ export default function HomePage() {
         featuresIcon="bg-green-normal h-12.5 w-12.5"
       />
 
-      <KeyMetrics metrics={METRICS} bgColor="bg-grey-light" />
+      <KeyMetrics
+        className="justify-center! space-x-5"
+        metrics={METRICS}
+        bgColor="bg-grey-light"
+      />
 
       <BackedExperience />
       <FrequentlyQuestions data={DataPropertyManagment} />
@@ -92,10 +95,10 @@ export default function HomePage() {
         imagePosition="left"
         backgroundColor="bg-green-dark-hover"
         descriptionClassName="text-grey-light"
-        textClassName=" mx-2 md:ml-10 mr-6 text-grey-light"
+        textClassName="mt-15 mx-2 mr-6 text-grey-light"
         buttonProps={{
           children: "Contáctanos",
-          className: "",
+          className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
           href: "/contactanos",

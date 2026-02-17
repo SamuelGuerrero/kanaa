@@ -41,7 +41,7 @@ export default function HomePage() {
         textClassName="mt-0 md:mt-20 ml-4 text-green-normal"
         buttonProps={{
           children: "Conoce nuestros proyectos",
-          className: "",
+          className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
           href: "/propiedades",
@@ -65,7 +65,7 @@ export default function HomePage() {
         textClassName="mt-3 md:mt-10 md:mt-20 ml-2 text-grey-light"
         buttonProps={{
           children: "Contáctanos",
-          className: "",
+          className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
           href: "/contactanos",
