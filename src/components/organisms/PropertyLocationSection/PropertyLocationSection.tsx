@@ -30,12 +30,12 @@ export const PropertyLocationSection = ({
           <iframe
             title={mapTitle}
             src={mapSrc}
-            className="h-[570px] w-full rounded-xl border-0"
+            className="h-142.5 w-full rounded-xl border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
         ) : (
-          <div className="flex h-[570px] w-full items-center justify-center rounded-xl bg-white text-center">
+          <div className="flex h-142.5 w-full items-center justify-center rounded-xl bg-white text-center">
             <Text className="text-grey-darker" font="gilroy" size="lg">
               {emptyStateText}
             </Text>

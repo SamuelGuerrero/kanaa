@@ -28,7 +28,7 @@ export const PropertyDetailsPage = ({
     <main className="flex w-full flex-col items-center bg-white">
       <PropertyDetails property={property} />
 
-      <div className="bg-grey-light-hover flex w-full flex-col items-center p-15">
+      <div className="bg-grey-light-hover flex w-full flex-col items-center px-3 pt-5 pb-10 sm:p-15 sm:pt-15">
         <PropertyLocationSection
           title="Dónde te vas a quedar"
           subtitle={`${property.city}, ${property.state}, ${property.country}`}
@@ -42,9 +42,9 @@ export const PropertyDetailsPage = ({
           title="Qué debes saber"
           cancellationContent={
             <>
-              Cancelación gratuita durante 24 horas. Pasado <br /> ese plazo, la
-              reservación no será reembolsable. <br /> Consulta la política
-              completa de este anfitrión <br /> para obtener más información.
+              Cancelación gratuita durante 24 horas. Pasado ese plazo, la
+              reservación no será reembolsable. Consulta la política completa de
+              este anfitrión para obtener más información.
             </>
           }
           houseRules={[
