@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
-import { CircleButton, Text } from "@/components/atoms";
+import { CircleButton, RatingBadge, Text } from "@/components/atoms";
 import {
   Calendar,
   GuestSelector,
@@ -72,6 +72,9 @@ export const BookingWidget = ({
       : 2;
 
   const totalPrice = price * totalNights;
+  const totalGuests = guests.adults + guests.children + guests.infants;
+  const shouldShowNoChargeText =
+    !dateRange.startDate || !dateRange.endDate || totalGuests === 0;
 
   const handleBookingClick = () => {
     if (disableCheckout) {
@@ -101,15 +104,22 @@ export const BookingWidget = ({
 
   return (
     <figure
-      className={`bg-green-normal h-auto w-154 rounded-[10px] px-12.5 py-10 ${className}`}
+      className={`bg-green-normal h-auto rounded-[10px] px-6 py-10 sm:w-154 sm:px-12.5 ${className}`}
     >
       <div className="flex space-x-2.5">
         <Text size="4xl" font="gilroy" weight="bold" className="text-white">
           ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
         </Text>
-        <Text size="lg" font="gilroy" className="mt-2.5 text-white">
+        <Text size="lg" font="gilroy" className="mt-1 text-white sm:mt-2.5">
           por {totalNights} {totalNights === 1 ? "noche" : "noches"}
         </Text>
+
+        <RatingBadge
+          starClassName="text-[#FACC15]!"
+          ratingClassName="text-white!"
+          className="mt-2 ml-4 sm:hidden"
+          rating={4.5}
+        />
       </div>
 
       <div className="relative mt-5">
@@ -240,14 +250,16 @@ export const BookingWidget = ({
           {disableCheckout ? "Reserva proximamente" : "Reserva ahora"}
         </Button>
 
-        <Text
-          font="gilroy"
-          size="sm"
-          weight="medium"
-          className="mt-4 text-center text-white"
-        >
-          Aún no se te cobrará nada
-        </Text>
+        {shouldShowNoChargeText && (
+          <Text
+            font="gilroy"
+            size="sm"
+            weight="medium"
+            className="mt-4 text-center text-white"
+          >
+            Aún no se te cobrará nada
+          </Text>
+        )}
       </div>
     </figure>
   );
