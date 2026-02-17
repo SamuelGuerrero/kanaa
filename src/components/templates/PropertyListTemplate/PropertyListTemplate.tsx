@@ -33,9 +33,11 @@ export const PropertyListTemplate = ({
 
   return (
     <div>
-      <section className="bg-white">
-        <div className="text-green-normal flex w-full flex-col items-center justify-center pt-40">
-          <Text size="5xl">Conoce todas nuestras propiedades</Text>
+      <section className="sm:bg-white">
+        <div className="text-green-normal mx-auto flex w-[96%] flex-col items-center justify-center bg-white px-3 pt-22 pb-5 sm:bg-none sm:pt-40">
+          <Text weight="medium" size="5xl">
+            Conoce todas nuestras propiedades
+          </Text>
 
           <Text className="mt-5" size="lg" font="gilroy">
             Revisa nuestro catálogo completo de propiedades disponibles y
@@ -43,13 +45,13 @@ export const PropertyListTemplate = ({
           </Text>
 
           <ReservationSearch
-            className="mt-10 border border-[#ddd]"
+            className="mt-10 w-full border-[#ddd] p-0! sm:border"
             onSearch={handleSearch}
             initialFilters={initialFilters}
           />
         </div>
 
-        <div className="px-3 py-10 sm:px-14">
+        <div className="sn:px-3 py-5 sm:px-14">
           {error ? (
             <div className="flex flex-col items-center justify-center py-20">
               <Text size="2xl" weight="bold" className="text-red-600">
@@ -84,7 +86,7 @@ export const PropertyListTemplate = ({
               </Text>
             </div>
           ) : (
-            <div className="grid w-full grid-cols-1 gap-6 md:mx-auto md:max-w-7xl md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="mx-auto grid w-[96%] grid-cols-1 gap-6 bg-white p-5 md:mx-auto md:max-w-7xl md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {properties.map((property) => {
                 const imageUrl =
                   property.listingImages?.[0]?.url ?? property.thumbnailUrl;

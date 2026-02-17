@@ -55,9 +55,18 @@ export const PropertyCard = ({
             <AmenityItem
               icon={<UserGroupIcon className="text-gold-normal h-4 w-4" />}
               value={guests}
+              className="flex-row!"
             />
-            <AmenityItem icon={<BedIcon />} value={bedrooms} />
-            <AmenityItem icon={<ToiletIcon />} value={bathrooms} />
+            <AmenityItem
+              icon={<BedIcon />}
+              value={bedrooms}
+              className="flex-row!"
+            />
+            <AmenityItem
+              icon={<ToiletIcon />}
+              value={bathrooms}
+              className="flex-row!"
+            />
           </div>
 
           <RatingBadge rating={rating} />
