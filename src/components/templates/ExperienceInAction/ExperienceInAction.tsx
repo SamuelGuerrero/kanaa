@@ -47,7 +47,7 @@ export const ExperienceInAction = () => {
         Acompañamos cada proyecto desde su origen hasta su operación, cuidando
         cada etapa del proceso para maximizar su valor
       </Text>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {experiences.map((exp) => (
           <AppliedExperience key={exp.id} experience={exp} />
         ))}

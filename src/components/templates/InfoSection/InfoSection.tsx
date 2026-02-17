@@ -58,7 +58,7 @@ export const InfoSection = ({
   buttonProps,
 }: InfoSectionProps) => {
   const textContent = (
-    <div className=" w-full order-1 md:order-0 ">
+    <div className="order-1 w-full md:order-0">
       <Text
         className={`${textClassName} md:leading-[66.2px]`}
         size="5xl"
@@ -72,15 +72,11 @@ export const InfoSection = ({
       />
 
       {features?.length ? (
-        <ul className="mt-8 mb-10  md:ml-4 px-1 md:px-0 space-y-4">
+        <ul className="mt-8 mb-10 space-y-4 px-1 md:ml-4 md:px-0">
           {features.map((item, index) => (
             <li
               key={index}
-              className={` ${featureClassName} 
-              flex 
-              ${item.titulo ? "flex-col md:flex-row items-start md:items-center" : "items-center"}
-              gap-3 
-              rounded-[10px]`}
+              className={` ${featureClassName} flex ${item.titulo ? "flex-col items-start md:flex-row md:items-center" : "items-center"} gap-3 rounded-[10px]`}
             >
               {item.icon && (
                 <span
@@ -141,9 +137,9 @@ export const InfoSection = ({
   );
 
   const imageContent = (
-    <div className="flex w-full items-center justify-center order-2 md:order-0">
+    <div className="order-2 flex w-full items-center justify-center md:order-0">
       {imagesConfig?.length ? (
-        <div className="relative w-full max-w-163.75 aspect-655/680 mx-auto mr-11 md:mr-15 -mb-10 md:mb-0">
+        <div className="relative mx-auto mr-11 -mb-10 aspect-655/680 w-full max-w-163.75 md:mr-15 md:mb-0">
           {imagesConfig?.map((img, index) => (
             <Image
               key={index}
@@ -151,7 +147,6 @@ export const InfoSection = ({
               alt={img.alt}
               className={img.className}
               priority
-
             />
           ))}
         </div>
