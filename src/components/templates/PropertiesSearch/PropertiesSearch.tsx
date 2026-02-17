@@ -17,13 +17,18 @@ export const PropertiesSearch = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
+  const itemsPerPage = 16;
 
-  const fetchProperties = async (filters?: SearchFilters) => {
+  const fetchProperties = async (filters?: SearchFilters, page = 1) => {
     try {
       setIsLoading(true);
       setError(null);
 
       const params = new URLSearchParams();
+      const safePage = Number.isFinite(page) && page > 0 ? page : 1;
+      params.append("limit", String(itemsPerPage));
+      params.append("offset", String((safePage - 1) * itemsPerPage));
 
       if (filters?.destination) {
         params.append("city", filters.destination);
@@ -58,6 +63,7 @@ export const PropertiesSearch = () => {
 
       const data = (await response.json()) as ApiResponse<Property[]>;
       setProperties(data.result || []);
+      setTotalCount(Number.isFinite(data.count) ? data.count : data.result?.length ?? 0);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
@@ -111,14 +117,19 @@ export const PropertiesSearch = () => {
     };
   }, [buildFiltersFromParams, searchParams]);
 
+  const currentPage = useMemo(() => {
+    const raw = Number(searchParams.get("page") ?? 1);
+    return Number.isFinite(raw) && raw > 0 ? raw : 1;
+  }, [searchParams]);
+
   useEffect(() => {
     const filters = buildFiltersFromParams(searchParams);
     if (filters) {
-      void fetchProperties(filters);
+      void fetchProperties(filters, currentPage);
       return;
     }
-    void fetchProperties();
-  }, [buildFiltersFromParams, searchParams]);
+    void fetchProperties(undefined, currentPage);
+  }, [buildFiltersFromParams, currentPage, searchParams]);
 
   const handleSearch = (filters: SearchFilters) => {
     const params = new URLSearchParams();
@@ -128,6 +139,13 @@ export const PropertiesSearch = () => {
     params.append("adults", String(filters.guestCounts.adults));
     params.append("children", String(filters.guestCounts.children));
     params.append("infants", String(filters.guestCounts.infants));
+    params.set("page", "1");
+    router.push(`/propiedades?${params.toString()}`);
+  };
+
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(page));
     router.push(`/propiedades?${params.toString()}`);
   };
 
@@ -140,6 +158,10 @@ export const PropertiesSearch = () => {
         fetchProperties={fetchProperties}
         handleSearch={handleSearch}
         initialFilters={initialFilters}
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
       />
     </main>
   );
