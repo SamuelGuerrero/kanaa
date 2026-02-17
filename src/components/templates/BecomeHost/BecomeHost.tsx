@@ -6,7 +6,7 @@ import BecomeHostBG from "@assets/images/Home/BecomeHostBG.png";
 
 export const BecomeHost = () => {
   return (
-    <section className="relative h-200 w-full">
+    <section className="relative h-200 w-full" data-navbar-theme="dark">
       <div className="absolute inset-0">
         <Image
           src={BecomeHostBG}

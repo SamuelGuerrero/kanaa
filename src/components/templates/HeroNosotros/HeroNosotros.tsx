@@ -8,7 +8,7 @@ import HeroNosotrosBg from "@assets/images/Home/HeroNosotrosBg.png";
 
 export const HeroNosotros = () => {
   return (
-    <section className="relative h-200 w-full">
+    <section className="relative h-200 w-full" data-navbar-theme="dark">
       <Image
         src={HeroNosotrosBg}
         alt="Hero background"
