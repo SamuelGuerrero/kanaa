@@ -77,11 +77,11 @@ export const Footer = () => {
           ))}
         </div>
 
-        <div className="">
+        <div className="flex flex-col space-y-6">
           <Button
             variant="primary"
             textWeight="bold"
-            className="text-gold-dark flex w-full items-center justify-center font-bold md:w-fit"
+            className="text-gold-dark! flex w-full items-center justify-center self-end font-bold md:w-fit"
             href="/contactanos"
             icon={
               <CircleButton>
@@ -90,6 +90,19 @@ export const Footer = () => {
             }
           >
             Contáctanos
+          </Button>
+          <Button
+            variant="primary"
+            textWeight="bold"
+            className="text-gold-dark! flex w-full items-center justify-center font-bold md:w-fit"
+            href="#"
+            icon={
+              <CircleButton>
+                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+              </CircleButton>
+            }
+          >
+            Seguimiento de reserva
           </Button>
         </div>
       </div>
