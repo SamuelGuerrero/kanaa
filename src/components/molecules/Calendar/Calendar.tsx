@@ -195,7 +195,7 @@ export const Calendar = ({
         <button
           type="button"
           onClick={onPrevMonth}
-          className="cursor-pointer rounded-full p-2 transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-100"
+          className="cursor-pointer rounded-full p-2 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-100"
           aria-label="Mes anterior"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -203,7 +203,7 @@ export const Calendar = ({
         <button
           type="button"
           onClick={onNextMonth}
-          className="cursor-pointer rounded-full p-2 transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-100"
+          className="cursor-pointer rounded-full p-2 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-100"
           aria-label="Mes siguiente"
         >
           <ChevronRight className="h-5 w-5" />

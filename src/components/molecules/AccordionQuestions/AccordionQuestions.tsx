@@ -27,7 +27,7 @@ export const AccordionQuestions = ({ items }: AccordionQuestionsProps) => {
           <div key={`faq-${index}`} className="bg-gold-light-hover">
             <button
               onClick={() => handleToggle(index)}
-              className="relative w-full cursor-pointer px-4 md:px-6 text-left "
+              className="relative w-full cursor-pointer px-4 text-left md:px-6"
               aria-expanded={isOpen}
               aria-controls={`faq-answer-${index}`}
             >
@@ -35,25 +35,27 @@ export const AccordionQuestions = ({ items }: AccordionQuestionsProps) => {
                 weight="bold"
                 font="gilroy"
                 size="2xl"
-                className="text-green-normal md:w-159.5 py-4 pr-10"
+                className="text-green-normal py-4 pr-10 md:w-159.5"
               >
                 {faqItem.question}
               </Text>
 
               <ChevronDownIcon
-                className={`text-gold-normal-hover absolute top-3.75 right-2.5 h-8 w-8 transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"
-                  }`}
+                className={`text-gold-normal-hover absolute top-3.75 right-2.5 h-8 w-8 transition-transform duration-300 ${
+                  isOpen ? "rotate-180" : "rotate-0"
+                }`}
                 aria-hidden="true"
               />
             </button>
 
             <div
               id={`faq-answer-${index}`}
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "px-3 mb:px-6 pb-5" : "max-h-0 px-6"
-                }`}
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                isOpen ? "mb:px-6 px-3 pb-5" : "max-h-0 px-6"
+              }`}
             >
               <Text
-                className="text-grey-darker md:w-159.5 "
+                className="text-grey-darker ml-3 md:w-159.5"
                 weight="medium"
                 font="gilroy"
                 size="xl"
