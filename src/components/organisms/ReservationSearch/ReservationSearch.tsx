@@ -39,7 +39,14 @@ export const ReservationSearch = ({
   onSearch,
   initialFilters,
 }: ReservationSearchProps) => {
-  const [destination, setDestination] = useState("");
+  const destinationOptions = [
+    { id: "", label: "Selecciona un destino" },
+    { id: "Merida", label: "Mérida" },
+    { id: "Mexico City", label: "Ciudad de México" },
+  ];
+  const [destination, setDestination] = useState(
+    destinationOptions[0]?.id ?? ""
+  );
   const [showGuestSelector, setShowGuestSelector] = useState(false);
   const [guests, setGuests] = useState<GuestCounts>({
     adults: 1,
@@ -107,7 +114,12 @@ export const ReservationSearch = ({
   useEffect(() => {
     if (!initialFilters) return;
     if (typeof initialFilters.destination === "string") {
-      setDestination(initialFilters.destination);
+      const match = destinationOptions.some(
+        (option) => option.id === initialFilters.destination
+      );
+      if (match) {
+        setDestination(initialFilters.destination);
+      }
     }
     if (initialFilters.guestCounts) {
       setGuests(initialFilters.guestCounts);
@@ -148,12 +160,27 @@ export const ReservationSearch = ({
     >
       <div className="relative mb-3 w-full rounded-full border border-gray-200 px-6 py-4 md:mb-0 md:w-70.75 md:min-w-70.75 md:rounded-none md:border-0 md:py-0">
         <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
-        <Input
-          label="Destino"
-          value={destination}
-          onChange={setDestination}
-          placeholder="Escribe tu destino"
-        />
+        <div>
+          <Text
+            font="gilroy"
+            size="xs"
+            weight="medium"
+            className="block text-black"
+          >
+            Destino
+          </Text>
+          <select
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            className="text-gilroy w-full bg-transparent text-sm text-gray-600 transition-colors duration-150 outline-none focus:text-gray-900"
+          >
+            {destinationOptions.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="mb-3 w-full md:mb-0 md:contents md:w-auto">
