@@ -1,17 +1,17 @@
-import { env } from "@/env";
+import "server-only";
 
-import { PrismaClient } from "../../generated/prisma";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 
+import { PrismaClient } from "../../generated/prisma";
+
 const createPrismaClient = () =>
-  (() => {
-    const adapter = new PrismaBetterSqlite3({ url: env.DATABASE_URL });
-    return new PrismaClient({
-      adapter,
-      log:
-        env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-    });
-  })();
+  new PrismaClient({
+    adapter: new PrismaBetterSqlite3({ url: process.env.DATABASE_URL }),
+    log:
+      process.env.NODE_ENV === "development"
+        ? ["query", "error", "warn"]
+        : ["error"],
+  });
 
 const globalForPrisma = globalThis as unknown as {
   prisma: ReturnType<typeof createPrismaClient> | undefined;
@@ -19,4 +19,4 @@ const globalForPrisma = globalThis as unknown as {
 
 export const db = globalForPrisma.prisma ?? createPrismaClient();
 
-if (env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+if (true) globalForPrisma.prisma = db;

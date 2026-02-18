@@ -11,8 +11,9 @@ if (!databaseUrl) {
   throw new Error("DATABASE_URL is not set");
 }
 
-const adapter = new PrismaBetterSqlite3({ url: databaseUrl });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient({
+  adapter: new PrismaBetterSqlite3({ url: databaseUrl }),
+});
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const csvPath = path.resolve(__dirname, "../lib/cnbv.csv");
