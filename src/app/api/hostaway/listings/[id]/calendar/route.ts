@@ -40,12 +40,13 @@ export async function GET(
 
     const { searchParams } = new URL(request.url);
     const today = new Date();
-    const startDate =
-      searchParams.get("startDate") ?? today.toISOString().split("T")[0];
+    const startDateValue =
+      searchParams.get("startDate") ?? today.toISOString().slice(0, 10);
     const endDate = searchParams.get("endDate");
     const includeResources = searchParams.get("includeResources");
 
-    const hostawayParams = new URLSearchParams({ startDate });
+    const hostawayParams = new URLSearchParams();
+    hostawayParams.append("startDate", startDateValue);
     if (endDate) hostawayParams.append("endDate", endDate);
     if (includeResources) {
       hostawayParams.append("includeResources", includeResources);
@@ -72,7 +73,7 @@ export async function GET(
       result: data.result ?? [],
       metadata: {
         listingId: id,
-        startDate,
+        startDate: startDateValue,
         endDate: endDate ?? undefined,
         totalDays: data.result?.length ?? 0,
       },
