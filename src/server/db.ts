@@ -1,12 +1,15 @@
 import "server-only";
 
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 
 import { PrismaClient } from "../../generated/prisma";
 
 const createPrismaClient = () =>
   new PrismaClient({
-    adapter: new PrismaBetterSqlite3({ url: process.env.DATABASE_URL }),
+    adapter: new PrismaLibSql({
+      url: process.env.TURSO_DATABASE_URL ?? "",
+      authToken: process.env.TURSO_AUTH_TOKEN,
+    }),
     log:
       process.env.NODE_ENV === "development"
         ? ["query", "error", "warn"]

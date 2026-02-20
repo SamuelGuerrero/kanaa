@@ -5,14 +5,20 @@ import readline from "node:readline";
 import { fileURLToPath } from "node:url";
 import { PrismaClient } from "../generated/prisma/index.js";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 
+const tursoUrl = process.env.TURSO_DATABASE_URL;
+const tursoAuthToken = process.env.TURSO_AUTH_TOKEN;
 const databaseUrl = process.env.DATABASE_URL;
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL is not set");
+
+if (!tursoUrl && !databaseUrl) {
+  throw new Error("TURSO_DATABASE_URL or DATABASE_URL must be set");
 }
 
 const prisma = new PrismaClient({
-  adapter: new PrismaBetterSqlite3({ url: databaseUrl }),
+  adapter: tursoUrl
+    ? new PrismaLibSql({ url: tursoUrl, authToken: tursoAuthToken })
+    : new PrismaBetterSqlite3({ url: databaseUrl }),
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
