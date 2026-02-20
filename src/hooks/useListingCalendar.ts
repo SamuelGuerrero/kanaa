@@ -23,7 +23,16 @@ interface ListingCalendarResponse {
 type ListingCalendarOptions = {
   startDate?: string;
   endDate?: string;
+  cacheTtlMs?: number;
 };
+
+type CacheEntry = {
+  timestamp: number;
+  result: CalendarDay[];
+};
+
+const memoryCache = new Map<string, CacheEntry>();
+const inFlight = new Map<string, Promise<CalendarDay[]>>();
 
 const formatDateKeyLocal = (date: Date) => {
   const year = date.getFullYear();
@@ -48,6 +57,7 @@ export function useListingCalendar(
   const [calendarDays, setCalendarDays] = useState<CalendarDay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const cacheTtlMs = options.cacheTtlMs ?? 60 * 60 * 1000;
 
   useEffect(() => {
     if (!id) {
@@ -55,27 +65,71 @@ export function useListingCalendar(
       return;
     }
 
+    const startDate =
+      options.startDate ?? formatDateKeyLocal(new Date());
+    const endDate =
+      options.endDate ?? formatDateKeyLocal(addDays(new Date(), 365));
+    const cacheKey = `listing-calendar:${id}:${startDate}:${endDate}`;
+
+    const readCache = (): CacheEntry | null => {
+      const mem = memoryCache.get(cacheKey);
+      if (mem && Date.now() - mem.timestamp < cacheTtlMs) {
+        return mem;
+      }
+      try {
+        const raw = localStorage.getItem(cacheKey);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw) as CacheEntry;
+        if (
+          parsed?.timestamp &&
+          Array.isArray(parsed.result) &&
+          Date.now() - parsed.timestamp < cacheTtlMs
+        ) {
+          memoryCache.set(cacheKey, parsed);
+          return parsed;
+        }
+      } catch {
+        // Ignore cache read errors
+      }
+      return null;
+    };
+
+    const writeCache = (entry: CacheEntry) => {
+      memoryCache.set(cacheKey, entry);
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify(entry));
+      } catch {
+        // Ignore storage errors (quota/private mode)
+      }
+    };
+
     const fetchCalendar = async () => {
       try {
         setIsLoading(true);
         setError(null);
 
-        const startDate =
-          options.startDate ?? formatDateKeyLocal(new Date());
-        const endDate =
-          options.endDate ?? formatDateKeyLocal(addDays(new Date(), 365));
-
         const params = new URLSearchParams({ startDate, endDate });
-        const response = await fetch(
-          `/api/hostaway/listings/${id}/calendar?${params.toString()}`,
-        );
-
-        if (!response.ok) {
-          throw new Error("Error al cargar calendario del listing");
+        const url = `/api/hostaway/listings/${id}/calendar?${params.toString()}`;
+        let request = inFlight.get(cacheKey);
+        if (!request) {
+          request = fetch(url)
+            .then(async (response) => {
+              if (!response.ok) {
+                throw new Error("Error al cargar calendario del listing");
+              }
+              const data = (await response.json()) as ListingCalendarResponse;
+              return Array.isArray(data.result) ? data.result : [];
+            })
+            .finally(() => {
+              inFlight.delete(cacheKey);
+            });
+          inFlight.set(cacheKey, request);
         }
 
-        const data = (await response.json()) as ListingCalendarResponse;
-        setCalendarDays(Array.isArray(data.result) ? data.result : []);
+        const nextDays = await request;
+        setCalendarDays(nextDays);
+
+        writeCache({ timestamp: Date.now(), result: nextDays });
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error desconocido");
         setCalendarDays([]);
@@ -84,8 +138,15 @@ export function useListingCalendar(
       }
     };
 
+    const cached = readCache();
+    if (cached) {
+      setCalendarDays(cached.result);
+      setIsLoading(false);
+      return;
+    }
+
     void fetchCalendar();
-  }, [id, options.endDate, options.startDate]);
+  }, [cacheTtlMs, id, options.endDate, options.startDate]);
 
   const occupiedDates = useMemo(
     () =>
