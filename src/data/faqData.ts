@@ -35,25 +35,49 @@ export const DataPropertyManagment: FAQItem[] = [
 
 export const DataHome: FAQItem[] = [
     {
-        question: "¿Cómo funciona nuestro servicio?",
+        question: "¿Qué es KANAA House?",
         answer:
-            "Nuestro servicio está diseñado para ser simple y eficiente. Solo necesitas registrarte, elegir lo que necesitas y nosotros nos encargamos del resto.",
+            "KANAA House es una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrece experiencias premium a los huéspedes.",
     },
     {
-        question: "¿Cuánto tiempo tarda en completarse una solicitud?",
-        answer: "Tarda",
+        question: "¿Cómo funciona el modelo de KANAA?",
+        answer:
+            "Nos encargamos de todo el proceso: desde la adecuación y optimización del inmueble, hasta la publicación, gestión de reservas, atención a huéspedes y mantenimiento operativo.",
     },
     {
-        question: "¿Puedo modificar o cancelar mi reservación?",
-        answer: "Sí",
+        question: "¿Qué tipo de propiedades aceptan?",
+        answer:
+            "Trabajamos principalmente con propiedades en ubicaciones estratégicas y con alto potencial de renta. Evaluamos cada inmueble para asegurar su viabilidad y rentabilidad.",
     },
     {
-        question: "¿Qué métodos de pago aceptan?",
-        answer: "Aceptamos",
+        question: "¿Cuál es el beneficio para el propietario?",
+        answer:
+            "El propietario obtiene ingresos sin preocuparse por la operación diaria. Nuestro objetivo es maximizar ocupación, optimizar tarifas y mantener el inmueble en excelente estado.",
     },
     {
-        question: "¿Cómo contacto al soporte si tengo un problema?",
-        answer: "Contacta",
+        question: "¿Cómo garantizan la rentabilidad?",
+        answer:
+            "Utilizamos análisis de mercado, estrategias dinámicas de precios y optimización continua del rendimiento para mantener la propiedad competitiva y rentable.",
+    },
+    {
+        question: "¿Quién se encarga del mantenimiento?",
+        answer:
+            "KANAA House coordina mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.",
+    },
+    {
+        question: "¿Qué pasa si hay daños en la propiedad?",
+        answer:
+            "Contamos con procesos de verificación, políticas de seguridad y protocolos para proteger el inmueble ante cualquier eventualidad.",
+    },
+    {
+        question: "¿Cómo puedo empezar?",
+        answer:
+            "Solo necesitas contactarnos para una evaluación inicial. Analizamos tu propiedad y te presentamos una propuesta personalizada.",
+    },
+    {
+        question: "¿Cobran una comisión fija o variable?",
+        answer:
+            "Nuestro modelo de ingresos está alineado con el desempeño de la propiedad. Los detalles se presentan en la propuesta personalizada.",
     },
 ] as const;
 
@@ -81,5 +105,4 @@ export const DataCalculator: FAQItem[] = [
         answer: "Nuestro equipo se encarga de la comunicación antes, durante y después de la estancia, asegurando una experiencia fluida tanto para los huéspedes como para ti.",
     },
 ] as const;
-
 
