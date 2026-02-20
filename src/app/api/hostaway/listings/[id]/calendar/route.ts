@@ -4,10 +4,11 @@ import { env } from "@/env";
 
 interface CalendarDay {
   date: string;
-  status: string;
+  status?: string;
   price?: number;
   minimumStay?: number;
-  availability?: number;
+  maximumStay?: number;
+  isAvailable?: number;
 }
 
 interface CalendarApiResponse {
@@ -21,7 +22,7 @@ const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
  * GET /api/hostaway/listings/[id]/calendar
  *
  * Obtiene el calendario de disponibilidad de un listing
- * Retorna solo fechas desde hoy en adelante con status "reserved"
+ * Retorna el calendario desde la fecha solicitada con precios por día
  */
 export async function GET(
   request: NextRequest,
@@ -37,10 +38,20 @@ export async function GET(
       );
     }
 
+    const { searchParams } = new URL(request.url);
     const today = new Date();
-    const startDate = today.toISOString().split("T")[0];
+    const startDate =
+      searchParams.get("startDate") ?? today.toISOString().split("T")[0];
+    const endDate = searchParams.get("endDate");
+    const includeResources = searchParams.get("includeResources");
 
-    const url = `${HOSTAWAY_API_URL}/listings/${id}/calendar?startDate=${startDate}`;
+    const hostawayParams = new URLSearchParams({ startDate });
+    if (endDate) hostawayParams.append("endDate", endDate);
+    if (includeResources) {
+      hostawayParams.append("includeResources", includeResources);
+    }
+
+    const url = `${HOSTAWAY_API_URL}/listings/${id}/calendar?${hostawayParams.toString()}`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -56,17 +67,14 @@ export async function GET(
 
     const data = (await response.json()) as CalendarApiResponse;
 
-    const occupiedDates = data.result
-      .filter((day) => day.status === "reserved")
-      .map((day) => day.date);
-
     return NextResponse.json({
       status: "success",
-      result: occupiedDates,
+      result: data.result ?? [],
       metadata: {
         listingId: id,
-        startDate: startDate,
-        totalOccupiedDays: occupiedDates.length,
+        startDate,
+        endDate: endDate ?? undefined,
+        totalDays: data.result?.length ?? 0,
       },
     });
   } catch (error) {

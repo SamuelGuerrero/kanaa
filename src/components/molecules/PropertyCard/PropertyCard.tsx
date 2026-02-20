@@ -11,6 +11,7 @@ import {
   Text,
   ToiletIcon,
 } from "@/components/atoms";
+import { useListingCalendar } from "@/hooks/useListingCalendar";
 
 type PropertyCardProps = {
   image: string;
@@ -21,6 +22,7 @@ type PropertyCardProps = {
   title: string;
   price: number;
   priceLabel?: string;
+  listingId?: string;
   onClick?: () => void;
 };
 
@@ -33,8 +35,23 @@ export const PropertyCard = ({
   title,
   price,
   priceLabel,
+  listingId,
   onClick,
 }: PropertyCardProps) => {
+  const formatDateKeyLocal = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const todayKey = formatDateKeyLocal(new Date());
+  const { priceByDate } = useListingCalendar(listingId ?? "", {
+    startDate: todayKey,
+    endDate: todayKey,
+  });
+  const displayPrice = priceByDate[todayKey] ?? price;
+
   return (
     <figure
       onClick={onClick}
@@ -80,7 +97,7 @@ export const PropertyCard = ({
           {title}
         </Text>
 
-        <PriceDisplay price={price} label={priceLabel} />
+        <PriceDisplay price={displayPrice} label={priceLabel} />
       </div>
     </figure>
   );

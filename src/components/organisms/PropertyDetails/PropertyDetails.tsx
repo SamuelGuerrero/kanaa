@@ -13,7 +13,7 @@ import {
   PropertyOverview,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
-import { useOccupiedDates } from "@/hooks/useOccupiedDates";
+import { useListingCalendar } from "@/hooks/useListingCalendar";
 
 import { PropertyImages } from "../PropertyImages";
 
@@ -27,7 +27,9 @@ type PropertyDetailsProps = {
 export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
   const router = useRouter();
   const images = property.listingImages || [];
-  const { occupiedDates } = useOccupiedDates(property.id.toString());
+  const { occupiedDates, priceByDate } = useListingCalendar(
+    property.id.toString(),
+  );
   const [showAllAmenities, setShowAllAmenities] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const {
@@ -143,6 +145,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             price={property.price}
             maxCapacity={property.personCapacity}
             occupiedDates={occupiedDates}
+            priceByDate={priceByDate}
             listingMapId={property.id.toString()}
             onBookingClick={handleBookingClick}
             disableCheckout={true}
@@ -253,6 +256,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             price={property.price}
             maxCapacity={property.personCapacity}
             occupiedDates={occupiedDates}
+            priceByDate={priceByDate}
             listingMapId={property.id.toString()}
             onBookingClick={handleBookingClick}
             disableCheckout={true}

@@ -20,6 +20,7 @@ type BookingWidgetProps = {
   className?: string;
   maxCapacity?: number;
   occupiedDates?: Date[];
+  priceByDate?: Record<string, number>;
   listingMapId: string;
   onBookingClick?: (bookingData: BookingData) => void;
   disableCheckout?: boolean;
@@ -39,6 +40,7 @@ export const BookingWidget = ({
   className = "",
   maxCapacity = 10,
   occupiedDates = [],
+  priceByDate,
   listingMapId,
   onBookingClick,
   disableCheckout = false,
@@ -71,7 +73,30 @@ export const BookingWidget = ({
         )
       : 2;
 
-  const totalPrice = price * totalNights;
+  const formatDateKeyLocal = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const getNightlyPrice = (date: Date) => {
+    const key = formatDateKeyLocal(date);
+    return priceByDate?.[key] ?? price;
+  };
+
+  const totalPrice =
+    dateRange.startDate && dateRange.endDate
+      ? (() => {
+          let total = 0;
+          const current = new Date(dateRange.startDate);
+          while (current < dateRange.endDate) {
+            total += getNightlyPrice(current);
+            current.setDate(current.getDate() + 1);
+          }
+          return total;
+        })()
+      : getNightlyPrice(dateRange.startDate ?? new Date()) * totalNights;
   const totalGuests = guests.adults + guests.children + guests.infants;
   const shouldShowNoChargeText =
     !dateRange.startDate || !dateRange.endDate || totalGuests === 0;

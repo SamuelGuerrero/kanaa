@@ -126,8 +126,9 @@ export const PropertyListTemplate = ({
                       bathrooms={property.bathroomsNumber}
                       rating={property.averageReviewRating / 2 || 0}
                       title={property.name}
-                      price={2 * property.price}
-                      priceLabel="por 2 noches"
+                      price={property.price}
+                      priceLabel="por noche"
+                      listingId={property.id.toString()}
                       onClick={() => router.push(`/propiedades/${property.id}`)}
                     />
                   );
