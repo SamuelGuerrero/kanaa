@@ -19,7 +19,6 @@ type HostawayTokenCache = {
 };
 
 declare global {
-  // eslint-disable-next-line no-var
   var __hostawayTokenCache: HostawayTokenCache | undefined;
 }
 
