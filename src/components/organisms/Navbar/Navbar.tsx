@@ -52,9 +52,14 @@ export const Navbar = () => {
     const getImageColorAtPoint = (
       image: HTMLImageElement,
       x: number,
-      y: number
+      y: number,
     ) => {
-      if (!ctx || !image.complete || !image.naturalWidth || !image.naturalHeight) {
+      if (
+        !ctx ||
+        !image.complete ||
+        !image.naturalWidth ||
+        !image.naturalHeight
+      ) {
         return null;
       }
       const rect = image.getBoundingClientRect();
@@ -71,8 +76,14 @@ export const Navbar = () => {
 
       const relX = (x - rect.left) / rect.width;
       const relY = (y - rect.top) / rect.height;
-      const px = Math.max(0, Math.min(sampleSize - 1, Math.floor(relX * sampleSize)));
-      const py = Math.max(0, Math.min(sampleSize - 1, Math.floor(relY * sampleSize)));
+      const px = Math.max(
+        0,
+        Math.min(sampleSize - 1, Math.floor(relX * sampleSize)),
+      );
+      const py = Math.max(
+        0,
+        Math.min(sampleSize - 1, Math.floor(relY * sampleSize)),
+      );
       const data = ctx.getImageData(px, py, 1, 1).data;
       const alpha = data[3] ?? 255;
 
@@ -102,11 +113,11 @@ export const Navbar = () => {
 
     const getFallbackBackground = () => {
       const bodyColor = parseRgba(
-        window.getComputedStyle(document.body).backgroundColor
+        window.getComputedStyle(document.body).backgroundColor,
       );
       if (bodyColor && bodyColor.a > 0) return bodyColor;
       const htmlColor = parseRgba(
-        window.getComputedStyle(document.documentElement).backgroundColor
+        window.getComputedStyle(document.documentElement).backgroundColor,
       );
       if (htmlColor && htmlColor.a > 0) return htmlColor;
       return null;
@@ -142,7 +153,9 @@ export const Navbar = () => {
       if (samples.length === 0) {
         const fallback = getFallbackBackground();
         if (!fallback) return;
-        setIsLightBackground(luminance(fallback.r, fallback.g, fallback.b) > 0.6);
+        setIsLightBackground(
+          luminance(fallback.r, fallback.g, fallback.b) > 0.6,
+        );
         return;
       }
 
@@ -199,7 +212,7 @@ export const Navbar = () => {
           isMobileMenuOpen ? "pointer-events-none z-30" : "z-50"
         } ${
           isScrolled
-            ? "top-0 sm:top-4 bg-white md:bg-transparent"
+            ? "top-0 bg-white sm:top-4 md:bg-transparent"
             : "sm:top-8.5"
         }`}
       >

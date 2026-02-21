@@ -29,7 +29,7 @@ const CardGrid: GuideCardProps[] = [
 
 export const GuideAndTips = () => {
   return (
-    <section className="bg-green-dark-hover text-grey-light flex w-full flex-col md:items-center px-4 py-5 md:py-20 md:text-center">
+    <section className="bg-green-dark-hover text-grey-light flex w-full flex-col px-4 py-5 md:items-center md:py-20 md:text-center">
       <Text className="mb-5 md:mb-8" weight="medium" size="5xl">
         Guías y consejos para viajeros y propietarios
       </Text>
@@ -45,7 +45,7 @@ export const GuideAndTips = () => {
       <Button
         variant="primary"
         textWeight="bold"
-        className="text-gold-dark! w-fit mt-10 font-bold"
+        className="text-gold-dark! mt-10 w-fit font-bold"
         href="/blog"
         icon={
           <CircleButton>

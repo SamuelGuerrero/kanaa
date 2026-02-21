@@ -61,7 +61,7 @@ export const GuestSelector = ({
             type="button"
             onClick={() => handleGuestChange("adults", false)}
             disabled={guests.adults <= 1}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:border-gray-900 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
             aria-label="Disminuir adultos"
           >
             <Minus className="h-4 w-4" />
@@ -73,7 +73,7 @@ export const GuestSelector = ({
             type="button"
             onClick={() => handleGuestChange("adults", true)}
             disabled={totalGuests >= maxCapacity}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:border-gray-900 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
             aria-label="Aumentar adultos"
           >
             <Plus className="h-4 w-4" />
@@ -96,7 +96,7 @@ export const GuestSelector = ({
             type="button"
             onClick={() => handleGuestChange("children", false)}
             disabled={guests.children <= 0}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:border-gray-900 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
             aria-label="Disminuir niños"
           >
             <Minus className="h-4 w-4" />
@@ -108,7 +108,7 @@ export const GuestSelector = ({
             type="button"
             onClick={() => handleGuestChange("children", true)}
             disabled={totalGuests >= maxCapacity}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:border-gray-900 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
             aria-label="Aumentar niños"
           >
             <Plus className="h-4 w-4" />
@@ -131,7 +131,7 @@ export const GuestSelector = ({
             type="button"
             onClick={() => handleGuestChange("infants", false)}
             disabled={guests.infants <= 0}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:border-gray-900 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
             aria-label="Disminuir bebés"
           >
             <Minus className="h-4 w-4" />
@@ -142,7 +142,7 @@ export const GuestSelector = ({
           <button
             type="button"
             onClick={() => handleGuestChange("infants", true)}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:border-gray-900 hover:scale-105"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900"
             aria-label="Aumentar bebés"
           >
             <Plus className="h-4 w-4" />

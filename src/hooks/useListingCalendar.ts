@@ -48,7 +48,9 @@ const addDays = (date: Date, days: number) => {
 };
 
 const isOccupiedDay = (day: CalendarDay) =>
-  day.status === "reserved" || day.status === "blocked" || day.isAvailable === 0;
+  day.status === "reserved" ||
+  day.status === "blocked" ||
+  day.isAvailable === 0;
 
 export function useListingCalendar(
   id: string,
@@ -65,8 +67,7 @@ export function useListingCalendar(
       return;
     }
 
-    const startDate =
-      options.startDate ?? formatDateKeyLocal(new Date());
+    const startDate = options.startDate ?? formatDateKeyLocal(new Date());
     const endDate =
       options.endDate ?? formatDateKeyLocal(addDays(new Date(), 365));
     const cacheKey = `listing-calendar:${id}:${startDate}:${endDate}`;

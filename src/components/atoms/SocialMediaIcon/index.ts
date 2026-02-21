@@ -1,1 +1,1 @@
-export * from './SocialMediaIcon';
+export * from "./SocialMediaIcon";

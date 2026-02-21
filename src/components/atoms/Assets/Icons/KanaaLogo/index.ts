@@ -1,1 +1,1 @@
-export * from './KanaaLogo';
+export * from "./KanaaLogo";

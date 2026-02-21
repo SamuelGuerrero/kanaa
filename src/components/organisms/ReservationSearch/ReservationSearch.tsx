@@ -45,7 +45,7 @@ export const ReservationSearch = ({
     { id: "Mexico City", label: "Ciudad de México" },
   ];
   const [destination, setDestination] = useState(
-    destinationOptions[0]?.id ?? ""
+    destinationOptions[0]?.id ?? "",
   );
   const [showGuestSelector, setShowGuestSelector] = useState(false);
   const [guests, setGuests] = useState<GuestCounts>({
@@ -115,7 +115,7 @@ export const ReservationSearch = ({
     if (!initialFilters) return;
     if (typeof initialFilters.destination === "string") {
       const match = destinationOptions.some(
-        (option) => option.id === initialFilters.destination
+        (option) => option.id === initialFilters.destination,
       );
       if (match) {
         setDestination(initialFilters.destination);

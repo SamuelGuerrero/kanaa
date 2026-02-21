@@ -68,7 +68,7 @@ export const FeaturedProperties = ({
 
   return (
     <section
-      className={`flex flex-col md:items-center justify-center bg-white px-3.5 py-8 md:py-22 md:text-center shadow ${className}`}
+      className={`flex flex-col justify-center bg-white px-3.5 py-8 shadow md:items-center md:py-22 md:text-center ${className}`}
       {...rest}
     >
       <Text size="5xl" className="text-green-normal mb-5">
@@ -82,7 +82,7 @@ export const FeaturedProperties = ({
       <Button
         variant="primary"
         textWeight="bold"
-        className="text-gold-normal-hover! mt-5 md:mt-10 font-bold w-fit"
+        className="text-gold-normal-hover! mt-5 w-fit font-bold md:mt-10"
         href="/propiedades"
         icon={
           <CircleButton>

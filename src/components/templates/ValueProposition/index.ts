@@ -1,1 +1,1 @@
-export * from './ValueProposition';
+export * from "./ValueProposition";

@@ -63,7 +63,9 @@ export const PropertiesSearch = () => {
 
       const data = (await response.json()) as ApiResponse<Property[]>;
       setProperties(data.result || []);
-      setTotalCount(Number.isFinite(data.count) ? data.count : data.result?.length ?? 0);
+      setTotalCount(
+        Number.isFinite(data.count) ? data.count : (data.result?.length ?? 0),
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {

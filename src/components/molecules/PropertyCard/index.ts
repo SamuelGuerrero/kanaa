@@ -1,1 +1,1 @@
-export * from './PropertyCard';
+export * from "./PropertyCard";

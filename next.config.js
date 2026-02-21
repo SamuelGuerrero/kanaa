@@ -24,7 +24,7 @@ const config = {
       {
         protocol: "https",
         hostname: "a0.muscache.com",
-      }
+      },
     ],
   },
 };

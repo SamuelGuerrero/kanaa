@@ -101,19 +101,19 @@ export async function GET(request: NextRequest) {
 
       if (now < cached.staleAt) {
         cached.refreshing ??= fetchFromHostaway()
-            .then((data) => {
-              listingsCache.set(cacheKey, {
-                data,
-                expiresAt: Date.now() + CACHE_TTL_MS,
-                staleAt: Date.now() + CACHE_STALE_MS,
-                refreshing: null,
-              });
-              return data;
-            })
-            .catch(() => {
-              cached.refreshing = null;
-              return cached.data;
+          .then((data) => {
+            listingsCache.set(cacheKey, {
+              data,
+              expiresAt: Date.now() + CACHE_TTL_MS,
+              staleAt: Date.now() + CACHE_STALE_MS,
+              refreshing: null,
             });
+            return data;
+          })
+          .catch(() => {
+            cached.refreshing = null;
+            return cached.data;
+          });
         return NextResponse.json(cached.data);
       }
     }

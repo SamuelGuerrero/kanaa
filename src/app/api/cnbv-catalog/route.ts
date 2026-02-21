@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     if (!codigo) {
       return NextResponse.json(
         { error: "Missing 'codigo' query param" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     console.error("CNBV API error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

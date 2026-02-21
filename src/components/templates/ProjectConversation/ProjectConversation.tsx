@@ -7,7 +7,7 @@ import ContactanosHeroBg from "@assets/images/Home/ContactanosHeroBg.png";
 
 export const ProjectConversation = () => {
   return (
-    <section className="relative h-200 w-full  overflow-hidden">
+    <section className="relative h-200 w-full overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src={ContactanosHeroBg}
@@ -15,7 +15,7 @@ export const ProjectConversation = () => {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 " />
+        <div className="absolute inset-0" />
         <div
           className="bg-beige-normal absolute inset-0 opacity-30"
           style={{ mixBlendMode: "hue" }}
