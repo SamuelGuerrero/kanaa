@@ -1,1 +1,1 @@
-export * from "./JoinOurTeam"
+export * from "./JoinOurTeam";

@@ -1,1 +1,1 @@
-export * from './HeroJoin'
+export * from "./HeroJoin";
