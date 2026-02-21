@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { env } from "@/env";
+import { getHostawayAuthorizationHeader } from "@/server/hostaway/auth";
 
 import type { Property, ApiResponse } from "@/types/property";
 
@@ -63,24 +63,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    if (!env.HOSTAWAY_TOKEN) {
-      return NextResponse.json(
-        { error: "Token de API no configurado" },
-        { status: 500 },
-      );
-    }
-
     const cacheKey = hostawayParams.toString();
     const now = Date.now();
     const cached = listingsCache.get(cacheKey);
 
     const fetchFromHostaway = async () => {
+      const authorization = await getHostawayAuthorizationHeader();
       const response = await fetch(
         `${HOSTAWAY_API_URL}/listings?${hostawayParams.toString()}`,
         {
           method: "GET",
           headers: {
-            Authorization: `${env.HOSTAWAY_TOKEN}`,
+            Authorization: authorization,
             "Content-Type": "application/json",
           },
           next: { revalidate: 3600 },

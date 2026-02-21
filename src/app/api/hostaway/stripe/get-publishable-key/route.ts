@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { env } from "@/env";
+import { getHostawayAuthorizationHeader } from "@/server/hostaway/auth";
 
 const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
 
@@ -23,20 +23,14 @@ export async function GET(request: Request) {
     );
   }
 
-  if (!env.HOSTAWAY_TOKEN) {
-    return NextResponse.json(
-      { error: "Token de API no configurado" },
-      { status: 500 },
-    );
-  }
-
   try {
+    const authorization = await getHostawayAuthorizationHeader();
     const response = await fetch(
       `${HOSTAWAY_API_URL}/stripe/publishableKey/${listingMapId}`,
       {
         method: "GET",
         headers: {
-          Authorization: `${env.HOSTAWAY_TOKEN}`,
+          Authorization: authorization,
           "Content-Type": "application/json",
         },
       },
