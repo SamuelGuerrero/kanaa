@@ -15,7 +15,9 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    HOSTAWAY_TOKEN: z.string().optional(),
+    HOSTAWAY_CLIENT_ID: z.string().min(1),
+    HOSTAWAY_CLIENT_SECRET: z.string().min(1),
+    HOSTAWAY_SCOPE: z.string().default("general"),
   },
 
   /**
@@ -35,7 +37,9 @@ export const env = createEnv({
     AUTH_SECRET: process.env.AUTH_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    HOSTAWAY_TOKEN: process.env.HOSTAWAY_TOKEN,
+    HOSTAWAY_CLIENT_ID: process.env.HOSTAWAY_CLIENT_ID,
+    HOSTAWAY_CLIENT_SECRET: process.env.HOSTAWAY_CLIENT_SECRET,
+    HOSTAWAY_SCOPE: process.env.HOSTAWAY_SCOPE,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
