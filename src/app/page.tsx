@@ -30,14 +30,14 @@ export default function HomePage() {
 
       <InfoSection
         title="Property Management <br /> pensado para propietarios"
-        description="En KANNA administramos tu propiedad de manera profesional, cuidando <br /> 
-        cada espacio, optimizando la ocupación y ofreciendo una experiencia <br /> 
+        description="En KANAA administramos tu propiedad de manera profesional, cuidando <br /> 
+        cada espacio, optimizando la ocupación y ofreciendo una experiencia <br classname='hidden sm:block' /> 
         excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad."
         image={PropertyManagement}
         imageAlt="Property Management"
         imagePosition="right"
-        backgroundColor="bg-green-dark-hover"
-        descriptionClassName="text-white mt-8"
+        backgroundColor="bg-green-dark-hover py-7 sm:pb-7 pb-2"
+        descriptionClassName="text-white mt-8 mr-4"
         textClassName="md:mt-20 ml-2 text-white  "
         buttonProps={{
           children: "Conocer más",

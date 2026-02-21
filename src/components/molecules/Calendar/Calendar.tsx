@@ -108,7 +108,7 @@ export const Calendar = ({
     }
 
     return (
-      <div className="min-w-70 flex-1">
+      <div className="w-full sm:min-w-70 sm:flex-1">
         <h3 className="mb-4 text-center font-semibold text-gray-900">
           {MONTHS[month]} {year}
         </h3>
@@ -158,7 +158,7 @@ export const Calendar = ({
                 className={`relative flex h-10 w-10 items-center justify-center text-sm font-medium transition-all duration-200 ease-out ${
                   isDisabled || isOccupied
                     ? "cursor-not-allowed text-gray-300"
-                    : "cursor-pointer hover:border hover:border-gray-900 hover:scale-105"
+                    : "cursor-pointer hover:scale-105 hover:border hover:border-gray-900"
                 } ${
                   isStart || isEnd
                     ? "rounded-full bg-gray-900 text-white hover:bg-gray-900"
@@ -195,7 +195,7 @@ export const Calendar = ({
         <button
           type="button"
           onClick={onPrevMonth}
-          className="cursor-pointer rounded-full p-2 transition-all duration-200 ease-out hover:bg-gray-100 hover:scale-105"
+          className="cursor-pointer rounded-full p-2 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-100"
           aria-label="Mes anterior"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -203,7 +203,7 @@ export const Calendar = ({
         <button
           type="button"
           onClick={onNextMonth}
-          className="cursor-pointer rounded-full p-2 transition-all duration-200 ease-out hover:bg-gray-100 hover:scale-105"
+          className="cursor-pointer rounded-full p-2 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-100"
           aria-label="Mes siguiente"
         >
           <ChevronRight className="h-5 w-5" />
@@ -212,7 +212,9 @@ export const Calendar = ({
 
       <div className="flex gap-8">
         {renderMonth(currentMonth)}
-        {showTwoMonths && renderMonth(nextMonth)}
+        {showTwoMonths && (
+          <div className="hidden sm:contents">{renderMonth(nextMonth)}</div>
+        )}
       </div>
 
       <div

@@ -1,1 +1,1 @@
-export * from './BedIcon';
+export * from "./BedIcon";

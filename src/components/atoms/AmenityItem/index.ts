@@ -1,1 +1,1 @@
-export * from './AmenityItem';
+export * from "./AmenityItem";

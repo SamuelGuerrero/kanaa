@@ -8,7 +8,7 @@ import RightValueProposition from "@assets/images/Home/RightValueProposition.png
 
 export const ValueProposition = () => {
   return (
-    <section className="flex w-full flex-col gap-5 md:grid md:grid-cols-2 ">
+    <section className="flex w-full flex-col gap-5 md:grid md:grid-cols-2">
       <div className="w-full">
         <Image
           src={LeftValueProposition}
@@ -48,7 +48,7 @@ export const ValueProposition = () => {
 
           <Button
             variant="secondary"
-            className="mt-4  justify-center md:w-auto md:px-6 md:py-2"
+            className="mt-4 justify-center md:w-auto md:px-6 md:py-2"
             href="/propiedades"
             icon={
               <CircleButton className="bg-gold-light-active! ml-3 md:ml-0">

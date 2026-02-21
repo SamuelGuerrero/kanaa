@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Text } from "@/components/atoms";
 import { TestimonialCarousel, type Testimonial } from "@/components/organisms";
+import { useItemsPerPage } from "@/hooks/useItemsPerPage";
 
 const mockTestimonials: Testimonial[] = [
   {
@@ -99,26 +100,15 @@ const mockTestimonials: Testimonial[] = [
 ];
 
 export const BackedExperience = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(
-    typeof window !== "undefined" && window.innerWidth < 640 ? 1 : 3,
-  );
+  const itemsPerPage = useItemsPerPage(1, 3);
   const [displayedTestimonials, setDisplayedTestimonials] =
     useState(mockTestimonials);
 
   useEffect(() => {
-    const handleResize = () => {
-      const isMobile = window.innerWidth < 640;
-      setItemsPerPage(isMobile ? 1 : 3);
-      setDisplayedTestimonials(
-        isMobile ? mockTestimonials.slice(0, 3) : mockTestimonials,
-      );
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    setDisplayedTestimonials(
+      itemsPerPage === 1 ? mockTestimonials.slice(0, 3) : mockTestimonials,
+    );
+  }, [itemsPerPage]);
 
   return (
     <section className="flex flex-col items-center bg-white px-4 py-5 md:py-16 md:text-center">

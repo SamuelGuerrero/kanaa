@@ -1,1 +1,1 @@
-export * from './PropertyCarousel';
+export * from "./PropertyCarousel";

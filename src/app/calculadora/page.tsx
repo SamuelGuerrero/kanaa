@@ -68,15 +68,14 @@ export default function HomePage() {
         featureClassName="bg-gold-light px-5 py-3"
       />
       <InfoSection
-        title="Optimización de ingresos "
+        title="Optimización de ingresos"
         description="Asegúrese de obtener la mayor rentabilidad posible. Utilizamos 
                 estrategias integrales y tecnología de vanguardia para optimizar el potencial de ingresos de su propiedad"
         imagesConfig={[
           {
             src: RevenueOptimization,
             alt: "Top",
-            className:
-              "absolute top-[29%] left-0 w-[70%] object-contain z-20",
+            className: "absolute top-[29%] left-0 w-[70%] object-contain z-20",
           },
           {
             src: RevenueOptimizationBase,
@@ -87,7 +86,7 @@ export default function HomePage() {
         imagePosition="right"
         backgroundColor="bg-grey-light pb-20 bg-gold-normal"
         descriptionClassName="text-grey-darker w-[346px] md:w-[525px]"
-        textClassName="ml-2 text-green-normal"
+        textClassName="ml-2 text-green-normal mt-15"
         features={[
           { text: "Análisis de datos", icon: <Vector /> },
           {
@@ -111,7 +110,7 @@ export default function HomePage() {
         imagePosition="left"
         backgroundColor="bg-green-dark-hover"
         descriptionClassName="text-grey-light"
-        textClassName="ml-2 text-grey-light"
+        textClassName="ml-2 text-grey-light mt-12"
         features={[
           { text: "Gestión de listados", icon: <Vector /> },
           { text: "Marketing y publicidad", icon: <SupportIcon /> },
@@ -124,7 +123,11 @@ export default function HomePage() {
         featuresTextClassName="text-grey-light"
         featuresIcon="bg-green-normal h-12.5 w-12.5"
       />
-      <KeyMetrics metrics={METRICS} bgColor="bg-grey-light" />
+      <KeyMetrics
+        className="justify-center! space-x-5"
+        metrics={METRICS}
+        bgColor="bg-grey-light"
+      />
       <BackedExperience />
       <FrequentlyQuestions data={DataCalculator} />
       <RealPropertyPotential

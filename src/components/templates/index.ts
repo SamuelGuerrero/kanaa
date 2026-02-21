@@ -18,3 +18,4 @@ export * from "./ProjectConversation";
 export * from "./HeroJoin";
 export * from "./JoinOurTeam";
 export * from "./IdealVacancy";
+export * from "./PropertyDetailsPage";

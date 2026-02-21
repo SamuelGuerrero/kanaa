@@ -34,7 +34,7 @@ export const BecomeHostForm = () => {
 
   return (
     <div
-      className="relative w-full md:w-160.25 rounded-lg p-3.5 md:px-8 md:pb-8 backdrop-blur-[22.39px]"
+      className="relative w-full rounded-lg p-3.5 backdrop-blur-[22.39px] md:w-160.25 md:px-8 md:pb-8"
       style={{
         background: `
           radial-gradient(
@@ -59,13 +59,13 @@ export const BecomeHostForm = () => {
       />
 
       <form
-        className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4"
+        className="relative z-10 grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="col-span-2 md:col-span-1">
           <InputForm
             placeholder="Nombre(s)"
-            className="h-12 md:h-13.75 w-full"
+            className="h-12 w-full md:h-13.75"
             type="text"
             required
             {...register("firstName")}
@@ -74,7 +74,7 @@ export const BecomeHostForm = () => {
         <div className="col-span-2 md:col-span-1">
           <InputForm
             placeholder="Apellidos"
-            className="h-12 md:h-13.75 w-full"
+            className="h-12 w-full md:h-13.75"
             type="text"
             required
             {...register("lastName")}
@@ -83,7 +83,7 @@ export const BecomeHostForm = () => {
         <div className="col-span-2 md:col-span-1">
           <InputForm
             placeholder="Email*"
-            className="h-12 md:h-13.75 w-full"
+            className="h-12 w-full md:h-13.75"
             type="email"
             required
             {...register("email")}
@@ -92,17 +92,16 @@ export const BecomeHostForm = () => {
         <div className="col-span-2 md:col-span-1">
           <InputForm
             placeholder="Número telefónico"
-            className="h-12 md:h-13.75 w-full"
+            className="h-12 w-full md:h-13.75"
             type="tel"
             {...register("phone")}
           />
-
         </div>
 
         <div className="col-span-2">
           <SelectForm
             required
-            className="h-12 md:h-13.75 w-full"
+            className="h-12 w-full md:h-13.75"
             defaultOptionLabel="¿Dónde se encuentra tu propiedad?"
             options={[
               { value: "cdmx", label: "CDMX" },
@@ -115,7 +114,7 @@ export const BecomeHostForm = () => {
         <div className="col-span-2">
           <SelectForm
             defaultOptionLabel="Nombre del edificio (si aplica)"
-            className="h-12 md:h-13.75 w-full"
+            className="h-12 w-full md:h-13.75"
             options={[
               { value: "ninguno", label: "No aplica" },
               { value: "edificio-a", label: "Edificio A" },
@@ -129,7 +128,7 @@ export const BecomeHostForm = () => {
           disabled={isSubmitting}
           variant="primary"
           textWeight="bold"
-          className={`text-gold-darker mt-5 flex w-[80%] justify-center space-x-2 md:text-start md:w-min ${isSubmitting && "cursor-not-allowed opacity-60"} `}
+          className={`text-gold-darker mt-5 flex w-[80%] justify-center space-x-2 md:w-min md:text-start ${isSubmitting && "cursor-not-allowed opacity-60"} `}
           icon={
             <CircleButton>
               <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

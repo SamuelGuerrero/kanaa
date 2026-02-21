@@ -61,13 +61,13 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-green-dark-active mt-1.5 md:mt-6 w-full px-8 py-5 md:py-16">
-      <div className="flex flex-col md:flex-row md:item-center gap-12 w-full">
+    <footer className="bg-green-dark-active mt-1.5 w-full px-8 py-5 md:mt-6 md:py-16">
+      <div className="md:item-center flex w-full flex-col gap-12 md:flex-row">
         <div className="flex justify-center md:justify-start">
           <KanaaLogo />
         </div>
 
-        <div className="text-green-light-active grid grid-cols-2 gap-10 md:flex md:flex-row md:gap-14 md:mx-10 flex-1 ">
+        <div className="text-green-light-active grid flex-1 grid-cols-2 gap-10 md:mx-10 md:flex md:flex-row md:gap-14">
           {FOOTER_SECTIONS.map((section) => (
             <FooterColumn
               key={section.title}
@@ -77,11 +77,11 @@ export const Footer = () => {
           ))}
         </div>
 
-        <div className="">
+        <div className="flex flex-col space-y-6">
           <Button
             variant="primary"
             textWeight="bold"
-            className="text-gold-dark font-bold w-full md:w-fit flex justify-center items-center"
+            className="text-gold-dark! flex w-full items-center justify-center self-end font-bold md:w-fit"
             href="/contactanos"
             icon={
               <CircleButton>
@@ -91,16 +91,28 @@ export const Footer = () => {
           >
             Contáctanos
           </Button>
+          <Button
+            variant="primary"
+            textWeight="bold"
+            className="text-gold-dark! flex w-full items-center justify-center font-bold md:w-fit"
+            href="#"
+            icon={
+              <CircleButton>
+                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+              </CircleButton>
+            }
+          >
+            Seguimiento de reserva
+          </Button>
         </div>
       </div>
 
-      <div className="mt-10 md:mt-20 flex flex-col items-center gap-6 md:flex-row md:justify-between md:items-center">
-        <CopyrightText className="order-1 md:order-2 text-center md:text-right" />
+      <div className="mt-10 flex flex-col items-center gap-6 md:mt-20 md:flex-row md:items-center md:justify-between">
+        <CopyrightText className="order-1 text-center md:order-2 md:text-right" />
         <SocialMediaGroup
-          className="order-2 md:order-1 flex justify-center"
+          className="order-2 flex justify-center md:order-1"
           links={SOCIAL_LINKS}
         />
-
       </div>
     </footer>
   );

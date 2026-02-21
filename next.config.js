@@ -6,6 +6,7 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
+  serverExternalPackages: ["better-sqlite3"],
   images: {
     remotePatterns: [
       {
@@ -23,7 +24,7 @@ const config = {
       {
         protocol: "https",
         hostname: "a0.muscache.com",
-      }
+      },
     ],
   },
 };

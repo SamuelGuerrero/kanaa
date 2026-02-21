@@ -11,6 +11,7 @@ import {
   Text,
   ToiletIcon,
 } from "@/components/atoms";
+import { useListingCalendar } from "@/hooks/useListingCalendar";
 
 type PropertyCardProps = {
   image: string;
@@ -21,6 +22,7 @@ type PropertyCardProps = {
   title: string;
   price: number;
   priceLabel?: string;
+  listingId?: string;
   onClick?: () => void;
 };
 
@@ -33,12 +35,27 @@ export const PropertyCard = ({
   title,
   price,
   priceLabel,
+  listingId,
   onClick,
 }: PropertyCardProps) => {
+  const formatDateKeyLocal = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const todayKey = formatDateKeyLocal(new Date());
+  const { priceByDate } = useListingCalendar(listingId ?? "", {
+    startDate: todayKey,
+    endDate: todayKey,
+  });
+  const displayPrice = priceByDate[todayKey] ?? price;
+
   return (
     <figure
       onClick={onClick}
-      className="bg-gold-light-hover group flex w-[calc(100vw-30px)] cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px] transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg sm:h-[434.9px] sm:w-75.5"
+      className="bg-gold-light-hover group flex w-full cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px] transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg sm:h-[434.9px] sm:w-75.5"
     >
       <div className="relative h-71.75 w-full overflow-hidden rounded-md">
         <Image
@@ -55,9 +72,18 @@ export const PropertyCard = ({
             <AmenityItem
               icon={<UserGroupIcon className="text-gold-normal h-4 w-4" />}
               value={guests}
+              className="flex-row!"
             />
-            <AmenityItem icon={<BedIcon />} value={bedrooms} />
-            <AmenityItem icon={<ToiletIcon />} value={bathrooms} />
+            <AmenityItem
+              icon={<BedIcon />}
+              value={bedrooms}
+              className="flex-row!"
+            />
+            <AmenityItem
+              icon={<ToiletIcon />}
+              value={bathrooms}
+              className="flex-row!"
+            />
           </div>
 
           <RatingBadge rating={rating} />
@@ -71,7 +97,7 @@ export const PropertyCard = ({
           {title}
         </Text>
 
-        <PriceDisplay price={price} label={priceLabel} />
+        <PriceDisplay price={displayPrice} label={priceLabel} />
       </div>
     </figure>
   );

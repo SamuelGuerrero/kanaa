@@ -4,7 +4,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import "yet-another-react-lightbox/styles.css";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -26,22 +26,13 @@ export const PropertyImages = ({
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const lightboxSlides = images.map((img) => ({
     src: img.url,
     alt: img.caption ?? propertyName,
     title: img.caption,
   }));
-
-  useEffect(() => {
-    const updateIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    updateIsMobile();
-    window.addEventListener("resize", updateIsMobile);
-    return () => window.removeEventListener("resize", updateIsMobile);
-  }, []);
 
   useEffect(() => {
     if (!isGalleryOpen) return;
@@ -67,17 +58,56 @@ export const PropertyImages = ({
   };
 
   const handleImageClick = (index: number) => {
-    if (isMobile) {
-      openLightbox(index);
-      return;
-    }
     setPhotoIndex(index);
     setIsGalleryOpen(true);
   };
 
+  const handleSliderScroll = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    const slideWidth = slider.clientWidth || 1;
+    const nextIndex = Math.round(slider.scrollLeft / slideWidth);
+    setPhotoIndex(Math.min(Math.max(nextIndex, 0), images.length - 1));
+  };
+
   return (
     <>
-      <div className="mt-8 grid grid-cols-4 grid-rows-2 gap-2 2xl:grid-cols-5">
+      <div
+        className="relative md:hidden"
+        style={{
+          marginLeft: "calc(-50vw + 50%)",
+          marginRight: "calc(-50vw + 50%)",
+          width: "100vw",
+        }}
+      >
+        <div
+          ref={sliderRef}
+          onScroll={handleSliderScroll}
+          className="flex w-full touch-pan-x snap-x snap-mandatory overflow-x-auto scroll-smooth"
+        >
+          {images.map((image, index) => (
+            <button
+              key={`${image.url}-${index}`}
+              type="button"
+              onClick={() => openLightbox(index)}
+              className="relative aspect-4/3 w-full shrink-0 snap-center"
+            >
+              <Image
+                src={image.url}
+                alt={image.caption ?? propertyName}
+                fill
+                className="object-cover"
+                priority={index === 0}
+              />
+            </button>
+          ))}
+        </div>
+        <div className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white">
+          {photoIndex + 1} / {images.length}
+        </div>
+      </div>
+
+      <div className="hidden grid-cols-4 grid-rows-2 gap-2 md:grid 2xl:grid-cols-5">
         {images[0] && (
           <div
             className="relative col-span-2 row-span-2 h-full min-h-100 cursor-pointer"

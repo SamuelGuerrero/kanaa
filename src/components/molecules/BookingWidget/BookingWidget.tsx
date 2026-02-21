@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
-import { CircleButton, Text } from "@/components/atoms";
+import { CircleButton, RatingBadge, Text } from "@/components/atoms";
 import {
   Calendar,
   GuestSelector,
@@ -20,6 +20,7 @@ type BookingWidgetProps = {
   className?: string;
   maxCapacity?: number;
   occupiedDates?: Date[];
+  priceByDate?: Record<string, number>;
   listingMapId: string;
   onBookingClick?: (bookingData: BookingData) => void;
   disableCheckout?: boolean;
@@ -39,6 +40,7 @@ export const BookingWidget = ({
   className = "",
   maxCapacity = 10,
   occupiedDates = [],
+  priceByDate,
   listingMapId,
   onBookingClick,
   disableCheckout = false,
@@ -71,7 +73,33 @@ export const BookingWidget = ({
         )
       : 2;
 
-  const totalPrice = price * totalNights;
+  const formatDateKeyLocal = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const getNightlyPrice = (date: Date) => {
+    const key = formatDateKeyLocal(date);
+    return priceByDate?.[key] ?? price;
+  };
+
+  const totalPrice =
+    dateRange.startDate && dateRange.endDate
+      ? (() => {
+          let total = 0;
+          const current = new Date(dateRange.startDate);
+          while (current < dateRange.endDate) {
+            total += getNightlyPrice(current);
+            current.setDate(current.getDate() + 1);
+          }
+          return total;
+        })()
+      : getNightlyPrice(dateRange.startDate ?? new Date()) * totalNights;
+  const totalGuests = guests.adults + guests.children + guests.infants;
+  const shouldShowNoChargeText =
+    !dateRange.startDate || !dateRange.endDate || totalGuests === 0;
 
   const handleBookingClick = () => {
     if (disableCheckout) {
@@ -101,15 +129,22 @@ export const BookingWidget = ({
 
   return (
     <figure
-      className={`bg-green-normal h-auto w-154 rounded-[10px] px-12.5 py-10 ${className}`}
+      className={`bg-green-normal h-auto rounded-[10px] px-6 py-10 sm:w-154 sm:px-12.5 ${className}`}
     >
       <div className="flex space-x-2.5">
         <Text size="4xl" font="gilroy" weight="bold" className="text-white">
           ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
         </Text>
-        <Text size="lg" font="gilroy" className="mt-2.5 text-white">
+        <Text size="lg" font="gilroy" className="mt-1 text-white sm:mt-2.5">
           por {totalNights} {totalNights === 1 ? "noche" : "noches"}
         </Text>
+
+        <RatingBadge
+          starClassName="text-[#FACC15]!"
+          ratingClassName="text-white!"
+          className="mt-2 ml-4 sm:hidden"
+          rating={4.5}
+        />
       </div>
 
       <div className="relative mt-5">
@@ -240,14 +275,16 @@ export const BookingWidget = ({
           {disableCheckout ? "Reserva proximamente" : "Reserva ahora"}
         </Button>
 
-        <Text
-          font="gilroy"
-          size="sm"
-          weight="medium"
-          className="mt-4 text-center text-white"
-        >
-          Aún no se te cobrará nada
-        </Text>
+        {shouldShowNoChargeText && (
+          <Text
+            font="gilroy"
+            size="sm"
+            weight="medium"
+            className="mt-4 text-center text-white"
+          >
+            Aún no se te cobrará nada
+          </Text>
+        )}
       </div>
     </figure>
   );

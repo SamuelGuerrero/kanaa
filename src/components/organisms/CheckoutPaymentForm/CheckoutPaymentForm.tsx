@@ -1,6 +1,10 @@
 "use client";
 
-import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import {
+  PaymentElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
 import { Lock } from "lucide-react";
 import { useState } from "react";
 
@@ -14,7 +18,9 @@ type CheckoutPaymentFormProps = {
   bookingData: BookingData;
 };
 
-export const CheckoutPaymentForm = ({ bookingData }: CheckoutPaymentFormProps) => {
+export const CheckoutPaymentForm = ({
+  bookingData,
+}: CheckoutPaymentFormProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -106,4 +112,3 @@ export const CheckoutPaymentForm = ({ bookingData }: CheckoutPaymentFormProps) =
     </form>
   );
 };
-

@@ -8,7 +8,7 @@ import HeroNosotrosBg from "@assets/images/Home/HeroNosotrosBg.png";
 
 export const HeroNosotros = () => {
   return (
-    <section className="relative h-200 w-full">
+    <section className="relative h-200 w-full" data-navbar-theme="dark">
       <Image
         src={HeroNosotrosBg}
         alt="Hero background"
@@ -17,7 +17,7 @@ export const HeroNosotros = () => {
         className="object-cover"
       />
 
-      <div className="relative w-80 md:w-full z-10 -mt-25 md:mt-0 md:py-45 ml-3 md:ml-0 flex h-full md:min-h-screen flex-col md:items-center justify-center text-white">
+      <div className="relative z-10 -mt-25 ml-3 flex h-full w-80 flex-col justify-center text-white md:mt-0 md:ml-0 md:min-h-screen md:w-full md:items-center md:py-45">
         <Text size="6xl" weight="medium">
           Alquileres vacacionales fáciles
         </Text>
@@ -30,7 +30,7 @@ export const HeroNosotros = () => {
         <Button
           textWeight="bold"
           variant="primary"
-          className="text-gold-dark! mt-10 w-fit "
+          className="text-gold-dark! mt-10 w-fit"
           href="/propiedades"
           icon={
             <CircleButton className="bg-grey-light!">

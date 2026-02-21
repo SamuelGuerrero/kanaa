@@ -18,7 +18,7 @@ export const InputForm = React.forwardRef<HTMLInputElement, InputProps>(
 
         <input
           ref={ref}
-          className={`font-gilroy md:h-13.5 w-70.25 bg-white/10 px-4 text-[16.33px] font-bold text-white placeholder-white transition outline-none focus:bg-white/20 focus:ring-2 focus:ring-white/40 ${error ? "" : ""} ${className ?? ""} `}
+          className={`font-gilroy w-70.25 bg-white/10 px-4 text-[16.33px] font-bold text-white placeholder-white transition outline-none focus:bg-white/20 focus:ring-2 focus:ring-white/40 md:h-13.5 ${error ? "" : ""} ${className ?? ""} `}
           {...props}
         />
 

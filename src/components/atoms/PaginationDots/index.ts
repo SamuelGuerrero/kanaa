@@ -1,1 +1,1 @@
-export * from './PaginationDots';
+export * from "./PaginationDots";

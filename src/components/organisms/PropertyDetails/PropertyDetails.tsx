@@ -13,7 +13,7 @@ import {
   PropertyOverview,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
-import { useOccupiedDates } from "@/hooks/useOccupiedDates";
+import { useListingCalendar } from "@/hooks/useListingCalendar";
 
 import { PropertyImages } from "../PropertyImages";
 
@@ -27,8 +27,11 @@ type PropertyDetailsProps = {
 export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
   const router = useRouter();
   const images = property.listingImages || [];
-  const { occupiedDates } = useOccupiedDates(property.id.toString());
+  const { occupiedDates, priceByDate } = useListingCalendar(
+    property.id.toString(),
+  );
   const [showAllAmenities, setShowAllAmenities] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
   const {
     currentMonth,
     dateRange,
@@ -54,11 +57,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
   };
 
   return (
-    <main className="mt-20 flex max-w-7xl flex-col bg-white pt-20">
-      <Text size="5xl" className="text-green-normal" weight="medium">
-        {property.name}
-      </Text>
-
+    <section className="flex max-w-7xl flex-col bg-white pt-20 sm:mt-20">
       <PropertyOverview
         city={property.city}
         state={property.state}
@@ -66,20 +65,30 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
         personCapacity={property.personCapacity}
         bedroomsNumber={property.bedroomsNumber}
         bathroomsNumber={property.bathroomsNumber}
-        className="mt-5"
+        name={property.name}
+        className="hidden sm:block"
+        showButton
       />
 
       <PropertyImages images={images} propertyName={property.name} />
 
       <div className="mt-10 flex w-full gap-10">
-        <section>
+        <section className="mx-2 pb-10">
           <Text
             font="gilroy"
             size="2xl"
             weight="bold"
-            className="text-green-normal"
+            className="text-green-normal hidden sm:block"
           >
             Casa habitacional ubicada en el centro de {property.city}
+          </Text>
+
+          <Text
+            size="5xl"
+            className="text-green-normal sm:hidden"
+            weight="medium"
+          >
+            {property.name}
           </Text>
 
           <PropertyOverview
@@ -91,6 +100,12 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             bathroomsNumber={property.bathroomsNumber}
           />
 
+          <div className="my-6 h-px w-full bg-[#F3F4F6] sm:hidden" />
+
+          <Text font="gilroy" weight="bold" size="2xl" className="sm:hidden">
+            Sobre este lugar
+          </Text>
+
           <Text
             font="gilroy"
             size="lg"
@@ -98,18 +113,46 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
           >
             {property.description}
           </Text>
+
           <Button
             variant="primary"
-            className="mt-4"
+            className="mt-4 hidden! sm:flex!"
+            onClick={() => setShowFullDescription((prev) => !prev)}
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
               </CircleButton>
             }
           >
-            Mostrar más
+            {showFullDescription ? "Mostrar menos" : "Mostrar más"}
           </Button>
-          <div className="border-t-grey-normal-hover mt-6 border-t">
+
+          <Button
+            textWeight="bold"
+            variant="primary"
+            className="text-gold-dark! bg-transparent px-0! sm:hidden"
+            onClick={() => setShowFullDescription((prev) => !prev)}
+            icon={
+              <CircleButton>
+                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+              </CircleButton>
+            }
+          >
+            {showFullDescription ? "Leer menos" : "Leer más"}
+          </Button>
+
+          <BookingWidget
+            price={property.price}
+            maxCapacity={property.personCapacity}
+            occupiedDates={occupiedDates}
+            priceByDate={priceByDate}
+            listingMapId={property.id.toString()}
+            onBookingClick={handleBookingClick}
+            disableCheckout={true}
+            className="sm:hidden"
+          />
+
+          <div className="border-t-grey-normal-hover mt-6 border-t px-5 sm:px-0">
             <Text
               font="gilroy"
               size="2xl"
@@ -119,10 +162,17 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
               Lo que te ofrece este lugar:{" "}
             </Text>
 
-            <div className="grid w-full grid-cols-2 gap-5">
+            <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2">
               {(showAllAmenities
                 ? property.listingAmenities
-                : property.listingAmenities.slice(0, 8)
+                : property.listingAmenities.slice(
+                    0,
+                    showAllAmenities
+                      ? property.listingAmenities.length
+                      : window.innerWidth < 640
+                        ? 4
+                        : 8,
+                  )
               ).map((amenity) => (
                 <div className="flex items-center gap-2" key={amenity.id}>
                   <UserGroupIcon className="text-gold-normal h-4 w-4" />
@@ -132,26 +182,36 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
                 </div>
               ))}
             </div>
-            {property.listingAmenities.length > 8 && (
+            {property.listingAmenities.length > 4 && (
               <Button
                 type="button"
                 variant="primary"
-                className="mt-4"
+                textClassName="mx-auto!"
+                className="sm:bg-gold-light-hover text-gold-dark! mt-4 w-full border border-[#D1D5DB] bg-transparent px-0! sm:w-fit sm:border-none sm:px-4!"
                 icon={
-                  <CircleButton>
+                  <CircleButton className="hidden sm:flex">
                     <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
                   </CircleButton>
                 }
                 onClick={() => setShowAllAmenities((prev) => !prev)}
               >
-                {showAllAmenities ? "Mostrar menos" : "Mostrar más"}
+                {showAllAmenities ? (
+                  "Mostrar menos"
+                ) : (
+                  <>
+                    <span className="hidden sm:inline">Mostrar más</span>
+                    <span className="font-bold text-black sm:hidden">
+                      Mostrar todas las amenidades
+                    </span>
+                  </>
+                )}
               </Button>
             )}
           </div>
 
           <div className="bg-grey-normal-hover my-8 h-px w-full" />
 
-          <div>
+          <div className="mx-2 sm:mx-0">
             <Text
               className="text-green-normal"
               size="2xl"
@@ -191,17 +251,18 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
           </div>
         </section>
 
-        <section>
+        <section className="hidden sm:block">
           <BookingWidget
             price={property.price}
             maxCapacity={property.personCapacity}
             occupiedDates={occupiedDates}
+            priceByDate={priceByDate}
             listingMapId={property.id.toString()}
             onBookingClick={handleBookingClick}
             disableCheckout={true}
           />
         </section>
       </div>
-    </main>
+    </section>
   );
 };

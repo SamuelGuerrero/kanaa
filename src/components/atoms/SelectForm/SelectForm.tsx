@@ -41,8 +41,9 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
           <select
             ref={ref}
             defaultValue=""
-            className={`font-gilroy md:h-13.75  ms:w-145.25 appearance-none bg-white/10 px-4 pr-12 text-[16.33px] font-bold text-white transition outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 ${error ? "border-red-500" : "border-gray-300"
-              } ${className}`}
+            className={`font-gilroy ms:w-145.25 appearance-none bg-white/10 px-4 pr-12 text-[16.33px] font-bold text-white transition outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 md:h-13.75 ${
+              error ? "border-red-500" : "border-gray-300"
+            } ${className}`}
             aria-invalid={error ? "true" : "false"}
             aria-describedby={error ? `${props.id}-error` : undefined}
             {...props}

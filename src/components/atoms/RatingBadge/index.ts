@@ -1,1 +1,1 @@
-export * from './RatingBadge';
+export * from "./RatingBadge";

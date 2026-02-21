@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { CarouselButton, PaginationDots } from "@/components/atoms";
@@ -38,6 +39,7 @@ export const PropertyCarousel = ({
     items: listings,
     itemsPerPage,
   });
+  const router = useRouter();
 
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
@@ -146,8 +148,12 @@ export const PropertyCarousel = ({
                         bathrooms={property.bathroomsNumber}
                         rating={property.averageReviewRating / 2 || 0}
                         title={property.name}
-                        price={2 * property.price}
-                        priceLabel="por 2 noches"
+                        price={property.price}
+                        priceLabel="por noche"
+                        listingId={property.id.toString()}
+                        onClick={() =>
+                          router.push(`/propiedades/${property.id}`)
+                        }
                       />
                     );
                   })}
