@@ -10,3 +10,4 @@ export * from "./CopyrightText";
 export * from "./SocialMediaIcon";
 export * from "./InputForm";
 export * from "./SelectForm";
+export * from "./Loader";
