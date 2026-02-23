@@ -26,6 +26,7 @@ type TextProps = {
   as?: ElementType;
   className?: string;
   dangerouslySetInnerHTML?: { __html: string };
+  id?: string;
 };
 
 const fontFamilies: Record<FontFamily, string> = {
@@ -64,6 +65,7 @@ export const Text = ({
   as: Component = "p",
   className = "",
   dangerouslySetInnerHTML,
+  id,
 }: TextProps) => {
   const classes = [
     fontFamilies[font],
@@ -78,6 +80,7 @@ export const Text = ({
     <Component
       className={classes}
       dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+      id={id}
     >
       {children}
     </Component>
