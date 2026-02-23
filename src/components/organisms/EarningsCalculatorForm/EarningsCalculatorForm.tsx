@@ -417,7 +417,7 @@ export const EarningsCalculatorForm = () => {
             disabled={isSubmitting}
             variant="primary"
             textWeight="bold"
-            className={`text-gold-darker col-span-2 mt-3 mx-auto flex h-11.5 w-[80%] justify-center md:mt-5 md:w-fit md:text-start ${isSubmitting ? "cursor-not-allowed opacity-60" : ""}`}
+            className={`text-gold-darker col-span-2 mx-auto mt-3 flex h-11.5 w-[80%] justify-center md:mt-5 md:w-fit md:text-start ${isSubmitting ? "cursor-not-allowed opacity-60" : ""}`}
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

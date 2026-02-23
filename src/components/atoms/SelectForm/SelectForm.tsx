@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { forwardRef, type SelectHTMLAttributes } from "react";
+
 import { Text } from "@/components/atoms";
 
 type SelectOption = {
@@ -31,12 +32,7 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
     return (
       <div className={`flex flex-col gap-1 ${wrapperClassName}`}>
         {label && (
-          <Text
-            font="gilroy"
-            size="sm"
-            weight="medium"
-            className="text-white"
-          >
+          <Text font="gilroy" size="sm" weight="medium" className="text-white">
             {label}
           </Text>
         )}
@@ -68,7 +64,7 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
         </div>
 
         {error && (
-          <Text id={`${props.id}-error`} size="xs" className="text-red-200" role="alert">
+          <Text id={`${props.id}-error`} size="xs" className="text-red-200">
             {error}
           </Text>
         )}

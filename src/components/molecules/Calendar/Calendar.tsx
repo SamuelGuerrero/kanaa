@@ -144,7 +144,10 @@ export const Calendar = ({
             );
 
             return (
-              <div key={day} className="relative flex h-10 items-center justify-center">
+              <div
+                key={day}
+                className="relative flex h-10 items-center justify-center"
+              >
                 {isInRange && (
                   <span className="absolute inset-y-0 right-0 left-0 bg-gray-100" />
                 )}
@@ -170,7 +173,11 @@ export const Calendar = ({
                   } ${
                     isInRange && !isStart && !isEnd ? "text-gray-900" : ""
                   } ${!isStart && !isEnd && !isInRange ? "rounded-full" : ""} ${
-                    !isStart && !isEnd && !isInRange && !isDisabled && !isOccupied
+                    !isStart &&
+                    !isEnd &&
+                    !isInRange &&
+                    !isDisabled &&
+                    !isOccupied
                       ? "text-gray-900"
                       : ""
                   }`}
