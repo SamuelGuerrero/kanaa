@@ -41,6 +41,8 @@ export const PropertyCarousel = ({
   });
   const router = useRouter();
 
+  console.log("Propiedades", listings);
+
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
