@@ -12,7 +12,7 @@ export const CopyrightText = ({ className }: CopyrightTextProps) => {
       weight="medium"
       font="gilroy"
     >
-      © {new Date().getFullYear()} — KANAA All Rights Reserved
+      © {new Date().getFullYear()} — Kanaa. Todos los derechos reservados.
     </Text>
   );
 };

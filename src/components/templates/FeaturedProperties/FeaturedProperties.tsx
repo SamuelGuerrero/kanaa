@@ -75,8 +75,8 @@ export const FeaturedProperties = ({
         Conoce nuestros alojamientos
       </Text>
       <Text size="lg" font="gilroy" className="text-grey-darker">
-        Todos nuestros alojamientos están destinado a que pases una estadía de
-        relajación.
+        Todos nuestros alojamientos están pensados para que disfrutes de una
+        estadía placentera y relajante.
       </Text>
 
       <Button

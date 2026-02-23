@@ -20,9 +20,9 @@ export const IdealVacancy = () => {
         variant="secondary"
         textClassName="text-base font-bold text-gold-normal!"
         className="bg-gold-light-hover! mt-2 w-fit rounded-[10px]"
-        href="mailto:talento@kanna.com"
+        href="mailto:talento@kanaa.com"
       >
-        talento@kanna.com
+        talento@kanaa.com
       </Button>
     </section>
   );

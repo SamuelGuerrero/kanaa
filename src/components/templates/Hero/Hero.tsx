@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 import { Text } from "@/components/atoms";
 import { ReservationSearch } from "@/components/organisms";
@@ -27,22 +26,6 @@ export const Hero = () => {
     router.push(`/propiedades?${params.toString()}`);
   };
 
-  useEffect(() => {
-    const loadCnbvByCodigo = async () => {
-      try {
-        const codigoPostal = "69007";
-        const res = await fetch(`/api/cnbv-catalog?codigo=${codigoPostal}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data: { codigo: string; rows: Array<unknown> } = await res.json();
-        console.log("CNBV rows for", data.codigo, data.rows);
-      } catch (error) {
-        console.error("CNBV lookup failed:", error);
-      }
-    };
-
-    void loadCnbvByCodigo();
-  }, []);
-
   return (
     <section className="relative w-full sm:min-h-screen">
       <Image
@@ -57,11 +40,11 @@ export const Hero = () => {
         <Text size="6xl" weight="medium">
           Siéntete como en casa,
           <br className="hidden sm:block" />
-          en cualquier lugar.
+          en cualquier lugar
         </Text>
 
         <Text size="xl" className="mt-8 mb-10" font="gilroy" weight="medium">
-          Encuentra tu próxima casa de descanso ideal.
+          Encuentra tu próxima casa de descanso.
         </Text>
         <ReservationSearch onSearch={handleSearch} />
       </div>

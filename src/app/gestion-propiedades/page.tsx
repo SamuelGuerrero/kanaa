@@ -26,7 +26,7 @@ export default function HomePage() {
       <BecomeHost />
       <InfoSection
         title="Pensado para quienes <br/> buscan tranquilidad <br/> y resultados"
-        description="Ideal para propietarios que buscan maximizar ingresos sin <br/> encargarse de la gestión diaria de su propiedad."
+        description="Ideal para propietarios que buscan maximizar ingresos sin <br/> encargarse de la gestión diaria de tu propiedad."
         image={PeaceAndResults}
         imageAlt="Property Management2"
         imagePosition="right"
@@ -43,12 +43,12 @@ export default function HomePage() {
       />
       <IntelligentManagement />
       <RealPropertyPotential
-        title="Descubra el verdadero <br/> valor de su alquiler <br/> vacacional."
-        description="Complete el formulario a continuación para obtener una <br/> estimación personalizada de sus ingresos anuales."
+        title="Descubre el verdadero <br/> valor de tu alquiler <br/> vacacional."
+        description="Completa el formulario a continuación para obtener una <br/> estimación personalizada de tus ingresos anuales."
       />
       <InfoSection
         title="Gestión de alquileres <br/> vacacionales simplificada "
-        description="Agiliza la gestión del alquiler vacacional para su tranquilidad  y una mayor rentabilidad."
+        description="Agiliza la gestión del alquiler vacacional para tu tranquilidad y mayor rentabilidad."
         imagesConfig={[
           {
             src: rentalManagement1,

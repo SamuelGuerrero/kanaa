@@ -7,8 +7,8 @@ export default function HomePage() {
       <ProjectConversation />
       <InfoSection
         title="Únete a nuestro equipo"
-        description="En KANAA buscamos personas que compartan nuestra visión: <br>
-                abajar con compromiso, claridad y enfoque a largo plazo.
+        description="En Kanaa buscamos personas que compartan nuestra visión: <br>
+                trabajar con compromiso, claridad y enfoque a largo plazo.
                 <br>
                 <br>
                 Si te interesa formar parte de un equipo que construye proyectos con <br>

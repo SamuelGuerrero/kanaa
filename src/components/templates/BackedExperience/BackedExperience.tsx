@@ -83,7 +83,7 @@ const mockTestimonials: Testimonial[] = [
     role: "Huésped",
     rating: 5,
     testimonial:
-      "KANNA me ha ayudado a gestionar mis propiedades de manera eficiente. El soporte técnico es excelente.",
+      "Kanaa me ha ayudado a gestionar mis propiedades de manera eficiente. El soporte técnico es excelente.",
     avatarUrl:
       "https://a0.muscache.com/im/pictures/user/16437f8e-5e51-4be7-b29c-21f59de5e58d.jpg?im_w=720",
   },
@@ -116,7 +116,7 @@ export const BackedExperience = () => {
         Experiencias que nos respaldan
       </Text>
       <Text font="gilroy" size="lg" className="text-grey-darker mt-6 mr-5 mb-8">
-        Huéspedes y propietarios comparten cómo KANNA transformó su forma de
+        Huéspedes y propietarios comparten cómo Kanaa transformó su forma de
         viajar y de gestionar sus propiedades.
       </Text>
       <TestimonialCarousel

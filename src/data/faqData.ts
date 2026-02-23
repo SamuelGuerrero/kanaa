@@ -35,12 +35,12 @@ export const DataPropertyManagment: FAQItem[] = [
 
 export const DataHome: FAQItem[] = [
   {
-    question: "¿Qué es KANAA House?",
+    question: "¿Qué es Kanaa House?",
     answer:
-      "KANAA House es una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrece experiencias premium a los huéspedes.",
+      "Kanaa House es una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrece experiencias premium a los huéspedes.",
   },
   {
-    question: "¿Cómo funciona el modelo de KANAA?",
+    question: "¿Cómo funciona el modelo de Kanaa?",
     answer:
       "Nos encargamos de todo el proceso: desde la adecuación y optimización del inmueble, hasta la publicación, gestión de reservas, atención a huéspedes y mantenimiento operativo.",
   },
@@ -62,7 +62,7 @@ export const DataHome: FAQItem[] = [
   {
     question: "¿Quién se encarga del mantenimiento?",
     answer:
-      "KANAA House coordina mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.",
+      "Kanaa House coordina mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.",
   },
   {
     question: "¿Qué pasa si hay daños en la propiedad?",
@@ -100,11 +100,11 @@ export const DataCalculator: FAQItem[] = [
   {
     question: "¿Cómo optimizan los precios de mi propiedad?",
     answer:
-      "Utilizamos análisis de datos, tendencias del mercado y herramientas de pricing dinámico para ajustar tarifas en tiempo real y maximizar tus ingresos sin afectar la ocupación.",
+      "Utilizamos análisis de datos, tendencias del mercado y una estrategia de precios dinámicos para ajustar tarifas en tiempo real y maximizar tus ingresos.",
   },
   {
     question: "¿Quién se encarga de la atención a los huéspedes?",
     answer:
-      "Nuestro equipo se encarga de la comunicación antes, durante y después de la estancia, asegurando una experiencia fluida tanto para los huéspedes como para ti.",
+      "Nuestro equipo se encarga de la comunicación antes, durante y después de la estancia, con una atención clara, rápida y constante para huéspedes y para ti.",
   },
 ] as const;

@@ -41,7 +41,7 @@ export const ValueProposition = () => {
             size="lg"
             className="text-grey-darker mb-5 leading-8"
           >
-            En KANNA disfrutas espacios cómodos, tranquilos y pensados para{" "}
+            En Kanaa disfrutas espacios cómodos, tranquilos y pensados para{" "}
             <br />
             que te relajes desde el primer momento.
           </Text>

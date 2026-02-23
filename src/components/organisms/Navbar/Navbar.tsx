@@ -5,6 +5,7 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 
@@ -216,7 +217,9 @@ export const Navbar = () => {
             : "sm:top-8.5"
         }`}
       >
-        <KanaaLogo />
+        <Link href="/" aria-label="Ir al inicio">
+          <KanaaLogo />
+        </Link>
 
         <div className="hidden items-center gap-7.5 md:flex">
           {navItems.map((item) => (
@@ -266,7 +269,9 @@ export const Navbar = () => {
         }`}
       >
         <div className="flex items-center justify-between">
-          <KanaaLogo />
+          <Link href="/" aria-label="Ir al inicio">
+            <KanaaLogo />
+          </Link>
           <button
             type="button"
             aria-label="Cerrar menú"

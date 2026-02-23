@@ -19,7 +19,7 @@ export default function HomePage() {
                 la experiencia de los huéspedes.
                 <br>
                 <br>
-                En KANAA combinamos estrategia inmobiliaria, tecnología y operación <br> 
+                En Kanaa combinamos estrategia inmobiliaria, tecnología y operación <br> 
                 profesional para transformar propiedades en activos rentables, bien <br> 
                 administrados y sin complicaciones. Nos enfocamos en cada detalle 
                 para que tú solo disfrutes los resultados."
@@ -74,7 +74,7 @@ export default function HomePage() {
       <ExperienceInAction />
       <InfoSection
         title="Únete a nuestro equipo"
-        description="En KANAA buscamos personas que compartan nuestra visión: <br>
+        description="En Kanaa buscamos personas que compartan nuestra visión: <br>
                 trabajar con compromiso, claridad y enfoque a largo plazo.
                 <br>
                 <br>

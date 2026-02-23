@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 import { CircleButton, CopyrightText, KanaaLogo } from "@/components/atoms";
 import {
@@ -26,7 +27,7 @@ const SOCIAL_LINKS: SocialLink[] = [
 
 const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
   {
-    title: "KANNA",
+    title: "Kanaa",
     links: [
       { href: "", label: "Sobre nosotros" },
       { href: "", label: "Nuestro equipo" },
@@ -64,7 +65,9 @@ export const Footer = () => {
     <footer className="bg-green-dark-active mt-1.5 w-full px-8 py-5 md:mt-6 md:py-16">
       <div className="md:item-center flex w-full flex-col gap-12 md:flex-row">
         <div className="flex justify-center md:justify-start">
-          <KanaaLogo />
+          <Link href="/" aria-label="Ir al inicio">
+            <KanaaLogo />
+          </Link>
         </div>
 
         <div className="text-green-light-active grid flex-1 grid-cols-2 gap-10 md:mx-10 md:flex md:flex-row md:gap-14">

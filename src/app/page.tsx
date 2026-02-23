@@ -30,7 +30,7 @@ export default function HomePage() {
 
       <InfoSection
         title="Property Management <br /> pensado para propietarios"
-        description="En KANAA administramos tu propiedad de manera profesional, cuidando <br /> 
+        description="En Kanaa administramos tu propiedad de manera profesional, cuidando <br /> 
         cada espacio, optimizando la ocupación y ofreciendo una experiencia <br classname='hidden sm:block' /> 
         excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad."
         image={PropertyManagement}

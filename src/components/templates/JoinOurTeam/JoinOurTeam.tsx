@@ -48,7 +48,7 @@ export const JoinOurTeam = () => {
           Únete a nuestro equipo
         </Text>
         <Text className="text-grey-darker mt-5" size="lg" font="gilroy">
-          En KANAA buscamos personas que compartan nuestra visión:
+          En Kanaa buscamos personas que compartan nuestra visión:
         </Text>
       </div>
       <div className="max-w-8xl mx-auto space-y-3 px-1 pt-8">
