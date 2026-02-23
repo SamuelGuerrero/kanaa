@@ -27,16 +27,16 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative w-full sm:min-h-screen">
+    <section className="relative min-h-200 w-full sm:min-h-screen">
       <Image
         src={HeroBackground}
         alt="Hero background"
         fill
         priority
-        className="h-1/2 object-cover sm:h-screen"
+        className="object-cover"
       />
 
-      <div className="relative z-10 my-25 flex flex-col items-center justify-center text-center text-white sm:my-45 sm:min-h-screen">
+      <div className="relative z-10 flex min-h-170 flex-col items-center justify-center px-4 pt-20 text-center text-white sm:min-h-screen sm:pt-0">
         <Text size="6xl" weight="medium">
           Siéntete como en casa,
           <br className="hidden sm:block" />
