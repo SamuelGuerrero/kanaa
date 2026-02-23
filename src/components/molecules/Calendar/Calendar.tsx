@@ -112,7 +112,7 @@ export const Calendar = ({
         <h3 className="mb-4 text-center font-semibold text-gray-900">
           {MONTHS[month]} {year}
         </h3>
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-x-0 gap-y-1">
           {DAYS.map((day) => (
             <div
               key={day}
@@ -139,47 +139,48 @@ export const Calendar = ({
               dateRange.endDate,
             );
 
-            const nextDay = new Date(year, month, day);
-            nextDay.setDate(nextDay.getDate() - 1);
-            const isAfterStart =
-              dateRange.startDate && isSameDay(nextDay, dateRange.startDate);
-
-            const prevDay = new Date(year, month, day);
-            prevDay.setDate(prevDay.getDate() + 1);
-            const isBeforeEnd =
-              dateRange.endDate && isSameDay(prevDay, dateRange.endDate);
+            const hasStartAndEnd = Boolean(
+              dateRange.startDate && dateRange.endDate,
+            );
 
             return (
-              <button
-                key={day}
-                type="button"
-                onClick={() => onDateClick(date)}
-                disabled={isDisabled || isOccupied}
-                className={`relative flex h-10 w-10 items-center justify-center text-sm font-medium transition-all duration-200 ease-out ${
-                  isDisabled || isOccupied
-                    ? "cursor-not-allowed text-gray-300"
-                    : "cursor-pointer hover:scale-105 hover:border hover:border-gray-900"
-                } ${
-                  isStart || isEnd
-                    ? "rounded-full bg-gray-900 text-white hover:bg-gray-900"
-                    : ""
-                } ${isInRange && !isStart && !isEnd ? "w-[40.5px] bg-gray-100" : ""} ${
-                  isInRange && isAfterStart ? "rounded-l-full" : ""
-                } ${isInRange && isBeforeEnd ? "rounded-r-full" : ""} ${
-                  isInRange && !isAfterStart && !isBeforeEnd
-                    ? "rounded-none"
-                    : ""
-                } ${!isStart && !isEnd && !isInRange ? "rounded-full" : ""} ${
-                  !isStart && !isEnd && !isInRange && !isDisabled && !isOccupied
-                    ? "text-gray-900"
-                    : ""
-                } `}
-              >
-                {day}
-                {isOccupied && (
-                  <span className="absolute top-1/2 left-1/2 h-px w-6 -translate-x-1/2 -translate-y-1/2 bg-gray-400" />
+              <div key={day} className="relative flex h-10 items-center justify-center">
+                {isInRange && (
+                  <span className="absolute inset-y-0 right-0 left-0 bg-gray-100" />
                 )}
-              </button>
+                {isStart && hasStartAndEnd && (
+                  <span className="absolute inset-y-0 right-0 w-1/2 bg-gray-100" />
+                )}
+                {isEnd && hasStartAndEnd && (
+                  <span className="absolute inset-y-0 left-0 w-1/2 bg-gray-100" />
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => onDateClick(date)}
+                  disabled={isDisabled || isOccupied}
+                  className={`relative z-10 flex h-10 w-10 items-center justify-center text-sm font-medium transition-all duration-200 ease-out ${
+                    isDisabled || isOccupied
+                      ? "cursor-not-allowed text-gray-300"
+                      : "cursor-pointer hover:scale-105 hover:border hover:border-gray-900"
+                  } ${
+                    isStart || isEnd
+                      ? "rounded-full bg-gray-900 text-white hover:bg-gray-900"
+                      : ""
+                  } ${
+                    isInRange && !isStart && !isEnd ? "text-gray-900" : ""
+                  } ${!isStart && !isEnd && !isInRange ? "rounded-full" : ""} ${
+                    !isStart && !isEnd && !isInRange && !isDisabled && !isOccupied
+                      ? "text-gray-900"
+                      : ""
+                  }`}
+                >
+                  {day}
+                  {isOccupied && (
+                    <span className="absolute top-1/2 left-1/2 h-px w-6 -translate-x-1/2 -translate-y-1/2 bg-gray-400" />
+                  )}
+                </button>
+              </div>
             );
           })}
         </div>
