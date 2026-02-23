@@ -87,7 +87,8 @@ export async function GET(request: NextRequest) {
         Boolean(searchParams.get("availabilityDateEnd")) ||
         Boolean(searchParams.get("availabilityGuestNumber"));
 
-      const shouldPrioritizeListings = !hasFilters && requestOffset === "0";
+      const shouldPrioritizeListings =
+        !hasFilters && requestOffset === "0" && requestLimit <= 12;
 
       if (!shouldPrioritizeListings) {
         const response = await fetch(
@@ -139,16 +140,6 @@ export async function GET(request: NextRequest) {
         )
         .map((result) => result.value);
 
-      if (prioritizedListings.length >= requestLimit) {
-        return {
-          status: "success",
-          result: prioritizedListings.slice(0, requestLimit),
-          count: requestLimit,
-          limit: requestLimit,
-          offset: 0,
-        } as ApiResponse<Property[]>;
-      }
-
       const generalParams = new URLSearchParams({
         limit: GENERAL_LISTINGS_LIMIT.toString(),
         offset: "0",
@@ -187,7 +178,9 @@ export async function GET(request: NextRequest) {
       return {
         ...generalData,
         result,
-        count: result.length,
+        count: Number.isFinite(generalData.count)
+          ? generalData.count
+          : result.length,
         limit: requestLimit,
         offset: 0,
       } as ApiResponse<Property[]>;
