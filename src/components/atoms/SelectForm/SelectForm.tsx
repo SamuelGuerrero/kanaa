@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { forwardRef, type SelectHTMLAttributes } from "react";
+import { Text } from "@/components/atoms";
 
 type SelectOption = {
   label: string;
@@ -30,19 +31,21 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
     return (
       <div className={`flex flex-col gap-1 ${wrapperClassName}`}>
         {label && (
-          <label
-            htmlFor={props.id}
-            className="text-sm font-medium text-gray-700"
+          <Text
+            font="gilroy"
+            size="sm"
+            weight="medium"
+            className="text-white"
           >
             {label}
-          </label>
+          </Text>
         )}
         <div className="relative">
           <select
             ref={ref}
             defaultValue=""
-            className={`font-gilroy ms:w-145.25 appearance-none bg-white/10 px-4 pr-12 text-[16.33px] font-bold text-white transition outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 md:h-13.75 ${
-              error ? "border-red-500" : "border-gray-300"
+            className={`font-gilroy ms:w-145.25 appearance-none rounded-[10px] border border-white/20 bg-white/10 px-4 pr-12 text-[16.33px] font-semibold text-white transition outline-none focus:border-[#CBBE99] focus:ring-2 focus:ring-[#CBBE99]/25 disabled:cursor-not-allowed disabled:opacity-50 md:h-13.75 ${
+              error ? "border-red-300" : ""
             } ${className}`}
             aria-invalid={error ? "true" : "false"}
             aria-describedby={error ? `${props.id}-error` : undefined}
@@ -65,13 +68,9 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
         </div>
 
         {error && (
-          <span
-            id={`${props.id}-error`}
-            className="text-xs text-red-600"
-            role="alert"
-          >
+          <Text id={`${props.id}-error`} size="xs" className="text-red-200" role="alert">
             {error}
-          </span>
+          </Text>
         )}
       </div>
     );

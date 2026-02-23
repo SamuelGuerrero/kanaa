@@ -1,4 +1,5 @@
 import React from "react";
+import { Text } from "@/components/atoms";
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
@@ -11,18 +12,27 @@ export const InputForm = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={wrapperClassName}>
         {label && (
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <Text
+            font="gilroy"
+            size="sm"
+            weight="medium"
+            className="mb-1 block text-white"
+          >
             {label}
-          </label>
+          </Text>
         )}
 
         <input
           ref={ref}
-          className={`font-gilroy w-70.25 bg-white/10 px-4 text-[16.33px] font-bold text-white placeholder-white transition outline-none focus:bg-white/20 focus:ring-2 focus:ring-white/40 md:h-13.5 ${error ? "" : ""} ${className ?? ""} `}
+          className={`font-gilroy w-70.25 rounded-[10px] border border-white/20 bg-white/10 px-4 text-[16.33px] font-semibold text-white placeholder-white/75 transition outline-none focus:border-[#CBBE99] focus:bg-white/20 focus:ring-2 focus:ring-[#CBBE99]/25 md:h-13.5 ${error ? "border-red-300" : ""} ${className ?? ""} `}
           {...props}
         />
 
-        {error && <p className="mt-1 text-xs">{error}</p>}
+        {error && (
+          <Text size="xs" font="gilroy" className="mt-1 text-red-200">
+            {error}
+          </Text>
+        )}
       </div>
     );
   },
