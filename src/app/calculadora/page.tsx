@@ -32,7 +32,7 @@ export default function HomePage() {
     <main className="flex flex-col space-y-1.5 md:space-y-6">
       <EarningsCalculator />
       <InfoSection
-        title="¿Por qué elegir KANNA para gestionar tu propiedad?"
+        title="¿Por qué elegir Kanaa para gestionar tu propiedad?"
         description="Porque cuidamos tu propiedad, optimizamos tus ingresos y nos <br/> encargamos de todo para que tú disfrutes tranquilidad y resultados."
         image={ChooseKANNA}
         imageAlt="Calculadora de ingresos"
@@ -69,8 +69,8 @@ export default function HomePage() {
       />
       <InfoSection
         title="Optimización de ingresos"
-        description="Asegúrese de obtener la mayor rentabilidad posible. Utilizamos 
-                estrategias integrales y tecnología de vanguardia para optimizar el potencial de ingresos de su propiedad"
+        description="Asegúrate de obtener la mayor rentabilidad posible. Utilizamos 
+                estrategias integrales y modelos de inteligencia artificial para optimizar el potencial de ingresos de tu propiedad."
         imagesConfig={[
           {
             src: RevenueOptimization,
@@ -90,7 +90,7 @@ export default function HomePage() {
         features={[
           { text: "Análisis de datos", icon: <Vector /> },
           {
-            text: "Herramientas de fijación de precios robustas",
+            text: "Estrategia de precios dinámicos",
             icon: <SupportIcon />,
           },
           {
@@ -104,7 +104,9 @@ export default function HomePage() {
       />
       <InfoSection
         title="Gestión de reservas"
-        description="Gestionamos sin problemas todas sus reservas, anunciando su propiedad en <br/> más de 15 sitios de reservas en línea, a la vez que garantizamos una <br/> experiencia sin complicaciones tanto para usted como para sus huéspedes."
+        description="Gestionamos todas tus reservas y publicamos tu propiedad en 
+        <br className='hidden md:block' /> diferentes OTAs para aumentar su visibilidad. También damos seguimiento 
+        <br className='hidden md:block' /> continuo para ofrecer una atención clara y sin fricciones a tus huéspedes."
         image={ReservationManagement}
         imageAlt="Property Management2"
         imagePosition="left"
@@ -112,7 +114,7 @@ export default function HomePage() {
         descriptionClassName="text-grey-light"
         textClassName="ml-2 text-grey-light mt-12"
         features={[
-          { text: "Gestión de listados", icon: <Vector /> },
+          { text: "Administración de listados", icon: <Vector /> },
           { text: "Marketing y publicidad", icon: <SupportIcon /> },
           { text: "Gestión de reservas", icon: <ReservationsManagementIcon /> },
           {
@@ -132,7 +134,7 @@ export default function HomePage() {
       <FrequentlyQuestions data={DataCalculator} />
       <RealPropertyPotential
         title="Conoce el potencial real de tu propiedad"
-        description="Ingresa algunos datos clave y obtén una estimación de ingresos anual <br/> basada en el tipo de inmueble, su capacidad y su ubicación."
+        description="Ingresa algunos datos clave y obtén una estimación de ingresos anual <br className='hidden md:block' /> basada en el tipo de inmueble, su capacidad y su ubicación."
       />
     </main>
   );

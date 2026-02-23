@@ -6,7 +6,7 @@ import calculadoraHeroBg from "@assets/images/Home/calculadoraHeroBg.png";
 
 export const EarningsCalculator = () => {
   return (
-    <section className="relative h-200 w-full">
+    <section className="relative h-230 w-full sm:h-200">
       <div className="absolute inset-0">
         <Image
           src={calculadoraHeroBg}
@@ -21,7 +21,7 @@ export const EarningsCalculator = () => {
         />
       </div>
 
-      <div className="relative z-10 mt-28 flex flex-col items-center px-3 md:flex-row md:justify-between md:px-10">
+      <div className="relative z-10 mt-15 flex flex-col items-center px-3 sm:mt-28 md:flex-row md:justify-between md:px-10">
         <div className="mb-5 max-w-138.5 md:mb-55">
           <Text
             size="6xl"
