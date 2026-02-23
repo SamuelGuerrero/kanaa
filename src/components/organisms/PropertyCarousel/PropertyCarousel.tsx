@@ -8,7 +8,7 @@ import { PropertyCard } from "@/components/molecules";
 import { useCarouselPagination } from "@/hooks/useCarouselPagination";
 
 import type { Property } from "@/types/property";
-import type { DetailedHTMLProps, HTMLAttributes } from "react";
+import type { DetailedHTMLProps, HTMLAttributes, TouchEvent } from "react";
 
 type PropertyCarouselProps = DetailedHTMLProps<
   HTMLAttributes<HTMLElement>,
@@ -46,7 +46,7 @@ export const PropertyCarousel = ({
 
   const minSwipeDistance = 50;
 
-  const onTouchStart = (e: React.TouchEvent) => {
+  const onTouchStart = (e: TouchEvent) => {
     setTouchEnd(0);
     const touch = e.targetTouches[0];
     if (touch) {
@@ -54,7 +54,7 @@ export const PropertyCarousel = ({
     }
   };
 
-  const onTouchMove = (e: React.TouchEvent) => {
+  const onTouchMove = (e: TouchEvent) => {
     const touch = e.targetTouches[0];
     if (touch) {
       setTouchEnd(touch.clientX);

@@ -1,6 +1,5 @@
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import React from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";

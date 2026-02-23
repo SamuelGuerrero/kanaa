@@ -6,7 +6,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { Lock } from "lucide-react";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 import { Text } from "@/components/atoms";
 import { CheckoutBookingSummary } from "@/components/molecules/CheckoutBookingSummary";
@@ -26,7 +26,7 @@ export const CheckoutPaymentForm = ({
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!stripe || !elements) return;

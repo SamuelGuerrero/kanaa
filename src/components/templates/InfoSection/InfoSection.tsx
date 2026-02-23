@@ -1,13 +1,14 @@
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Image, { type StaticImageData } from "next/image";
-import React from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
 
+import type { ReactNode } from "react";
+
 type FeatureItem = {
   text: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   titulo?: string;
 };
 interface ImageConfig {

@@ -5,7 +5,14 @@ import {
   MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type MouseEvent,
+  type TouchEvent,
+} from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
 import {
@@ -16,6 +23,7 @@ import {
   type GuestCounts,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
+
 import type { ApiResponse, Property } from "@/types/property";
 
 export type SearchFilters = {
@@ -138,7 +146,9 @@ export const ReservationSearch = ({
     const loadDestinationOptions = async () => {
       setDestinationsLoading(true);
       try {
-        const response = await fetch("/api/hostaway/listings?limit=100&offset=0");
+        const response = await fetch(
+          "/api/hostaway/listings?limit=100&offset=0",
+        );
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
         }
@@ -202,21 +212,21 @@ export const ReservationSearch = ({
     }
   }, [destinationOptions, initialFilters, isMounted, setDateRange]);
 
-  const handleCheckInClick = (e: React.MouseEvent) => {
+  const handleCheckInClick = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     openCalendar("checkin");
     setShowGuestSelector(false);
   };
 
-  const handleCheckOutClick = (e: React.MouseEvent) => {
+  const handleCheckOutClick = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     openCalendar("checkout");
     setShowGuestSelector(false);
   };
 
-  const handleGuestsClick = (e: React.MouseEvent) => {
+  const handleGuestsClick = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setShowGuestSelector(!showGuestSelector);
@@ -254,18 +264,20 @@ export const ReservationSearch = ({
     }, 240);
   };
 
-  const handleSheetTouchStart = (e: React.TouchEvent) => {
+  const handleSheetTouchStart = (e: TouchEvent) => {
     const touch = e.touches[0];
     if (!touch) return;
     const target = e.target as HTMLElement;
-    const startedInScrollableArea = Boolean(target.closest("[data-sheet-scroll]"));
+    const startedInScrollableArea = Boolean(
+      target.closest("[data-sheet-scroll]"),
+    );
     const scrollTop = sheetScrollRef.current?.scrollTop ?? 0;
 
     setCanDragSheet(!startedInScrollableArea || scrollTop === 0);
     setTouchStartY(touch.clientY);
   };
 
-  const handleSheetTouchMove = (e: React.TouchEvent) => {
+  const handleSheetTouchMove = (e: TouchEvent) => {
     if (touchStartY === null || !canDragSheet) return;
     const touch = e.touches[0];
     if (!touch) return;
@@ -476,7 +488,7 @@ export const ReservationSearch = ({
       )}
 
       {showMobileSheet && (
-        <div className="fixed inset-0 z-[70] md:hidden">
+        <div className="fixed inset-0 z-70 md:hidden">
           <button
             type="button"
             aria-label="Cerrar"
@@ -499,7 +511,9 @@ export const ReservationSearch = ({
               </div>
               <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
                 <Text font="gilroy" size="base" weight="semibold">
-                  {showCalendar ? "Selecciona tus fechas" : "Selecciona huéspedes"}
+                  {showCalendar
+                    ? "Selecciona tus fechas"
+                    : "Selecciona huéspedes"}
                 </Text>
                 <button
                   type="button"

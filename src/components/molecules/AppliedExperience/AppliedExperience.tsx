@@ -1,12 +1,12 @@
 import { Text } from "@/components/atoms";
 
-import type { FC } from "react";
+import type { FC, SVGProps } from "react";
 
 export type Experience = {
   id: number;
   title: string;
   description: string;
-  Icon: FC<React.SVGProps<SVGSVGElement>>;
+  Icon: FC<SVGProps<SVGSVGElement>>;
 };
 
 type CardProps = {

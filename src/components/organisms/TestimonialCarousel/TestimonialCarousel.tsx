@@ -6,7 +6,7 @@ import { CarouselButton, PaginationDots } from "@/components/atoms";
 import { TestimonialCard } from "@/components/molecules";
 import { useCarouselPagination } from "@/hooks/useCarouselPagination";
 
-import type { DetailedHTMLProps, HTMLAttributes } from "react";
+import type { DetailedHTMLProps, HTMLAttributes, TouchEvent } from "react";
 
 export type Testimonial = {
   id: number;
@@ -52,7 +52,7 @@ export const TestimonialCarousel = ({
 
   const minSwipeDistance = 50;
 
-  const onTouchStart = (e: React.TouchEvent) => {
+  const onTouchStart = (e: TouchEvent) => {
     setTouchEnd(0);
     const touch = e.targetTouches[0];
     if (touch) {
@@ -60,7 +60,7 @@ export const TestimonialCarousel = ({
     }
   };
 
-  const onTouchMove = (e: React.TouchEvent) => {
+  const onTouchMove = (e: TouchEvent) => {
     const touch = e.targetTouches[0];
     if (touch) {
       setTouchEnd(touch.clientX);

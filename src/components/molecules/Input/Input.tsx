@@ -1,6 +1,6 @@
 import { Text } from "@/components/atoms";
 
-import type { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import type { DetailedHTMLProps, FocusEvent, InputHTMLAttributes } from "react";
 
 type InputProps = Omit<
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
@@ -24,14 +24,14 @@ export const Input = ({
   onBlur,
   ...rest
 }: InputProps) => {
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
     if (variant === "date-dynamic") {
       e.currentTarget.type = "date";
     }
     onFocus?.(e);
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     if (variant === "date-dynamic" && !e.currentTarget.value) {
       e.currentTarget.type = "text";
     }

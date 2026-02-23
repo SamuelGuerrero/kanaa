@@ -1,13 +1,14 @@
-import React from "react";
+import { forwardRef, type InputHTMLAttributes } from "react";
+
 import { Text } from "@/components/atoms";
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   error?: string;
   wrapperClassName?: string;
 };
 
-export const InputForm = React.forwardRef<HTMLInputElement, InputProps>(
+export const InputForm = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, className, wrapperClassName, ...props }, ref) => {
     return (
       <div className={wrapperClassName}>

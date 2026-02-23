@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 
 import { Text } from "@/components/atoms";
 import { ContactanosForm } from "@/components/organisms";
