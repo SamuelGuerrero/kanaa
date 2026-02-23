@@ -24,7 +24,7 @@ export const TestimonialCard = ({
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
   return (
-    <figure className="bg-green-normal relative flex h-74 w-92.5 flex-col items-center rounded-2xl p-5">
+    <figure className="bg-green-normal relative mx-auto flex h-74 w-full max-w-92.5 flex-col items-center rounded-2xl p-5 sm:mx-0 sm:w-92.5">
       <div className="flex flex-col items-center">
         <Image
           src={avatarUrl}

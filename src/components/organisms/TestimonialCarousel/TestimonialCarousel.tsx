@@ -151,7 +151,7 @@ export const TestimonialCarousel = ({
           >
             {pages.map((page, pageIndex) => (
               <div key={`page-${pageIndex}`} className="w-full shrink-0">
-                <div className="grid grid-cols-1 gap-6 sm:px-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 px-2 sm:px-4 md:grid-cols-2 lg:grid-cols-3">
                   {page.map((testimonial) => (
                     <TestimonialCard
                       key={testimonial.id}
