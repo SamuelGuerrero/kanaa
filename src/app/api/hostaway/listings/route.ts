@@ -7,6 +7,8 @@ import type { Property, ApiResponse } from "@/types/property";
 const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
 const CACHE_TTL_MS = 60 * 1000;
 const CACHE_STALE_MS = 5 * 60 * 1000;
+const PRIORITY_LISTING_IDS = [448506, 488293, 396219];
+const GENERAL_LISTINGS_LIMIT = 100;
 
 type CacheEntry = {
   data: ApiResponse<Property[]>;
@@ -16,6 +18,11 @@ type CacheEntry = {
 };
 
 const listingsCache = new Map<string, CacheEntry>();
+
+const parsePositiveInt = (value: string | null, fallback: number) => {
+  const parsed = Number.parseInt(value ?? "", 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+};
 
 export async function GET(request: NextRequest) {
   try {
@@ -69,8 +76,86 @@ export async function GET(request: NextRequest) {
 
     const fetchFromHostaway = async () => {
       const authorization = await getHostawayAuthorizationHeader();
-      const response = await fetch(
-        `${HOSTAWAY_API_URL}/listings?${hostawayParams.toString()}`,
+      const requestLimit = parsePositiveInt(searchParams.get("limit"), 16);
+      const requestOffset = searchParams.get("offset") ?? "0";
+
+      const hasFilters =
+        Boolean(searchParams.get("city")) ||
+        Boolean(searchParams.get("match")) ||
+        Boolean(searchParams.get("country")) ||
+        Boolean(searchParams.get("availabilityDateStart")) ||
+        Boolean(searchParams.get("availabilityDateEnd")) ||
+        Boolean(searchParams.get("availabilityGuestNumber"));
+
+      const shouldPrioritizeListings = !hasFilters && requestOffset === "0";
+
+      if (!shouldPrioritizeListings) {
+        const response = await fetch(
+          `${HOSTAWAY_API_URL}/listings?${hostawayParams.toString()}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: authorization,
+              "Content-Type": "application/json",
+            },
+            next: { revalidate: 3600 },
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`Error de Hostaway API: ${response.status}`);
+        }
+
+        return (await response.json()) as ApiResponse<Property[]>;
+      }
+
+      const priorityResponses = await Promise.allSettled(
+        PRIORITY_LISTING_IDS.map(async (id) => {
+          const response = await fetch(
+            `${HOSTAWAY_API_URL}/listings/${id}?includeResources=1`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: authorization,
+                "Content-Type": "application/json",
+              },
+              next: { revalidate: 3600 },
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error(`Error de Hostaway API (listing ${id})`);
+          }
+
+          const listingData = (await response.json()) as ApiResponse<Property>;
+          return listingData.result;
+        }),
+      );
+
+      const prioritizedListings = priorityResponses
+        .filter(
+          (result): result is PromiseFulfilledResult<Property> =>
+            result.status === "fulfilled",
+        )
+        .map((result) => result.value);
+
+      if (prioritizedListings.length >= requestLimit) {
+        return {
+          status: "success",
+          result: prioritizedListings.slice(0, requestLimit),
+          count: requestLimit,
+          limit: requestLimit,
+          offset: 0,
+        } as ApiResponse<Property[]>;
+      }
+
+      const generalParams = new URLSearchParams({
+        limit: GENERAL_LISTINGS_LIMIT.toString(),
+        offset: "0",
+      });
+
+      const generalResponse = await fetch(
+        `${HOSTAWAY_API_URL}/listings?${generalParams.toString()}`,
         {
           method: "GET",
           headers: {
@@ -81,11 +166,31 @@ export async function GET(request: NextRequest) {
         },
       );
 
-      if (!response.ok) {
-        throw new Error(`Error de Hostaway API: ${response.status}`);
+      if (!generalResponse.ok) {
+        throw new Error(`Error de Hostaway API: ${generalResponse.status}`);
       }
 
-      return (await response.json()) as ApiResponse<Property[]>;
+      const generalData = (await generalResponse.json()) as ApiResponse<
+        Property[]
+      >;
+
+      const excludedIds = new Set(PRIORITY_LISTING_IDS);
+      const remainingListings = (generalData.result ?? []).filter(
+        (listing) => !excludedIds.has(listing.id),
+      );
+
+      const result = [...prioritizedListings, ...remainingListings].slice(
+        0,
+        requestLimit,
+      );
+
+      return {
+        ...generalData,
+        result,
+        count: result.length,
+        limit: requestLimit,
+        offset: 0,
+      } as ApiResponse<Property[]>;
     };
 
     if (cached) {
