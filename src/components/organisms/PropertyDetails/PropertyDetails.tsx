@@ -3,17 +3,13 @@
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
-import {
-  BookingWidget,
-  Button,
-  Calendar,
-  PropertyOverview,
-} from "@/components/molecules";
+import { BookingWidget, Button, Calendar, PropertyOverview } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
 import { useListingCalendar } from "@/hooks/useListingCalendar";
+import { useI18n } from "@/i18n";
 
 import { PropertyImages } from "../PropertyImages";
 
@@ -25,6 +21,8 @@ type PropertyDetailsProps = {
 };
 
 export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
+  const { locale, t } = useI18n();
+  const DESCRIPTION_PREVIEW_LENGTH = 260;
   const router = useRouter();
   const images = property.listingImages || [];
   const { occupiedDates, priceByDate } = useListingCalendar(
@@ -35,16 +33,11 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
   const {
     currentMonth,
     dateRange,
-    handleDateClick,
     handlePrevMonth,
     handleNextMonth,
     clearDates,
-    openCalendar,
+    setDateRange,
   } = useCalendar();
-
-  useEffect(() => {
-    openCalendar("checkin");
-  }, [openCalendar]);
 
   console.log("Fechas ocupadas", occupiedDates);
 
@@ -54,6 +47,59 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
     sessionStorage.setItem("bookingData", JSON.stringify(data));
 
     router.push(`/checkout/${property.id}`);
+  };
+
+  const fullDescription = (property.description ?? "").trim();
+  const shouldTruncateDescription =
+    fullDescription.length > DESCRIPTION_PREVIEW_LENGTH;
+  const visibleDescription =
+    showFullDescription || !shouldTruncateDescription
+      ? fullDescription
+      : `${fullDescription.slice(0, DESCRIPTION_PREVIEW_LENGTH).trimEnd()}...`;
+  const totalNights =
+    dateRange.startDate && dateRange.endDate
+      ? Math.ceil(
+          (dateRange.endDate.getTime() - dateRange.startDate.getTime()) /
+            (1000 * 60 * 60 * 24),
+        )
+      : 0;
+  const stayTitle =
+    totalNights > 0
+      ? locale === "en"
+        ? `${totalNights} ${totalNights === 1 ? "night" : "nights"} in ${property.name}`
+        : `${totalNights} ${totalNights === 1 ? "noche" : "noches"} en ${property.name}`
+      : locale === "en"
+        ? `Select your dates in ${property.name}`
+        : `Selecciona tus fechas en ${property.name}`;
+  const formatStayDate = (date: Date) =>
+    new Intl.DateTimeFormat(locale === "en" ? "en-US" : "es-MX", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }).format(date);
+  const stayDateRangeText =
+    dateRange.startDate && dateRange.endDate
+      ? `${formatStayDate(dateRange.startDate)} - ${formatStayDate(dateRange.endDate)}`
+      : locale === "en"
+        ? "Select check-in and check-out dates"
+        : "Selecciona fecha de llegada y salida";
+  const handleInlineCalendarDateClick = (date: Date) => {
+    const isOccupied = occupiedDates.some(
+      (occupiedDate) => occupiedDate.toDateString() === date.toDateString(),
+    );
+    if (isOccupied) return;
+
+    if (!dateRange.startDate || dateRange.endDate) {
+      setDateRange({ startDate: date, endDate: null });
+      return;
+    }
+
+    if (date <= dateRange.startDate) {
+      setDateRange({ startDate: date, endDate: null });
+      return;
+    }
+
+    setDateRange({ startDate: dateRange.startDate, endDate: date });
   };
 
   return (
@@ -80,7 +126,9 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             weight="bold"
             className="text-green-normal hidden sm:block"
           >
-            Casa habitacional ubicada en el centro de {property.city}
+            {locale === "en"
+              ? `Residential home located in downtown ${property.city}`
+              : `Casa habitacional ubicada en el centro de ${property.city}`}
           </Text>
 
           <Text
@@ -111,35 +159,39 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             size="lg"
             className="text-grey-darker mt-4 text-justify"
           >
-            {property.description}
+            {visibleDescription}
           </Text>
 
-          <Button
-            variant="primary"
-            className="mt-4 hidden! sm:flex!"
-            onClick={() => setShowFullDescription((prev) => !prev)}
-            icon={
-              <CircleButton>
-                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-              </CircleButton>
-            }
-          >
-            {showFullDescription ? "Mostrar menos" : "Mostrar más"}
-          </Button>
+          {shouldTruncateDescription && (
+            <Button
+              variant="primary"
+              className="mt-4 hidden! sm:flex!"
+              onClick={() => setShowFullDescription((prev) => !prev)}
+              icon={
+                <CircleButton>
+                  <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+                </CircleButton>
+              }
+            >
+              {showFullDescription ? "Mostrar menos" : "Mostrar más"}
+            </Button>
+          )}
 
-          <Button
-            textWeight="bold"
-            variant="primary"
-            className="text-gold-dark! bg-transparent px-0! sm:hidden"
-            onClick={() => setShowFullDescription((prev) => !prev)}
-            icon={
-              <CircleButton>
-                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-              </CircleButton>
-            }
-          >
-            {showFullDescription ? "Leer menos" : "Leer más"}
-          </Button>
+          {shouldTruncateDescription && (
+            <Button
+              textWeight="bold"
+              variant="primary"
+              className="text-gold-dark! bg-transparent px-0! sm:hidden"
+              onClick={() => setShowFullDescription((prev) => !prev)}
+              icon={
+                <CircleButton>
+                  <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+                </CircleButton>
+              }
+            >
+              {showFullDescription ? "Leer menos" : "Leer más"}
+            </Button>
+          )}
 
           <BookingWidget
             price={property.price}
@@ -201,7 +253,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
                   <>
                     <span className="hidden sm:inline">Mostrar más</span>
                     <span className="font-bold text-black sm:hidden">
-                      Mostrar todas las amenidades
+                      {t("Mostrar todas las amenidades")}
                     </span>
                   </>
                 )}
@@ -218,17 +270,18 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
               font="gilroy"
               weight="bold"
             >
-              2 noches en {property.name}
+              {stayTitle}
             </Text>
             <Text font="gilroy" size="lg" className="text-grey-darker mt-2">
-              23 de ene. de 2026 - 25 de ene. de 2026
+              {stayDateRangeText}
             </Text>
+
             <div className="mt-8">
               <Calendar
                 currentMonth={currentMonth}
                 dateRange={dateRange}
                 occupiedDates={occupiedDates}
-                onDateClick={(date) => handleDateClick(date, occupiedDates)}
+                onDateClick={handleInlineCalendarDateClick}
                 onPrevMonth={handlePrevMonth}
                 onNextMonth={handleNextMonth}
                 onClearDates={clearDates}
@@ -243,9 +296,9 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
 
             <div>
               <Text size="sm" font="gilroy" className="text-gray-darker">
-                Política de cancelación <br />
-                100% rembolsable hasta 14 días antes de la llegada <br />
-                50% rembolsable hasta 7 días antes de la llegada
+                {t("Política de cancelación")} <br />
+                {t("100% rembolsable hasta 14 días antes de la llegada")} <br />
+                {t("50% rembolsable hasta 7 días antes de la llegada")}
               </Text>
             </div>
           </div>

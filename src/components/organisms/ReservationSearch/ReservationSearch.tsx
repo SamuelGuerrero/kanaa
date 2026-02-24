@@ -23,6 +23,7 @@ import {
   type GuestCounts,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
+import { useI18n } from "@/i18n";
 
 import type { ApiResponse, Property } from "@/types/property";
 
@@ -52,6 +53,7 @@ export const ReservationSearch = ({
   onSearch,
   initialFilters,
 }: ReservationSearchProps) => {
+  const { locale, t } = useI18n();
   const selectorContainerClass =
     "rounded-full border border-[#D8D8D8] bg-white transition-colors duration-200 focus-within:border-[#A19574] md:rounded-none md:border-0 md:bg-transparent";
   const selectorTextClass =
@@ -101,7 +103,7 @@ export const ReservationSearch = ({
 
   const formatDateDisplay = (date: Date | null) => {
     if (!date) return "";
-    return date.toLocaleDateString("es-MX", {
+    return date.toLocaleDateString(locale === "en" ? "en-US" : "es-MX", {
       day: "numeric",
       month: "short",
     });
@@ -113,7 +115,7 @@ export const ReservationSearch = ({
       destination,
       checkIn: formatDate(dateRange.startDate),
       checkOut: formatDate(dateRange.endDate),
-      guests: formatGuestsText(guests),
+      guests: formatGuestsText(guests, locale),
       guestCounts: guests,
     });
   };
@@ -361,11 +363,11 @@ export const ReservationSearch = ({
             className={`appearance-none pr-6 ${selectorTextClass}`}
           >
             {!isMounted || destinationsLoading ? (
-              <option value="">Cargando destinos...</option>
+              <option value="">{t("Cargando destinos...")}</option>
             ) : (
               destinationOptions.map((option) => (
                 <option key={option.id} value={option.id}>
-                  {option.label}
+                  {t(option.label)}
                 </option>
               ))
             )}
@@ -430,7 +432,7 @@ export const ReservationSearch = ({
           <div className="pointer-events-none">
             <Input
               label="Huéspedes"
-              value={formatGuestsText(guests)}
+              value={formatGuestsText(guests, locale)}
               onChange={() => {
                 /* empty */
               }}
@@ -491,7 +493,7 @@ export const ReservationSearch = ({
         <div className="fixed inset-0 z-70 md:hidden">
           <button
             type="button"
-            aria-label="Cerrar"
+            aria-label={t("Cerrar")}
             className={`absolute inset-0 bg-black/45 transition-opacity duration-300 ease-out ${isSheetVisible ? "opacity-100" : "opacity-0"}`}
             onClick={closeMobileSheet}
           />
@@ -512,12 +514,12 @@ export const ReservationSearch = ({
               <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
                 <Text font="gilroy" size="base" weight="semibold">
                   {showCalendar
-                    ? "Selecciona tus fechas"
-                    : "Selecciona huéspedes"}
+                    ? t("Selecciona tus fechas")
+                    : t("Selecciona huéspedes")}
                 </Text>
                 <button
                   type="button"
-                  aria-label="Cerrar modal"
+                  aria-label={t("Cerrar")}
                   className="rounded-full p-1.5 text-gray-700"
                   onClick={closeMobileSheet}
                 >

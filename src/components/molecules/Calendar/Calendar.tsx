@@ -2,9 +2,11 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo } from "react";
+import { useI18n } from "@/i18n";
 
-const DAYS = ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"];
-const MONTHS = [
+const DAYS_ES = ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"];
+const DAYS_EN = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+const MONTHS_ES = [
   "Enero",
   "Febrero",
   "Marzo",
@@ -17,6 +19,20 @@ const MONTHS = [
   "Octubre",
   "Noviembre",
   "Diciembre",
+];
+const MONTHS_EN = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 function getDaysInMonth(year: number, month: number): number {
@@ -86,6 +102,10 @@ export const Calendar = ({
   showButtons,
   className = "",
 }: CalendarProps) => {
+  const { locale, t } = useI18n();
+  const DAYS = locale === "en" ? DAYS_EN : DAYS_ES;
+  const MONTHS = locale === "en" ? MONTHS_EN : MONTHS_ES;
+
   const nextMonth = useMemo(() => {
     const next = new Date(currentMonth);
     next.setMonth(next.getMonth() + 1);
@@ -204,7 +224,7 @@ export const Calendar = ({
           type="button"
           onClick={onPrevMonth}
           className="cursor-pointer rounded-full p-2 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-100"
-          aria-label="Mes anterior"
+          aria-label={t("Mes anterior")}
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
@@ -212,7 +232,7 @@ export const Calendar = ({
           type="button"
           onClick={onNextMonth}
           className="cursor-pointer rounded-full p-2 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-100"
-          aria-label="Mes siguiente"
+          aria-label={t("Mes siguiente")}
         >
           <ChevronRight className="h-5 w-5" />
         </button>
@@ -233,7 +253,7 @@ export const Calendar = ({
           onClick={onClearDates}
           className="cursor-pointer text-sm font-semibold underline transition-colors hover:text-gray-900"
         >
-          Borrar fechas
+          {t("Borrar fechas")}
         </button>
 
         <button
@@ -241,7 +261,7 @@ export const Calendar = ({
           className="cursor-pointer rounded-lg bg-black px-4 py-1 text-sm text-white hover:bg-gray-800"
           onClick={onClose}
         >
-          Cerrar
+          {t("Cerrar")}
         </button>
       </div>
     </div>

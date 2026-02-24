@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowRightIcon } from "@heroicons/react/24/solid";
+import { ArrowRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState, type TouchEvent } from "react";
 
 import { CircleButton, RatingBadge, Text } from "@/components/atoms";
 import {
@@ -12,6 +12,7 @@ import {
   type GuestCounts,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
+import { useI18n } from "@/i18n";
 
 import { Button } from "../Button";
 
@@ -45,12 +46,20 @@ export const BookingWidget = ({
   onBookingClick,
   disableCheckout = false,
 }: BookingWidgetProps) => {
+  const { locale, t } = useI18n();
   const [showGuestSelector, setShowGuestSelector] = useState(false);
   const [guests, setGuests] = useState<GuestCounts>({
     adults: 1,
     children: 0,
     infants: 0,
   });
+  const [isSheetVisible, setIsSheetVisible] = useState(false);
+  const [isClosingSheet, setIsClosingSheet] = useState(false);
+  const [sheetDragY, setSheetDragY] = useState(0);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
+  const [canDragSheet, setCanDragSheet] = useState(false);
+  const closeTimeoutRef = useRef<number | null>(null);
+  const sheetScrollRef = useRef<HTMLDivElement | null>(null);
 
   const {
     showCalendar,
@@ -72,6 +81,10 @@ export const BookingWidget = ({
             (1000 * 60 * 60 * 24),
         )
       : 2;
+  const stayNightsLabel =
+    locale === "en"
+      ? `for ${totalNights} ${totalNights === 1 ? "night" : "nights"}`
+      : `por ${totalNights} ${totalNights === 1 ? "noche" : "noches"}`;
 
   const formatDateKeyLocal = (date: Date) => {
     const year = date.getFullYear();
@@ -100,13 +113,14 @@ export const BookingWidget = ({
   const totalGuests = guests.adults + guests.children + guests.infants;
   const shouldShowNoChargeText =
     !dateRange.startDate || !dateRange.endDate || totalGuests === 0;
+  const showMobileSheet = showCalendar || showGuestSelector;
 
   const handleBookingClick = () => {
     if (disableCheckout) {
       return;
     }
     if (!dateRange.startDate || !dateRange.endDate) {
-      alert("Por favor selecciona las fechas de tu estadía");
+      alert(t("Por favor selecciona las fechas de tu estadía"));
       return;
     }
 
@@ -123,9 +137,112 @@ export const BookingWidget = ({
   };
 
   const formatDate = (date: Date | null) => {
-    if (!date) return "Añadir fecha";
+    if (!date) return t("Añadir fecha");
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   };
+
+  const closePanels = () => {
+    closeCalendar();
+    setShowGuestSelector(false);
+  };
+
+  const isMobileViewport = () =>
+    typeof window !== "undefined" && window.innerWidth < 640;
+
+  const closeMobileSheet = () => {
+    if (!isMobileViewport()) {
+      closePanels();
+      return;
+    }
+
+    if (isClosingSheet) return;
+    setIsClosingSheet(true);
+    setIsSheetVisible(false);
+    setSheetDragY(0);
+    setTouchStartY(null);
+
+    if (closeTimeoutRef.current) {
+      window.clearTimeout(closeTimeoutRef.current);
+    }
+
+    closeTimeoutRef.current = window.setTimeout(() => {
+      closePanels();
+      setIsClosingSheet(false);
+      closeTimeoutRef.current = null;
+    }, 240);
+  };
+
+  const handleSheetTouchStart = (e: TouchEvent) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    const target = e.target as HTMLElement;
+    const startedInScrollableArea = Boolean(
+      target.closest("[data-sheet-scroll]"),
+    );
+    const scrollTop = sheetScrollRef.current?.scrollTop ?? 0;
+
+    setCanDragSheet(!startedInScrollableArea || scrollTop === 0);
+    setTouchStartY(touch.clientY);
+  };
+
+  const handleSheetTouchMove = (e: TouchEvent) => {
+    if (touchStartY === null || !canDragSheet) return;
+    const touch = e.touches[0];
+    if (!touch) return;
+    const delta = touch.clientY - touchStartY;
+    if (delta > 0) {
+      e.preventDefault();
+    }
+    setSheetDragY(delta > 0 ? delta : 0);
+  };
+
+  const handleSheetTouchEnd = () => {
+    setCanDragSheet(false);
+
+    if (sheetDragY > 120) {
+      closeMobileSheet();
+      return;
+    }
+
+    setSheetDragY(0);
+    setTouchStartY(null);
+  };
+
+  useEffect(() => {
+    if (!showMobileSheet || !isMobileViewport()) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [showMobileSheet]);
+
+  useEffect(() => {
+    if (!showMobileSheet || !isMobileViewport()) {
+      setIsSheetVisible(false);
+      setSheetDragY(0);
+      setTouchStartY(null);
+      return;
+    }
+
+    setIsClosingSheet(false);
+    setSheetDragY(0);
+    const frame = window.requestAnimationFrame(() => {
+      setIsSheetVisible(true);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [showMobileSheet]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        window.clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <figure
@@ -136,7 +253,7 @@ export const BookingWidget = ({
           ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
         </Text>
         <Text size="lg" font="gilroy" className="mt-1 text-white sm:mt-2.5">
-          por {totalNights} {totalNights === 1 ? "noche" : "noches"}
+          {stayNightsLabel}
         </Text>
 
         <RatingBadge
@@ -221,7 +338,7 @@ export const BookingWidget = ({
                   size="base"
                   className="text-green-darker mt-0.5"
                 >
-                  {formatGuestsText(guests)}
+                  {formatGuestsText(guests, locale)}
                 </Text>
               </div>
               <ChevronRight
@@ -232,7 +349,7 @@ export const BookingWidget = ({
         </figure>
 
         {showCalendar && (
-          <div className="absolute right-0 z-50 mt-2">
+          <div className="absolute right-0 z-50 mt-2 hidden sm:block">
             <Calendar
               currentMonth={currentMonth}
               dateRange={dateRange}
@@ -248,12 +365,12 @@ export const BookingWidget = ({
         )}
 
         {showGuestSelector && (
-          <div className="absolute z-50 mt-2 w-full">
+          <div className="absolute z-50 mt-2 hidden w-full sm:block">
             <GuestSelector
               guests={guests}
               maxCapacity={maxCapacity}
               onGuestsChange={setGuests}
-              onClose={() => setShowGuestSelector(false)}
+              onClose={closePanels}
             />
           </div>
         )}
@@ -286,6 +403,79 @@ export const BookingWidget = ({
           </Text>
         )}
       </div>
+
+      {showMobileSheet && (
+        <div className="fixed inset-0 z-70 sm:hidden">
+          <button
+            type="button"
+            aria-label={t("Cerrar")}
+            className={`absolute inset-0 bg-black/45 transition-opacity duration-300 ease-out ${isSheetVisible ? "opacity-100" : "opacity-0"}`}
+            onClick={closeMobileSheet}
+          />
+
+          <div
+            className={`absolute right-0 bottom-0 left-0 h-[85dvh] rounded-t-3xl bg-white shadow-2xl transition-all duration-300 ease-out ${touchStartY !== null ? "transition-none" : ""} ${isSheetVisible ? "opacity-100" : "opacity-0"}`}
+            style={{
+              transform: `translateY(calc(${isSheetVisible ? "0%" : "100%"} + ${sheetDragY}px))`,
+            }}
+            onTouchStart={handleSheetTouchStart}
+            onTouchMove={handleSheetTouchMove}
+            onTouchEnd={handleSheetTouchEnd}
+          >
+            <div className="flex h-full flex-col">
+              <div className="flex cursor-grab justify-center py-2 active:cursor-grabbing">
+                <span className="h-1 w-12 rounded-full bg-gray-300" />
+              </div>
+              <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+                <Text font="gilroy" size="base" weight="semibold">
+                  {showCalendar
+                    ? t("Selecciona tus fechas")
+                    : t("Selecciona huéspedes")}
+                </Text>
+                <button
+                  type="button"
+                  aria-label={t("Cerrar")}
+                  className="rounded-full p-1.5 text-gray-700"
+                  onClick={closeMobileSheet}
+                >
+                  <XMarkIcon className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div
+                ref={sheetScrollRef}
+                data-sheet-scroll
+                className="flex-1 overflow-y-auto p-4"
+              >
+                {showCalendar && (
+                  <Calendar
+                    currentMonth={currentMonth}
+                    dateRange={dateRange}
+                    occupiedDates={occupiedDates}
+                    onDateClick={(date) => handleDateClick(date, occupiedDates)}
+                    onPrevMonth={handlePrevMonth}
+                    onNextMonth={handleNextMonth}
+                    onClearDates={clearDates}
+                    onClose={closeCalendar}
+                    showTwoMonths={false}
+                    className="mx-auto h-full max-w-full border-0 p-0 shadow-none"
+                  />
+                )}
+
+                {showGuestSelector && (
+                  <GuestSelector
+                    guests={guests}
+                    maxCapacity={maxCapacity}
+                    onGuestsChange={setGuests}
+                    onClose={closeMobileSheet}
+                    className="mx-auto max-w-full border-0 p-0 shadow-none"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </figure>
   );
 };
