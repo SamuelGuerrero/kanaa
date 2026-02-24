@@ -29,15 +29,15 @@ export default function HomePage() {
       <KeyMetrics metrics={METRICS} bgColor="bg-gold-light" />
 
       <InfoSection
-        title="Property Management <br /> pensado para propietarios"
-        description="En Kanaa administramos tu propiedad de manera profesional, cuidando <br /> 
-        cada espacio, optimizando la ocupación y ofreciendo una experiencia <br classname='hidden sm:block' /> 
+        title="Property Management pensado para propietarios"
+        description="En Kanaa administramos tu propiedad de manera profesional, cuidando 
+        cada espacio, optimizando la ocupación y ofreciendo una experiencia 
         excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad."
         image={PropertyManagement}
         imageAlt="Property Management"
         imagePosition="right"
         backgroundColor="bg-green-dark-hover py-7 sm:pb-7 pb-2"
-        descriptionClassName="text-white mt-8 mr-4"
+        descriptionClassName="text-white mt-8 mr-4 max-w-[600px]"
         textClassName="md:mt-20 ml-2 text-white  "
         buttonProps={{
           children: "Conocer más",
@@ -50,14 +50,14 @@ export default function HomePage() {
 
       <InfoSection
         title="Descubre cuánto puede generar tu propiedad"
-        description="Calcula el potencial de ingresos de tu inmueble en minutos y recibe una <br /> 
+        description="Calcula el potencial de ingresos de tu inmueble en minutos y recibe una
         estimación anual personalizada, clara y transparente."
         image={DiscoverGenerate}
         imageAlt="DiscoverGenerate"
         imagePosition="left"
         backgroundColor="bg-white"
         textClassName="md:mt-20 mx-2 text-green-normal "
-        descriptionClassName="text-green-normal mt-8"
+        descriptionClassName="text-green-normal mt-8 max-w-[600px]"
         buttonProps={{
           children: "Ir a la calculadora",
           className:

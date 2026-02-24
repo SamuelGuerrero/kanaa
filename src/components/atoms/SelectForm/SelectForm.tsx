@@ -1,7 +1,10 @@
+"use client";
+
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { forwardRef, type SelectHTMLAttributes } from "react";
 
 import { Text } from "@/components/atoms";
+import { useI18n } from "@/i18n";
 
 type SelectOption = {
   label: string;
@@ -29,11 +32,13 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
     },
     ref,
   ) => {
+    const { t } = useI18n();
+
     return (
       <div className={`flex flex-col gap-1 ${wrapperClassName}`}>
         {label && (
           <Text font="gilroy" size="sm" weight="medium" className="text-white">
-            {label}
+            {t(label)}
           </Text>
         )}
         <div className="relative">
@@ -49,13 +54,13 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
           >
             {defaultOptionLabel && (
               <option value="" disabled>
-                {defaultOptionLabel}
+                {t(defaultOptionLabel)}
               </option>
             )}
 
             {options.map((option) => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {t(option.label)}
               </option>
             ))}
           </select>
@@ -65,7 +70,7 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
 
         {error && (
           <Text id={`${props.id}-error`} size="xs" className="text-red-200">
-            {error}
+            {t(error)}
           </Text>
         )}
       </div>

@@ -6,28 +6,28 @@ export const experiences: Experience[] = [
     id: 1,
     title: "Selección estratégica",
     description:
-      "Identificamos ubicaciones con alto <br/> potencial de rentabilidad y <br/> demanda turística sostenible.",
+      "Identificamos ubicaciones con alto  potencial de rentabilidad y  demanda turística sostenible.",
     Icon: IconApplied,
   },
   {
     id: 2,
     title: "Desarrollo inteligente",
     description:
-      "Optimizamos propiedades <br/> funcionales y atractivas para el <br/> mercado vacacional.",
+      "Optimizamos propiedades  funcionales y atractivas para el  mercado vacacional.",
     Icon: IconApplied,
   },
   {
     id: 3,
     title: "Gestión eficiente",
     description:
-      "Administramos con foco en <br/> ingresos, ocupación y experiencia <br/> del huésped.",
+      "Administramos con foco en  ingresos, ocupación y experiencia  del huésped.",
     Icon: IconApplied,
   },
   {
     id: 4,
     title: "Oportunidades claras",
     description:
-      "Trabajamos con esquemas <br/> transparentes y decisiones <br/> basadas en datos.",
+      "Trabajamos con esquemas  transparentes y decisiones  basadas en datos.",
     Icon: IconApplied,
   },
 ];
@@ -35,7 +35,7 @@ export const experiences: Experience[] = [
 export const ExperienceInAction = () => {
   return (
     <section className="flex flex-col items-center bg-white px-4 py-8 md:py-16">
-      <Text size="5xl" className="text-green-normal" weight="medium">
+      <Text size="5xl" className="text-green-normal">
         Nuestra experiencia en acción
       </Text>
       <Text

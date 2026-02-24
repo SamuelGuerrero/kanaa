@@ -5,6 +5,7 @@ import { Bath, BedDoubleIcon, MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { AmenityItem, CircleButton, Text } from "@/components/atoms";
+import { useI18n } from "@/i18n";
 
 import { Button } from "../Button";
 
@@ -31,6 +32,7 @@ export const PropertyOverview = ({
   showButton,
   name,
 }: PropertyOverviewProps) => {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -129,7 +131,7 @@ export const PropertyOverview = ({
               }`}
               aria-live="polite"
             >
-              Enlace copiado
+              {t("Enlace copiado")}
             </div>
           </div>
         )}

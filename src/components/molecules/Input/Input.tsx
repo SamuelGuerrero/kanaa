@@ -1,4 +1,7 @@
+"use client";
+
 import { Text } from "@/components/atoms";
+import { useI18n } from "@/i18n";
 
 import type { DetailedHTMLProps, FocusEvent, InputHTMLAttributes } from "react";
 
@@ -24,6 +27,8 @@ export const Input = ({
   onBlur,
   ...rest
 }: InputProps) => {
+  const { t } = useI18n();
+
   const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
     if (variant === "date-dynamic") {
       e.currentTarget.type = "date";
@@ -47,7 +52,7 @@ export const Input = ({
           weight="medium"
           className="block text-black"
         >
-          {label}
+          {t(label)}
         </Text>
       )}
 
@@ -55,7 +60,7 @@ export const Input = ({
         type={variant === "date-dynamic" ? "text" : type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
+        placeholder={placeholder ? t(placeholder) : undefined}
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={`text-gilroy w-full overflow-scroll bg-transparent text-sm text-gray-600 placeholder-[#6A6A6A] transition-colors duration-150 outline-none focus:text-gray-900 focus:placeholder:text-gray-400 ${className}`}

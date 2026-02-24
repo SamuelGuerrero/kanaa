@@ -6,6 +6,7 @@ import { useState } from "react";
 import { CarouselButton, PaginationDots } from "@/components/atoms";
 import { PropertyCard } from "@/components/molecules";
 import { useCarouselPagination } from "@/hooks/useCarouselPagination";
+import { useI18n } from "@/i18n";
 
 import type { Property } from "@/types/property";
 import type { DetailedHTMLProps, HTMLAttributes, TouchEvent } from "react";
@@ -28,6 +29,7 @@ export const PropertyCarousel = ({
   className,
   ...rest
 }: PropertyCarouselProps) => {
+  const { t } = useI18n();
   const {
     currentPage,
     totalPages,
@@ -82,7 +84,7 @@ export const PropertyCarousel = ({
         <div className="flex min-h-100 items-center justify-center">
           <div className="text-center">
             <div className="border-gold-normal mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2"></div>
-            <p className="text-gray-600">Cargando propiedades...</p>
+            <p className="text-gray-600">{t("Cargando propiedades...")}</p>
           </div>
         </div>
       </section>
@@ -95,7 +97,7 @@ export const PropertyCarousel = ({
         <div className="flex min-h-100 items-center justify-center text-center text-red-500">
           <div>
             <p className="mb-2 text-xl font-semibold">
-              Error al cargar propiedades
+              {t("Error al cargar propiedades")}
             </p>
             <p>{error}</p>
           </div>

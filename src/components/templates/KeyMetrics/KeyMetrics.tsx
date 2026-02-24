@@ -26,7 +26,7 @@ export const KeyMetrics = ({
           className="flex min-w-30 flex-col items-center gap-2 text-center md:flex-row md:items-center md:gap-4 md:text-left"
         >
           <Text
-            size="4xl"
+            size="3xl"
             weight="bold"
             className="text-gold-normal text-center font-bold"
           >
@@ -34,7 +34,7 @@ export const KeyMetrics = ({
           </Text>
           <Text
             font="gilroy"
-            size="2xl"
+            size="xl"
             className="text-grey-darker w-max font-medium"
           >
             {metric.label}

@@ -13,3 +13,4 @@ export * from "./EarningsCalculatorForm";
 export * from "./ContactanosForm";
 export * from "./BookingPaymentModal";
 export * from "./CheckoutPaymentForm";
+export * from "./LanguageSwitcher";

@@ -11,6 +11,7 @@ import { useState, type FormEvent } from "react";
 import { Text } from "@/components/atoms";
 import { CheckoutBookingSummary } from "@/components/molecules/CheckoutBookingSummary";
 import { StripePoweredBy } from "@/components/molecules/StripePoweredBy";
+import { useI18n } from "@/i18n";
 
 import type { BookingData } from "@/components/molecules/BookingWidget";
 
@@ -21,6 +22,7 @@ type CheckoutPaymentFormProps = {
 export const CheckoutPaymentForm = ({
   bookingData,
 }: CheckoutPaymentFormProps) => {
+  const { t } = useI18n();
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -84,7 +86,7 @@ export const CheckoutPaymentForm = ({
 
       {message && (
         <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-          {message}
+          {t(message)}
         </div>
       )}
 
@@ -96,10 +98,10 @@ export const CheckoutPaymentForm = ({
         {isLoading ? (
           <span className="flex items-center justify-center gap-2">
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            Procesando...
+            {t("Procesando...")}
           </span>
         ) : (
-          `Pagar ${new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(bookingData.totalPrice)}`
+          `${t("Pagar")} ${new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(bookingData.totalPrice)}`
         )}
       </button>
 

@@ -1,4 +1,7 @@
+"use client";
+
 import { Text } from "@/components/atoms";
+import { useI18n } from "@/i18n";
 
 import type { ReactNode } from "react";
 
@@ -15,6 +18,8 @@ export const AmenityItem = ({
   description,
   className,
 }: AmenityItemProps) => {
+  const { t } = useI18n();
+
   return (
     <div
       className={`flex flex-col items-center justify-center gap-2.5 sm:flex-row ${className}`}
@@ -25,7 +30,7 @@ export const AmenityItem = ({
         className="text-green-darker text-[16.79px] leading-7.5"
       >
         {value}
-        {description && <span className="ml-1 sm:hidden">{description}</span>}
+        {description && <span className="ml-1 sm:hidden">{t(description)}</span>}
       </Text>
     </div>
   );

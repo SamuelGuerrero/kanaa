@@ -29,21 +29,18 @@ export const ValueProposition = () => {
         <div className="order-2 mb-5 p-3 md:mb-0 md:p-12">
           <Text
             size="5xl"
-            className="text-green-normal mb-5 md:leading-[66.2px]"
+            className="text-green-normal mb-5 max-w-125 md:leading-[66.2px]"
           >
-            Más que hospedaje, <br />
-            una mejor forma de <br />
-            descansar
+            Más que hospedaje, una mejor forma de descansar
           </Text>
 
           <Text
             font="gilroy"
             size="lg"
-            className="text-grey-darker mb-5 leading-8"
+            className="text-grey-darker mb-5 max-w-145 leading-8"
           >
-            En Kanaa disfrutas espacios cómodos, tranquilos y pensados para{" "}
-            <br />
-            que te relajes desde el primer momento.
+            En Kanaa disfrutas espacios cómodos, tranquilos y pensados para que
+            te relajes desde el primer momento.
           </Text>
 
           <Button

@@ -9,6 +9,7 @@ import {
   type ReservationSearchInitialFilters,
   type SearchFilters,
 } from "@/components/organisms";
+import { useI18n } from "@/i18n";
 
 import type { Property } from "@/types/property";
 
@@ -38,6 +39,7 @@ export const PropertyListTemplate = ({
   onPageChange,
 }: PropertyListTemplateProps) => {
   const router = useRouter();
+  const { t } = useI18n();
   const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
   const paginationPages = (() => {
     const pages: number[] = [];
@@ -59,7 +61,7 @@ export const PropertyListTemplate = ({
   return (
     <div>
       <section className="sm:bg-white">
-        <div className="text-green-normal mx-auto flex w-[96%] flex-col items-center justify-center bg-white px-3 pt-22 pb-5 sm:bg-none sm:pt-40">
+        <div className="text-green-normal mx-auto flex w-[96%] flex-col items-center justify-center bg-white px-3 pt-24 pb-5 sm:bg-none sm:pt-40">
           <Text weight="medium" size="5xl">
             Conoce todas nuestras propiedades
           </Text>
@@ -89,7 +91,7 @@ export const PropertyListTemplate = ({
                 onClick={() => void fetchProperties()}
                 className="bg-green-normal hover:bg-green-dark mt-4 rounded-lg px-6 py-2 text-white"
               >
-                Reintentar
+                {t("Reintentar")}
               </button>
             </div>
           ) : isLoading ? (
@@ -148,7 +150,7 @@ export const PropertyListTemplate = ({
                       disabled={currentPage === 1}
                       className="cursor-pointer rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 transition disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      Anterior
+                      {t("Anterior")}
                     </button>
 
                     {paginationPages.map((page) => (
@@ -174,7 +176,7 @@ export const PropertyListTemplate = ({
                       disabled={currentPage === totalPages}
                       className="cursor-pointer rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 transition disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      Siguiente
+                      {t("Siguiente")}
                     </button>
                   </div>
                 </div>

@@ -12,6 +12,7 @@ import {
   Loader,
 } from "@/components/atoms";
 import { Button } from "@/components/molecules";
+import { useI18n } from "@/i18n";
 
 type PropertyDetails = {
   postalCode: string;
@@ -60,6 +61,7 @@ const formatAmount = (value: number) => {
 };
 
 export const EarningsCalculatorForm = () => {
+  const { t } = useI18n();
   const {
     register,
     handleSubmit,
@@ -267,7 +269,7 @@ export const EarningsCalculatorForm = () => {
           <div className="col-span-2">
             <InputForm
               className="h-11 w-full md:h-13.75"
-              placeholder="Dirección de propiedad"
+              placeholder={t("Dirección de propiedad")}
               type="text"
               required
               {...register("propertyAddress")}
@@ -276,7 +278,7 @@ export const EarningsCalculatorForm = () => {
           <div className="col-span-1">
             <InputForm
               className="h-11 w-full md:h-13.75"
-              placeholder="Código postal"
+              placeholder={t("Código postal")}
               type="text"
               inputMode="numeric"
               maxLength={5}
@@ -285,11 +287,11 @@ export const EarningsCalculatorForm = () => {
             />
             {catalogLoading && (
               <p className="mt-1 text-xs text-white/80">
-                Buscando código postal...
+                {t("Buscando código postal...")}
               </p>
             )}
             {catalogError && (
-              <p className="mt-1 text-xs text-red-200">{catalogError}</p>
+              <p className="mt-1 text-xs text-red-200">{t(catalogError)}</p>
             )}
           </div>
           <div className="col-span-1">
@@ -408,7 +410,7 @@ export const EarningsCalculatorForm = () => {
 
           {predictionError && (
             <p className="col-span-2 mt-1 text-sm text-red-200">
-              {predictionError}
+              {t(predictionError)}
             </p>
           )}
 
@@ -462,9 +464,13 @@ export const EarningsCalculatorForm = () => {
                 </Text>
               </div>
             </div>
-            <Text size="base" font="gilroy" className="mx-auto mt-6 text-white">
-              Basado en propiedades similares en tu zona y niveles <br />
-              promedio de ocupación.
+            <Text
+              size="base"
+              font="gilroy"
+              className="mx-auto mt-6 max-w-100 text-white"
+            >
+              Basado en propiedades similares en tu zona y niveles promedio de
+              ocupación.
             </Text>
           </div>
 

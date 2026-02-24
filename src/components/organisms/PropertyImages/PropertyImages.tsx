@@ -9,6 +9,8 @@ import Lightbox from "yet-another-react-lightbox";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
+import { useI18n } from "@/i18n";
+
 interface PropertyImage {
   url: string;
   caption?: string;
@@ -23,6 +25,7 @@ export const PropertyImages = ({
   images,
   propertyName,
 }: PropertyImagesProps) => {
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
@@ -212,7 +215,7 @@ export const PropertyImages = ({
           <button
             type="button"
             onClick={() => setIsGalleryOpen(false)}
-            aria-label="Cerrar galería"
+            aria-label={t("Cerrar galería")}
             className="fixed top-6 right-6 z-50 cursor-pointer rounded-full bg-black/80 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-black"
           >
             X

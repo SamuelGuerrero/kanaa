@@ -1,7 +1,10 @@
+"use client";
+
 import { PropertyDetails } from "@/components/organisms/PropertyDetails";
 import { PropertyKnowBeforeSection } from "@/components/organisms/PropertyKnowBeforeSection";
 import { PropertyLocationSection } from "@/components/organisms/PropertyLocationSection";
 import { PropertySuggestionsSection } from "@/components/organisms/PropertySuggestionsSection";
+import { useI18n } from "@/i18n";
 
 import type { Property } from "@/types/property";
 
@@ -24,6 +27,8 @@ export const PropertyDetailsPage = ({
   listingsError,
   itemsPerPage,
 }: PropertyDetailsPageProps) => {
+  const { locale, t } = useI18n();
+
   return (
     <main className="flex w-full flex-col items-center bg-white">
       <PropertyDetails property={property} />
@@ -32,7 +37,9 @@ export const PropertyDetailsPage = ({
         <PropertyLocationSection
           title="Dónde te vas a quedar"
           subtitle={`${property.city}, ${property.state}, ${property.country}`}
-          mapTitle={`Mapa de ${property.name}`}
+          mapTitle={
+            locale === "en" ? `Map of ${property.name}` : `Mapa de ${property.name}`
+          }
           hasCoordinates={hasCoordinates}
           mapSrc={mapSrc}
           emptyStateText="No hay coordenadas disponibles para este alojamiento."
@@ -40,13 +47,9 @@ export const PropertyDetailsPage = ({
 
         <PropertyKnowBeforeSection
           title="Qué debes saber"
-          cancellationContent={
-            <>
-              Cancelación gratuita durante 24 horas. Pasado ese plazo, la
-              reservación no será reembolsable. Consulta la política completa de
-              este anfitrión para obtener más información.
-            </>
-          }
+          cancellationContent={t(
+            "Cancelación gratuita durante 24 horas. Pasado ese plazo, la reservación no será reembolsable. Consulta la política completa de este anfitrión para obtener más información.",
+          )}
           houseRules={[
             "Llegada a partir de las 2:00 p.m.",
             "Salida antes de las 11:00 a.m.",

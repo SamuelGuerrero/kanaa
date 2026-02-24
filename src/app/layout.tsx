@@ -3,8 +3,10 @@ import "@styles/globals.css";
 import { type Metadata } from "next";
 import { Roboto_Serif } from "next/font/google";
 import localFont from "next/font/local";
+import { cookies, headers } from "next/headers";
 
 import { Footer, Navbar } from "@/components/organisms";
+import { LanguageProvider } from "@/i18n";
 
 import type { ReactNode } from "react";
 
@@ -52,11 +54,21 @@ const gilroy = localFont({
   display: "swap",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  const host = headerStore.get("x-forwarded-host") ?? headerStore.get("host");
+  const localeFromHost = host?.toLowerCase().startsWith("en.") ? "en" : null;
+  const localeCookie = cookieStore.get("kanaa_locale")?.value;
+  const initialLocale = localeFromHost ?? (localeCookie === "en" ? "en" : "es");
+
   return (
-    <html lang="en" className={`${robotoSerif.variable} ${gilroy.variable}`}>
+    <html
+      lang={initialLocale}
+      className={`${robotoSerif.variable} ${gilroy.variable}`}
+    >
       <head>
         <link
           rel="stylesheet"
@@ -64,9 +76,11 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[url('/svg/main.svg')] bg-contain bg-top bg-repeat p-1.5 sm:p-4">
-        <Navbar />
-        {children}
-        <Footer />
+        <LanguageProvider initialLocale={initialLocale}>
+          <Navbar />
+          {children}
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

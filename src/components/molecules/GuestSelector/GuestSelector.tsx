@@ -3,6 +3,7 @@
 import { Minus, Plus } from "lucide-react";
 
 import { Text } from "@/components/atoms";
+import { useI18n } from "@/i18n";
 
 export type GuestCounts = {
   adults: number;
@@ -25,6 +26,7 @@ export const GuestSelector = ({
   onClose,
   className = "",
 }: GuestSelectorProps) => {
+  const { t, locale } = useI18n();
   const totalGuests = guests.adults + guests.children;
 
   const handleGuestChange = (type: keyof GuestCounts, increment: boolean) => {
@@ -50,10 +52,10 @@ export const GuestSelector = ({
       <div className="flex items-center justify-between py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
-            Adultos
+            {t("Adultos")}
           </Text>
           <Text font="gilroy" size="sm" className="text-gray-600">
-            13 años o más
+            {t("13 años o más")}
           </Text>
         </div>
         <div className="flex items-center gap-3">
@@ -85,10 +87,10 @@ export const GuestSelector = ({
       <div className="flex items-center justify-between border-t border-gray-200 py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
-            Niños
+            {t("Niños")}
           </Text>
           <Text font="gilroy" size="sm" className="text-gray-600">
-            De 2 a 12 años
+            {t("De 2 a 12 años")}
           </Text>
         </div>
         <div className="flex items-center gap-3">
@@ -97,7 +99,7 @@ export const GuestSelector = ({
             onClick={() => handleGuestChange("children", false)}
             disabled={guests.children <= 0}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
-            aria-label="Disminuir niños"
+            aria-label={t("Disminuir niños")}
           >
             <Minus className="h-4 w-4" />
           </button>
@@ -109,7 +111,7 @@ export const GuestSelector = ({
             onClick={() => handleGuestChange("children", true)}
             disabled={totalGuests >= maxCapacity}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
-            aria-label="Aumentar niños"
+            aria-label={t("Aumentar niños")}
           >
             <Plus className="h-4 w-4" />
           </button>
@@ -120,10 +122,10 @@ export const GuestSelector = ({
       <div className="flex items-center justify-between border-t border-gray-200 py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
-            Bebés
+            {t("Bebés")}
           </Text>
           <Text font="gilroy" size="sm" className="text-gray-600">
-            Menores de 2 años
+            {t("Menores de 2 años")}
           </Text>
         </div>
         <div className="flex items-center gap-3">
@@ -132,7 +134,7 @@ export const GuestSelector = ({
             onClick={() => handleGuestChange("infants", false)}
             disabled={guests.infants <= 0}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100"
-            aria-label="Disminuir bebés"
+            aria-label={t("Disminuir bebés")}
           >
             <Minus className="h-4 w-4" />
           </button>
@@ -143,7 +145,7 @@ export const GuestSelector = ({
             type="button"
             onClick={() => handleGuestChange("infants", true)}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-gray-300 text-gray-900 transition-all duration-200 ease-out hover:scale-105 hover:border-gray-900"
-            aria-label="Aumentar bebés"
+            aria-label={t("Aumentar bebés")}
           >
             <Plus className="h-4 w-4" />
           </button>
@@ -154,9 +156,9 @@ export const GuestSelector = ({
       {totalGuests >= maxCapacity && (
         <div className="mt-2 rounded-lg bg-gray-100 p-3">
           <Text font="gilroy" size="sm" className="text-gray-700">
-            En este alojamiento se pueden quedar {maxCapacity}{" "}
-            {maxCapacity === 1 ? "huésped" : "huéspedes"} como máximo, sin
-            incluir a los bebés.
+            {locale === "en"
+              ? `This property allows up to ${maxCapacity} ${maxCapacity === 1 ? "guest" : "guests"}, excluding infants.`
+              : `En este alojamiento se pueden quedar ${maxCapacity} ${maxCapacity === 1 ? "huésped" : "huéspedes"} como máximo, sin incluir a los bebés.`}
           </Text>
         </div>
       )}
@@ -168,19 +170,38 @@ export const GuestSelector = ({
           className="cursor-pointer rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
           onClick={onClose}
         >
-          Cerrar
+          {t("Cerrar")}
         </button>
       </div>
     </div>
   );
 };
 
-export const formatGuestsText = (guests: GuestCounts): string => {
+export const formatGuestsText = (
+  guests: GuestCounts,
+  locale: "es" | "en" = "es",
+): string => {
   const totalGuests = guests.adults + guests.children;
-  let text = `${totalGuests} ${totalGuests === 1 ? "huésped" : "huéspedes"}`;
+  const guestLabel =
+    locale === "en"
+      ? totalGuests === 1
+        ? "guest"
+        : "guests"
+      : totalGuests === 1
+        ? "huésped"
+        : "huéspedes";
+  let text = `${totalGuests} ${guestLabel}`;
 
   if (guests.infants > 0) {
-    text += `, ${guests.infants} ${guests.infants === 1 ? "bebé" : "bebés"}`;
+    const infantLabel =
+      locale === "en"
+        ? guests.infants === 1
+          ? "infant"
+          : "infants"
+        : guests.infants === 1
+          ? "bebé"
+          : "bebés";
+    text += `, ${guests.infants} ${infantLabel}`;
   }
 
   return text;

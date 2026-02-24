@@ -9,6 +9,7 @@ import {
   type FooterLink,
   type SocialLink,
 } from "@/components/molecules";
+import { LanguageSwitcher } from "@/components/organisms/LanguageSwitcher";
 
 const SOCIAL_LINKS: SocialLink[] = [
   {
@@ -111,11 +112,14 @@ export const Footer = () => {
       </div>
 
       <div className="mt-10 flex flex-col items-center gap-6 md:mt-20 md:flex-row md:items-center md:justify-between">
+        <div className="order-2 flex flex-col items-center gap-4 md:order-1 md:items-start">
+          <SocialMediaGroup
+            className="flex justify-center"
+            links={SOCIAL_LINKS}
+          />
+          <LanguageSwitcher />
+        </div>
         <CopyrightText className="order-1 text-center md:order-2 md:text-right" />
-        <SocialMediaGroup
-          className="order-2 flex justify-center md:order-1"
-          links={SOCIAL_LINKS}
-        />
       </div>
     </footer>
   );

@@ -18,7 +18,12 @@ export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLightBackground, setIsLightBackground] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -203,7 +208,11 @@ export const Navbar = () => {
     { href: "/calculadora", label: "Calculadora de ingresos" },
   ];
 
-  const navTextClass = isLightBackground ? "text-black" : "text-white";
+  const navTextClass = isMounted
+    ? isLightBackground
+      ? "text-black"
+      : "text-white"
+    : "text-white";
 
   return (
     <>

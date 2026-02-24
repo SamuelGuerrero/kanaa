@@ -36,11 +36,9 @@ export const Hero = () => {
         className="object-cover"
       />
 
-      <div className="relative z-10 flex min-h-170 flex-col items-center justify-center px-4 pt-20 text-center text-white sm:min-h-screen sm:pt-0">
-        <Text size="6xl" weight="medium">
-          Siéntete como en casa,
-          <br className="hidden sm:block" />
-          en cualquier lugar
+      <div className="relative z-10 mt-8 flex min-h-170 flex-col items-center justify-center px-4 pt-20 text-center text-white sm:mt-0 sm:min-h-screen sm:pt-0">
+        <Text className="max-w-175" size="6xl">
+          Siéntete como en casa, en cualquier lugar
         </Text>
 
         <Text size="xl" className="mt-8 mb-10" font="gilroy" weight="medium">

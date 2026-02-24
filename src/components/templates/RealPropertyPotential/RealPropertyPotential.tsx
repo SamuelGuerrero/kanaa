@@ -10,12 +10,12 @@ export const RealPropertyPotential = ({
   description,
 }: RealPropertyPotentialProps) => {
   return (
-    <section className="bg-green-dark-hover py-16">
+    <section className="bg-green-dark-hover py-8 sm:py-16">
       <div className="flex flex-col px-3 md:flex-row md:justify-between md:pr-15 md:pl-10">
         <div className="md:mt-10">
           <Text
             size="5xl"
-            className="max-w-150 text-white"
+            className="pr-4 text-white sm:max-w-150"
             dangerouslySetInnerHTML={{ __html: title }}
           />
 
