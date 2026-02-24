@@ -7,7 +7,10 @@ import HeroNosotrosBg from "@assets/images/Home/HeroNosotrosBg.png";
 
 export const HeroNosotros = () => {
   return (
-    <section className="relative h-200 w-full" data-navbar-theme="dark">
+    <section
+      className="relative h-130 w-full sm:h-200"
+      data-navbar-theme="dark"
+    >
       <Image
         src={HeroNosotrosBg}
         alt="Hero background"
@@ -16,15 +19,19 @@ export const HeroNosotros = () => {
         className="object-cover"
       />
 
-      <div className="relative z-10 -mt-25 ml-3 flex h-full w-80 flex-col justify-center text-white md:mt-0 md:ml-0 md:min-h-screen md:w-full md:items-center md:py-45">
+      <div className="relative z-10 mt-6 flex h-full w-full flex-col justify-center px-3 text-white sm:-mt-25 md:mt-0 md:ml-0 md:min-h-screen md:w-full md:items-center md:py-45">
         <Text size="6xl" weight="medium">
           Alquileres vacacionales fáciles
         </Text>
 
-        <Text size="xl" className="mt-5" font="gilroy" weight="medium">
-          Agilizamos la gestión del alquiler vacacional para garantizar
-          <br />
-          la tranquilidad y experiencias inolvidables a los huéspedes.
+        <Text
+          size="xl"
+          className="mt-5 max-w-145 text-center"
+          font="gilroy"
+          weight="medium"
+        >
+          Agilizamos la gestión del alquiler vacacional para garantizar la
+          tranquilidad y experiencias inolvidables a los huéspedes.
         </Text>
         <Button
           textWeight="bold"

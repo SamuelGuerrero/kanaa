@@ -25,14 +25,14 @@ export default function HomePage() {
     <main className="flex flex-col space-y-1.5 md:space-y-6">
       <BecomeHost />
       <InfoSection
-        title="Pensado para quienes <br/> buscan tranquilidad <br/> y resultados"
-        description="Ideal para propietarios que buscan maximizar ingresos sin <br/> encargarse de la gestión diaria de tu propiedad."
+        title="Pensado para quienes buscan tranquilidad y resultados"
+        description="Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de tu propiedad."
         image={PeaceAndResults}
         imageAlt="Property Management2"
         imagePosition="right"
-        backgroundColor="bg-green-dark-hover"
-        descriptionClassName="text-grey-light"
-        textClassName="mt-5 md:mt-15 ml-2 text-grey-light"
+        backgroundColor="bg-green-dark-hover py-8"
+        descriptionClassName="text-grey-light max-w-[550px]"
+        textClassName="mt-5 md:mt-15 ml-2 text-grey-light max-w-[600px]"
         buttonProps={{
           children: "Conocer más",
           className: "mt-10 text-gold-dark!",
@@ -43,11 +43,11 @@ export default function HomePage() {
       />
       <IntelligentManagement />
       <RealPropertyPotential
-        title="Descubre el verdadero <br/> valor de tu alquiler <br/> vacacional."
-        description="Completa el formulario a continuación para obtener una <br/> estimación personalizada de tus ingresos anuales."
+        title="Descubre el verdadero valor de tu alquiler vacacional."
+        description="Completa el formulario a continuación para obtener una  estimación personalizada de tus ingresos anuales."
       />
       <InfoSection
-        title="Gestión de alquileres <br/> vacacionales simplificada "
+        title="Gestión de alquileres vacacionales simplificada"
         description="Agiliza la gestión del alquiler vacacional para tu tranquilidad y mayor rentabilidad."
         imagesConfig={[
           {
@@ -89,7 +89,7 @@ export default function HomePage() {
 
       <InfoSection
         title="Convierte tu propiedad  en un activo rentable"
-        description="Nos encargamos de la gestión completa de tu inmueble para que tú  <br/> obtengas ingresos constantes sin preocuparte por la operación diaria."
+        description="Nos encargamos de la gestión completa de tu inmueble para que tú obtengas ingresos constantes sin preocuparte por la operación diaria."
         image={RentProperty}
         imageAlt="RentProperty"
         imagePosition="left"

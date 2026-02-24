@@ -14,13 +14,13 @@ export default function HomePage() {
       <HeroNosotros />
       <InfoSection
         title="¿Quiénes somos?"
-        description="Somos una empresa especializada en gestión integral de alquileres <br/>
-                vacacionales, creada para simplificar la vida de los propietarios y elevar <br/> 
+        description="Somos una empresa especializada en gestión integral de alquileres
+                vacacionales, creada para simplificar la vida de los propietarios y elevar 
                 la experiencia de los huéspedes.
-                <br>
-                <br>
-                En Kanaa combinamos estrategia inmobiliaria, tecnología y operación <br> 
-                profesional para transformar propiedades en activos rentables, bien <br> 
+                <br />
+                <br />
+                En Kanaa combinamos estrategia inmobiliaria, tecnología y operación 
+                profesional para transformar propiedades en activos rentables, bien 
                 administrados y sin complicaciones. Nos enfocamos en cada detalle 
                 para que tú solo disfrutes los resultados."
         imagesConfig={[
@@ -36,7 +36,7 @@ export default function HomePage() {
           },
         ]}
         imagePosition="right"
-        backgroundColor="bg-grey-light pb-20 bg-gold-normal"
+        backgroundColor="bg-grey-light pb-20 sm:pt-0 pt-10 bg-gold-normal"
         descriptionClassName="text-grey-darker w-[340px] md:w-[600px]"
         textClassName="mt-0 md:mt-20 ml-4 text-green-normal"
         buttonProps={{
@@ -49,18 +49,18 @@ export default function HomePage() {
       />
       <InfoSection
         title="¿Por qué estamos aquí?"
-        description="Creemos que una segunda residencia no debería convertirse en una carga <br/>
+        description="Creemos que una segunda residencia no debería convertirse en una carga 
                  operativa, sino en una fuente de tranquilidad, ingresos constantes y crecimiento a
                   largo plazo.
-                  <br>
-                  <br>
-                Por eso estamos redefiniendo la forma en que funcionan los alquileres vacacionales: <br>
-                con procesos claros, tecnología inteligente y un enfoque centrado en la experiencia <br> 
+                  <br />
+                  <br />
+                Por eso estamos redefiniendo la forma en que funcionan los alquileres vacacionales: 
+                con procesos claros, tecnología inteligente y un enfoque centrado en la experiencia 
                 del huésped y del propietario. "
         image={WhoAreWe}
         imageAlt="WhoAreWe"
         imagePosition="left"
-        backgroundColor="bg-green-dark-hover"
+        backgroundColor="bg-green-dark-hover py-8"
         descriptionClassName="text-grey-light"
         textClassName="mt-3 md:mt-10 md:mt-20 ml-2 text-grey-light"
         buttonProps={{
@@ -74,25 +74,25 @@ export default function HomePage() {
       <ExperienceInAction />
       <InfoSection
         title="Únete a nuestro equipo"
-        description="En Kanaa buscamos personas que compartan nuestra visión: <br>
+        description="En Kanaa buscamos personas que compartan nuestra visión:
                 trabajar con compromiso, claridad y enfoque a largo plazo.
-                <br>
-                <br>
-                Si te interesa formar parte de un equipo que construye proyectos con <br>
-                propósito, toma decisiones basadas en datos y apuesta por la excelencia <br>
+                <br />
+                <br />
+                Si te interesa formar parte de un equipo que construye proyectos con
+                propósito, toma decisiones basadas en datos y apuesta por la excelencia
                 operativa, nos encantará conocerte."
         image={JoinOurTeam}
         imageAlt="JoinOurTeam"
         imagePosition="left"
-        backgroundColor="bg-gold-light-hover"
-        descriptionClassName="text-grey-darker"
+        backgroundColor="bg-gold-light-hover py-8 sm:py-0"
+        descriptionClassName="text-grey-darker max-w-[630px]"
         textClassName=" md:mt-20 ml-2 text-green-normal"
         buttonProps={{
           children: "Conoce nuestras vacantes",
           className: " bg-grey-light text-gold-normal!",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
-          href: "/vacantes",
+          href: "/unete",
         }}
       />
     </main>

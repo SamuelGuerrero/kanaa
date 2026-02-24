@@ -6,7 +6,10 @@ import BecomeHostBG from "@assets/images/Home/BecomeHostBG.png";
 
 export const BecomeHost = () => {
   return (
-    <section className="relative h-200 w-full" data-navbar-theme="dark">
+    <section
+      className="relative h-225 w-full sm:h-200"
+      data-navbar-theme="dark"
+    >
       <div className="absolute inset-0">
         <Image
           src={BecomeHostBG}
@@ -20,11 +23,11 @@ export const BecomeHost = () => {
         />
       </div>
 
-      <div className="relative z-10 mt-30 flex h-full flex-col items-center gap-10 px-3 md:mt-0 md:flex-row md:justify-center">
-        <div className="max-w-183.25 md:mb-55">
+      <div className="relative z-10 mt-15 flex h-full flex-col items-center gap-10 px-3 sm:mt-24 sm:w-full md:flex-row md:justify-between md:px-10">
+        <div className="mb-5 max-w-138.5 md:mb-55">
           <Text
             size="6xl"
-            className="text-white md:leading-17.5"
+            className="mt-15 text-white md:mt-20 md:leading-18"
             weight="medium"
           >
             Convierte tu propiedad en un activo rentable
@@ -32,15 +35,16 @@ export const BecomeHost = () => {
 
           <Text
             size="xl"
-            className="mt-5 text-white"
+            className="mt-3 pr-2 text-white md:mt-5"
             font="gilroy"
             weight="medium"
           >
-            Descurbre el potencial de tu
+            Administra tu propiedad sin complicaciones y con el respaldo de
+            expertos en rentas de alta demanda.
           </Text>
         </div>
 
-        <BecomeHostForm />
+        <BecomeHostForm className="-mt-10 sm:-mt-25" />
       </div>
     </section>
   );

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { CircleButton, SelectForm, InputForm } from "@/components/atoms";
 import { Button } from "@/components/molecules";
+import { useI18n } from "@/i18n";
 
 type FormValues = {
   firstName: string;
@@ -15,7 +16,12 @@ type FormValues = {
   buildingName?: string;
 };
 
-export const BecomeHostForm = () => {
+type BecomeHostFormProps = {
+  className?: string;
+};
+
+export const BecomeHostForm = ({ className }: BecomeHostFormProps) => {
+  const { t } = useI18n();
   const {
     register,
     handleSubmit,
@@ -34,7 +40,7 @@ export const BecomeHostForm = () => {
 
   return (
     <div
-      className="relative w-full rounded-lg p-3.5 backdrop-blur-[22.39px] md:w-160.25 md:px-8 md:pb-8"
+      className={`relative w-full rounded-lg p-3.5 py-8 backdrop-blur-[22.39px] md:w-160.25 md:px-8 md:pb-8 ${className}`}
       style={{
         background: `
           radial-gradient(
@@ -64,7 +70,7 @@ export const BecomeHostForm = () => {
       >
         <div className="col-span-2 md:col-span-1">
           <InputForm
-            placeholder="Nombre(s)"
+            placeholder={t("Nombre(s)")}
             className="h-12 w-full md:h-13.75"
             type="text"
             required
@@ -73,7 +79,7 @@ export const BecomeHostForm = () => {
         </div>
         <div className="col-span-2 md:col-span-1">
           <InputForm
-            placeholder="Apellidos"
+            placeholder={t("Apellidos")}
             className="h-12 w-full md:h-13.75"
             type="text"
             required
@@ -82,7 +88,7 @@ export const BecomeHostForm = () => {
         </div>
         <div className="col-span-2 md:col-span-1">
           <InputForm
-            placeholder="Email*"
+            placeholder={t("Email*")}
             className="h-12 w-full md:h-13.75"
             type="email"
             required
@@ -91,7 +97,7 @@ export const BecomeHostForm = () => {
         </div>
         <div className="col-span-2 md:col-span-1">
           <InputForm
-            placeholder="Número telefónico"
+            placeholder={t("Número telefónico")}
             className="h-12 w-full md:h-13.75"
             type="tel"
             {...register("phone")}

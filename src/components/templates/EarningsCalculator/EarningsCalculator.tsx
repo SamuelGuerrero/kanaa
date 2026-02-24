@@ -25,14 +25,10 @@ export const EarningsCalculator = () => {
         <div className="mb-5 max-w-138.5 md:mb-55">
           <Text
             size="6xl"
-            className="mt-15 text-white md:mt-20 md:leading-18"
+            className="mt-15 max-w-132.5 text-white md:mt-20 md:leading-18"
             weight="medium"
           >
-            Descubre cuánto
-            <br />
-            puede generar
-            <br />
-            tu propiedad
+            Descubre cuánto puede generar tu propiedad
           </Text>
 
           <Text
