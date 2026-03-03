@@ -20,11 +20,45 @@ const formSchema = z.object({
     .refine((value) => !value || value.trim().length >= 8, {
       message: "Escribe un telefono valido.",
     }),
-  city: z.string().min(1, "Selecciona una ciudad."),
+  estado: z.string().min(1, "Selecciona un estado"),
   buildingName: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
+const MEXICO_STATES = [
+  "Aguascalientes",
+  "Baja California",
+  "Baja California Sur",
+  "Campeche",
+  "Chiapas",
+  "Chihuahua",
+  "Ciudad de Mexico",
+  "Coahuila",
+  "Colima",
+  "Durango",
+  "Estado de Mexico",
+  "Guanajuato",
+  "Guerrero",
+  "Hidalgo",
+  "Jalisco",
+  "Michoacan",
+  "Morelos",
+  "Nayarit",
+  "Nuevo Leon",
+  "Oaxaca",
+  "Puebla",
+  "Queretaro",
+  "Quintana Roo",
+  "San Luis Potosi",
+  "Sinaloa",
+  "Sonora",
+  "Tabasco",
+  "Tamaulipas",
+  "Tlaxcala",
+  "Veracruz",
+  "Yucatan",
+  "Zacatecas",
+];
 
 type BecomeHostFormProps = {
   className?: string;
@@ -170,24 +204,21 @@ export const BecomeHostForm = ({ className }: BecomeHostFormProps) => {
             <SelectForm
               className="h-12 w-full md:h-13.75"
               defaultOptionLabel="¿Dónde se encuentra tu propiedad?"
-              options={[
-                { value: "cdmx", label: "CDMX" },
-                { value: "gdl", label: "Guadalajara" },
-              ]}
-              error={errors.city?.message}
-              {...register("city")}
+              options={MEXICO_STATES.map((state) => ({
+                value: state,
+                label: state,
+              }))}
+              error={errors.estado?.message}
+              {...register("estado")}
             />
           </div>
 
           <div className="col-span-2">
-            <SelectForm
-              defaultOptionLabel="Nombre del edificio (si aplica)"
+            <InputForm
+              placeholder={t("Nombre del edificio (si aplica)")}
               className="h-12 w-full md:h-13.75"
-              options={[
-                { value: "ninguno", label: "No aplica" },
-                { value: "edificio-a", label: "Edificio A" },
-                { value: "edificio-b", label: "Edificio B" },
-              ]}
+              type="text"
+              error={errors.buildingName?.message}
               {...register("buildingName")}
             />
           </div>
