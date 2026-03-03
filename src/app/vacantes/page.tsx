@@ -1,4 +1,15 @@
+
 import { Text } from "@/components/atoms";
+import { createPageMetadata } from "@/lib/seo";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Vacantes",
+  description:
+    "Consulta próximas vacantes en Kanaa para roles en operaciones, hospitalidad y crecimiento inmobiliario.",
+  path: "/vacantes",
+});
 
 export default function VacantesPage() {
   return (

@@ -1,3 +1,4 @@
+
 import {
   FeaturedProperties,
   Hero,
@@ -10,8 +11,18 @@ import {
   FrequentlyQuestions,
 } from "@/components/templates";
 import { DataHome } from "@/data/faqData";
+import { createPageMetadata } from "@/lib/seo";
 import DiscoverGenerate from "@assets/images/Home/DiscoverGenerate.png";
 import PropertyManagement from "@assets/images/Home/PropertyManagement.png";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Inicio",
+  description:
+    "Gestión profesional de propiedades vacacionales en México. En Kanaa optimizamos ingresos, ocupación y experiencia del huésped.",
+  path: "/",
+});
 
 const METRICS: KeyMetricsProps["metrics"] = [
   { value: "+1,300", label: "Huéspedes felices" },

@@ -1,3 +1,4 @@
+
 import { CleanIcon, Group, ProiconsDocument, Vector } from "@/components/atoms";
 import {
   BackedExperience,
@@ -10,10 +11,20 @@ import {
   type KeyMetricsProps,
 } from "@/components/templates";
 import { DataPropertyManagment } from "@/data/faqData";
+import { createPageMetadata } from "@/lib/seo";
 import PeaceAndResults from "@assets/images/Home/PeaceAndResults.png";
 import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
 import rentalManagement2 from "@assets/images/Home/rentalManagement2.png";
 import RentProperty from "@assets/images/Home/RentProperty.png";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Gestión de Propiedades",
+  description:
+    "Servicio integral de gestión de alquiler vacacional: operación diaria, limpieza, mantenimiento y optimización de ocupación.",
+  path: "/gestion-propiedades",
+});
 
 const METRICS: KeyMetricsProps["metrics"] = [
   { value: "+100", label: "Propiedades gestionadas" },

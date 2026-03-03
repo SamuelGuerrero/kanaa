@@ -1,4 +1,15 @@
+
 import { Text } from "@/components/atoms";
+import { createPageMetadata } from "@/lib/seo";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Blog",
+  description:
+    "Contenido sobre gestión de propiedades vacacionales, tendencias de renta corta y consejos para maximizar ingresos.",
+  path: "/blog",
+});
 
 export default function BlogPage() {
   return (

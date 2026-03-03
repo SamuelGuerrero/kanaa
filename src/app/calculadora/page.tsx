@@ -1,3 +1,4 @@
+
 import {
   IconApplied,
   Management,
@@ -18,10 +19,21 @@ import {
   type KeyMetricsProps,
 } from "@/components/templates";
 import { DataCalculator } from "@/data/faqData";
+import { createPageMetadata } from "@/lib/seo";
 import ChooseKANNA from "@assets/images/Home/ChooseKANNA.png";
 import ReservationManagement from "@assets/images/Home/ReservationManagement.png";
 import RevenueOptimization from "@assets/images/Home/RevenueOptimization.png";
 import RevenueOptimizationBase from "@assets/images/Home/RevenueOptimizationBase.png";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Calculadora de Ingresos",
+  description:
+    "Calcula el potencial de ingresos anual de tu propiedad vacacional con datos estimados y recomendaciones de Kanaa.",
+  path: "/calculadora",
+});
+
 const METRICS: KeyMetricsProps["metrics"] = [
   { value: "+100", label: "Propiedades gestionadas" },
   { value: "+2", label: "Años de experiencia" },

@@ -1,5 +1,16 @@
+
 import { InfoSection, ProjectConversation } from "@/components/templates";
+import { createPageMetadata } from "@/lib/seo";
 import TeamRecruitment from "@assets/images/Home/TeamRecruitment.png";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Contáctanos",
+  description:
+    "Habla con Kanaa para evaluar tu propiedad y conocer nuestra propuesta de gestión vacacional personalizada.",
+  path: "/contactanos",
+});
 
 export default function HomePage() {
   return (

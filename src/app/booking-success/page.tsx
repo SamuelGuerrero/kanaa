@@ -1,4 +1,15 @@
+
 import { Text } from "@/components/atoms";
+import { createPageMetadata } from "@/lib/seo";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Reserva Confirmada",
+  description: "Resumen de confirmación de reserva.",
+  path: "/booking-success",
+  noIndex: true,
+});
 
 export default function BookingSuccessPage() {
   return (

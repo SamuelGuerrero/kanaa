@@ -1,12 +1,23 @@
+
 import {
   ExperienceInAction,
   HeroNosotros,
   InfoSection,
 } from "@/components/templates";
+import { createPageMetadata } from "@/lib/seo";
 import JoinOurTeam from "@assets/images/Home/JoinOurTeam.png";
 import WhoAreWe from "@assets/images/Home/WhoAreWe.png";
 import WhoAreWeBase from "@assets/images/Home/WhoAreWeBase.png";
 import WhoAreWeTop from "@assets/images/Home/WhoAreWeTop.png";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Nosotros",
+  description:
+    "Conoce a Kanaa: equipo, enfoque operativo y visión para transformar propiedades en activos rentables y bien administrados.",
+  path: "/nosotros",
+});
 
 export default function HomePage() {
   return (
