@@ -31,26 +31,67 @@ const row = (label: string, value: string) => `
 `;
 
 const buildTemplate = (lead: BecomeHostPayload) => `
-  <div style="margin:0;padding:24px;background:#f3f5f7;font-family:Arial,sans-serif;color:#0f172a;">
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;">
+  <div style="margin:0;padding:40px 16px;background:#f4f6f4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2937;">
+    
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:720px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 10px 30px rgba(0,0,0,0.05);">
+      
+      <!-- HEADER -->
       <tr>
-        <td style="padding:18px 24px;background:#154734;color:#ffffff;">
-          <h1 style="margin:0;font-size:20px;line-height:1.2;">Nuevo lead: Convierte tu propiedad en un activo rentable</h1>
-          <p style="margin:6px 0 0;font-size:13px;opacity:0.9;">Formulario BecomeHost</p>
+        <td style="background:#2c3728;padding:32px 24px;text-align:center;">
+          <img 
+            src="https://i.postimg.cc/h4651wVz/logo.png" 
+            alt="Kanaa Logo" 
+            width="140" 
+            style="display:block;margin:0 auto 18px auto;"
+          />
+          <h1 style="margin:0;font-size:22px;line-height:1.3;color:#ffffff;font-weight:600;">
+            Nuevo Lead - Become Host
+          </h1>
+          <p style="margin:8px 0 0;font-size:14px;color:#a59973;">
+            Convierte tu propiedad en un activo rentable
+          </p>
         </td>
       </tr>
+
+      <!-- BODY -->
       <tr>
-        <td style="padding:22px 24px;">
+        <td style="padding:36px 32px;">
+          
+          <p style="margin:0 0 24px 0;font-size:15px;color:#374151;">
+            Se ha recibido una nueva solicitud desde el formulario principal.
+            A continuación los detalles del prospecto:
+          </p>
+
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+            
             ${row("Nombre", lead.firstName)}
             ${row("Apellidos", lead.lastName)}
             ${row("Email", lead.email)}
-            ${row("Telefono", lead.phone?.trim() ?? "No especificado")}
+            ${row("Teléfono", lead.phone?.trim() ?? "No especificado")}
             ${row("Ciudad", lead.city)}
             ${row("Edificio", lead.buildingName?.trim() ?? "No aplica")}
+          
           </table>
+
+          <div style="margin-top:32px;padding:20px;background:#f9fafb;border-radius:12px;border:1px solid #e5e7eb;">
+            <p style="margin:0;font-size:13px;color:#6b7280;">
+              Este mensaje fue generado automáticamente desde el formulario 
+              <strong style="color:#2c3728;">Become Host</strong>.
+            </p>
+          </div>
+
         </td>
       </tr>
+
+      <!-- FOOTER -->
+      <tr>
+        <td style="padding:20px 24px;background:#fafafa;border-top:1px solid #e5e7eb;text-align:center;">
+          <p style="margin:0;font-size:12px;color:#9ca3af;">
+            © ${new Date().getFullYear()} Kanaa. Todos los derechos reservados.
+          </p>
+        </td>
+      </tr>
+
     </table>
   </div>
 `;

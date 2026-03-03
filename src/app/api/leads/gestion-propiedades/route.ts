@@ -16,6 +16,9 @@ const leadSchema = z.object({
   bathroomCount: z.string().min(1),
   yearsOwned: z.string().min(1),
   estimatedMonthlyRevenue: z.number().nonnegative().nullable().optional(),
+  contactEmail: z.string().email().optional(),
+  contactPhone: z.string().optional(),
+  contactFullName: z.string().optional(),
 });
 
 type LeadPayload = z.infer<typeof leadSchema>;
@@ -46,31 +49,88 @@ const buildLeadTemplate = (lead: LeadPayload) => {
       : "No disponible";
 
   return `
-    <div style="margin:0;padding:24px;background:#f3f5f7;font-family:Arial,sans-serif;color:#0f172a;">
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="margin:0;padding:40px 16px;background:#f4f6f4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2937;">
+      
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:760px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 10px 30px rgba(0,0,0,0.05);">
+        
+        <!-- HEADER -->
         <tr>
-          <td style="padding:18px 24px;background:#154734;color:#ffffff;">
-            <h1 style="margin:0;font-size:20px;line-height:1.2;">Nuevo lead: Gestion de propiedades</h1>
-            <p style="margin:6px 0 0;font-size:13px;opacity:0.9;">Formulario /gestion-propiedades</p>
+          <td style="background:#2c3728;padding:32px 24px;text-align:center;">
+            <img 
+              src="https://i.postimg.cc/h4651wVz/logo.png" 
+              alt="Kanaa Logo" 
+              width="150" 
+              style="display:block;margin:0 auto 18px auto;"
+            />
+            <h1 style="margin:0;font-size:22px;line-height:1.3;color:#ffffff;font-weight:600;">
+              Nuevo Lead - Gestión de Propiedades
+            </h1>
+            <p style="margin:8px 0 0;font-size:14px;color:#a59973;">
+              Formulario /gestion-propiedades
+            </p>
           </td>
         </tr>
+
+        <!-- BODY -->
         <tr>
-          <td style="padding:22px 24px;">
+          <td style="padding:36px 32px;">
+            
+            <p style="margin:0 0 28px 0;font-size:15px;color:#374151;">
+              Se ha recibido una nueva solicitud para gestión de propiedad.
+              Detalles proporcionados por el prospecto:
+            </p>
+
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
-              ${row("Direccion de propiedad", lead.propertyAddress)}
-              ${row("Codigo postal", lead.postalCode)}
+              ${row(
+                "Nombre completo",
+                lead.contactFullName?.trim() ?? "No especificado",
+              )}
+              ${row(
+                "Correo electrónico",
+                lead.contactEmail?.trim() ?? "No especificado",
+              )}
+              ${row("Teléfono", lead.contactPhone?.trim() ?? "No especificado")}
+              ${row("Dirección de propiedad", lead.propertyAddress)}
+              ${row("Código postal", lead.postalCode)}
               ${row("Estado", lead.state)}
               ${row("Ciudad", lead.city)}
               ${row("Colonia", lead.neighborhood)}
-              ${row("Cantidad de huespedes", lead.guestCount)}
+              ${row("Cantidad de huéspedes", lead.guestCount)}
               ${row("Tipo de propiedad", lead.propertyType)}
               ${row("No. de habitaciones", lead.bedroomCount)}
-              ${row("No. de banos", lead.bathroomCount)}
-              ${row("Anos de propiedad", lead.yearsOwned)}
-              ${row("Estimado mensual", estimated)}
+              ${row("No. de baños", lead.bathroomCount)}
+              ${row("Años de propiedad", lead.yearsOwned)}
             </table>
+
+            <!-- BLOQUE DESTACADO INGRESO -->
+            <div style="margin-top:36px;padding:24px;border-radius:16px;background:#faf9f6;border:1px solid #e5e7eb;text-align:center;">
+              <p style="margin:0;font-size:13px;color:#6b7280;">
+                Ingreso mensual estimado
+              </p>
+              <p style="margin:8px 0 0;font-size:26px;font-weight:600;color:#2c3728;">
+                ${escapeHtml(estimated)}
+              </p>
+            </div>
+
+            <div style="margin-top:36px;padding:18px;background:#f9fafb;border-radius:12px;border:1px solid #e5e7eb;">
+              <p style="margin:0;font-size:13px;color:#6b7280;">
+                Este lead fue generado automáticamente desde el formulario 
+                <strong style="color:#2c3728;">Gestión de Propiedades</strong>.
+              </p>
+            </div>
+
           </td>
         </tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="padding:20px 24px;background:#fafafa;border-top:1px solid #e5e7eb;text-align:center;">
+            <p style="margin:0;font-size:12px;color:#9ca3af;">
+              © ${new Date().getFullYear()} Kanaa. Todos los derechos reservados.
+            </p>
+          </td>
+        </tr>
+
       </table>
     </div>
   `;
