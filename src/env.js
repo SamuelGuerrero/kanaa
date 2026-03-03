@@ -18,6 +18,10 @@ export const env = createEnv({
     HOSTAWAY_CLIENT_ID: z.string().min(1),
     HOSTAWAY_CLIENT_SECRET: z.string().min(1),
     HOSTAWAY_SCOPE: z.string().default("general"),
+    RESEND_API_BASE_URL: z.string().url(),
+    RESEND_API_KEY: z.string().min(1),
+    RESEND_FROM_EMAIL: z.string().email(),
+    LEADS_TO_EMAIL: z.string().email(),
   },
 
   /**
@@ -40,6 +44,10 @@ export const env = createEnv({
     HOSTAWAY_CLIENT_ID: process.env.HOSTAWAY_CLIENT_ID,
     HOSTAWAY_CLIENT_SECRET: process.env.HOSTAWAY_CLIENT_SECRET,
     HOSTAWAY_SCOPE: process.env.HOSTAWAY_SCOPE,
+    RESEND_API_BASE_URL: process.env.RESEND_API_BASE_URL,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
+    LEADS_TO_EMAIL: process.env.LEADS_TO_EMAIL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
