@@ -20,7 +20,7 @@ const formSchema = z.object({
     .refine((value) => !value || value.trim().length >= 8, {
       message: "Escribe un telefono valido.",
     }),
-  estado: z.string().min(1, "Selecciona un estado"),
+  state: z.string().min(1, "Selecciona un estado"),
   buildingName: z.string().optional(),
 });
 
@@ -208,8 +208,8 @@ export const BecomeHostForm = ({ className }: BecomeHostFormProps) => {
                 value: state,
                 label: state,
               }))}
-              error={errors.estado?.message}
-              {...register("estado")}
+              error={errors.state?.message}
+              {...register("state")}
             />
           </div>
 
