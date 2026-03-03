@@ -9,7 +9,7 @@ const becomeHostSchema = z.object({
   lastName: z.string().min(1),
   email: z.string().email(),
   phone: z.string().optional(),
-  city: z.string().min(1),
+  state: z.string().min(1),
   buildingName: z.string().optional(),
 });
 
@@ -68,7 +68,7 @@ const buildTemplate = (lead: BecomeHostPayload) => `
             ${row("Apellidos", lead.lastName)}
             ${row("Email", lead.email)}
             ${row("Teléfono", lead.phone?.trim() ?? "No especificado")}
-            ${row("Ciudad", lead.city)}
+            ${row("Estado", lead.state.trim())}
             ${row("Edificio", lead.buildingName?.trim() ?? "No aplica")}
           
           </table>
@@ -123,6 +123,12 @@ export async function POST(req: Request) {
         from: env.RESEND_FROM_EMAIL,
         to: [env.LEADS_TO_EMAIL],
         subject: "Kanaa | Nuevo lead de formulario principal",
+        headers: {
+          "X-Priority": "1",
+          "X-MSMail-Priority": "High",
+          Importance: "high",
+          Priority: "urgent",
+        },
         html: buildTemplate(parsed.data),
       }),
     });

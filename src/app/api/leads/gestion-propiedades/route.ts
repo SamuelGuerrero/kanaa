@@ -163,6 +163,12 @@ export async function POST(req: Request) {
         from: env.RESEND_FROM_EMAIL,
         to: [env.LEADS_TO_EMAIL],
         subject: "Kanaa | Nuevo lead de gestion de propiedades",
+        headers: {
+          "X-Priority": "1",
+          "X-MSMail-Priority": "High",
+          Importance: "high",
+          Priority: "urgent",
+        },
         html: buildLeadTemplate(parsed.data),
       }),
     });
