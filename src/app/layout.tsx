@@ -7,12 +7,65 @@ import { cookies, headers } from "next/headers";
 
 import { Footer, Navbar } from "@/components/organisms";
 import { LanguageProvider } from "@/i18n";
+import { siteConfig, toAbsoluteUrl } from "@/lib/seo";
 
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Kanaa",
-  description: "Your home away",
+  metadataBase: new URL(siteConfig.siteUrl),
+  title: {
+    default: siteConfig.defaultTitle,
+    template: "%s | Kanaa",
+  },
+  description: siteConfig.description,
+  applicationName: "Kanaa",
+  referrer: "origin-when-cross-origin",
+  keywords: [
+    "gestion de propiedades",
+    "alquiler vacacional",
+    "property management",
+    "renta vacacional",
+    "kanaa",
+  ],
+  authors: [{ name: "Kanaa" }],
+  creator: "Kanaa",
+  publisher: "Kanaa",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_MX",
+    siteName: "Kanaa",
+    url: "/",
+    title: siteConfig.defaultTitle,
+    description: siteConfig.description,
+    images: [
+      {
+        url: toAbsoluteUrl("/favicon.ico"),
+        width: 1200,
+        height: 630,
+        alt: "Kanaa",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.defaultTitle,
+    description: siteConfig.description,
+    images: [toAbsoluteUrl("/favicon.ico")],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
