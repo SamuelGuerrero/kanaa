@@ -2,7 +2,7 @@
 
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import {
@@ -30,6 +30,19 @@ const formSchema = z.object({
 });
 
 type PropertyDetails = z.infer<typeof formSchema>;
+const leadContactSchema = z.object({
+  contactEmail: z.string().email("Ingresa un correo valido."),
+  contactPhone: z
+    .string()
+    .min(8, "Ingresa un telefono valido.")
+    .max(20, "Ingresa un telefono valido."),
+  contactFullName: z
+    .string()
+    .min(3, "Ingresa tu nombre completo.")
+    .max(120, "Ingresa un nombre valido."),
+});
+
+type LeadContactValues = z.infer<typeof leadContactSchema>;
 
 type CnbvRow = {
   id: string;
@@ -50,6 +63,9 @@ type PredictionResponse = {
 
 type LeadEmailPayload = PropertyDetails & {
   estimatedMonthlyRevenue?: number | null;
+  contactEmail?: string;
+  contactPhone?: string;
+  contactFullName?: string;
 };
 
 const DEFAULT_OCCUPANCY = 70;
@@ -71,13 +87,25 @@ const formatAmount = (value: number) => {
 export const EarningsCalculatorForm = () => {
   const { t } = useI18n();
   const {
-    register,
-    handleSubmit,
+    register: registerProperty,
+    handleSubmit: handlePropertySubmit,
     setValue,
     watch,
     formState: { isSubmitting, errors },
   } = useForm<PropertyDetails>({
     resolver: zodResolver(formSchema),
+    mode: "onBlur",
+  });
+  const {
+    control: leadContactControl,
+    handleSubmit: handleLeadContactSubmit,
+    reset: resetLeadContactForm,
+    formState: {
+      isSubmitting: isLeadContactSubmitting,
+      errors: leadContactErrors,
+    },
+  } = useForm<LeadContactValues>({
+    resolver: zodResolver(leadContactSchema),
     mode: "onBlur",
   });
 
@@ -88,6 +116,10 @@ export const EarningsCalculatorForm = () => {
   const [predictionError, setPredictionError] = useState("");
   const [leadStatusMessage, setLeadStatusMessage] = useState("");
   const [leadStatusError, setLeadStatusError] = useState(false);
+  const [showLeadCaptureStep, setShowLeadCaptureStep] = useState(false);
+  const [hasSubmittedLead, setHasSubmittedLead] = useState(false);
+  const [propertyLeadPayload, setPropertyLeadPayload] =
+    useState<PropertyDetails | null>(null);
 
   const postalCode = watch("postalCode");
   const selectedState = watch("state");
@@ -201,6 +233,9 @@ export const EarningsCalculatorForm = () => {
     setPredictionError("");
     setLeadStatusMessage("");
     setLeadStatusError(false);
+    setShowLeadCaptureStep(false);
+    setHasSubmittedLead(false);
+    setPropertyLeadPayload(null);
 
     const payload = {
       features: {
@@ -215,8 +250,6 @@ export const EarningsCalculatorForm = () => {
         ocupacion_promedio: DEFAULT_OCCUPANCY,
       },
     };
-
-    let estimatedMonthlyRevenue: number | null = null;
 
     try {
       const response = await fetch(PRICE_PREDICTION_ENDPOINT, {
@@ -239,18 +272,33 @@ export const EarningsCalculatorForm = () => {
       }
 
       setPrediction(predictedValue);
-      estimatedMonthlyRevenue = predictedValue * 0.8;
+      setPropertyLeadPayload(data);
     } catch (error) {
       console.error("Error fetching prediction:", error);
       setPredictionError(
         "No pudimos calcular el precio en este momento. Inténtalo nuevamente.",
       );
     }
+  };
+
+  const onSubmitLeadContact = async (data: LeadContactValues) => {
+    if (!propertyLeadPayload) {
+      setLeadStatusError(true);
+      setLeadStatusMessage("No encontramos los datos de la propiedad.");
+      return;
+    }
+
+    setLeadStatusMessage("");
+    setLeadStatusError(false);
 
     try {
       const leadPayload: LeadEmailPayload = {
-        ...data,
-        estimatedMonthlyRevenue,
+        ...propertyLeadPayload,
+        estimatedMonthlyRevenue:
+          typeof prediction === "number" ? prediction * 0.8 : null,
+        contactEmail: data.contactEmail,
+        contactPhone: data.contactPhone,
+        contactFullName: data.contactFullName,
       };
 
       const leadResponse = await fetch("/api/leads/gestion-propiedades", {
@@ -273,8 +321,11 @@ export const EarningsCalculatorForm = () => {
           leadResponseBody.error ?? `HTTP ${leadResponse.status}`,
         );
       }
+
+      setHasSubmittedLead(true);
+      resetLeadContactForm();
       setLeadStatusMessage(
-        "Recibimos tus datos. Un asesor de Kanaa te contactará pronto.",
+        "Gracias, te enviaremos tu análisis personalizado y nuestro equipo te contactará pronto.",
       );
     } catch (error) {
       console.error("Error sending lead email:", error);
@@ -321,7 +372,7 @@ export const EarningsCalculatorForm = () => {
       {!showLoadingState && !showResultState && (
         <form
           className="relative z-10 grid grid-cols-2 gap-2 md:gap-4"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handlePropertySubmit(onSubmit)}
         >
           <div className="col-span-2">
             <InputForm
@@ -329,7 +380,7 @@ export const EarningsCalculatorForm = () => {
               placeholder={t("Dirección de propiedad")}
               type="text"
               error={errors.propertyAddress?.message}
-              {...register("propertyAddress")}
+              {...registerProperty("propertyAddress")}
             />
           </div>
           <div className="col-span-1">
@@ -340,7 +391,7 @@ export const EarningsCalculatorForm = () => {
               inputMode="numeric"
               maxLength={5}
               error={errors.postalCode?.message}
-              {...register("postalCode")}
+              {...registerProperty("postalCode")}
             />
             {catalogLoading && (
               <p className="mt-1 text-xs text-white/80">
@@ -358,7 +409,7 @@ export const EarningsCalculatorForm = () => {
               options={stateOptions}
               disabled={stateOptions.length === 0}
               error={errors.state?.message}
-              {...register("state")}
+              {...registerProperty("state")}
             />
           </div>
           <div className="col-span-2">
@@ -368,7 +419,7 @@ export const EarningsCalculatorForm = () => {
               options={cityOptions}
               disabled={cityOptions.length === 0}
               error={errors.city?.message}
-              {...register("city")}
+              {...registerProperty("city")}
             />
           </div>
           <div className="col-span-2">
@@ -378,7 +429,7 @@ export const EarningsCalculatorForm = () => {
               options={neighborhoodOptions}
               disabled={neighborhoodOptions.length === 0}
               error={errors.neighborhood?.message}
-              {...register("neighborhood")}
+              {...registerProperty("neighborhood")}
             />
           </div>
           <div className="col-span-1">
@@ -394,7 +445,7 @@ export const EarningsCalculatorForm = () => {
                 { value: "6", label: "6+ huéspedes" },
               ]}
               error={errors.guestCount?.message}
-              {...register("guestCount")}
+              {...registerProperty("guestCount")}
             />
           </div>
 
@@ -411,7 +462,7 @@ export const EarningsCalculatorForm = () => {
                 { value: "Otro", label: "Otro" },
               ]}
               error={errors.propertyType?.message}
-              {...register("propertyType")}
+              {...registerProperty("propertyType")}
             />
           </div>
 
@@ -428,7 +479,7 @@ export const EarningsCalculatorForm = () => {
                 { value: "5", label: "5+ habitaciones" },
               ]}
               error={errors.bedroomCount?.message}
-              {...register("bedroomCount")}
+              {...registerProperty("bedroomCount")}
             />
           </div>
 
@@ -445,7 +496,7 @@ export const EarningsCalculatorForm = () => {
                 { value: "4", label: "4+ baños" },
               ]}
               error={errors.bathroomCount?.message}
-              {...register("bathroomCount")}
+              {...registerProperty("bathroomCount")}
             />
           </div>
 
@@ -461,7 +512,7 @@ export const EarningsCalculatorForm = () => {
                 { value: "10+", label: "Más de 10 años" },
               ]}
               error={errors.yearsOwned?.message}
-              {...register("yearsOwned")}
+              {...registerProperty("yearsOwned")}
             />
           </div>
 
@@ -504,57 +555,172 @@ export const EarningsCalculatorForm = () => {
       )}
 
       {showResultState && (
-        <div className="relative z-10 h-106.25 px-0 pt-14 text-center md:px-0">
-          <Text size="3xl" weight="medium" className="text-white">
-            Tu propiedad podría generar hasta:
-          </Text>
-
-          <div className="w-max-content">
-            {" "}
-            <div className="mx-auto mt-7 w-fit rounded-[20px] bg-white px-3 py-4">
-              <div className="flex flex-wrap items-end justify-center space-x-2">
-                <Text size="6xl" className="text-green-normal">
-                  ${formatAmount((prediction ?? 0) * 0.8)}
+        <div className="relative z-10 min-h-106.25 px-0 pt-14 text-center md:px-0">
+          {showLeadCaptureStep ? (
+            hasSubmittedLead ? (
+              <div className="mx-auto max-w-4xl px-4 pt-10 md:px-0">
+                <Text size="3xl" weight="medium" className="text-white">
+                  Solicitud enviada con éxito
                 </Text>
-                <Text size="3xl" className="text-gold-normal">
-                  MXN
+                <Text
+                  font="gilroy"
+                  size="lg"
+                  className="mx-auto mt-4 max-w-3xl text-white/90"
+                >
+                  {leadStatusMessage ?? leadStatusError}
                 </Text>
               </div>
-            </div>
-            <Text
-              size="base"
-              font="gilroy"
-              className="mx-auto mt-6 max-w-100 text-white"
-            >
-              Basado en propiedades similares en tu zona y niveles promedio de
-              ocupación.
-            </Text>
-          </div>
+            ) : (
+              <div className="mx-auto w-full px-4 md:px-0">
+                <Text size="3xl" weight="medium" className="text-white">
+                  Obtén tu análisis completo
+                </Text>
+                <Text
+                  font="gilroy"
+                  size="lg"
+                  className="mx-auto mt-4 max-w-3xl text-white"
+                >
+                  Te enviaremos una proyección mensual personalizada.
+                </Text>
 
-          <Button
-            variant="primary"
-            textWeight="bold"
-            className="mt-8"
-            icon={
-              <span className="text-gold-dark flex h-7.5 w-7.5 shrink-0 items-center justify-center rounded-full bg-white leading-none">
-                <ArrowRightIcon className="h-5 w-5 text-[#A19574]" />
-              </span>
-            }
-          >
-            Recibir mi análisis personalizado
-          </Button>
-          {leadStatusMessage ? (
-            <Text
-              size="sm"
-              font="gilroy"
-              weight="semibold"
-              className={`mx-auto mt-4 max-w-90 ${
-                leadStatusError ? "text-red-200" : "text-white"
-              }`}
-            >
-              {leadStatusMessage}
-            </Text>
-          ) : null}
+                <form
+                  className="mx-auto mt-10 grid w-full gap-4"
+                  onSubmit={handleLeadContactSubmit(onSubmitLeadContact)}
+                >
+                  <Controller
+                    control={leadContactControl}
+                    name="contactEmail"
+                    render={({ field }) => (
+                      <InputForm
+                        type="email"
+                        placeholder="Correo electrónico"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        className="font-gilroy w-[90%] text-[16.33px] font-semibold text-white placeholder-white/75 focus:text-white focus:placeholder-white/60"
+                      />
+                    )}
+                  />
+                  {leadContactErrors.contactEmail?.message ? (
+                    <Text
+                      size="xs"
+                      font="gilroy"
+                      className="-mt-2 text-left text-red-200"
+                    >
+                      {leadContactErrors.contactEmail.message}
+                    </Text>
+                  ) : null}
+
+                  <Controller
+                    control={leadContactControl}
+                    name="contactPhone"
+                    render={({ field }) => (
+                      <InputForm
+                        type="tel"
+                        placeholder="Teléfono"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        className="font-gilroy w-[90%] text-[16.33px] font-semibold text-white placeholder-white/75 focus:text-white focus:placeholder-white/60"
+                      />
+                    )}
+                  />
+                  {leadContactErrors.contactPhone?.message ? (
+                    <Text
+                      size="xs"
+                      font="gilroy"
+                      className="-mt-2 text-left text-red-200"
+                    >
+                      {leadContactErrors.contactPhone.message}
+                    </Text>
+                  ) : null}
+
+                  <Controller
+                    control={leadContactControl}
+                    name="contactFullName"
+                    render={({ field }) => (
+                      <InputForm
+                        type="text"
+                        placeholder="Nombre Completo"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        className="font-gilroy w-[90%] text-[16.33px] font-semibold text-white placeholder-white/75 focus:text-white focus:placeholder-white/60"
+                      />
+                    )}
+                  />
+                  {leadContactErrors.contactFullName?.message ? (
+                    <Text
+                      size="xs"
+                      font="gilroy"
+                      className="-mt-2 text-left text-red-200"
+                    >
+                      {leadContactErrors.contactFullName.message}
+                    </Text>
+                  ) : null}
+
+                  <Button
+                    type="submit"
+                    disabled={isLeadContactSubmitting}
+                    variant="primary"
+                    textWeight="bold"
+                    className={`mx-auto mt-8 w-full max-w-120 justify-center ${
+                      isLeadContactSubmitting
+                        ? "cursor-not-allowed opacity-60"
+                        : ""
+                    }`}
+                    icon={
+                      <span className="text-gold-dark flex h-7.5 w-7.5 shrink-0 items-center justify-center rounded-full bg-white leading-none">
+                        <ArrowRightIcon className="h-5 w-5 text-[#A19574]" />
+                      </span>
+                    }
+                  >
+                    {isLeadContactSubmitting
+                      ? "Enviando..."
+                      : "Recibir mi análisis"}
+                  </Button>
+                </form>
+              </div>
+            )
+          ) : (
+            <>
+              <Text size="3xl" weight="medium" className="text-white">
+                Tu propiedad podría generar hasta:
+              </Text>
+
+              <div className="w-max-content">
+                <div className="mx-auto mt-7 w-fit rounded-[20px] bg-white px-3 py-4">
+                  <div className="flex flex-wrap items-end justify-center space-x-2">
+                    <Text size="6xl" className="text-green-normal">
+                      ${formatAmount((prediction ?? 0) * 0.8)}
+                    </Text>
+                    <Text size="3xl" className="text-gold-normal">
+                      MXN
+                    </Text>
+                  </div>
+                </div>
+                <Text
+                  size="base"
+                  font="gilroy"
+                  className="mx-auto mt-6 max-w-100 text-white"
+                >
+                  Basado en propiedades similares en tu zona y niveles promedio
+                  de ocupación.
+                </Text>
+              </div>
+
+              <Button
+                variant="primary"
+                textWeight="bold"
+                className="mt-8"
+                onClick={() => setShowLeadCaptureStep(true)}
+                icon={
+                  <span className="text-gold-dark flex h-7.5 w-7.5 shrink-0 items-center justify-center rounded-full bg-white leading-none">
+                    <ArrowRightIcon className="h-5 w-5 text-[#A19574]" />
+                  </span>
+                }
+              >
+                Recibir mi análisis personalizado
+              </Button>
+            </>
+          )}
         </div>
       )}
     </div>
