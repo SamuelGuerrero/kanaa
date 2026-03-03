@@ -1,20 +1,30 @@
 "use client";
 
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { CircleButton, SelectForm, InputForm } from "@/components/atoms";
+import { CircleButton, SelectForm, InputForm, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
 import { useI18n } from "@/i18n";
+import { zodResolver } from "@/lib/forms/zodResolver";
 
-type FormValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
-  city: string;
-  buildingName?: string;
-};
+const formSchema = z.object({
+  firstName: z.string().min(2, "Escribe tu nombre."),
+  lastName: z.string().min(2, "Escribe tus apellidos."),
+  email: z.string().email("Escribe un correo valido."),
+  phone: z
+    .string()
+    .optional()
+    .refine((value) => !value || value.trim().length >= 8, {
+      message: "Escribe un telefono valido.",
+    }),
+  city: z.string().min(1, "Selecciona una ciudad."),
+  buildingName: z.string().optional(),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 type BecomeHostFormProps = {
   className?: string;
@@ -22,19 +32,47 @@ type BecomeHostFormProps = {
 
 export const BecomeHostForm = ({ className }: BecomeHostFormProps) => {
   const { t } = useI18n();
+  const [submitError, setSubmitError] = useState("");
+  const [isSuccessView, setIsSuccessView] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
-  } = useForm<FormValues>();
+    formState: { isSubmitting, errors },
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    mode: "onBlur",
+  });
 
   const onSubmit = async (data: FormValues) => {
+    setSubmitError("");
     try {
-      console.log("DATA:", data);
+      const response = await fetch("/api/leads/become-host", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const responseBody = (await response.json().catch(() => ({}))) as {
+        id?: string;
+        error?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(responseBody.error ?? `HTTP ${response.status}`);
+      }
+
       reset();
+      setIsSuccessView(true);
     } catch (error) {
-      console.error(error);
+      console.error("Error sending become host lead:", error);
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "No se pudo enviar tu solicitud. Intenta de nuevo.",
+      );
     }
   };
 
@@ -64,86 +102,122 @@ export const BecomeHostForm = ({ className }: BecomeHostFormProps) => {
         }}
       />
 
-      <form
-        className="relative z-10 grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="col-span-2 md:col-span-1">
-          <InputForm
-            placeholder={t("Nombre(s)")}
-            className="h-12 w-full md:h-13.75"
-            type="text"
-            required
-            {...register("firstName")}
-          />
+      {isSuccessView ? (
+        <div className="relative z-10 min-h-105 px-3 pt-20 text-center md:px-6 md:pt-24">
+          <Text
+            as="h2"
+            font="gilroy"
+            size="3xl"
+            weight="bold"
+            className="text-white"
+          >
+            Solicitud enviada con éxito
+          </Text>
+          <Text
+            as="p"
+            font="gilroy"
+            size="lg"
+            weight="medium"
+            className="mx-auto mt-6 max-w-3xl text-white/90"
+          >
+            Gracias por escribirnos. Nuestro equipo se pondrá en contacto
+            contigo a la brevedad.
+          </Text>
         </div>
-        <div className="col-span-2 md:col-span-1">
-          <InputForm
-            placeholder={t("Apellidos")}
-            className="h-12 w-full md:h-13.75"
-            type="text"
-            required
-            {...register("lastName")}
-          />
-        </div>
-        <div className="col-span-2 md:col-span-1">
-          <InputForm
-            placeholder={t("Email*")}
-            className="h-12 w-full md:h-13.75"
-            type="email"
-            required
-            {...register("email")}
-          />
-        </div>
-        <div className="col-span-2 md:col-span-1">
-          <InputForm
-            placeholder={t("Número telefónico")}
-            className="h-12 w-full md:h-13.75"
-            type="tel"
-            {...register("phone")}
-          />
-        </div>
-
-        <div className="col-span-2">
-          <SelectForm
-            required
-            className="h-12 w-full md:h-13.75"
-            defaultOptionLabel="¿Dónde se encuentra tu propiedad?"
-            options={[
-              { value: "cdmx", label: "CDMX" },
-              { value: "gdl", label: "Guadalajara" },
-            ]}
-            {...register("city", { required: true })}
-          />
-        </div>
-
-        <div className="col-span-2">
-          <SelectForm
-            defaultOptionLabel="Nombre del edificio (si aplica)"
-            className="h-12 w-full md:h-13.75"
-            options={[
-              { value: "ninguno", label: "No aplica" },
-              { value: "edificio-a", label: "Edificio A" },
-              { value: "edificio-b", label: "Edificio B" },
-            ]}
-            {...register("buildingName")}
-          />
-        </div>
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          variant="primary"
-          textWeight="bold"
-          className={`text-gold-darker mt-5 flex w-[80%] justify-center space-x-2 md:w-min md:text-start ${isSubmitting && "cursor-not-allowed opacity-60"} `}
-          icon={
-            <CircleButton>
-              <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-            </CircleButton>
-          }
+      ) : (
+        <form
+          className="relative z-10 grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4"
+          onSubmit={handleSubmit(onSubmit)}
         >
-          Enviar
-        </Button>
-      </form>
+          <div className="col-span-2 md:col-span-1">
+            <InputForm
+              placeholder={t("Nombre(s)")}
+              className="h-12 w-full md:h-13.75"
+              type="text"
+              error={errors.firstName?.message}
+              {...register("firstName")}
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <InputForm
+              placeholder={t("Apellidos")}
+              className="h-12 w-full md:h-13.75"
+              type="text"
+              error={errors.lastName?.message}
+              {...register("lastName")}
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <InputForm
+              placeholder={t("Email*")}
+              className="h-12 w-full md:h-13.75"
+              type="email"
+              error={errors.email?.message}
+              {...register("email")}
+            />
+          </div>
+          <div className="col-span-2 md:col-span-1">
+            <InputForm
+              placeholder={t("Número telefónico")}
+              className="h-12 w-full md:h-13.75"
+              type="tel"
+              error={errors.phone?.message}
+              {...register("phone")}
+            />
+          </div>
+
+          <div className="col-span-2">
+            <SelectForm
+              className="h-12 w-full md:h-13.75"
+              defaultOptionLabel="¿Dónde se encuentra tu propiedad?"
+              options={[
+                { value: "cdmx", label: "CDMX" },
+                { value: "gdl", label: "Guadalajara" },
+              ]}
+              error={errors.city?.message}
+              {...register("city")}
+            />
+          </div>
+
+          <div className="col-span-2">
+            <SelectForm
+              defaultOptionLabel="Nombre del edificio (si aplica)"
+              className="h-12 w-full md:h-13.75"
+              options={[
+                { value: "ninguno", label: "No aplica" },
+                { value: "edificio-a", label: "Edificio A" },
+                { value: "edificio-b", label: "Edificio B" },
+              ]}
+              {...register("buildingName")}
+            />
+          </div>
+          {submitError ? (
+            <Text
+              as="p"
+              font="gilroy"
+              size="sm"
+              weight="semibold"
+              className="col-span-2 mt-2 text-center text-red-200"
+            >
+              {submitError}
+            </Text>
+          ) : null}
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            variant="primary"
+            textWeight="bold"
+            className={`text-gold-darker mt-5 flex w-[80%] justify-center space-x-2 md:w-min md:text-start ${isSubmitting ? "cursor-not-allowed opacity-60" : ""} `}
+            icon={
+              <CircleButton>
+                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+              </CircleButton>
+            }
+          >
+            {isSubmitting ? "Enviando..." : "Enviar"}
+          </Button>
+        </form>
+      )}
     </div>
   );
 };

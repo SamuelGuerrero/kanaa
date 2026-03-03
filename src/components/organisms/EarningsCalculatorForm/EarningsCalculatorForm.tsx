@@ -3,6 +3,7 @@
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import {
   CircleButton,
@@ -13,19 +14,22 @@ import {
 } from "@/components/atoms";
 import { Button } from "@/components/molecules";
 import { useI18n } from "@/i18n";
+import { zodResolver } from "@/lib/forms/zodResolver";
 
-type PropertyDetails = {
-  postalCode: string;
-  state: string;
-  city: string;
-  neighborhood: string;
-  propertyAddress: string;
-  guestCount: string;
-  propertyType: string;
-  bedroomCount: string;
-  bathroomCount: string;
-  yearsOwned: string;
-};
+const formSchema = z.object({
+  postalCode: z.string().regex(/^\d{5}$/, "Ingresa un codigo postal valido."),
+  state: z.string().min(1, "Selecciona un estado."),
+  city: z.string().min(1, "Selecciona una ciudad."),
+  neighborhood: z.string().min(1, "Selecciona una colonia."),
+  propertyAddress: z.string().min(5, "Ingresa la direccion de la propiedad."),
+  guestCount: z.string().min(1, "Selecciona cantidad de huespedes."),
+  propertyType: z.string().min(1, "Selecciona tipo de propiedad."),
+  bedroomCount: z.string().min(1, "Selecciona cantidad de habitaciones."),
+  bathroomCount: z.string().min(1, "Selecciona cantidad de banos."),
+  yearsOwned: z.string().min(1, "Selecciona anos de propiedad."),
+});
+
+type PropertyDetails = z.infer<typeof formSchema>;
 
 type CnbvRow = {
   id: string;
@@ -42,6 +46,10 @@ type PredictionResponse = {
   prediction?: number[];
   raw_prediction?: number[];
   success?: boolean;
+};
+
+type LeadEmailPayload = PropertyDetails & {
+  estimatedMonthlyRevenue?: number | null;
 };
 
 const DEFAULT_OCCUPANCY = 70;
@@ -67,14 +75,19 @@ export const EarningsCalculatorForm = () => {
     handleSubmit,
     setValue,
     watch,
-    formState: { isSubmitting },
-  } = useForm<PropertyDetails>();
+    formState: { isSubmitting, errors },
+  } = useForm<PropertyDetails>({
+    resolver: zodResolver(formSchema),
+    mode: "onBlur",
+  });
 
   const [catalogRows, setCatalogRows] = useState<CnbvRow[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(false);
   const [catalogError, setCatalogError] = useState("");
   const [prediction, setPrediction] = useState<number | null>(null);
   const [predictionError, setPredictionError] = useState("");
+  const [leadStatusMessage, setLeadStatusMessage] = useState("");
+  const [leadStatusError, setLeadStatusError] = useState(false);
 
   const postalCode = watch("postalCode");
   const selectedState = watch("state");
@@ -186,6 +199,8 @@ export const EarningsCalculatorForm = () => {
   const onSubmit = async (data: PropertyDetails) => {
     setPrediction(null);
     setPredictionError("");
+    setLeadStatusMessage("");
+    setLeadStatusError(false);
 
     const payload = {
       features: {
@@ -200,6 +215,8 @@ export const EarningsCalculatorForm = () => {
         ocupacion_promedio: DEFAULT_OCCUPANCY,
       },
     };
+
+    let estimatedMonthlyRevenue: number | null = null;
 
     try {
       const response = await fetch(PRICE_PREDICTION_ENDPOINT, {
@@ -222,10 +239,50 @@ export const EarningsCalculatorForm = () => {
       }
 
       setPrediction(predictedValue);
+      estimatedMonthlyRevenue = predictedValue * 0.8;
     } catch (error) {
       console.error("Error fetching prediction:", error);
       setPredictionError(
         "No pudimos calcular el precio en este momento. Inténtalo nuevamente.",
+      );
+    }
+
+    try {
+      const leadPayload: LeadEmailPayload = {
+        ...data,
+        estimatedMonthlyRevenue,
+      };
+
+      const leadResponse = await fetch("/api/leads/gestion-propiedades", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(leadPayload),
+      });
+
+      const leadResponseBody = (await leadResponse
+        .json()
+        .catch(() => ({}))) as {
+        id?: string;
+        error?: string;
+      };
+
+      if (!leadResponse.ok) {
+        throw new Error(
+          leadResponseBody.error ?? `HTTP ${leadResponse.status}`,
+        );
+      }
+      setLeadStatusMessage(
+        "Recibimos tus datos. Un asesor de Kanaa te contactará pronto.",
+      );
+    } catch (error) {
+      console.error("Error sending lead email:", error);
+      setLeadStatusError(true);
+      setLeadStatusMessage(
+        error instanceof Error
+          ? error.message
+          : "No se pudieron enviar tus datos. Intenta nuevamente.",
       );
     }
   };
@@ -271,7 +328,7 @@ export const EarningsCalculatorForm = () => {
               className="h-11 w-full md:h-13.75"
               placeholder={t("Dirección de propiedad")}
               type="text"
-              required
+              error={errors.propertyAddress?.message}
               {...register("propertyAddress")}
             />
           </div>
@@ -282,7 +339,7 @@ export const EarningsCalculatorForm = () => {
               type="text"
               inputMode="numeric"
               maxLength={5}
-              required
+              error={errors.postalCode?.message}
               {...register("postalCode")}
             />
             {catalogLoading && (
@@ -296,37 +353,36 @@ export const EarningsCalculatorForm = () => {
           </div>
           <div className="col-span-1">
             <SelectForm
-              required
               className="h-11 w-full md:h-13.75"
               defaultOptionLabel="Estado"
               options={stateOptions}
               disabled={stateOptions.length === 0}
-              {...register("state", { required: true })}
+              error={errors.state?.message}
+              {...register("state")}
             />
           </div>
           <div className="col-span-2">
             <SelectForm
-              required
               className="h-11 w-full md:h-13.75"
               defaultOptionLabel="Ciudad"
               options={cityOptions}
               disabled={cityOptions.length === 0}
-              {...register("city", { required: true })}
+              error={errors.city?.message}
+              {...register("city")}
             />
           </div>
           <div className="col-span-2">
             <SelectForm
-              required
               className="h-11 w-full md:h-13.75"
               defaultOptionLabel="Colonia"
               options={neighborhoodOptions}
               disabled={neighborhoodOptions.length === 0}
-              {...register("neighborhood", { required: true })}
+              error={errors.neighborhood?.message}
+              {...register("neighborhood")}
             />
           </div>
           <div className="col-span-1">
             <SelectForm
-              required
               className="h-11 w-full md:h-13.75"
               defaultOptionLabel="Cantidad de huéspedes"
               options={[
@@ -337,13 +393,13 @@ export const EarningsCalculatorForm = () => {
                 { value: "5", label: "5 huéspedes" },
                 { value: "6", label: "6+ huéspedes" },
               ]}
-              {...register("guestCount", { required: true })}
+              error={errors.guestCount?.message}
+              {...register("guestCount")}
             />
           </div>
 
           <div className="col-span-1">
             <SelectForm
-              required
               className="md:h-13.755 h-11 w-full"
               defaultOptionLabel="Tipo de propiedad"
               options={[
@@ -354,13 +410,13 @@ export const EarningsCalculatorForm = () => {
                 { value: "Townhouse", label: "Townhouse" },
                 { value: "Otro", label: "Otro" },
               ]}
-              {...register("propertyType", { required: true })}
+              error={errors.propertyType?.message}
+              {...register("propertyType")}
             />
           </div>
 
           <div className="col-span-1">
             <SelectForm
-              required
               className="h-11 w-full md:h-13.75"
               defaultOptionLabel="No. de habitaciones"
               options={[
@@ -371,13 +427,13 @@ export const EarningsCalculatorForm = () => {
                 { value: "4", label: "4 habitaciones" },
                 { value: "5", label: "5+ habitaciones" },
               ]}
-              {...register("bedroomCount", { required: true })}
+              error={errors.bedroomCount?.message}
+              {...register("bedroomCount")}
             />
           </div>
 
           <div className="col-span-1">
             <SelectForm
-              required
               className="h-11 w-full md:h-13.75"
               defaultOptionLabel="No. de baños"
               options={[
@@ -388,13 +444,13 @@ export const EarningsCalculatorForm = () => {
                 { value: "3", label: "3 baños" },
                 { value: "4", label: "4+ baños" },
               ]}
-              {...register("bathroomCount", { required: true })}
+              error={errors.bathroomCount?.message}
+              {...register("bathroomCount")}
             />
           </div>
 
           <div className="col-span-2">
             <SelectForm
-              required
               className="h-11 w-full md:h-13.75"
               defaultOptionLabel="Años de propiedad"
               options={[
@@ -404,7 +460,8 @@ export const EarningsCalculatorForm = () => {
                 { value: "5-10", label: "5 a 10 años" },
                 { value: "10+", label: "Más de 10 años" },
               ]}
-              {...register("yearsOwned", { required: true })}
+              error={errors.yearsOwned?.message}
+              {...register("yearsOwned")}
             />
           </div>
 
@@ -486,6 +543,18 @@ export const EarningsCalculatorForm = () => {
           >
             Recibir mi análisis personalizado
           </Button>
+          {leadStatusMessage ? (
+            <Text
+              size="sm"
+              font="gilroy"
+              weight="semibold"
+              className={`mx-auto mt-4 max-w-90 ${
+                leadStatusError ? "text-red-200" : "text-white"
+              }`}
+            >
+              {leadStatusMessage}
+            </Text>
+          ) : null}
         </div>
       )}
     </div>
