@@ -1,4 +1,3 @@
-
 import {
   FeaturedProperties,
   Hero,
@@ -47,7 +46,7 @@ export default function HomePage() {
         image={PropertyManagement}
         imageAlt="Property Management"
         imagePosition="right"
-        backgroundColor="bg-green-dark-hover py-7 sm:pb-7 pb-2"
+        className="bg-green-dark-hover py-7 pb-2 sm:pb-7"
         descriptionClassName="text-white mt-8 mr-4 max-w-[600px]"
         textClassName="md:mt-20 ml-2 text-white  "
         buttonProps={{
@@ -66,7 +65,7 @@ export default function HomePage() {
         image={DiscoverGenerate}
         imageAlt="DiscoverGenerate"
         imagePosition="left"
-        backgroundColor="bg-white"
+        className="bg-white"
         textClassName="md:mt-20 mx-2 text-green-normal "
         descriptionClassName="text-green-normal mt-8 max-w-[600px]"
         buttonProps={{

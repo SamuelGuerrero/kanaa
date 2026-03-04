@@ -9,23 +9,26 @@ import type { ReactNode } from "react";
 type FeatureItem = {
   text: string;
   icon?: ReactNode;
-  titulo?: string;
+  title?: string;
 };
-interface ImageConfig {
+
+type ImageConfig = {
   src: StaticImageData;
   alt: string;
   className?: string;
-}
+};
 
-type InfoSectionProps = {
+type ImageProps =
+  | { image: StaticImageData; imageAlt: string; imagesConfig?: never }
+  | { imagesConfig: ImageConfig[]; image?: never; imageAlt?: never }
+  | { image?: never; imageAlt?: never; imagesConfig?: never };
+
+type InfoSectionProps = ImageProps & {
   title: string;
   description: string;
-  image?: StaticImageData;
-  imageAlt?: string;
-  imagesConfig?: ImageConfig[];
   imagePosition?: "left" | "right";
-  block?: string;
-  backgroundColor?: string;
+  imageClassName?: string;
+  className?: string;
   textClassName?: string;
   descriptionClassName?: string;
   featuresTextClassName?: string;
@@ -48,8 +51,8 @@ export const InfoSection = ({
   imageAlt,
   imagesConfig,
   imagePosition = "right",
-  block,
-  backgroundColor = "bg-green-dark-hover",
+  imageClassName,
+  className = "bg-green-dark-hover",
   textClassName = "text-white",
   descriptionClassName = "text-grey-darker",
   features,
@@ -77,7 +80,7 @@ export const InfoSection = ({
           {features.map((item, index) => (
             <li
               key={index}
-              className={` ${featureClassName} flex ${item.titulo ? "flex-col items-start md:flex-row md:items-center" : "items-center"} gap-3 rounded-[10px]`}
+              className={`${featureClassName} flex ${item.title ? "flex-col items-start md:flex-row md:items-center" : "items-center"} gap-3 rounded-[10px]`}
             >
               {item.icon && (
                 <span
@@ -86,7 +89,7 @@ export const InfoSection = ({
                   {item.icon}
                 </span>
               )}
-              {title ? (
+              {item.title ? (
                 <div className="mt-2 md:mt-0">
                   <Text
                     font="gilroy"
@@ -94,7 +97,7 @@ export const InfoSection = ({
                     weight="bold"
                     className={`${featuresTextClassName} ml-2`}
                   >
-                    {item.titulo}
+                    {item.title}
                   </Text>
                   <Text
                     weight="medium"
@@ -141,7 +144,7 @@ export const InfoSection = ({
     <div className="order-2 flex w-full items-center justify-center md:order-0">
       {imagesConfig?.length ? (
         <div className="relative mx-auto mr-11 -mb-10 aspect-655/680 w-full max-w-163.75 md:mr-15 md:mb-0">
-          {imagesConfig?.map((img, index) => (
+          {imagesConfig.map((img, index) => (
             <Image
               key={index}
               src={img.src}
@@ -155,7 +158,7 @@ export const InfoSection = ({
         <Image
           src={image}
           alt={imageAlt}
-          className={`h-auto w-full object-contain ${block}`}
+          className={`h-auto w-full object-contain ${imageClassName ?? ""}`}
           priority
         />
       ) : null}
@@ -163,7 +166,7 @@ export const InfoSection = ({
   );
 
   return (
-    <div className={`${backgroundColor} w-full px-2 py-3 md:px-8.5`}>
+    <div className={`${className} w-full px-2 py-3 md:px-8.5`}>
       <div
         className={`grid grid-cols-1 md:grid-cols-2 md:gap-8 ${imagePosition === "left" ? "direction-rtl" : ""}`}
       >

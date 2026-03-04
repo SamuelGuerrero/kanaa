@@ -1,4 +1,3 @@
-
 import { CleanIcon, Group, ProiconsDocument, Vector } from "@/components/atoms";
 import {
   BackedExperience,
@@ -41,7 +40,7 @@ export default function HomePage() {
         image={PeaceAndResults}
         imageAlt="Property Management2"
         imagePosition="right"
-        backgroundColor="bg-green-dark-hover py-8"
+        className="bg-green-dark-hover py-8"
         descriptionClassName="text-grey-light max-w-[550px]"
         textClassName="mt-5 md:mt-15 ml-2 text-grey-light max-w-[600px]"
         buttonProps={{
@@ -73,7 +72,7 @@ export default function HomePage() {
           },
         ]}
         imagePosition="left"
-        backgroundColor="bg-white! pb-20"
+        className="bg-white! pb-20"
         descriptionClassName="text-grey-darker"
         textClassName="ml-3 mt-10 text-green-normal"
         features={[
@@ -104,7 +103,7 @@ export default function HomePage() {
         image={RentProperty}
         imageAlt="RentProperty"
         imagePosition="left"
-        backgroundColor="bg-green-dark-hover"
+        className="bg-green-dark-hover"
         descriptionClassName="text-grey-light"
         textClassName="mt-15 mx-2 mr-6 text-grey-light"
         buttonProps={{

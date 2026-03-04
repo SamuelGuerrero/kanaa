@@ -1,4 +1,3 @@
-
 import {
   ExperienceInAction,
   HeroNosotros,
@@ -47,7 +46,7 @@ export default function HomePage() {
           },
         ]}
         imagePosition="right"
-        backgroundColor="bg-grey-light pb-20 sm:pt-0 pt-10 bg-gold-normal"
+        className="bg-grey-light pt-10 pb-20 sm:pt-0"
         descriptionClassName="text-grey-darker w-[340px] md:w-[600px]"
         textClassName="mt-0 md:mt-20 ml-4 text-green-normal"
         buttonProps={{
@@ -71,7 +70,7 @@ export default function HomePage() {
         image={WhoAreWe}
         imageAlt="WhoAreWe"
         imagePosition="left"
-        backgroundColor="bg-green-dark-hover py-8"
+        className="bg-green-dark-hover py-8"
         descriptionClassName="text-grey-light"
         textClassName="mt-3 md:mt-10 md:mt-20 ml-2 text-grey-light"
         buttonProps={{
@@ -95,7 +94,7 @@ export default function HomePage() {
         image={JoinOurTeam}
         imageAlt="JoinOurTeam"
         imagePosition="left"
-        backgroundColor="bg-gold-light-hover py-8 sm:py-0"
+        className="bg-gold-light-hover py-8 sm:py-0"
         descriptionClassName="text-grey-darker max-w-[630px]"
         textClassName=" md:mt-20 ml-2 text-green-normal"
         buttonProps={{

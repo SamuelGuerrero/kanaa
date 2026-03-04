@@ -1,4 +1,3 @@
-
 import { InfoSection, ProjectConversation } from "@/components/templates";
 import { createPageMetadata } from "@/lib/seo";
 import TeamRecruitment from "@assets/images/Home/TeamRecruitment.png";
@@ -28,7 +27,7 @@ export default function HomePage() {
         image={TeamRecruitment}
         imageAlt="TeamRecruitment"
         imagePosition="left"
-        backgroundColor="bg-gold-light-hover"
+        className="bg-gold-light-hover"
         descriptionClassName="text-grey-darker"
         textClassName="mt-20 ml-2 text-green-normal"
         buttonProps={{

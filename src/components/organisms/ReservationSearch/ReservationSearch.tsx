@@ -48,16 +48,22 @@ export type ReservationSearchInitialFilters = {
   guestCounts?: GuestCounts;
 };
 
+const SHEET_DISMISS_THRESHOLD = 120;
+
+const selectorContainerClass =
+  "rounded-full border border-[#D8D8D8] bg-white transition-colors duration-200 focus-within:border-[#A19574] md:rounded-none md:border-0 md:bg-transparent";
+const selectorTextClass =
+  "font-gilroy w-full bg-transparent text-sm text-[#444444] placeholder-[#6A6A6A] transition-colors duration-150 outline-none focus:text-[#1B1B1B] disabled:cursor-not-allowed disabled:text-[#9A9A9A]";
+
+const isMobileViewport = () =>
+  typeof window !== "undefined" && window.innerWidth < 768;
+
 export const ReservationSearch = ({
   className,
   onSearch,
   initialFilters,
 }: ReservationSearchProps) => {
   const { locale, t } = useI18n();
-  const selectorContainerClass =
-    "rounded-full border border-[#D8D8D8] bg-white transition-colors duration-200 focus-within:border-[#A19574] md:rounded-none md:border-0 md:bg-transparent";
-  const selectorTextClass =
-    "font-gilroy w-full bg-transparent text-sm text-[#444444] placeholder-[#6A6A6A] transition-colors duration-150 outline-none focus:text-[#1B1B1B] disabled:cursor-not-allowed disabled:text-[#9A9A9A]";
 
   const [destinationOptions, setDestinationOptions] = useState<
     { id: string; label: string }[]
@@ -240,8 +246,6 @@ export const ReservationSearch = ({
     closeCalendar();
     setShowGuestSelector(false);
   };
-  const isMobileViewport = () =>
-    typeof window !== "undefined" && window.innerWidth < 768;
 
   const closeMobileSheet = () => {
     if (!isMobileViewport()) {
@@ -293,7 +297,7 @@ export const ReservationSearch = ({
   const handleSheetTouchEnd = () => {
     setCanDragSheet(false);
 
-    if (sheetDragY > 120) {
+    if (sheetDragY > SHEET_DISMISS_THRESHOLD) {
       closeMobileSheet();
       return;
     }
@@ -389,9 +393,6 @@ export const ReservationSearch = ({
               <Input
                 label="Entrada"
                 value={formatDateDisplay(dateRange.startDate)}
-                onChange={() => {
-                  /* empty */
-                }}
                 placeholder="Añade fecha"
                 variant="date-dynamic"
                 readOnly
@@ -411,9 +412,6 @@ export const ReservationSearch = ({
               <Input
                 label="Salida"
                 value={formatDateDisplay(dateRange.endDate)}
-                onChange={() => {
-                  /* empty */
-                }}
                 placeholder="Añade fecha"
                 variant="date-dynamic"
                 readOnly
@@ -433,9 +431,6 @@ export const ReservationSearch = ({
             <Input
               label="Huéspedes"
               value={formatGuestsText(guests, locale)}
-              onChange={() => {
-                /* empty */
-              }}
               placeholder="Añade huéspedes"
               readOnly
               className={selectorTextClass}

@@ -1,4 +1,3 @@
-
 import {
   IconApplied,
   Management,
@@ -49,28 +48,28 @@ export default function HomePage() {
         image={ChooseKANNA}
         imageAlt="Calculadora de ingresos"
         imagePosition="left"
-        block="hidden md:block"
-        backgroundColor="bg-white"
+        imageClassName="hidden md:block"
+        className="bg-white"
         textClassName="ml-2 mt-4 text-green-normal"
         descriptionClassName="text-green-normal max-w-[600px]"
         features={[
           {
-            titulo: "Reservas y canales",
+            title: "Reservas y canales",
             text: "Más visibilidad, mayor ocupación.",
             icon: <IconApplied />,
           },
           {
-            titulo: "Cuidado de la propiedad",
+            title: "Cuidado de la propiedad",
             text: "Tu inmueble siempre en óptimas condiciones.",
             icon: <PropertyCare />,
           },
           {
-            titulo: "Gestión integral",
+            title: "Gestión integral",
             text: "Nos encargamos de todo.",
             icon: <Management />,
           },
           {
-            titulo: "Optimización de ingresos",
+            title: "Optimización de ingresos",
             text: "Precios inteligentes, mejores resultados.",
             icon: <Optimization />,
           },
@@ -96,7 +95,7 @@ export default function HomePage() {
           },
         ]}
         imagePosition="right"
-        backgroundColor="bg-grey-light pb-20 bg-gold-normal"
+        className="bg-grey-light pb-20"
         descriptionClassName="text-grey-darker w-[346px] md:w-[525px]"
         textClassName="ml-2 text-green-normal mt-4 sm:mt-15"
         features={[
@@ -126,7 +125,7 @@ export default function HomePage() {
         image={ReservationManagement}
         imageAlt="Property Management2"
         imagePosition="left"
-        backgroundColor="bg-green-dark-hover py-8"
+        className="bg-green-dark-hover py-8"
         descriptionClassName="text-grey-light max-w-[630px]"
         textClassName="ml-2 text-grey-light sm:mt-12 mt-4"
         features={[
