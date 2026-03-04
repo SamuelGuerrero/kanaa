@@ -70,14 +70,16 @@ model VerificationToken {
 }
 
 model Cnbv {
-    id           String @id
-    codigo       String
-    clave_estado String
-    estado       String
-    clave_mnpio  String
-    mnpio        String
-    clave_asenta String
-    asenta       String
+    id                 String  @id
+    codigo             String
+    clave_estado       String
+    estado             String
+    clave_mnpio        String
+    mnpio              String
+    clave_asenta       String
+    asenta             String
+    ocupacion_promedio Float?
+    ocupacion_fuente   String?
 
     @@index([codigo])
     @@index([estado])
