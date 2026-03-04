@@ -116,7 +116,6 @@ export const EarningsCalculatorForm = () => {
   const [prediction, setPrediction] = useState<number | null>(null);
   const [predictionError, setPredictionError] = useState("");
   const [leadStatusMessage, setLeadStatusMessage] = useState("");
-  const [leadStatusError, setLeadStatusError] = useState(false);
   const [showLeadCaptureStep, setShowLeadCaptureStep] = useState(false);
   const [hasSubmittedLead, setHasSubmittedLead] = useState(false);
   const [propertyLeadPayload, setPropertyLeadPayload] =
@@ -250,7 +249,6 @@ export const EarningsCalculatorForm = () => {
     setPrediction(null);
     setPredictionError("");
     setLeadStatusMessage("");
-    setLeadStatusError(false);
     setShowLeadCaptureStep(false);
     setHasSubmittedLead(false);
     setPropertyLeadPayload(null);
@@ -300,13 +298,11 @@ export const EarningsCalculatorForm = () => {
 
   const onSubmitLeadContact = async (data: LeadContactValues) => {
     if (!propertyLeadPayload) {
-      setLeadStatusError(true);
       setLeadStatusMessage("No encontramos los datos de la propiedad.");
       return;
     }
 
     setLeadStatusMessage("");
-    setLeadStatusError(false);
 
     try {
       const leadPayload: LeadEmailPayload = {
@@ -347,7 +343,6 @@ export const EarningsCalculatorForm = () => {
       );
     } catch (error) {
       console.error("Error sending lead email:", error);
-      setLeadStatusError(true);
       setLeadStatusMessage(
         error instanceof Error
           ? error.message
@@ -397,7 +392,7 @@ export const EarningsCalculatorForm = () => {
               className="h-11 w-full md:h-13.75"
               placeholder={t("Dirección de propiedad")}
               type="text"
-              error={errors.propertyAddress?.message}
+              error={errors.propertyAddress?.message ? t(errors.propertyAddress.message) : undefined}
               {...registerProperty("propertyAddress")}
             />
           </div>
@@ -408,7 +403,7 @@ export const EarningsCalculatorForm = () => {
               type="text"
               inputMode="numeric"
               maxLength={5}
-              error={errors.postalCode?.message}
+              error={errors.postalCode?.message ? t(errors.postalCode.message) : undefined}
               {...registerProperty("postalCode")}
             />
             {catalogLoading && (
@@ -423,46 +418,46 @@ export const EarningsCalculatorForm = () => {
           <div className="col-span-1">
             <SelectForm
               className="h-11 w-full md:h-13.75"
-              defaultOptionLabel="Estado"
+              defaultOptionLabel={t("Estado")}
               options={stateOptions}
               disabled={stateOptions.length === 0}
-              error={errors.state?.message}
+              error={errors.state?.message ? t(errors.state.message) : undefined}
               {...registerProperty("state")}
             />
           </div>
           <div className="col-span-2">
             <SelectForm
               className="h-11 w-full md:h-13.75"
-              defaultOptionLabel="Ciudad"
+              defaultOptionLabel={t("Ciudad")}
               options={cityOptions}
               disabled={cityOptions.length === 0}
-              error={errors.city?.message}
+              error={errors.city?.message ? t(errors.city.message) : undefined}
               {...registerProperty("city")}
             />
           </div>
           <div className="col-span-2">
             <SelectForm
               className="h-11 w-full md:h-13.75"
-              defaultOptionLabel="Colonia"
+              defaultOptionLabel={t("Colonia")}
               options={neighborhoodOptions}
               disabled={neighborhoodOptions.length === 0}
-              error={errors.neighborhood?.message}
+              error={errors.neighborhood?.message ? t(errors.neighborhood.message) : undefined}
               {...registerProperty("neighborhood")}
             />
           </div>
           <div className="col-span-1">
             <SelectForm
               className="h-11 w-full md:h-13.75"
-              defaultOptionLabel="Cantidad de huéspedes"
+              defaultOptionLabel={t("Cantidad de huéspedes")}
               options={[
-                { value: "1", label: "1 huésped" },
-                { value: "2", label: "2 huéspedes" },
-                { value: "3", label: "3 huéspedes" },
-                { value: "4", label: "4 huéspedes" },
-                { value: "5", label: "5 huéspedes" },
-                { value: "6", label: "6+ huéspedes" },
+                { value: "1", label: t("1 huésped") },
+                { value: "2", label: t("2 huéspedes") },
+                { value: "3", label: t("3 huéspedes") },
+                { value: "4", label: t("4 huéspedes") },
+                { value: "5", label: t("5 huéspedes") },
+                { value: "6", label: t("6+ huéspedes") },
               ]}
-              error={errors.guestCount?.message}
+              error={errors.guestCount?.message ? t(errors.guestCount.message) : undefined}
               {...registerProperty("guestCount")}
             />
           </div>
@@ -470,16 +465,16 @@ export const EarningsCalculatorForm = () => {
           <div className="col-span-1">
             <SelectForm
               className="md:h-13.755 h-11 w-full"
-              defaultOptionLabel="Tipo de propiedad"
+              defaultOptionLabel={t("Tipo de propiedad")}
               options={[
-                { value: "Departamento", label: "Departamento" },
-                { value: "Casa", label: "Casa" },
-                { value: "Loft", label: "Loft" },
-                { value: "Estudio", label: "Estudio" },
-                { value: "Townhouse", label: "Townhouse" },
-                { value: "Otro", label: "Otro" },
+                { value: "Departamento", label: t("Departamento") },
+                { value: "Casa", label: t("Casa") },
+                { value: "Loft", label: t("Loft") },
+                { value: "Estudio", label: t("Estudio") },
+                { value: "Townhouse", label: t("Townhouse") },
+                { value: "Otro", label: t("Otro") },
               ]}
-              error={errors.propertyType?.message}
+              error={errors.propertyType?.message ? t(errors.propertyType.message) : undefined}
               {...registerProperty("propertyType")}
             />
           </div>
@@ -487,16 +482,16 @@ export const EarningsCalculatorForm = () => {
           <div className="col-span-1">
             <SelectForm
               className="h-11 w-full md:h-13.75"
-              defaultOptionLabel="No. de habitaciones"
+              defaultOptionLabel={t("No. de habitaciones")}
               options={[
-                { value: "studio", label: "Studio (sin habitación)" },
-                { value: "1", label: "1 habitación" },
-                { value: "2", label: "2 habitaciones" },
-                { value: "3", label: "3 habitaciones" },
-                { value: "4", label: "4 habitaciones" },
-                { value: "5", label: "5+ habitaciones" },
+                { value: "studio", label: t("Studio (sin habitación)") },
+                { value: "1", label: t("1 habitación") },
+                { value: "2", label: t("2 habitaciones") },
+                { value: "3", label: t("3 habitaciones") },
+                { value: "4", label: t("4 habitaciones") },
+                { value: "5", label: t("5+ habitaciones") },
               ]}
-              error={errors.bedroomCount?.message}
+              error={errors.bedroomCount?.message ? t(errors.bedroomCount.message) : undefined}
               {...registerProperty("bedroomCount")}
             />
           </div>
@@ -504,16 +499,16 @@ export const EarningsCalculatorForm = () => {
           <div className="col-span-1">
             <SelectForm
               className="h-11 w-full md:h-13.75"
-              defaultOptionLabel="No. de baños"
+              defaultOptionLabel={t("No. de baños")}
               options={[
-                { value: "1", label: "1 baño" },
-                { value: "1.5", label: "1.5 baños" },
-                { value: "2", label: "2 baños" },
-                { value: "2.5", label: "2.5 baños" },
-                { value: "3", label: "3 baños" },
-                { value: "4", label: "4+ baños" },
+                { value: "1", label: t("1 baño") },
+                { value: "1.5", label: t("1.5 baños") },
+                { value: "2", label: t("2 baños") },
+                { value: "2.5", label: t("2.5 baños") },
+                { value: "3", label: t("3 baños") },
+                { value: "4", label: t("4+ baños") },
               ]}
-              error={errors.bathroomCount?.message}
+              error={errors.bathroomCount?.message ? t(errors.bathroomCount.message) : undefined}
               {...registerProperty("bathroomCount")}
             />
           </div>
@@ -521,15 +516,15 @@ export const EarningsCalculatorForm = () => {
           <div className="col-span-2">
             <SelectForm
               className="h-11 w-full md:h-13.75"
-              defaultOptionLabel="Años de propiedad"
+              defaultOptionLabel={t("Años de propiedad")}
               options={[
-                { value: "less1", label: "Menos de 1 año" },
-                { value: "1-3", label: "1 a 3 años" },
-                { value: "3-5", label: "3 a 5 años" },
-                { value: "5-10", label: "5 a 10 años" },
-                { value: "10+", label: "Más de 10 años" },
+                { value: "less1", label: t("Menos de 1 año") },
+                { value: "1-3", label: t("1 a 3 años") },
+                { value: "3-5", label: t("3 a 5 años") },
+                { value: "5-10", label: t("5 a 10 años") },
+                { value: "10+", label: t("Más de 10 años") },
               ]}
-              error={errors.yearsOwned?.message}
+              error={errors.yearsOwned?.message ? t(errors.yearsOwned.message) : undefined}
               {...registerProperty("yearsOwned")}
             />
           </div>
@@ -552,7 +547,7 @@ export const EarningsCalculatorForm = () => {
               </CircleButton>
             }
           >
-            Calcular ingreso
+            {t("Calcular ingreso")}
           </Button>
         </form>
       )}
@@ -561,10 +556,10 @@ export const EarningsCalculatorForm = () => {
         <div className="relative z-10 h-106.25 px-4 text-center md:px-10">
           <div className="mx-auto flex w-full max-w-138.5 flex-col items-center gap-5 pt-17">
             <Text size="3xl" weight="medium" className="text-white">
-              Espera unos momentos
+              {t("Espera unos momentos")}
             </Text>
             <Text font="gilroy" size="lg" className="text-white">
-              Estamos calculando el precio aproximado de tu propiedad
+              {t("Estamos calculando el precio aproximado de tu propiedad")}
             </Text>
           </div>
 
@@ -578,27 +573,27 @@ export const EarningsCalculatorForm = () => {
             hasSubmittedLead ? (
               <div className="mx-auto max-w-4xl px-4 pt-10 md:px-0">
                 <Text size="3xl" weight="medium" className="text-white">
-                  Solicitud enviada con éxito
+                  {t("Solicitud enviada con éxito")}
                 </Text>
                 <Text
                   font="gilroy"
                   size="lg"
                   className="mx-auto mt-4 max-w-3xl text-white/90"
                 >
-                  {leadStatusMessage ?? leadStatusError}
+                  {leadStatusMessage ? t(leadStatusMessage) : ""}
                 </Text>
               </div>
             ) : (
               <div className="mx-auto w-full px-4 md:px-0">
                 <Text size="3xl" weight="medium" className="text-white">
-                  Obtén tu análisis completo
+                  {t("Obtén tu análisis completo")}
                 </Text>
                 <Text
                   font="gilroy"
                   size="lg"
                   className="mx-auto mt-4 max-w-3xl text-white"
                 >
-                  Te enviaremos una proyección mensual personalizada.
+                  {t("Te enviaremos una proyección mensual personalizada.")}
                 </Text>
 
                 <form
@@ -611,7 +606,7 @@ export const EarningsCalculatorForm = () => {
                     render={({ field }) => (
                       <InputForm
                         type="email"
-                        placeholder="Correo electrónico"
+                        placeholder={t("Correo electrónico")}
                         value={field.value ?? ""}
                         onChange={field.onChange}
                         className="font-gilroy w-[90%] text-[16.33px] font-semibold text-white placeholder-white/75 focus:text-white focus:placeholder-white/60"
@@ -624,7 +619,7 @@ export const EarningsCalculatorForm = () => {
                       font="gilroy"
                       className="-mt-2 text-left text-red-200"
                     >
-                      {leadContactErrors.contactEmail.message}
+                      {t(leadContactErrors.contactEmail.message)}
                     </Text>
                   ) : null}
 
@@ -634,7 +629,7 @@ export const EarningsCalculatorForm = () => {
                     render={({ field }) => (
                       <InputForm
                         type="tel"
-                        placeholder="Teléfono"
+                        placeholder={t("Teléfono")}
                         value={field.value ?? ""}
                         onChange={field.onChange}
                         className="font-gilroy w-[90%] text-[16.33px] font-semibold text-white placeholder-white/75 focus:text-white focus:placeholder-white/60"
@@ -647,7 +642,7 @@ export const EarningsCalculatorForm = () => {
                       font="gilroy"
                       className="-mt-2 text-left text-red-200"
                     >
-                      {leadContactErrors.contactPhone.message}
+                      {t(leadContactErrors.contactPhone.message)}
                     </Text>
                   ) : null}
 
@@ -657,7 +652,7 @@ export const EarningsCalculatorForm = () => {
                     render={({ field }) => (
                       <InputForm
                         type="text"
-                        placeholder="Nombre Completo"
+                        placeholder={t("Nombre Completo")}
                         value={field.value ?? ""}
                         onChange={field.onChange}
                         className="font-gilroy w-[90%] text-[16.33px] font-semibold text-white placeholder-white/75 focus:text-white focus:placeholder-white/60"
@@ -670,7 +665,7 @@ export const EarningsCalculatorForm = () => {
                       font="gilroy"
                       className="-mt-2 text-left text-red-200"
                     >
-                      {leadContactErrors.contactFullName.message}
+                      {t(leadContactErrors.contactFullName.message)}
                     </Text>
                   ) : null}
 
@@ -691,8 +686,8 @@ export const EarningsCalculatorForm = () => {
                     }
                   >
                     {isLeadContactSubmitting
-                      ? "Enviando..."
-                      : "Recibir mi análisis"}
+                      ? t("Enviando...")
+                      : t("Recibir mi análisis")}
                   </Button>
                 </form>
               </div>
@@ -700,7 +695,7 @@ export const EarningsCalculatorForm = () => {
           ) : (
             <>
               <Text size="3xl" weight="medium" className="text-white">
-                Tu propiedad podría generar hasta:
+                {t("Tu propiedad podría generar hasta:")}
               </Text>
 
               <div className="w-max-content">
@@ -719,8 +714,7 @@ export const EarningsCalculatorForm = () => {
                   font="gilroy"
                   className="mx-auto mt-6 max-w-100 text-white"
                 >
-                  Basado en propiedades similares en tu zona y niveles promedio
-                  de ocupación.
+                  {t("Basado en propiedades similares en tu zona y niveles promedio de ocupación.")}
                 </Text>
               </div>
 
@@ -735,7 +729,7 @@ export const EarningsCalculatorForm = () => {
                   </span>
                 }
               >
-                Recibir mi análisis personalizado
+                {t("Recibir mi análisis personalizado")}
               </Button>
             </>
           )}

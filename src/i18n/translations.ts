@@ -389,6 +389,45 @@ export const enTranslations: Record<string, string> = {
   "Administración de listados": "Listing management",
   "Marketing y publicidad": "Marketing and advertising",
   "Asistencia en línea para huéspedes": "Online support for guests",
+  // EarningsCalculatorForm — loading state
+  "Espera unos momentos": "Please wait a moment",
+  "Estamos calculando el precio aproximado de tu propiedad":
+    "We are calculating the approximate price of your property",
+  // EarningsCalculatorForm — result state
+  "Tu propiedad podría generar hasta:": "Your property could generate up to:",
+  "Basado en propiedades similares en tu zona y niveles promedio de ocupación.":
+    "Based on similar properties in your area and average occupancy levels.",
+  "Recibir mi análisis personalizado": "Get my personalized analysis",
+  // EarningsCalculatorForm — lead capture form
+  "Obtén tu análisis completo": "Get your complete analysis",
+  "Te enviaremos una proyección mensual personalizada.":
+    "We will send you a personalized monthly projection.",
+  "Correo electrónico": "Email",
+  "Teléfono": "Phone",
+  "Nombre Completo": "Full Name",
+  "Enviando...": "Sending...",
+  "Recibir mi análisis": "Get my analysis",
+  "Solicitud enviada con éxito": "Request sent successfully",
+  "Gracias, te enviaremos tu análisis personalizado y nuestro equipo te contactará pronto.":
+    "Thank you, we will send you your personalized analysis and our team will contact you shortly.",
+  // EarningsCalculatorForm — validation errors (property form)
+  "Ingresa un codigo postal valido.": "Enter a valid postal code.",
+  "Selecciona un estado.": "Select a state.",
+  "Selecciona una ciudad.": "Select a city.",
+  "Selecciona una colonia.": "Select a neighborhood.",
+  "Ingresa la direccion de la propiedad.": "Enter the property address.",
+  "Selecciona cantidad de huespedes.": "Select the number of guests.",
+  "Selecciona tipo de propiedad.": "Select a property type.",
+  "Selecciona cantidad de habitaciones.": "Select the number of bedrooms.",
+  "Selecciona cantidad de banos.": "Select the number of bathrooms.",
+  "Selecciona anos de propiedad.": "Select years of ownership.",
+  // EarningsCalculatorForm — validation errors (lead form)
+  "Ingresa un correo valido.": "Enter a valid email.",
+  "Ingresa un telefono valido.": "Enter a valid phone number.",
+  "Ingresa tu nombre completo.": "Enter your full name.",
+  "Ingresa un nombre valido.": "Enter a valid name.",
+  "No encontramos los datos de la propiedad.":
+    "We couldn't find the property data.",
 };
 
 const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
