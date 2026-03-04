@@ -22,15 +22,41 @@ const prisma = new PrismaClient({
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const csvPath = path.resolve(__dirname, "../lib/cnbv.csv");
+const csvPath = path.resolve(__dirname, "../lib/cnbv_enriched.csv");
 
 function parseCsvLine(line) {
   const trimmed = line.trim();
   if (!trimmed) return [];
-  if (trimmed.startsWith("\"") && trimmed.endsWith("\"")) {
-    return trimmed.slice(1, -1).split("\",\"");
+  const fields = [];
+  let i = 0;
+  while (i <= trimmed.length) {
+    if (trimmed[i] === '"') {
+      let field = "";
+      i++; // skip opening quote
+      while (i < trimmed.length) {
+        if (trimmed[i] === '"' && trimmed[i + 1] === '"') {
+          field += '"';
+          i += 2;
+        } else if (trimmed[i] === '"') {
+          i++; // skip closing quote
+          break;
+        } else {
+          field += trimmed[i++];
+        }
+      }
+      fields.push(field);
+      if (trimmed[i] === ",") i++; // skip comma
+    } else {
+      const end = trimmed.indexOf(",", i);
+      if (end === -1) {
+        fields.push(trimmed.slice(i));
+        break;
+      }
+      fields.push(trimmed.slice(i, end));
+      i = end + 1;
+    }
   }
-  return trimmed.split(",");
+  return fields;
 }
 
 async function main() {
@@ -63,7 +89,11 @@ async function main() {
     }
 
     const record = Object.fromEntries(
-      headers.map((key, idx) => [key, values[idx]])
+      headers.map((key, idx) => {
+        const val = values[idx];
+        if (key === "ocupacion_promedio") return [key, val ? parseFloat(val) : null];
+        return [key, val ?? null];
+      })
     );
 
     batch.push(record);
