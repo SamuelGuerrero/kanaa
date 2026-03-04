@@ -53,6 +53,7 @@ type CnbvRow = {
   mnpio: string;
   clave_asenta: string;
   asenta: string;
+  ocupacion_promedio: number | null;
 };
 
 type PredictionResponse = {
@@ -63,12 +64,12 @@ type PredictionResponse = {
 
 type LeadEmailPayload = PropertyDetails & {
   estimatedMonthlyRevenue?: number | null;
+  estimatedAnnualRevenue?: number | null;
   contactEmail?: string;
   contactPhone?: string;
   contactFullName?: string;
 };
 
-const DEFAULT_OCCUPANCY = 70;
 const PRICE_PREDICTION_ENDPOINT =
   "https://tbc2lqdcqh.execute-api.us-east-1.amazonaws.com/predict";
 
@@ -124,6 +125,7 @@ export const EarningsCalculatorForm = () => {
   const postalCode = watch("postalCode");
   const selectedState = watch("state");
   const selectedCity = watch("city");
+  const selectedNeighborhood = watch("neighborhood");
 
   useEffect(() => {
     const trimmed = (postalCode ?? "").trim();
@@ -201,6 +203,22 @@ export const EarningsCalculatorForm = () => {
     }));
   }, [catalogRows, selectedState, selectedCity]);
 
+  const ocupacionPromedio = useMemo(() => {
+    if (!selectedState || !selectedCity || !selectedNeighborhood) return null;
+    const row = catalogRows.find(
+      (r) =>
+        r.estado === selectedState &&
+        r.mnpio === selectedCity &&
+        r.asenta === selectedNeighborhood,
+    );
+    return row?.ocupacion_promedio ?? null;
+  }, [catalogRows, selectedState, selectedCity, selectedNeighborhood]);
+
+  const annualEstimate = useMemo(() => {
+    if (prediction === null || ocupacionPromedio === null) return null;
+    return prediction * 0.8 * (ocupacionPromedio / 100) * 365;
+  }, [prediction, ocupacionPromedio]);
+
   useEffect(() => {
     if (stateOptions.length === 1) {
       setValue("state", stateOptions[0]?.value ?? "");
@@ -247,7 +265,6 @@ export const EarningsCalculatorForm = () => {
           data.bedroomCount === "studio" ? 0 : toNumber(data.bedroomCount, 1),
         num_banos: toNumber(data.bathroomCount, 1),
         num_huespedes: toNumber(data.guestCount, 1),
-        ocupacion_promedio: DEFAULT_OCCUPANCY,
       },
     };
 
@@ -296,6 +313,7 @@ export const EarningsCalculatorForm = () => {
         ...propertyLeadPayload,
         estimatedMonthlyRevenue:
           typeof prediction === "number" ? prediction * 0.8 : null,
+        estimatedAnnualRevenue: annualEstimate,
         contactEmail: data.contactEmail,
         contactPhone: data.contactPhone,
         contactFullName: data.contactFullName,
@@ -689,7 +707,7 @@ export const EarningsCalculatorForm = () => {
                 <div className="mx-auto mt-7 w-fit rounded-[20px] bg-white px-3 py-4">
                   <div className="flex flex-wrap items-end justify-center space-x-2">
                     <Text size="6xl" className="text-green-normal">
-                      ${formatAmount((prediction ?? 0) * 0.8)}
+                      ${formatAmount(annualEstimate ?? (prediction ?? 0) * 0.8)}
                     </Text>
                     <Text size="3xl" className="text-gold-normal">
                       MXN
