@@ -11,7 +11,7 @@ type InputProps = Omit<
 > & {
   label?: string;
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   variant?: "text" | "date-dynamic";
 };
 
@@ -59,7 +59,7 @@ export const Input = ({
       <input
         type={variant === "date-dynamic" ? "text" : type}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange?.(e.target.value)}
         placeholder={placeholder ? t(placeholder) : undefined}
         onFocus={handleFocus}
         onBlur={handleBlur}
