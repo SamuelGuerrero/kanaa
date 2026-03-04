@@ -1,0 +1,541 @@
+Estado,Ciudad,Colonia/Municipio,Tipo de alojamiento,Numero de cuartos,Numero de baños,Numero de huéspedes,Precio por noche estimado (MXN),Ocupación promedio (%)
+Ciudad de México,Mexico City,Roma Norte,Departamento,1,1,2,2000,70
+Ciudad de México,Mexico City,Roma Norte,Departamento,2,1.5,4,2500,70
+Ciudad de México,Mexico City,Roma Norte,Casa,3,2,6,3000,70
+Ciudad de México,Mexico City,Roma Norte,Casa,4,2.5,8,3600,70
+Ciudad de México,Mexico City,Roma Sur,Departamento,1,1,2,1800,68
+Ciudad de México,Mexico City,Roma Sur,Departamento,2,1.5,4,2250,68
+Ciudad de México,Mexico City,Roma Sur,Casa,3,2,6,2700,68
+Ciudad de México,Mexico City,Roma Sur,Casa,4,2.5,8,3240,68
+Ciudad de México,Mexico City,San Rafael,Departamento,1,1,2,1400,62
+Ciudad de México,Mexico City,San Rafael,Departamento,2,1.5,4,1750,62
+Ciudad de México,Mexico City,San Rafael,Casa,3,2,6,2100,62
+Ciudad de México,Mexico City,San Rafael,Casa,4,2.5,8,2520,62
+Ciudad de México,Mexico City,Narvarte Poniente,Departamento,1,1,2,1500,64
+Ciudad de México,Mexico City,Narvarte Poniente,Departamento,2,1.5,4,1875,64
+Ciudad de México,Mexico City,Narvarte Poniente,Casa,3,2,6,2250,64
+Ciudad de México,Mexico City,Narvarte Poniente,Casa,4,2.5,8,2700,64
+Ciudad de México,Mexico City,Santa Fe,Departamento,1,1,2,2200,55
+Ciudad de México,Mexico City,Santa Fe,Departamento,2,1.5,4,2750,55
+Ciudad de México,Mexico City,Santa Fe,Casa,3,2,6,3300,55
+Ciudad de México,Mexico City,Santa Fe,Casa,4,2.5,8,3960,55
+Ciudad de México,Mexico City,Condesa,Departamento,1,1,2,1900,70
+Ciudad de México,Mexico City,Condesa,Departamento,2,1.5,4,2375,70
+Ciudad de México,Mexico City,Condesa,Casa,3,2,6,2850,70
+Ciudad de México,Mexico City,Condesa,Casa,4,2.5,8,3420,70
+Ciudad de México,Mexico City,Polanco I Sección,Departamento,1,1,2,2500,65
+Ciudad de México,Mexico City,Polanco I Sección,Departamento,2,1.5,4,3125,65
+Ciudad de México,Mexico City,Polanco I Sección,Casa,3,2,6,3750,65
+Ciudad de México,Mexico City,Polanco I Sección,Casa,4,2.5,8,4500,65
+Ciudad de México,Mexico City,Villa Coyoacán,Departamento,1,1,2,1200,60
+Ciudad de México,Mexico City,Villa Coyoacán,Departamento,2,1.5,4,1500,60
+Ciudad de México,Mexico City,Villa Coyoacán,Casa,3,2,6,1800,60
+Ciudad de México,Mexico City,Villa Coyoacán,Casa,4,2.5,8,2160,60
+Ciudad de México,Mexico City,Juárez,Departamento,1,1,2,1600,65
+Ciudad de México,Mexico City,Juárez,Departamento,2,1.5,4,2000,65
+Ciudad de México,Mexico City,Juárez,Casa,3,2,6,2400,65
+Ciudad de México,Mexico City,Juárez,Casa,4,2.5,8,2880,65
+Ciudad de México,Mexico City,Centro (Área 1),Departamento,1,1,2,900,58
+Ciudad de México,Mexico City,Centro (Área 1),Departamento,2,1.5,4,1125,58
+Ciudad de México,Mexico City,Centro (Área 1),Casa,3,2,6,1350,58
+Ciudad de México,Mexico City,Centro (Área 1),Casa,4,2.5,8,1620,58
+Ciudad de México,Mexico City,Del Valle Centro,Departamento,1,1,2,1300,62
+Ciudad de México,Mexico City,Del Valle Centro,Departamento,2,1.5,4,1625,62
+Ciudad de México,Mexico City,Del Valle Centro,Casa,3,2,6,1950,62
+Ciudad de México,Mexico City,Del Valle Centro,Casa,4,2.5,8,2340,62
+Ciudad de México,Mexico City,Nápoles,Departamento,1,1,2,1400,60
+Ciudad de México,Mexico City,Nápoles,Departamento,2,1.5,4,1750,60
+Ciudad de México,Mexico City,Nápoles,Casa,3,2,6,2100,60
+Ciudad de México,Mexico City,Nápoles,Casa,4,2.5,8,2520,60
+Ciudad de México,Mexico City,Escandón I Sección,Departamento,1,1,2,1100,59
+Ciudad de México,Mexico City,Escandón I Sección,Departamento,2,1.5,4,1375,59
+Ciudad de México,Mexico City,Escandón I Sección,Casa,3,2,6,1650,59
+Ciudad de México,Mexico City,Escandón I Sección,Casa,4,2.5,8,1980,59
+Ciudad de México,Mexico City,Cuauhtémoc,Departamento,1,1,2,1700,65
+Ciudad de México,Mexico City,Cuauhtémoc,Departamento,2,1.5,4,2125,65
+Ciudad de México,Mexico City,Cuauhtémoc,Casa,3,2,6,2550,65
+Ciudad de México,Mexico City,Cuauhtémoc,Casa,4,2.5,8,3060,65
+Ciudad de México,Mexico City,Juárez,Departamento,1,1,2,1500,63
+Ciudad de México,Mexico City,Juárez,Departamento,2,1.5,4,1875,63
+Ciudad de México,Mexico City,Juárez,Casa,3,2,6,2250,63
+Ciudad de México,Mexico City,Juárez,Casa,4,2.5,8,2700,63
+Ciudad de México,Mexico City,Santa María la Ribera,Departamento,1,1,2,1000,57
+Ciudad de México,Mexico City,Santa María la Ribera,Departamento,2,1.5,4,1250,57
+Ciudad de México,Mexico City,Santa María la Ribera,Casa,3,2,6,1500,57
+Ciudad de México,Mexico City,Santa María la Ribera,Casa,4,2.5,8,1800,57
+Quintana Roo,Cancun,Zona Hotelera,Departamento,1,1,2,1600,48
+Quintana Roo,Cancun,Zona Hotelera,Departamento,2,1.5,4,2000,48
+Quintana Roo,Cancun,Zona Hotelera,Casa,3,2,6,2400,48
+Quintana Roo,Cancun,Zona Hotelera,Casa,4,2.5,8,2880,48
+Quintana Roo,Cancun,Cancún Centro,Departamento,1,1,2,1300,45
+Quintana Roo,Cancun,Cancún Centro,Departamento,2,1.5,4,1625,45
+Quintana Roo,Cancun,Cancún Centro,Casa,3,2,6,1950,45
+Quintana Roo,Cancun,Cancún Centro,Casa,4,2.5,8,2340,45
+Quintana Roo,Cancun,Juárez,Departamento,1,1,2,1200,46
+Quintana Roo,Cancun,Juárez,Departamento,2,1.5,4,1500,46
+Quintana Roo,Cancun,Juárez,Casa,3,2,6,1800,46
+Quintana Roo,Cancun,Juárez,Casa,4,2.5,8,2160,46
+Quintana Roo,Playa del Carmen,Playa Car Fase I,Departamento,1,1,2,1200,54
+Quintana Roo,Playa del Carmen,Playa Car Fase I,Departamento,2,1.5,4,1500,54
+Quintana Roo,Playa del Carmen,Playa Car Fase I,Casa,3,2,6,1800,54
+Quintana Roo,Playa del Carmen,Playa Car Fase I,Casa,4,2.5,8,2160,54
+Quintana Roo,Playa del Carmen,Playa del Carmen Centro,Departamento,1,1,2,1100,50
+Quintana Roo,Playa del Carmen,Playa del Carmen Centro,Departamento,2,1.5,4,1375,50
+Quintana Roo,Playa del Carmen,Playa del Carmen Centro,Casa,3,2,6,1650,50
+Quintana Roo,Playa del Carmen,Playa del Carmen Centro,Casa,4,2.5,8,1980,50
+Quintana Roo,Playa del Carmen,Ejidal,Departamento,1,1,2,900,48
+Quintana Roo,Playa del Carmen,Ejidal,Departamento,2,1.5,4,1125,48
+Quintana Roo,Playa del Carmen,Ejidal,Casa,3,2,6,1350,48
+Quintana Roo,Playa del Carmen,Ejidal,Casa,4,2.5,8,1620,48
+Quintana Roo,Playa del Carmen,Gonzalo Guerrero,Departamento,1,1,2,1300,52
+Quintana Roo,Playa del Carmen,Gonzalo Guerrero,Departamento,2,1.5,4,1625,52
+Quintana Roo,Playa del Carmen,Gonzalo Guerrero,Casa,3,2,6,1950,52
+Quintana Roo,Playa del Carmen,Gonzalo Guerrero,Casa,4,2.5,8,2340,52
+Quintana Roo,Tulum,Aldea Zama,Departamento,1,1,2,1600,46
+Quintana Roo,Tulum,Aldea Zama,Departamento,2,1.5,4,2000,46
+Quintana Roo,Tulum,Aldea Zama,Casa,3,2,6,2400,46
+Quintana Roo,Tulum,Aldea Zama,Casa,4,2.5,8,2880,46
+Quintana Roo,Tulum,Tulum Centro,Departamento,1,1,2,1400,42
+Quintana Roo,Tulum,Tulum Centro,Departamento,2,1.5,4,1750,42
+Quintana Roo,Tulum,Tulum Centro,Casa,3,2,6,2100,42
+Quintana Roo,Tulum,Tulum Centro,Casa,4,2.5,8,2520,42
+Quintana Roo,Tulum,La Veleta,Departamento,1,1,2,1300,44
+Quintana Roo,Tulum,La Veleta,Departamento,2,1.5,4,1625,44
+Quintana Roo,Tulum,La Veleta,Casa,3,2,6,1950,44
+Quintana Roo,Tulum,La Veleta,Casa,4,2.5,8,2340,44
+Quintana Roo,Tulum,Tulum Centro,Departamento,1,1,2,1200,43
+Quintana Roo,Tulum,Tulum Centro,Departamento,2,1.5,4,1500,43
+Quintana Roo,Tulum,Tulum Centro,Casa,3,2,6,1800,43
+Quintana Roo,Tulum,Tulum Centro,Casa,4,2.5,8,2160,43
+Quintana Roo,Cozumel,Cozumel Centro,Departamento,1,1,2,1000,50
+Quintana Roo,Cozumel,Cozumel Centro,Departamento,2,1.5,4,1250,50
+Quintana Roo,Cozumel,Cozumel Centro,Casa,3,2,6,1500,50
+Quintana Roo,Cozumel,Cozumel Centro,Casa,4,2.5,8,1800,50
+Quintana Roo,Cozumel,San Miguel 1,Departamento,1,1,2,1100,48
+Quintana Roo,Cozumel,San Miguel 1,Departamento,2,1.5,4,1375,48
+Quintana Roo,Cozumel,San Miguel 1,Casa,3,2,6,1650,48
+Quintana Roo,Cozumel,San Miguel 1,Casa,4,2.5,8,1980,48
+Quintana Roo,Isla Mujeres,Isla Mujeres Centro,Departamento,1,1,2,1400,52
+Quintana Roo,Isla Mujeres,Isla Mujeres Centro,Departamento,2,1.5,4,1750,52
+Quintana Roo,Isla Mujeres,Isla Mujeres Centro,Casa,3,2,6,2100,52
+Quintana Roo,Isla Mujeres,Isla Mujeres Centro,Casa,4,2.5,8,2520,52
+Quintana Roo,Isla Mujeres,Punta Gaviota,Departamento,1,1,2,1500,50
+Quintana Roo,Isla Mujeres,Punta Gaviota,Departamento,2,1.5,4,1875,50
+Quintana Roo,Isla Mujeres,Punta Gaviota,Casa,3,2,6,2250,50
+Quintana Roo,Isla Mujeres,Punta Gaviota,Casa,4,2.5,8,2700,50
+Quintana Roo,Puerto Morelos,Puerto Morelos,Departamento,1,1,2,1200,47
+Quintana Roo,Puerto Morelos,Puerto Morelos,Departamento,2,1.5,4,1500,47
+Quintana Roo,Puerto Morelos,Puerto Morelos,Casa,3,2,6,1800,47
+Quintana Roo,Puerto Morelos,Puerto Morelos,Casa,4,2.5,8,2160,47
+Quintana Roo,Puerto Morelos,Aldea Civitas,Departamento,1,1,2,1100,45
+Quintana Roo,Puerto Morelos,Aldea Civitas,Departamento,2,1.5,4,1375,45
+Quintana Roo,Puerto Morelos,Aldea Civitas,Casa,3,2,6,1650,45
+Quintana Roo,Puerto Morelos,Aldea Civitas,Casa,4,2.5,8,1980,45
+Jalisco,Puerto Vallarta,Zona Hotelera Sur,Departamento,1,1,2,2100,57
+Jalisco,Puerto Vallarta,Zona Hotelera Sur,Departamento,2,1.5,4,2625,57
+Jalisco,Puerto Vallarta,Zona Hotelera Sur,Casa,3,2,6,3150,57
+Jalisco,Puerto Vallarta,Zona Hotelera Sur,Casa,4,2.5,8,3780,57
+Jalisco,Puerto Vallarta,Puerto Vallarta Centro,Departamento,1,1,2,1800,53
+Jalisco,Puerto Vallarta,Puerto Vallarta Centro,Departamento,2,1.5,4,2250,53
+Jalisco,Puerto Vallarta,Puerto Vallarta Centro,Casa,3,2,6,2700,53
+Jalisco,Puerto Vallarta,Puerto Vallarta Centro,Casa,4,2.5,8,3240,53
+Jalisco,Puerto Vallarta,Versalles,Departamento,1,1,2,1600,55
+Jalisco,Puerto Vallarta,Versalles,Departamento,2,1.5,4,2000,55
+Jalisco,Puerto Vallarta,Versalles,Casa,3,2,6,2400,55
+Jalisco,Puerto Vallarta,Versalles,Casa,4,2.5,8,2880,55
+Jalisco,Puerto Vallarta,Marina Vallarta,Departamento,1,1,2,1900,54
+Jalisco,Puerto Vallarta,Marina Vallarta,Departamento,2,1.5,4,2375,54
+Jalisco,Puerto Vallarta,Marina Vallarta,Casa,3,2,6,2850,54
+Jalisco,Puerto Vallarta,Marina Vallarta,Casa,4,2.5,8,3420,54
+Jalisco,Guadalajara,Providencia,Departamento,1,1,2,600,54
+Jalisco,Guadalajara,Providencia,Departamento,2,1.5,4,750,54
+Jalisco,Guadalajara,Providencia,Casa,3,2,6,900,54
+Jalisco,Guadalajara,Providencia,Casa,4,2.5,8,1080,54
+Jalisco,Guadalajara,Chapalita,Departamento,1,1,2,550,50
+Jalisco,Guadalajara,Chapalita,Departamento,2,1.5,4,687,50
+Jalisco,Guadalajara,Chapalita,Casa,3,2,6,825,50
+Jalisco,Guadalajara,Chapalita,Casa,4,2.5,8,990,50
+Jalisco,Guadalajara,Guadalajara Centro,Departamento,1,1,2,500,48
+Jalisco,Guadalajara,Guadalajara Centro,Departamento,2,1.5,4,625,48
+Jalisco,Guadalajara,Guadalajara Centro,Casa,3,2,6,750,48
+Jalisco,Guadalajara,Guadalajara Centro,Casa,4,2.5,8,900,48
+Jalisco,Guadalajara,Zapopan Centro,Departamento,1,1,2,650,52
+Jalisco,Guadalajara,Zapopan Centro,Departamento,2,1.5,4,812,52
+Jalisco,Guadalajara,Zapopan Centro,Casa,3,2,6,975,52
+Jalisco,Guadalajara,Zapopan Centro,Casa,4,2.5,8,1170,52
+Jalisco,Guadalajara,Americana,Departamento,1,1,2,700,53
+Jalisco,Guadalajara,Americana,Departamento,2,1.5,4,875,53
+Jalisco,Guadalajara,Americana,Casa,3,2,6,1050,53
+Jalisco,Guadalajara,Americana,Casa,4,2.5,8,1260,53
+Baja California Sur,Cabo San Lucas,Centro,Departamento,1,1,2,7000,45
+Baja California Sur,Cabo San Lucas,Centro,Departamento,2,1.5,4,8750,45
+Baja California Sur,Cabo San Lucas,Centro,Casa,3,2,6,10500,45
+Baja California Sur,Cabo San Lucas,Centro,Casa,4,2.5,8,12600,45
+Baja California Sur,Cabo San Lucas,El Pedregal,Departamento,1,1,2,7500,42
+Baja California Sur,Cabo San Lucas,El Pedregal,Departamento,2,1.5,4,9375,42
+Baja California Sur,Cabo San Lucas,El Pedregal,Casa,3,2,6,11250,42
+Baja California Sur,Cabo San Lucas,El Pedregal,Casa,4,2.5,8,13500,42
+Baja California Sur,Cabo San Lucas,Cabo San Lucas Centro,Departamento,1,1,2,6500,47
+Baja California Sur,Cabo San Lucas,Cabo San Lucas Centro,Departamento,2,1.5,4,8125,47
+Baja California Sur,Cabo San Lucas,Cabo San Lucas Centro,Casa,3,2,6,9750,47
+Baja California Sur,Cabo San Lucas,Cabo San Lucas Centro,Casa,4,2.5,8,11700,47
+Baja California Sur,La Paz,Centro,Departamento,1,1,2,1200,50
+Baja California Sur,La Paz,Centro,Departamento,2,1.5,4,1500,50
+Baja California Sur,La Paz,Centro,Casa,3,2,6,1800,50
+Baja California Sur,La Paz,Centro,Casa,4,2.5,8,2160,50
+Baja California Sur,La Paz,El Centenario,Departamento,1,1,2,1100,48
+Baja California Sur,La Paz,El Centenario,Departamento,2,1.5,4,1375,48
+Baja California Sur,La Paz,El Centenario,Casa,3,2,6,1650,48
+Baja California Sur,La Paz,El Centenario,Casa,4,2.5,8,1980,48
+Baja California Sur,San José del Cabo,Centro,Departamento,1,1,2,6000,46
+Baja California Sur,San José del Cabo,Centro,Departamento,2,1.5,4,7500,46
+Baja California Sur,San José del Cabo,Centro,Casa,3,2,6,9000,46
+Baja California Sur,San José del Cabo,Centro,Casa,4,2.5,8,10800,46
+Baja California Sur,San José del Cabo,Zona Hotelera San José del Cabo,Departamento,1,1,2,6500,44
+Baja California Sur,San José del Cabo,Zona Hotelera San José del Cabo,Departamento,2,1.5,4,8125,44
+Baja California Sur,San José del Cabo,Zona Hotelera San José del Cabo,Casa,3,2,6,9750,44
+Baja California Sur,San José del Cabo,Zona Hotelera San José del Cabo,Casa,4,2.5,8,11700,44
+Nuevo León,Monterrey,Centro,Departamento,1,1,2,650,53
+Nuevo León,Monterrey,Centro,Departamento,2,1.5,4,812,53
+Nuevo León,Monterrey,Centro,Casa,3,2,6,975,53
+Nuevo León,Monterrey,Centro,Casa,4,2.5,8,1170,53
+Nuevo León,Monterrey,San Pedro,Departamento,1,1,2,700,50
+Nuevo León,Monterrey,San Pedro,Departamento,2,1.5,4,875,50
+Nuevo León,Monterrey,San Pedro,Casa,3,2,6,1050,50
+Nuevo León,Monterrey,San Pedro,Casa,4,2.5,8,1260,50
+Nuevo León,Monterrey,Barrio Antiguo,Departamento,1,1,2,600,52
+Nuevo León,Monterrey,Barrio Antiguo,Departamento,2,1.5,4,750,52
+Nuevo León,Monterrey,Barrio Antiguo,Casa,3,2,6,900,52
+Nuevo León,Monterrey,Barrio Antiguo,Casa,4,2.5,8,1080,52
+Nuevo León,Monterrey,Obispado,Departamento,1,1,2,550,51
+Nuevo León,Monterrey,Obispado,Departamento,2,1.5,4,687,51
+Nuevo León,Monterrey,Obispado,Casa,3,2,6,825,51
+Nuevo León,Monterrey,Obispado,Casa,4,2.5,8,990,51
+Nuevo León,Monterrey,Tecnológico,Departamento,1,1,2,500,50
+Nuevo León,Monterrey,Tecnológico,Departamento,2,1.5,4,625,50
+Nuevo León,Monterrey,Tecnológico,Casa,3,2,6,750,50
+Nuevo León,Monterrey,Tecnológico,Casa,4,2.5,8,900,50
+Oaxaca,Oaxaca City,Centro,Departamento,1,1,2,850,45
+Oaxaca,Oaxaca City,Centro,Departamento,2,1.5,4,1062,45
+Oaxaca,Oaxaca City,Centro,Casa,3,2,6,1275,45
+Oaxaca,Oaxaca City,Centro,Casa,4,2.5,8,1530,45
+Oaxaca,Oaxaca City,Xochimilco,Departamento,1,1,2,800,42
+Oaxaca,Oaxaca City,Xochimilco,Departamento,2,1.5,4,1000,42
+Oaxaca,Oaxaca City,Xochimilco,Casa,3,2,6,1200,42
+Oaxaca,Oaxaca City,Xochimilco,Casa,4,2.5,8,1440,42
+Oaxaca,Oaxaca City,Jalatlaco,Departamento,1,1,2,900,44
+Oaxaca,Oaxaca City,Jalatlaco,Departamento,2,1.5,4,1125,44
+Oaxaca,Oaxaca City,Jalatlaco,Casa,3,2,6,1350,44
+Oaxaca,Oaxaca City,Jalatlaco,Casa,4,2.5,8,1620,44
+Oaxaca,Puerto Escondido,Centro,Departamento,1,1,2,1000,48
+Oaxaca,Puerto Escondido,Centro,Departamento,2,1.5,4,1250,48
+Oaxaca,Puerto Escondido,Centro,Casa,3,2,6,1500,48
+Oaxaca,Puerto Escondido,Centro,Casa,4,2.5,8,1800,48
+Oaxaca,Puerto Escondido,Punta de Zicatela,Departamento,1,1,2,1100,46
+Oaxaca,Puerto Escondido,Punta de Zicatela,Departamento,2,1.5,4,1375,46
+Oaxaca,Puerto Escondido,Punta de Zicatela,Casa,3,2,6,1650,46
+Oaxaca,Puerto Escondido,Punta de Zicatela,Casa,4,2.5,8,1980,46
+Oaxaca,Puerto Escondido,Bacocho,Departamento,1,1,2,1200,47
+Oaxaca,Puerto Escondido,Bacocho,Departamento,2,1.5,4,1500,47
+Oaxaca,Puerto Escondido,Bacocho,Casa,3,2,6,1800,47
+Oaxaca,Puerto Escondido,Bacocho,Casa,4,2.5,8,2160,47
+Yucatán,Merida,Mérida Centro,Departamento,1,1,2,750,55
+Yucatán,Merida,Mérida Centro,Departamento,2,1.5,4,937,55
+Yucatán,Merida,Mérida Centro,Casa,3,2,6,1125,55
+Yucatán,Merida,Mérida Centro,Casa,4,2.5,8,1350,55
+Yucatán,Merida,Montebello,Departamento,1,1,2,800,52
+Yucatán,Merida,Montebello,Departamento,2,1.5,4,1000,52
+Yucatán,Merida,Montebello,Casa,3,2,6,1200,52
+Yucatán,Merida,Montebello,Casa,4,2.5,8,1440,52
+Yucatán,Merida,Itzimna,Departamento,1,1,2,700,53
+Yucatán,Merida,Itzimna,Departamento,2,1.5,4,875,53
+Yucatán,Merida,Itzimna,Casa,3,2,6,1050,53
+Yucatán,Merida,Itzimna,Casa,4,2.5,8,1260,53
+Yucatán,Merida,Garcia Gineres,Departamento,1,1,2,650,51
+Yucatán,Merida,Garcia Gineres,Departamento,2,1.5,4,812,51
+Yucatán,Merida,Garcia Gineres,Casa,3,2,6,975,51
+Yucatán,Merida,Garcia Gineres,Casa,4,2.5,8,1170,51
+Yucatán,Progreso,Progreso de Castro Centro,Departamento,1,1,2,900,50
+Yucatán,Progreso,Progreso de Castro Centro,Departamento,2,1.5,4,1125,50
+Yucatán,Progreso,Progreso de Castro Centro,Casa,3,2,6,1350,50
+Yucatán,Progreso,Progreso de Castro Centro,Casa,4,2.5,8,1620,50
+Yucatán,Progreso,Chicxulub Puerto,Departamento,1,1,2,800,48
+Yucatán,Progreso,Chicxulub Puerto,Departamento,2,1.5,4,1000,48
+Yucatán,Progreso,Chicxulub Puerto,Casa,3,2,6,1200,48
+Yucatán,Progreso,Chicxulub Puerto,Casa,4,2.5,8,1440,48
+Guerrero,Acapulco,Real Diamante,Departamento,1,1,2,1600,37
+Guerrero,Acapulco,Real Diamante,Departamento,2,1.5,4,2000,37
+Guerrero,Acapulco,Real Diamante,Casa,3,2,6,2400,37
+Guerrero,Acapulco,Real Diamante,Casa,4,2.5,8,2880,37
+Guerrero,Acapulco,Acapulco de Juárez Centro,Departamento,1,1,2,1400,33
+Guerrero,Acapulco,Acapulco de Juárez Centro,Departamento,2,1.5,4,1750,33
+Guerrero,Acapulco,Acapulco de Juárez Centro,Casa,3,2,6,2100,33
+Guerrero,Acapulco,Acapulco de Juárez Centro,Casa,4,2.5,8,2520,33
+Guerrero,Acapulco,Pie de la Cuesta,Departamento,1,1,2,1200,35
+Guerrero,Acapulco,Pie de la Cuesta,Departamento,2,1.5,4,1500,35
+Guerrero,Acapulco,Pie de la Cuesta,Casa,3,2,6,1800,35
+Guerrero,Acapulco,Pie de la Cuesta,Casa,4,2.5,8,2160,35
+Guerrero,Zihuatanejo,Zihuatanejo Centro,Departamento,1,1,2,1500,40
+Guerrero,Zihuatanejo,Zihuatanejo Centro,Departamento,2,1.5,4,1875,40
+Guerrero,Zihuatanejo,Zihuatanejo Centro,Casa,3,2,6,2250,40
+Guerrero,Zihuatanejo,Zihuatanejo Centro,Casa,4,2.5,8,2700,40
+Guerrero,Zihuatanejo,La Ropa,Departamento,1,1,2,1600,38
+Guerrero,Zihuatanejo,La Ropa,Departamento,2,1.5,4,2000,38
+Guerrero,Zihuatanejo,La Ropa,Casa,3,2,6,2400,38
+Guerrero,Zihuatanejo,La Ropa,Casa,4,2.5,8,2880,38
+Guanajuato,San Miguel de Allende,Centro,Departamento,1,1,2,1800,40
+Guanajuato,San Miguel de Allende,Centro,Departamento,2,1.5,4,2250,40
+Guanajuato,San Miguel de Allende,Centro,Casa,3,2,6,2700,40
+Guanajuato,San Miguel de Allende,Centro,Casa,4,2.5,8,3240,40
+Guanajuato,San Miguel de Allende,Guadalupe,Departamento,1,1,2,1600,36
+Guanajuato,San Miguel de Allende,Guadalupe,Departamento,2,1.5,4,2000,36
+Guanajuato,San Miguel de Allende,Guadalupe,Casa,3,2,6,2400,36
+Guanajuato,San Miguel de Allende,Guadalupe,Casa,4,2.5,8,2880,36
+Guanajuato,San Miguel de Allende,San Antonio,Departamento,1,1,2,1500,38
+Guanajuato,San Miguel de Allende,San Antonio,Departamento,2,1.5,4,1875,38
+Guanajuato,San Miguel de Allende,San Antonio,Casa,3,2,6,2250,38
+Guanajuato,San Miguel de Allende,San Antonio,Casa,4,2.5,8,2700,38
+Guanajuato,Guanajuato City,Centro,Departamento,1,1,2,900,58
+Guanajuato,Guanajuato City,Centro,Departamento,2,1.5,4,1125,58
+Guanajuato,Guanajuato City,Centro,Casa,3,2,6,1350,58
+Guanajuato,Guanajuato City,Centro,Casa,4,2.5,8,1620,58
+Guanajuato,Guanajuato City,Marfil,Departamento,1,1,2,800,54
+Guanajuato,Guanajuato City,Marfil,Departamento,2,1.5,4,1000,54
+Guanajuato,Guanajuato City,Marfil,Casa,3,2,6,1200,54
+Guanajuato,Guanajuato City,Marfil,Casa,4,2.5,8,1440,54
+Guanajuato,León,Centro,Departamento,1,1,2,600,50
+Guanajuato,León,Centro,Departamento,2,1.5,4,750,50
+Guanajuato,León,Centro,Casa,3,2,6,900,50
+Guanajuato,León,Centro,Casa,4,2.5,8,1080,50
+Guanajuato,León,Jardines del Moral,Departamento,1,1,2,650,48
+Guanajuato,León,Jardines del Moral,Departamento,2,1.5,4,812,48
+Guanajuato,León,Jardines del Moral,Casa,3,2,6,975,48
+Guanajuato,León,Jardines del Moral,Casa,4,2.5,8,1170,48
+México,Valle de Bravo,Centro,Departamento,1,1,2,2470,23
+México,Valle de Bravo,Centro,Departamento,2,1.5,4,3087,23
+México,Valle de Bravo,Centro,Casa,3,2,6,3705,23
+México,Valle de Bravo,Centro,Casa,4,2.5,8,4446,23
+México,Naucalpan de Juárez,Centro,Departamento,1,1,2,670,39
+México,Naucalpan de Juárez,Centro,Departamento,2,1.5,4,837,39
+México,Naucalpan de Juárez,Centro,Casa,3,2,6,1005,39
+México,Naucalpan de Juárez,Centro,Casa,4,2.5,8,1206,39
+México,Metepec,Centro,Departamento,1,1,2,500,31
+México,Metepec,Centro,Departamento,2,1.5,4,625,31
+México,Metepec,Centro,Casa,3,2,6,750,31
+México,Metepec,Centro,Casa,4,2.5,8,900,31
+México,Toluca,Centro,Departamento,1,1,2,350,48
+México,Toluca,Centro,Departamento,2,1.5,4,437,48
+México,Toluca,Centro,Casa,3,2,6,525,48
+México,Toluca,Centro,Casa,4,2.5,8,630,48
+Sinaloa,Mazatlan,Centro,Departamento,1,1,2,1100,38
+Sinaloa,Mazatlan,Centro,Departamento,2,1.5,4,1375,38
+Sinaloa,Mazatlan,Centro,Casa,3,2,6,1650,38
+Sinaloa,Mazatlan,Centro,Casa,4,2.5,8,1980,38
+Sinaloa,Mazatlan,Zona Dorada,Departamento,1,1,2,1200,36
+Sinaloa,Mazatlan,Zona Dorada,Departamento,2,1.5,4,1500,36
+Sinaloa,Mazatlan,Zona Dorada,Casa,3,2,6,1800,36
+Sinaloa,Mazatlan,Zona Dorada,Casa,4,2.5,8,2160,36
+Sinaloa,Mazatlan,Centro,Departamento,1,1,2,1300,37
+Sinaloa,Mazatlan,Centro,Departamento,2,1.5,4,1625,37
+Sinaloa,Mazatlan,Centro,Casa,3,2,6,1950,37
+Sinaloa,Mazatlan,Centro,Casa,4,2.5,8,2340,37
+Sinaloa,Culiacán,Centro,Departamento,1,1,2,700,45
+Sinaloa,Culiacán,Centro,Departamento,2,1.5,4,875,45
+Sinaloa,Culiacán,Centro,Casa,3,2,6,1050,45
+Sinaloa,Culiacán,Centro,Casa,4,2.5,8,1260,45
+Puebla,Puebla,Centro,Departamento,1,1,2,500,44
+Puebla,Puebla,Centro,Departamento,2,1.5,4,625,44
+Puebla,Puebla,Centro,Casa,3,2,6,750,44
+Puebla,Puebla,Centro,Casa,4,2.5,8,900,44
+Puebla,Puebla,Cholula,Departamento,1,1,2,450,40
+Puebla,Puebla,Cholula,Departamento,2,1.5,4,562,40
+Puebla,Puebla,Cholula,Casa,3,2,6,675,40
+Puebla,Puebla,Cholula,Casa,4,2.5,8,810,40
+Puebla,Puebla,Angelopolis,Departamento,1,1,2,600,42
+Puebla,Puebla,Angelopolis,Departamento,2,1.5,4,750,42
+Puebla,Puebla,Angelopolis,Casa,3,2,6,900,42
+Puebla,Puebla,Angelopolis,Casa,4,2.5,8,1080,42
+Aguascalientes,Aguascalientes,Zona Centro,Departamento,1,1,2,800,45
+Aguascalientes,Aguascalientes,Zona Centro,Departamento,2,1.5,4,1000,45
+Aguascalientes,Aguascalientes,Zona Centro,Casa,3,2,6,1200,45
+Aguascalientes,Aguascalientes,Zona Centro,Casa,4,2.5,8,1440,45
+Aguascalientes,Aguascalientes,Circunvalación Norte,Departamento,1,1,2,700,43
+Aguascalientes,Aguascalientes,Circunvalación Norte,Departamento,2,1.5,4,875,43
+Aguascalientes,Aguascalientes,Circunvalación Norte,Casa,3,2,6,1050,43
+Aguascalientes,Aguascalientes,Circunvalación Norte,Casa,4,2.5,8,1260,43
+Baja California,Tijuana,Zona Norte,Departamento,1,1,2,1200,50
+Baja California,Tijuana,Zona Norte,Departamento,2,1.5,4,1500,50
+Baja California,Tijuana,Zona Norte,Casa,3,2,6,1800,50
+Baja California,Tijuana,Zona Norte,Casa,4,2.5,8,2160,50
+Baja California,Tijuana,Zona Centro,Departamento,1,1,2,1100,48
+Baja California,Tijuana,Zona Centro,Departamento,2,1.5,4,1375,48
+Baja California,Tijuana,Zona Centro,Casa,3,2,6,1650,48
+Baja California,Tijuana,Zona Centro,Casa,4,2.5,8,1980,48
+Baja California,Tijuana,Zona Urbana Río Tijuana,Departamento,1,1,2,1000,47
+Baja California,Tijuana,Zona Urbana Río Tijuana,Departamento,2,1.5,4,1250,47
+Baja California,Tijuana,Zona Urbana Río Tijuana,Casa,3,2,6,1500,47
+Baja California,Tijuana,Zona Urbana Río Tijuana,Casa,4,2.5,8,1800,47
+Baja California,Ensenada,Playa de Ensenada,Departamento,1,1,2,1300,52
+Baja California,Ensenada,Playa de Ensenada,Departamento,2,1.5,4,1625,52
+Baja California,Ensenada,Playa de Ensenada,Casa,3,2,6,1950,52
+Baja California,Ensenada,Playa de Ensenada,Casa,4,2.5,8,2340,52
+Baja California,Ensenada,Valle de Guadalupe,Departamento,1,1,2,1400,50
+Baja California,Ensenada,Valle de Guadalupe,Departamento,2,1.5,4,1750,50
+Baja California,Ensenada,Valle de Guadalupe,Casa,3,2,6,2100,50
+Baja California,Ensenada,Valle de Guadalupe,Casa,4,2.5,8,2520,50
+Campeche,Campeche,San Francisco de Campeche Centro,Departamento,1,1,2,1000,40
+Campeche,Campeche,San Francisco de Campeche Centro,Departamento,2,1.5,4,1250,40
+Campeche,Campeche,San Francisco de Campeche Centro,Casa,3,2,6,1500,40
+Campeche,Campeche,San Francisco de Campeche Centro,Casa,4,2.5,8,1800,40
+Campeche,Campeche,San Francisco,Departamento,1,1,2,900,38
+Campeche,Campeche,San Francisco,Departamento,2,1.5,4,1125,38
+Campeche,Campeche,San Francisco,Casa,3,2,6,1350,38
+Campeche,Campeche,San Francisco,Casa,4,2.5,8,1620,38
+Chiapas,San Cristóbal de las Casas,San Cristóbal de Las Casas Centro,Departamento,1,1,2,900,45
+Chiapas,San Cristóbal de las Casas,San Cristóbal de Las Casas Centro,Departamento,2,1.5,4,1125,45
+Chiapas,San Cristóbal de las Casas,San Cristóbal de Las Casas Centro,Casa,3,2,6,1350,45
+Chiapas,San Cristóbal de las Casas,San Cristóbal de Las Casas Centro,Casa,4,2.5,8,1620,45
+Chiapas,San Cristóbal de las Casas,Guadalupe,Departamento,1,1,2,800,43
+Chiapas,San Cristóbal de las Casas,Guadalupe,Departamento,2,1.5,4,1000,43
+Chiapas,San Cristóbal de las Casas,Guadalupe,Casa,3,2,6,1200,43
+Chiapas,San Cristóbal de las Casas,Guadalupe,Casa,4,2.5,8,1440,43
+Chiapas,Tuxtla Gutiérrez,Tuxtla Gutiérrez Centro,Departamento,1,1,2,700,42
+Chiapas,Tuxtla Gutiérrez,Tuxtla Gutiérrez Centro,Departamento,2,1.5,4,875,42
+Chiapas,Tuxtla Gutiérrez,Tuxtla Gutiérrez Centro,Casa,3,2,6,1050,42
+Chiapas,Tuxtla Gutiérrez,Tuxtla Gutiérrez Centro,Casa,4,2.5,8,1260,42
+Chihuahua,Chihuahua,Centro,Departamento,1,1,2,1000,45
+Chihuahua,Chihuahua,Centro,Departamento,2,1.5,4,1250,45
+Chihuahua,Chihuahua,Centro,Casa,3,2,6,1500,45
+Chihuahua,Chihuahua,Centro,Casa,4,2.5,8,1800,45
+Chihuahua,Chihuahua,Zona Centro,Departamento,1,1,2,900,43
+Chihuahua,Chihuahua,Zona Centro,Departamento,2,1.5,4,1125,43
+Chihuahua,Chihuahua,Zona Centro,Casa,3,2,6,1350,43
+Chihuahua,Chihuahua,Zona Centro,Casa,4,2.5,8,1620,43
+Coahuila de Zaragoza,Saltillo,Saltillo Zona Centro,Departamento,1,1,2,1000,45
+Coahuila de Zaragoza,Saltillo,Saltillo Zona Centro,Departamento,2,1.5,4,1250,45
+Coahuila de Zaragoza,Saltillo,Saltillo Zona Centro,Casa,3,2,6,1500,45
+Coahuila de Zaragoza,Saltillo,Saltillo Zona Centro,Casa,4,2.5,8,1800,45
+Coahuila de Zaragoza,Saltillo,República Norte,Departamento,1,1,2,900,43
+Coahuila de Zaragoza,Saltillo,República Norte,Departamento,2,1.5,4,1125,43
+Coahuila de Zaragoza,Saltillo,República Norte,Casa,3,2,6,1350,43
+Coahuila de Zaragoza,Saltillo,República Norte,Casa,4,2.5,8,1620,43
+Colima,Manzanillo,Manzanillo Centro,Departamento,1,1,2,1500,45
+Colima,Manzanillo,Manzanillo Centro,Departamento,2,1.5,4,1875,45
+Colima,Manzanillo,Manzanillo Centro,Casa,3,2,6,2250,45
+Colima,Manzanillo,Manzanillo Centro,Casa,4,2.5,8,2700,45
+Colima,Manzanillo,Las Brisas,Departamento,1,1,2,1400,43
+Colima,Manzanillo,Las Brisas,Departamento,2,1.5,4,1750,43
+Colima,Manzanillo,Las Brisas,Casa,3,2,6,2100,43
+Colima,Manzanillo,Las Brisas,Casa,4,2.5,8,2520,43
+Colima,Colima City,Colima Centro,Departamento,1,1,2,800,40
+Colima,Colima City,Colima Centro,Departamento,2,1.5,4,1000,40
+Colima,Colima City,Colima Centro,Casa,3,2,6,1200,40
+Colima,Colima City,Colima Centro,Casa,4,2.5,8,1440,40
+Durango,Durango,Victoria de Durango Centro,Departamento,1,1,2,800,40
+Durango,Durango,Victoria de Durango Centro,Departamento,2,1.5,4,1000,40
+Durango,Durango,Victoria de Durango Centro,Casa,3,2,6,1200,40
+Durango,Durango,Victoria de Durango Centro,Casa,4,2.5,8,1440,40
+Durango,Durango,División del Norte,Departamento,1,1,2,700,38
+Durango,Durango,División del Norte,Departamento,2,1.5,4,875,38
+Durango,Durango,División del Norte,Casa,3,2,6,1050,38
+Durango,Durango,División del Norte,Casa,4,2.5,8,1260,38
+Hidalgo,Pachuca,Centro,Departamento,1,1,2,700,45
+Hidalgo,Pachuca,Centro,Departamento,2,1.5,4,875,45
+Hidalgo,Pachuca,Centro,Casa,3,2,6,1050,45
+Hidalgo,Pachuca,Centro,Casa,4,2.5,8,1260,45
+Hidalgo,Pachuca,Zona Plateada,Departamento,1,1,2,600,43
+Hidalgo,Pachuca,Zona Plateada,Departamento,2,1.5,4,750,43
+Hidalgo,Pachuca,Zona Plateada,Casa,3,2,6,900,43
+Hidalgo,Pachuca,Zona Plateada,Casa,4,2.5,8,1080,43
+Michoacán de Ocampo,Morelia,Centro,Departamento,1,1,2,1000,50
+Michoacán de Ocampo,Morelia,Centro,Departamento,2,1.5,4,1250,50
+Michoacán de Ocampo,Morelia,Centro,Casa,3,2,6,1500,50
+Michoacán de Ocampo,Morelia,Centro,Casa,4,2.5,8,1800,50
+Michoacán de Ocampo,Morelia,Chapultepec,Departamento,1,1,2,900,48
+Michoacán de Ocampo,Morelia,Chapultepec,Departamento,2,1.5,4,1125,48
+Michoacán de Ocampo,Morelia,Chapultepec,Casa,3,2,6,1350,48
+Michoacán de Ocampo,Morelia,Chapultepec,Casa,4,2.5,8,1620,48
+Morelos,Cuernavaca,Centro,Departamento,1,1,2,1400,50
+Morelos,Cuernavaca,Centro,Departamento,2,1.5,4,1750,50
+Morelos,Cuernavaca,Centro,Casa,3,2,6,2100,50
+Morelos,Cuernavaca,Centro,Casa,4,2.5,8,2520,50
+Morelos,Cuernavaca,Vista Hermosa,Departamento,1,1,2,1300,48
+Morelos,Cuernavaca,Vista Hermosa,Departamento,2,1.5,4,1625,48
+Morelos,Cuernavaca,Vista Hermosa,Casa,3,2,6,1950,48
+Morelos,Cuernavaca,Vista Hermosa,Casa,4,2.5,8,2340,48
+Nayarit,Nuevo Vallarta,Centro,Departamento,1,1,2,3000,50
+Nayarit,Nuevo Vallarta,Centro,Departamento,2,1.5,4,3750,50
+Nayarit,Nuevo Vallarta,Centro,Casa,3,2,6,4500,50
+Nayarit,Nuevo Vallarta,Centro,Casa,4,2.5,8,5400,50
+Nayarit,Sayulita,Centro,Departamento,1,1,2,2000,55
+Nayarit,Sayulita,Centro,Departamento,2,1.5,4,2500,55
+Nayarit,Sayulita,Centro,Casa,3,2,6,3000,55
+Nayarit,Sayulita,Centro,Casa,4,2.5,8,3600,55
+Nayarit,Sayulita,Sayulita,Departamento,1,1,2,2200,53
+Nayarit,Sayulita,Sayulita,Departamento,2,1.5,4,2750,53
+Nayarit,Sayulita,Sayulita,Casa,3,2,6,3300,53
+Nayarit,Sayulita,Sayulita,Casa,4,2.5,8,3960,53
+Querétaro,Querétaro,Centro,Departamento,1,1,2,1100,55
+Querétaro,Querétaro,Centro,Departamento,2,1.5,4,1375,55
+Querétaro,Querétaro,Centro,Casa,3,2,6,1650,55
+Querétaro,Querétaro,Centro,Casa,4,2.5,8,1980,55
+Querétaro,Querétaro,Juriquilla,Departamento,1,1,2,1000,53
+Querétaro,Querétaro,Juriquilla,Departamento,2,1.5,4,1250,53
+Querétaro,Querétaro,Juriquilla,Casa,3,2,6,1500,53
+Querétaro,Querétaro,Juriquilla,Casa,4,2.5,8,1800,53
+San Luis Potosí,San Luis Potosí,Centro,Departamento,1,1,2,900,45
+San Luis Potosí,San Luis Potosí,Centro,Departamento,2,1.5,4,1125,45
+San Luis Potosí,San Luis Potosí,Centro,Casa,3,2,6,1350,45
+San Luis Potosí,San Luis Potosí,Centro,Casa,4,2.5,8,1620,45
+San Luis Potosí,San Luis Potosí,Lomas 1a Secc,Departamento,1,1,2,800,43
+San Luis Potosí,San Luis Potosí,Lomas 1a Secc,Departamento,2,1.5,4,1000,43
+San Luis Potosí,San Luis Potosí,Lomas 1a Secc,Casa,3,2,6,1200,43
+San Luis Potosí,San Luis Potosí,Lomas 1a Secc,Casa,4,2.5,8,1440,43
+Sonora,Hermosillo,Centro,Departamento,1,1,2,1000,45
+Sonora,Hermosillo,Centro,Departamento,2,1.5,4,1250,45
+Sonora,Hermosillo,Centro,Casa,3,2,6,1500,45
+Sonora,Hermosillo,Centro,Casa,4,2.5,8,1800,45
+Sonora,Hermosillo,Pitic,Departamento,1,1,2,900,43
+Sonora,Hermosillo,Pitic,Departamento,2,1.5,4,1125,43
+Sonora,Hermosillo,Pitic,Casa,3,2,6,1350,43
+Sonora,Hermosillo,Pitic,Casa,4,2.5,8,1620,43
+Tabasco,Villahermosa,Villahermosa Centro,Departamento,1,1,2,800,40
+Tabasco,Villahermosa,Villahermosa Centro,Departamento,2,1.5,4,1000,40
+Tabasco,Villahermosa,Villahermosa Centro,Casa,3,2,6,1200,40
+Tabasco,Villahermosa,Villahermosa Centro,Casa,4,2.5,8,1440,40
+Tabasco,Villahermosa,Galaxia/tabasco 2000,Departamento,1,1,2,700,38
+Tabasco,Villahermosa,Galaxia/tabasco 2000,Departamento,2,1.5,4,875,38
+Tabasco,Villahermosa,Galaxia/tabasco 2000,Casa,3,2,6,1050,38
+Tabasco,Villahermosa,Galaxia/tabasco 2000,Casa,4,2.5,8,1260,38
+Tamaulipas,Tampico,Tampico Centro,Departamento,1,1,2,900,40
+Tamaulipas,Tampico,Tampico Centro,Departamento,2,1.5,4,1125,40
+Tamaulipas,Tampico,Tampico Centro,Casa,3,2,6,1350,40
+Tamaulipas,Tampico,Tampico Centro,Casa,4,2.5,8,1620,40
+Tamaulipas,Tampico,Altavista,Departamento,1,1,2,800,38
+Tamaulipas,Tampico,Altavista,Departamento,2,1.5,4,1000,38
+Tamaulipas,Tampico,Altavista,Casa,3,2,6,1200,38
+Tamaulipas,Tampico,Altavista,Casa,4,2.5,8,1440,38
+Tlaxcala,Tlaxcala,Centro,Departamento,1,1,2,700,40
+Tlaxcala,Tlaxcala,Centro,Departamento,2,1.5,4,875,40
+Tlaxcala,Tlaxcala,Centro,Casa,3,2,6,1050,40
+Tlaxcala,Tlaxcala,Centro,Casa,4,2.5,8,1260,40
+Tlaxcala,Tlaxcala,Ocotlán,Departamento,1,1,2,600,38
+Tlaxcala,Tlaxcala,Ocotlán,Departamento,2,1.5,4,750,38
+Tlaxcala,Tlaxcala,Ocotlán,Casa,3,2,6,900,38
+Tlaxcala,Tlaxcala,Ocotlán,Casa,4,2.5,8,1080,38
+Veracruz de Ignacio de la Llave,Veracruz,Veracruz Centro,Departamento,1,1,2,1200,45
+Veracruz de Ignacio de la Llave,Veracruz,Veracruz Centro,Departamento,2,1.5,4,1500,45
+Veracruz de Ignacio de la Llave,Veracruz,Veracruz Centro,Casa,3,2,6,1800,45
+Veracruz de Ignacio de la Llave,Veracruz,Veracruz Centro,Casa,4,2.5,8,2160,45
+Veracruz de Ignacio de la Llave,Veracruz,Boca del Río Centro,Departamento,1,1,2,1100,43
+Veracruz de Ignacio de la Llave,Veracruz,Boca del Río Centro,Departamento,2,1.5,4,1375,43
+Veracruz de Ignacio de la Llave,Veracruz,Boca del Río Centro,Casa,3,2,6,1650,43
+Veracruz de Ignacio de la Llave,Veracruz,Boca del Río Centro,Casa,4,2.5,8,1980,43
+Zacatecas,Zacatecas,Centro,Departamento,1,1,2,1000,50
+Zacatecas,Zacatecas,Centro,Departamento,2,1.5,4,1250,50
+Zacatecas,Zacatecas,Centro,Casa,3,2,6,1500,50
+Zacatecas,Zacatecas,Centro,Casa,4,2.5,8,1800,50
+Zacatecas,Zacatecas,Guadalupe,Departamento,1,1,2,900,48
+Zacatecas,Zacatecas,Guadalupe,Departamento,2,1.5,4,1125,48
+Zacatecas,Zacatecas,Guadalupe,Casa,3,2,6,1350,48
+Zacatecas,Zacatecas,Guadalupe,Casa,4,2.5,8,1620,48
