@@ -253,7 +253,7 @@ export const Navbar = () => {
           <KanaaLogo />
         </Link>
 
-        <div className="hidden items-center gap-7.5 md:flex">
+        <div className="hidden items-center gap-7.5 lg:flex">
           {navItems.map((item) => {
             if (item.items) {
               const isActive =
@@ -361,7 +361,7 @@ export const Navbar = () => {
           aria-label="Abrir menú"
           aria-expanded={isMobileMenuOpen}
           onClick={() => setIsMobileMenuOpen(true)}
-          className={`md:hidden ${isMobileMenuOpen ? "hidden" : ""}`}
+          className={`lg:hidden ${isMobileMenuOpen ? "hidden" : ""}`}
         >
           <Bars3Icon
             className={`h-8 w-8 transition-colors duration-300 ${navTextClass}`}
@@ -371,7 +371,7 @@ export const Navbar = () => {
 
       <nav
         aria-hidden={!isMobileMenuOpen}
-        className={`fixed inset-0 z-50 bg-white px-6 pt-8 transition-opacity duration-200 md:hidden ${
+        className={`fixed inset-0 z-50 bg-white px-6 pt-8 transition-opacity duration-200 lg:hidden ${
           isMobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       >

@@ -11,9 +11,9 @@ export type GuideCardProps = {
 
 export const GuideCard = ({ name, image, category, date }: GuideCardProps) => {
   return (
-    <div className="ms:w-[90%] mx-auto rounded-xl border bg-white p-2 pb-4 text-left sm:h-120 sm:w-98 sm:p-0">
+    <div className="mx-auto w-full rounded-xl border bg-white p-2 pb-4 text-left lg:h-120 lg:w-98 lg:p-0">
       <Image
-        className="mx-auto w-98 rounded-xl rounded-b-none sm:mt-4 sm:h-60 sm:w-90 sm:rounded-none"
+        className="mx-auto w-full rounded-xl rounded-b-none lg:mt-4 lg:h-60 lg:w-90 lg:rounded-none"
         src={image}
         alt={name}
       />
@@ -40,7 +40,7 @@ export const GuideCard = ({ name, image, category, date }: GuideCardProps) => {
         </Text>
 
         <Text
-          className="text-secondary-400 mt-4 sm:mt-15"
+          className="text-secondary-400 mt-4 lg:mt-15"
           font="roboto"
           weight="medium"
           size="base"

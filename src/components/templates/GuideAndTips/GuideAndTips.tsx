@@ -36,7 +36,7 @@ export const GuideAndTips = () => {
       <Text className="mb-8" size="lg" font="gilroy">
         Planifica la estancia perfecta y saca el máximo provecho a tu propiedad.
       </Text>
-      <div className="flex flex-col justify-center gap-5 sm:flex-row">
+      <div className="flex flex-col justify-center gap-5 lg:flex-row">
         {CardGrid.map((card, index) => (
           <GuideCard key={index} {...card} />
         ))}
