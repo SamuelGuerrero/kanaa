@@ -208,7 +208,7 @@ export const Navbar = () => {
     {
       label: "Propiedades",
       items: [
-        { href: "/propiedades/renta", label: "En renta" },
+        { href: "/propiedades", label: "En renta" },
         {
           href: "/propiedades/venta",
           label: "En venta (próximamente)",
@@ -221,10 +221,10 @@ export const Navbar = () => {
       items: [
         { href: "/nosotros", label: "¿Quiénes somos?" },
         {
-          href: "/nosotros/trabaja-con-nosotros",
-          label: "Trabajo con nosotros",
+          href: "/unete",
+          label: "Trabaja con nosotros",
         },
-        { href: "/contacto", label: "Contáctanos" },
+        { href: "/contactanos", label: "Contáctanos" },
       ],
     },
     { href: "/gestion-propiedades", label: "Gestión de propiedades" },
