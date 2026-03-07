@@ -5,16 +5,16 @@ import JoinHeroBg from "@assets/images/Home/JoinHeroBg.png";
 
 export const HeroJoin = () => {
   return (
-    <section className="relative">
+    <section className="relative h-100 sm:h-full">
       <Image
         src={JoinHeroBg}
         alt="Hero background"
         fill
         priority
-        className="object-cover"
+        className="smm object-cover"
       />
 
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-1 text-center text-white md:py-45">
+      <div className="relative z-1 -mt-50 flex min-h-screen flex-col items-center justify-center px-1 text-center text-white md:py-45 lg:mt-0">
         <Text size="6xl" weight="medium">
           Trabaja con nosotros
         </Text>

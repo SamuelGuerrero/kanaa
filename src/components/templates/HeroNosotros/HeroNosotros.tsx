@@ -20,13 +20,13 @@ export const HeroNosotros = () => {
       />
 
       <div className="relative z-10 mt-6 flex h-full w-full flex-col justify-center px-3 text-white sm:-mt-25 md:mt-0 md:ml-0 md:min-h-screen md:w-full md:items-center md:py-45">
-        <Text size="6xl" weight="medium">
+        <Text className="sm:text-center" size="6xl" weight="medium">
           Alquileres vacacionales fáciles
         </Text>
 
         <Text
           size="xl"
-          className="mt-5 max-w-145 text-center"
+          className="mt-5 max-w-145 sm:text-center"
           font="gilroy"
           weight="medium"
         >
