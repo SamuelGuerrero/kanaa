@@ -6,7 +6,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
-import { BookingWidget, Button, Calendar, PropertyOverview } from "@/components/molecules";
+import {
+  BookingWidget,
+  Button,
+  Calendar,
+  PropertyOverview,
+} from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
 import { useListingCalendar } from "@/hooks/useListingCalendar";
 import { useI18n } from "@/i18n";
@@ -201,6 +206,8 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             listingMapId={property.id.toString()}
             onBookingClick={handleBookingClick}
             disableCheckout={true}
+            sharedDateRange={dateRange}
+            onSharedDateRangeChange={setDateRange}
             className="sm:hidden"
           />
 
@@ -313,6 +320,8 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             listingMapId={property.id.toString()}
             onBookingClick={handleBookingClick}
             disableCheckout={true}
+            sharedDateRange={dateRange}
+            onSharedDateRangeChange={setDateRange}
           />
         </section>
       </div>

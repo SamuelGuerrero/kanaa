@@ -78,5 +78,6 @@ export const useCalendar = (initialMonth: Date = new Date()) => {
     openCalendar,
     closeCalendar,
     setDateRange,
+    setActiveField,
   };
 };

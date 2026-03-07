@@ -9,6 +9,7 @@ import {
   Calendar,
   GuestSelector,
   formatGuestsText,
+  type DateRange,
   type GuestCounts,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
@@ -25,6 +26,8 @@ type BookingWidgetProps = {
   listingMapId: string;
   onBookingClick?: (bookingData: BookingData) => void;
   disableCheckout?: boolean;
+  sharedDateRange?: DateRange;
+  onSharedDateRangeChange?: (range: DateRange) => void;
 };
 
 export type BookingData = {
@@ -45,6 +48,8 @@ export const BookingWidget = ({
   listingMapId,
   onBookingClick,
   disableCheckout = false,
+  sharedDateRange,
+  onSharedDateRangeChange,
 }: BookingWidgetProps) => {
   const { locale, t } = useI18n();
   const [showGuestSelector, setShowGuestSelector] = useState(false);
@@ -64,15 +69,56 @@ export const BookingWidget = ({
   const {
     showCalendar,
     currentMonth,
-    dateRange,
+    dateRange: internalDateRange,
     activeField,
-    handleDateClick,
     handlePrevMonth,
     handleNextMonth,
-    clearDates,
+    clearDates: internalClearDates,
     openCalendar,
     closeCalendar,
+    setDateRange: setInternalDateRange,
+    setActiveField,
   } = useCalendar();
+
+  // Modo controlado: usa el dateRange compartido si se pasa como prop
+  const isControlled = sharedDateRange !== undefined;
+  const dateRange = isControlled ? sharedDateRange : internalDateRange;
+
+  const setDateRange = (range: DateRange) => {
+    if (isControlled) {
+      onSharedDateRangeChange?.(range);
+    } else {
+      setInternalDateRange(range);
+    }
+  };
+
+  const clearDates = () => {
+    internalClearDates();
+    if (isControlled) {
+      onSharedDateRangeChange?.({ startDate: null, endDate: null });
+    }
+  };
+
+  // Handler propio que opera sobre el dateRange efectivo (interno o externo)
+  const handleDateClick = (date: Date) => {
+    const isOccupied = occupiedDates.some(
+      (d) => d.toDateString() === date.toDateString(),
+    );
+    if (isOccupied) return;
+
+    if (activeField === "checkin") {
+      setDateRange({ startDate: date, endDate: null });
+      setActiveField("checkout");
+    } else if (activeField === "checkout") {
+      if (dateRange.startDate && date <= dateRange.startDate) {
+        setDateRange({ startDate: date, endDate: null });
+        setActiveField("checkout");
+      } else {
+        setDateRange({ ...dateRange, endDate: date });
+        closeCalendar();
+      }
+    }
+  };
 
   const totalNights =
     dateRange.startDate && dateRange.endDate
@@ -354,7 +400,7 @@ export const BookingWidget = ({
               currentMonth={currentMonth}
               dateRange={dateRange}
               occupiedDates={occupiedDates}
-              onDateClick={(date) => handleDateClick(date, occupiedDates)}
+              onDateClick={handleDateClick}
               onPrevMonth={handlePrevMonth}
               onNextMonth={handleNextMonth}
               onClearDates={clearDates}
@@ -452,7 +498,7 @@ export const BookingWidget = ({
                     currentMonth={currentMonth}
                     dateRange={dateRange}
                     occupiedDates={occupiedDates}
-                    onDateClick={(date) => handleDateClick(date, occupiedDates)}
+                    onDateClick={handleDateClick}
                     onPrevMonth={handlePrevMonth}
                     onNextMonth={handleNextMonth}
                     onClearDates={clearDates}
