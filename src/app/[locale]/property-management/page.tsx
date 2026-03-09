@@ -30,7 +30,13 @@ const METRICS: KeyMetricsProps["metrics"] = [
   { value: "+2", label: "Años de experiencia" },
 ];
 
-export default function HomePage() {
+type GestionPageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function HomePage({ params }: GestionPageProps) {
+  const { locale } = await params;
+
   return (
     <main className="flex flex-col space-y-1.5 md:space-y-6">
       <BecomeHost />
@@ -48,7 +54,7 @@ export default function HomePage() {
           className: "mt-10 text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light! !inline-flex",
-          href: "/contactanos",
+          href: `/${locale}/contact`,
         }}
       />
       <IntelligentManagement />
@@ -111,7 +117,7 @@ export default function HomePage() {
           className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
-          href: "/contactanos",
+          href: `/${locale}/contact`,
         }}
       />
     </main>

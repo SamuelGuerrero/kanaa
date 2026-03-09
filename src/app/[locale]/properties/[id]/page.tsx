@@ -1,4 +1,3 @@
-
 import { createPageMetadata, toAbsoluteUrl } from "@/lib/seo";
 import { getListingById } from "@/server/hostaway/listings";
 
@@ -7,7 +6,7 @@ import { PropertyDetailsClient } from "./PropertyDetailsClient";
 import type { Metadata } from "next";
 
 type PropertyDetailsRouteProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 };
 
 export async function generateMetadata({

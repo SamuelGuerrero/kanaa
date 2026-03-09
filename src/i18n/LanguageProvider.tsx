@@ -9,6 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 import { translateText } from "@/i18n/translations";
 
@@ -32,6 +33,8 @@ export const LanguageProvider = ({
   initialLocale?: Locale;
 }) => {
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, locale);
@@ -39,9 +42,15 @@ export const LanguageProvider = ({
     document.documentElement.lang = locale;
   }, [locale]);
 
-  const setLocale = useCallback((nextLocale: Locale) => {
-    setLocaleState(nextLocale);
-  }, []);
+  const setLocale = useCallback(
+    (nextLocale: Locale) => {
+      setLocaleState(nextLocale);
+      const segments = pathname.split("/");
+      segments[1] = nextLocale;
+      router.push(segments.join("/"));
+    },
+    [pathname, router],
+  );
 
   const t = useCallback(
     (value: string) => {

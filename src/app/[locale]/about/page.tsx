@@ -18,20 +18,26 @@ export const metadata: Metadata = createPageMetadata({
   path: "/nosotros",
 });
 
-export default function HomePage() {
+type NosotrosPageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function HomePage({ params }: NosotrosPageProps) {
+  const { locale } = await params;
+
   return (
     <main className="flex flex-col space-y-1.5 md:space-y-6">
       <HeroNosotros />
       <InfoSection
         title="¿Quiénes somos?"
         description="Somos una empresa especializada en gestión integral de alquileres
-                vacacionales, creada para simplificar la vida de los propietarios y elevar 
+                vacacionales, creada para simplificar la vida de los propietarios y elevar
                 la experiencia de los huéspedes.
                 <br />
                 <br />
-                En Kanaa combinamos estrategia inmobiliaria, tecnología y operación 
-                profesional para transformar propiedades en activos rentables, bien 
-                administrados y sin complicaciones. Nos enfocamos en cada detalle 
+                En Kanaa combinamos estrategia inmobiliaria, tecnología y operación
+                profesional para transformar propiedades en activos rentables, bien
+                administrados y sin complicaciones. Nos enfocamos en cada detalle
                 para que tú solo disfrutes los resultados."
         imagesConfig={[
           {
@@ -54,18 +60,18 @@ export default function HomePage() {
           className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
-          href: "/propiedades",
+          href: `/${locale}/properties`,
         }}
       />
       <InfoSection
         title="¿Por qué estamos aquí?"
-        description="Creemos que una segunda residencia no debería convertirse en una carga 
+        description="Creemos que una segunda residencia no debería convertirse en una carga
                  operativa, sino en una fuente de tranquilidad, ingresos constantes y crecimiento a
                   largo plazo.
                   <br />
                   <br />
-                Por eso estamos redefiniendo la forma en que funcionan los alquileres vacacionales: 
-                con procesos claros, tecnología inteligente y un enfoque centrado en la experiencia 
+                Por eso estamos redefiniendo la forma en que funcionan los alquileres vacacionales:
+                con procesos claros, tecnología inteligente y un enfoque centrado en la experiencia
                 del huésped y del propietario. "
         image={WhoAreWe}
         imageAlt="WhoAreWe"
@@ -78,7 +84,7 @@ export default function HomePage() {
           className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
-          href: "/contactanos",
+          href: `/${locale}/contact`,
         }}
       />
       <ExperienceInAction />
@@ -102,7 +108,7 @@ export default function HomePage() {
           className: " bg-grey-light text-gold-normal!",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
-          href: "/unete",
+          href: `/${locale}/join`,
         }}
       />
     </main>

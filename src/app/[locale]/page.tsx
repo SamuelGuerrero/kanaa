@@ -30,7 +30,13 @@ const METRICS: KeyMetricsProps["metrics"] = [
   { value: "4.92★", label: "Valoración promedio" },
 ];
 
-export default function HomePage() {
+type HomePageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params;
+
   return (
     <main className="flex flex-col space-y-6">
       <Hero />
@@ -40,8 +46,8 @@ export default function HomePage() {
 
       <InfoSection
         title="Property Management pensado para propietarios"
-        description="En Kanaa administramos tu propiedad de manera profesional, cuidando 
-        cada espacio, optimizando la ocupación y ofreciendo una experiencia 
+        description="En Kanaa administramos tu propiedad de manera profesional, cuidando
+        cada espacio, optimizando la ocupación y ofreciendo una experiencia
         excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad."
         image={PropertyManagement}
         imageAlt="Property Management"
@@ -54,7 +60,7 @@ export default function HomePage() {
           className: " justify-center md:w-auto md:px-6 md:py-2",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
-          href: "/gestion-propiedades",
+          href: `/${locale}/property-management`,
         }}
       />
 
@@ -73,7 +79,7 @@ export default function HomePage() {
           className:
             " justify-center md:w-auto md:px-6 md:py-2 text-gold-dark!",
           textWeight: "bold",
-          href: "/calculadora",
+          href: `/${locale}/calculator`,
         }}
       />
 

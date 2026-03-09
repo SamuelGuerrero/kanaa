@@ -11,7 +11,13 @@ export const metadata: Metadata = createPageMetadata({
   path: "/contactanos",
 });
 
-export default function HomePage() {
+type ContactanosPageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function HomePage({ params }: ContactanosPageProps) {
+  const { locale } = await params;
+
   return (
     <main className="flex flex-col space-y-1.5 md:space-y-6">
       <ProjectConversation />
@@ -35,7 +41,7 @@ export default function HomePage() {
           className: "mt-10 bg-grey-light text-gold-normal!",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
-          href: "/unete",
+          href: `/${locale}/join`,
         }}
       />
     </main>

@@ -80,7 +80,7 @@ export default function HomePage() {
       />
       <InfoSection
         title="Optimización de ingresos"
-        description="Asegúrate de obtener la mayor rentabilidad posible. Utilizamos 
+        description="Asegúrate de obtener la mayor rentabilidad posible. Utilizamos
                 estrategias integrales y modelos de inteligencia artificial para optimizar el potencial de ingresos de tu propiedad."
         imagesConfig={[
           {
@@ -99,24 +99,24 @@ export default function HomePage() {
         descriptionClassName="text-grey-darker w-[346px] md:w-[525px]"
         textClassName="ml-2 text-green-normal mt-4 sm:mt-15"
         features={[
-          { text: "Análisis de datos", icon: <Vector /> },
+          { text: "Análisis de datos", icon: <Vector /> },
           {
             text: "Estrategia de precios dinámicos",
             icon: <SupportIcon />,
           },
           {
-            text: "Predicciones de tendencias",
+            text: "Predicciones de tendencias",
             icon: <ReservationsManagementIcon />,
           },
-          { text: "Informes transparentes", icon: <ProiconsDocument /> },
+          { text: "Informes transparentes", icon: <ProiconsDocument /> },
         ]}
         featuresTextClassName="text-grey-darker"
         featuresIcon="bg-green-normal h-12.5 w-12.5"
       />
       <InfoSection
         title="Gestión de reservas"
-        description="Nos encargamos de administrar todas tus reservas y publicar 
-        tu propiedad en las principales plataformas de renta vacacional para 
+        description="Nos encargamos de administrar todas tus reservas y publicar
+        tu propiedad en las principales plataformas de renta vacacional para
         maximizar su visibilidad y ocupación.
         <br />
         <br />
@@ -131,9 +131,9 @@ export default function HomePage() {
         features={[
           { text: "Administración de listados", icon: <Vector /> },
           { text: "Marketing y publicidad", icon: <SupportIcon /> },
-          { text: "Gestión de reservas", icon: <ReservationsManagementIcon /> },
+          { text: "Gestión de reservas", icon: <ReservationsManagementIcon /> },
           {
-            text: "Asistencia en línea para huéspedes",
+            text: "Asistencia en línea para huéspedes",
             icon: <ProiconsDocument />,
           },
         ]}

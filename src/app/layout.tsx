@@ -5,8 +5,6 @@ import { Roboto_Serif } from "next/font/google";
 import localFont from "next/font/local";
 import { cookies, headers } from "next/headers";
 
-import { Footer, Navbar } from "@/components/organisms";
-import { LanguageProvider } from "@/i18n";
 import { siteConfig, toAbsoluteUrl } from "@/lib/seo";
 
 import type { ReactNode } from "react";
@@ -115,11 +113,11 @@ export default async function RootLayout({
   const host = headerStore.get("x-forwarded-host") ?? headerStore.get("host");
   const localeFromHost = host?.toLowerCase().startsWith("en.") ? "en" : null;
   const localeCookie = cookieStore.get("kanaa_locale")?.value;
-  const initialLocale = localeFromHost ?? (localeCookie === "en" ? "en" : "es");
+  const lang = localeFromHost ?? (localeCookie === "en" ? "en" : "es");
 
   return (
     <html
-      lang={initialLocale}
+      lang={lang}
       className={`${robotoSerif.variable} ${gilroy.variable}`}
     >
       <head>
@@ -129,11 +127,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="bg-[url('/svg/main.svg')] bg-contain bg-top bg-repeat p-1.5 sm:p-4">
-        <LanguageProvider initialLocale={initialLocale}>
-          <Navbar />
-          {children}
-          <Footer />
-        </LanguageProvider>
+        {children}
       </body>
     </html>
   );

@@ -1,4 +1,3 @@
-
 import { HeroJoin, IdealVacancy, JoinOurTeam } from "@/components/templates";
 import { createPageMetadata } from "@/lib/seo";
 

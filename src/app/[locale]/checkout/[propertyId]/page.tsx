@@ -16,6 +16,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const params = useParams();
   const propertyId = params?.propertyId as string;
+  const locale = (params?.locale as string) ?? "es";
   const isCheckoutDisabled = true;
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
@@ -28,12 +29,12 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (isCheckoutDisabled) {
-      router.replace("/");
+      router.replace(`/${locale}`);
       return;
     }
     const savedBookingData = sessionStorage.getItem("bookingData");
     if (!savedBookingData) {
-      router.push(`/property/${propertyId}`);
+      router.push(`/${locale}/properties/${propertyId}`);
       return;
     }
 
@@ -104,7 +105,7 @@ export default function CheckoutPage() {
     };
 
     void initializeStripe();
-  }, [propertyId, router, isCheckoutDisabled]);
+  }, [propertyId, router, isCheckoutDisabled, locale]);
 
   const options: StripeElementsOptions | undefined = clientSecret
     ? {

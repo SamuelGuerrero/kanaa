@@ -1,4 +1,3 @@
-
 import { Text } from "@/components/atoms";
 import { createPageMetadata } from "@/lib/seo";
 

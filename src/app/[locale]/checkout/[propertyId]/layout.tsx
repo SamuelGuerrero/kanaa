@@ -3,7 +3,6 @@ import { createPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-
 export const metadata: Metadata = createPageMetadata({
   title: "Checkout",
   description: "Flujo de pago y confirmación de reserva.",
