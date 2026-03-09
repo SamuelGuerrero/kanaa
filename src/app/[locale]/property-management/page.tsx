@@ -54,7 +54,7 @@ export default async function HomePage({ params }: GestionPageProps) {
           className: "mt-10 text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light! !inline-flex",
-          href: `/${locale}/contactanos`,
+          href: `/${locale}/contact`,
         }}
       />
       <IntelligentManagement />
@@ -117,7 +117,7 @@ export default async function HomePage({ params }: GestionPageProps) {
           className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
-          href: `/${locale}/contactanos`,
+          href: `/${locale}/contact`,
         }}
       />
     </main>

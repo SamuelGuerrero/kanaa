@@ -34,7 +34,7 @@ export default function CheckoutPage() {
     }
     const savedBookingData = sessionStorage.getItem("bookingData");
     if (!savedBookingData) {
-      router.push(`/${locale}/propiedades/${propertyId}`);
+      router.push(`/${locale}/properties/${propertyId}`);
       return;
     }
 

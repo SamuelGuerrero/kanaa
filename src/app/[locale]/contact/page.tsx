@@ -41,7 +41,7 @@ export default async function HomePage({ params }: ContactanosPageProps) {
           className: "mt-10 bg-grey-light text-gold-normal!",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
-          href: `/${locale}/unete`,
+          href: `/${locale}/join`,
         }}
       />
     </main>

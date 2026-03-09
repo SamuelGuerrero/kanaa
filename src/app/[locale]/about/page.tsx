@@ -60,7 +60,7 @@ export default async function HomePage({ params }: NosotrosPageProps) {
           className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
-          href: `/${locale}/propiedades`,
+          href: `/${locale}/properties`,
         }}
       />
       <InfoSection
@@ -84,7 +84,7 @@ export default async function HomePage({ params }: NosotrosPageProps) {
           className: "text-gold-dark!",
           textWeight: "bold",
           circleButtonClassName: "bg-grey-light!",
-          href: `/${locale}/contactanos`,
+          href: `/${locale}/contact`,
         }}
       />
       <ExperienceInAction />
@@ -108,7 +108,7 @@ export default async function HomePage({ params }: NosotrosPageProps) {
           className: " bg-grey-light text-gold-normal!",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
-          href: `/${locale}/unete`,
+          href: `/${locale}/join`,
         }}
       />
     </main>

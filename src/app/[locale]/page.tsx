@@ -60,7 +60,7 @@ export default async function HomePage({ params }: HomePageProps) {
           className: " justify-center md:w-auto md:px-6 md:py-2",
           textWeight: "bold",
           circleButtonClassName: "bg-gold-light-active!",
-          href: `/${locale}/gestion-propiedades`,
+          href: `/${locale}/property-management`,
         }}
       />
 
@@ -79,7 +79,7 @@ export default async function HomePage({ params }: HomePageProps) {
           className:
             " justify-center md:w-auto md:px-6 md:py-2 text-gold-dark!",
           textWeight: "bold",
-          href: `/${locale}/calculadora`,
+          href: `/${locale}/calculator`,
         }}
       />
 
