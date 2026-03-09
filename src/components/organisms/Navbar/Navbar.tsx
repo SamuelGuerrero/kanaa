@@ -24,7 +24,7 @@ interface NavItemConfig {
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const { locale, setLocale, t } = useI18n();
+  const { locale, t } = useI18n();
 
   const isPropertiesPage =
     pathname.startsWith(`/${locale}/properties`) ||
@@ -249,7 +249,6 @@ export const Navbar = () => {
       : "text-white"
     : "text-white";
 
-  const otherLocale = locale === "es" ? "en" : "es";
 
   return (
     <>
@@ -356,15 +355,6 @@ export const Navbar = () => {
               </NavItem>
             );
           })}
-
-          <button
-            type="button"
-            onClick={() => setLocale(otherLocale)}
-            className="cursor-pointer text-sm font-medium uppercase opacity-70 transition-opacity hover:opacity-100"
-            aria-label={`Cambiar a ${otherLocale === "es" ? "Español" : "English"}`}
-          >
-            {otherLocale.toUpperCase()}
-          </button>
 
           <Button
             variant="primary"
@@ -492,22 +482,6 @@ export const Navbar = () => {
               </div>
             );
           })}
-
-          <button
-            type="button"
-            onClick={() => {
-              setLocale(otherLocale);
-              setIsMobileMenuOpen(false);
-            }}
-            className="flex cursor-pointer items-center gap-2 text-xl text-black"
-          >
-            <span className="font-medium uppercase">
-              {otherLocale.toUpperCase()}
-            </span>
-            <span className="text-sm text-black/50">
-              {otherLocale === "es" ? "Español" : "English"}
-            </span>
-          </button>
 
           <div onClick={() => setIsMobileMenuOpen(false)}>
             <Button
