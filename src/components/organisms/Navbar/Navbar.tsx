@@ -27,8 +27,8 @@ export const Navbar = () => {
   const { locale, setLocale, t } = useI18n();
 
   const isPropertiesPage =
-    pathname.startsWith(`/${locale}/propiedades`) ||
-    pathname.startsWith("/propiedades");
+    pathname.startsWith(`/${locale}/properties`) ||
+    pathname.startsWith("/properties");
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -214,9 +214,9 @@ export const Navbar = () => {
     {
       label: t("Propiedades"),
       items: [
-        { href: `/${locale}/propiedades`, label: t("En renta") },
+        { href: `/${locale}/properties`, label: t("En renta") },
         {
-          href: `/${locale}/propiedades/venta`,
+          href: `/${locale}/properties/sale`,
           label: t("En venta (próximamente)"),
           disabled: true,
         },
@@ -225,20 +225,20 @@ export const Navbar = () => {
     {
       label: t("Nosotros"),
       items: [
-        { href: `/${locale}/nosotros`, label: t("¿Quiénes somos?") },
+        { href: `/${locale}/about`, label: t("¿Quiénes somos?") },
         {
-          href: `/${locale}/unete`,
+          href: `/${locale}/join`,
           label: t("Trabaja con nosotros"),
         },
-        { href: `/${locale}/contactanos`, label: t("Contáctanos") },
+        { href: `/${locale}/contact`, label: t("Contáctanos") },
       ],
     },
     {
-      href: `/${locale}/gestion-propiedades`,
+      href: `/${locale}/property-management`,
       label: t("Gestión de propiedades"),
     },
     {
-      href: `/${locale}/calculadora`,
+      href: `/${locale}/calculator`,
       label: t("Calculadora de ingresos"),
     },
   ];
@@ -348,7 +348,7 @@ export const Navbar = () => {
                 href={item.href!}
                 active={
                   pathname === item.href ||
-                  (item.href === `/${locale}/propiedades` && isPropertiesPage)
+                  (item.href === `/${locale}/properties` && isPropertiesPage)
                 }
                 className={isPropertiesPage ? "text-green-normal!" : ""}
               >
@@ -368,7 +368,7 @@ export const Navbar = () => {
 
           <Button
             variant="primary"
-            href={`/${locale}/propiedades`}
+            href={`/${locale}/properties`}
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
@@ -481,7 +481,7 @@ export const Navbar = () => {
                   href={item.href!}
                   active={
                     pathname === item.href ||
-                    (item.href === `/${locale}/propiedades` && isPropertiesPage)
+                    (item.href === `/${locale}/properties` && isPropertiesPage)
                   }
                   className={`text-2xl text-black ${
                     isPropertiesPage ? "text-green-normal!" : ""
@@ -513,7 +513,7 @@ export const Navbar = () => {
             <Button
               variant="primary"
               className="mt-2 w-full justify-center"
-              href={`/${locale}/propiedades`}
+              href={`/${locale}/properties`}
               icon={
                 <CircleButton>
                   <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
