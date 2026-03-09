@@ -12,6 +12,7 @@ import { useRef, useState, useEffect } from "react";
 
 import { CircleButton, KanaaLogo, Text } from "@/components/atoms";
 import { Button, NavItem } from "@/components/molecules";
+import { useI18n } from "@/i18n";
 
 type DropdownItem = { href: string; label: string; disabled?: boolean };
 
@@ -23,7 +24,12 @@ interface NavItemConfig {
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const isPropertiesPage = pathname.startsWith("/propiedades");
+  const { locale, setLocale, t } = useI18n();
+
+  const isPropertiesPage =
+    pathname.startsWith(`/${locale}/propiedades`) ||
+    pathname.startsWith("/propiedades");
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLightBackground, setIsLightBackground] = useState(false);
@@ -146,7 +152,7 @@ export const Navbar = () => {
       const rect = navEl.getBoundingClientRect();
       const cy = rect.top + rect.height * 0.5;
       const colors = [0.1, 0.3, 0.5, 0.7, 0.9]
-        .map((t) => getColorAtPoint(rect.left + rect.width * t, cy))
+        .map((ratio) => getColorAtPoint(rect.left + rect.width * ratio, cy))
         .filter((c): c is NonNullable<typeof c> => c !== null);
 
       if (colors.length === 0) {
@@ -204,31 +210,37 @@ export const Navbar = () => {
   }, []);
 
   const navItems: NavItemConfig[] = [
-    { href: "/", label: "Inicio" },
+    { href: `/${locale}`, label: t("Inicio") },
     {
-      label: "Propiedades",
+      label: t("Propiedades"),
       items: [
-        { href: "/propiedades", label: "En renta" },
+        { href: `/${locale}/propiedades`, label: t("En renta") },
         {
-          href: "/propiedades/venta",
-          label: "En venta (próximamente)",
+          href: `/${locale}/propiedades/venta`,
+          label: t("En venta (próximamente)"),
           disabled: true,
         },
       ],
     },
     {
-      label: "Nosotros",
+      label: t("Nosotros"),
       items: [
-        { href: "/nosotros", label: "¿Quiénes somos?" },
+        { href: `/${locale}/nosotros`, label: t("¿Quiénes somos?") },
         {
-          href: "/unete",
-          label: "Trabaja con nosotros",
+          href: `/${locale}/unete`,
+          label: t("Trabaja con nosotros"),
         },
-        { href: "/contactanos", label: "Contáctanos" },
+        { href: `/${locale}/contactanos`, label: t("Contáctanos") },
       ],
     },
-    { href: "/gestion-propiedades", label: "Gestión de propiedades" },
-    { href: "/calculadora", label: "Calculadora de ingresos" },
+    {
+      href: `/${locale}/gestion-propiedades`,
+      label: t("Gestión de propiedades"),
+    },
+    {
+      href: `/${locale}/calculadora`,
+      label: t("Calculadora de ingresos"),
+    },
   ];
 
   const navTextClass = isMounted
@@ -236,6 +248,8 @@ export const Navbar = () => {
       ? "text-black"
       : "text-white"
     : "text-white";
+
+  const otherLocale = locale === "es" ? "en" : "es";
 
   return (
     <>
@@ -249,7 +263,7 @@ export const Navbar = () => {
             : "sm:top-8.5"
         }`}
       >
-        <Link href="/" aria-label="Ir al inicio">
+        <Link href={`/${locale}`} aria-label="Ir al inicio">
           <KanaaLogo />
         </Link>
 
@@ -262,7 +276,7 @@ export const Navbar = () => {
                     pathname === sub.href ||
                     pathname.startsWith(sub.href + "/"),
                 ) ||
-                (item.label === "Propiedades" && isPropertiesPage);
+                (item.label === t("Propiedades") && isPropertiesPage);
               const isOpen = openDropdown === item.label;
 
               return (
@@ -334,7 +348,7 @@ export const Navbar = () => {
                 href={item.href!}
                 active={
                   pathname === item.href ||
-                  (item.href === "/propiedades" && isPropertiesPage)
+                  (item.href === `/${locale}/propiedades` && isPropertiesPage)
                 }
                 className={isPropertiesPage ? "text-green-normal!" : ""}
               >
@@ -343,16 +357,25 @@ export const Navbar = () => {
             );
           })}
 
+          <button
+            type="button"
+            onClick={() => setLocale(otherLocale)}
+            className="cursor-pointer text-sm font-medium uppercase opacity-70 transition-opacity hover:opacity-100"
+            aria-label={`Cambiar a ${otherLocale === "es" ? "Español" : "English"}`}
+          >
+            {otherLocale.toUpperCase()}
+          </button>
+
           <Button
             variant="primary"
-            href="/propiedades"
+            href={`/${locale}/propiedades`}
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
               </CircleButton>
             }
           >
-            Reserva ahora
+            {t("Reserva ahora")}
           </Button>
         </div>
 
@@ -376,7 +399,7 @@ export const Navbar = () => {
         }`}
       >
         <div className="flex items-center justify-between">
-          <Link href="/" aria-label="Ir al inicio">
+          <Link href={`/${locale}`} aria-label="Ir al inicio">
             <KanaaLogo />
           </Link>
           <button
@@ -458,7 +481,7 @@ export const Navbar = () => {
                   href={item.href!}
                   active={
                     pathname === item.href ||
-                    (item.href === "/propiedades" && isPropertiesPage)
+                    (item.href === `/${locale}/propiedades` && isPropertiesPage)
                   }
                   className={`text-2xl text-black ${
                     isPropertiesPage ? "text-green-normal!" : ""
@@ -470,18 +493,34 @@ export const Navbar = () => {
             );
           })}
 
+          <button
+            type="button"
+            onClick={() => {
+              setLocale(otherLocale);
+              setIsMobileMenuOpen(false);
+            }}
+            className="flex cursor-pointer items-center gap-2 text-xl text-black"
+          >
+            <span className="font-medium uppercase">
+              {otherLocale.toUpperCase()}
+            </span>
+            <span className="text-sm text-black/50">
+              {otherLocale === "es" ? "Español" : "English"}
+            </span>
+          </button>
+
           <div onClick={() => setIsMobileMenuOpen(false)}>
             <Button
               variant="primary"
               className="mt-2 w-full justify-center"
-              href="/propiedades"
+              href={`/${locale}/propiedades`}
               icon={
                 <CircleButton>
                   <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
                 </CircleButton>
               }
             >
-              Reserva ahora
+              {t("Reserva ahora")}
             </Button>
           </div>
         </div>
