@@ -131,7 +131,7 @@ export const PropertyListTemplate = ({
                       price={property.price}
                       priceLabel="por noche"
                       listingId={property.id.toString()}
-                      onClick={() => router.push(`/propiedades/${property.id}`)}
+                      onClick={() => router.push(`/properties/${property.id}`)}
                     />
                   );
                 })}

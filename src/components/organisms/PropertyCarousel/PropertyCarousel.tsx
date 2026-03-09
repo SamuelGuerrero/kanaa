@@ -154,7 +154,7 @@ export const PropertyCarousel = ({
                         priceLabel="por noche"
                         listingId={property.id.toString()}
                         onClick={() =>
-                          router.push(`/propiedades/${property.id}`)
+                          router.push(`/properties/${property.id}`)
                         }
                       />
                     );
