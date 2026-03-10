@@ -15,7 +15,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Nosotros",
   description:
     "Conoce a Kanaa: equipo, enfoque operativo y visión para transformar propiedades en activos rentables y bien administrados.",
-  path: "/nosotros",
+  path: "/about",
 });
 
 type NosotrosPageProps = {

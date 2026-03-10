@@ -22,7 +22,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Gestión de Propiedades",
   description:
     "Servicio integral de gestión de alquiler vacacional: operación diaria, limpieza, mantenimiento y optimización de ocupación.",
-  path: "/gestion-propiedades",
+  path: "/property-management",
 });
 
 const METRICS: KeyMetricsProps["metrics"] = [

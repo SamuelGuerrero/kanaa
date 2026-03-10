@@ -30,7 +30,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Calculadora de Ingresos",
   description:
     "Calcula el potencial de ingresos anual de tu propiedad vacacional con datos estimados y recomendaciones de Kanaa.",
-  path: "/calculadora",
+  path: "/calculator",
 });
 
 const METRICS: KeyMetricsProps["metrics"] = [

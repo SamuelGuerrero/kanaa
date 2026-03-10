@@ -28,7 +28,7 @@ export async function generateMetadata({
     return createPageMetadata({
       title,
       description,
-      path: `/propiedades/${id}`,
+      path: `/properties/${id}`,
       image: toAbsoluteUrl(image),
     });
   } catch {
@@ -36,7 +36,7 @@ export async function generateMetadata({
       title: "Detalle de Propiedad",
       description:
         "Consulta amenidades, ubicación y disponibilidad de propiedades vacacionales administradas por Kanaa.",
-      path: `/propiedades/${id}`,
+      path: `/properties/${id}`,
     });
   }
 }

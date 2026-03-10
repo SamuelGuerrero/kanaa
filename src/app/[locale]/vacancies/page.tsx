@@ -7,7 +7,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Vacantes",
   description:
     "Consulta próximas vacantes en Kanaa para roles en operaciones, hospitalidad y crecimiento inmobiliario.",
-  path: "/vacantes",
+  path: "/vacancies",
 });
 
 export default function VacantesPage() {

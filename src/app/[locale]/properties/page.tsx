@@ -9,7 +9,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Propiedades Vacacionales",
   description:
     "Explora propiedades vacacionales administradas por Kanaa con información detallada, disponibilidad y amenidades.",
-  path: "/propiedades",
+  path: "/properties",
 });
 
 export default function PropertiesPage() {

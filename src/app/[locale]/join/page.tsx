@@ -7,7 +7,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Únete al Equipo",
   description:
     "Descubre oportunidades para formar parte del equipo Kanaa y construir proyectos con impacto en hospitalidad y real estate.",
-  path: "/unete",
+  path: "/join",
 });
 
 export default function HomePage() {

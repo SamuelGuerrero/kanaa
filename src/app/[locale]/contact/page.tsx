@@ -8,7 +8,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Contáctanos",
   description:
     "Habla con Kanaa para evaluar tu propiedad y conocer nuestra propuesta de gestión vacacional personalizada.",
-  path: "/contactanos",
+  path: "/contact",
 });
 
 type ContactanosPageProps = {
