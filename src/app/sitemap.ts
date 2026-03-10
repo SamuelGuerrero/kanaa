@@ -9,15 +9,15 @@ const STATIC_ROUTES: Array<{
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
   priority: number;
 }> = [
-  { path: "/", changeFrequency: "weekly", priority: 1 },
-  { path: "/propiedades", changeFrequency: "daily", priority: 0.9 },
-  { path: "/gestion-propiedades", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/calculadora", changeFrequency: "weekly", priority: 0.8 },
-  { path: "/nosotros", changeFrequency: "monthly", priority: 0.7 },
-  { path: "/contactanos", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/unete", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
-  { path: "/vacantes", changeFrequency: "weekly", priority: 0.5 },
+  { path: "/es", changeFrequency: "weekly", priority: 1 },
+  { path: "/es/properties", changeFrequency: "daily", priority: 0.9 },
+  { path: "/es/property-management", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/es/calculator", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/es/about", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/es/contact", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/es/join", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/es/blog", changeFrequency: "weekly", priority: 0.7 },
+  { path: "/es/vacancies", changeFrequency: "weekly", priority: 0.5 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -36,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const dynamicUrls: MetadataRoute.Sitemap = listings
       .filter((listing) => listing?.id)
       .map((listing) => ({
-        url: `${siteConfig.siteUrl}/propiedades/${listing.id}`,
+        url: `${siteConfig.siteUrl}/properties/${listing.id}`,
         lastModified: listing.latestActivityOn
           ? new Date(listing.latestActivityOn)
           : now,
