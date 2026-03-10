@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
@@ -10,6 +12,7 @@ import {
   type SocialLink,
 } from "@/components/molecules";
 import { LanguageSwitcher } from "@/components/organisms/LanguageSwitcher";
+import { useI18n } from "@/i18n";
 
 const SOCIAL_LINKS: SocialLink[] = [
   {
@@ -62,11 +65,13 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
 ];
 
 export const Footer = () => {
+  const { locale } = useI18n();
+
   return (
     <footer className="bg-green-dark-active mt-1.5 w-full px-8 py-5 md:mt-6 md:py-16">
       <div className="md:item-center flex w-full flex-col gap-12 md:flex-row">
         <div className="flex justify-center md:justify-start">
-          <Link href="/" aria-label="Ir al inicio">
+          <Link href={`/${locale}`} aria-label="Ir al inicio">
             <KanaaLogo />
           </Link>
         </div>
@@ -86,7 +91,7 @@ export const Footer = () => {
             variant="primary"
             textWeight="bold"
             className="text-gold-dark! flex w-full items-center justify-center self-end font-bold md:w-fit"
-            href="/contactanos"
+            href={`/${locale}/contact`}
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
