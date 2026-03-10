@@ -10,17 +10,17 @@ Este repositorio contiene el sitio de KANAA:
 
 - Landing comercial.
 - Secciones de propiedades y contenido.
-- Formularios de leads (`/contactanos`, `/gestion-propiedades`, `/unete`).
+- Formularios de leads (`/contact`, `/property-management`, `/join`).
 - Flujo de cálculo para estimar ingreso mensual de una propiedad.
 - Integraciones backend para enviar leads por correo y consumir servicios externos.
 
-Páginas principales:
+Páginas principales (con prefijo de locale `/es` o `/en`):
 
-- `/` Inicio.
-- `/gestion-propiedades` Captación de propietarios.
-- `/calculadora` Herramienta de estimación.
-- `/contactanos` Formulario de contacto.
-- `/nosotros`, `/unete`, `/vacantes`, `/propiedades`, `/blog`.
+- `/` → redirige automáticamente a `/{locale}`.
+- `/{locale}/property-management` Captación de propietarios.
+- `/{locale}/calculator` Herramienta de estimación.
+- `/{locale}/contact` Formulario de contacto.
+- `/{locale}/about`, `/{locale}/join`, `/{locale}/vacancies`, `/{locale}/properties`, `/{locale}/blog`.
 
 ## Modelo de negocio
 
