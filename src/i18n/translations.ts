@@ -428,6 +428,10 @@ export const enTranslations: Record<string, string> = {
   "Ingresa un nombre valido.": "Enter a valid name.",
   "No encontramos los datos de la propiedad.":
     "We couldn't find the property data.",
+  // Navbar
+  "En renta": "For rent",
+  "En venta (próximamente)": "For sale (coming soon)",
+  "Trabaja con nosotros": "Work with us",
 };
 
 const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
