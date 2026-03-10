@@ -83,7 +83,7 @@ export const FeaturedProperties = ({
         variant="primary"
         textWeight="bold"
         className="text-gold-normal-hover! mt-5 w-fit font-bold md:mt-10"
-        href="/propiedades"
+        href="/properties"
         icon={
           <CircleButton>
             <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

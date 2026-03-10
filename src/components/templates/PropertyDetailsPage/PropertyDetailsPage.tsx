@@ -38,7 +38,9 @@ export const PropertyDetailsPage = ({
           title="Dónde te vas a quedar"
           subtitle={`${property.city}, ${property.state}, ${property.country}`}
           mapTitle={
-            locale === "en" ? `Map of ${property.name}` : `Mapa de ${property.name}`
+            locale === "en"
+              ? `Map of ${property.name}`
+              : `Mapa de ${property.name}`
           }
           hasCoordinates={hasCoordinates}
           mapSrc={mapSrc}
@@ -61,7 +63,7 @@ export const PropertyDetailsPage = ({
         <PropertySuggestionsSection
           title="Algunas sugerencias"
           subtitle="Te pueden interesar otras casas para tu relajación."
-          ctaHref="/propiedades"
+          ctaHref="/properties"
           ctaLabel="Ver todos los alojamientos"
           listings={listings}
           loading={listingsLoading}

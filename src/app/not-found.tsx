@@ -8,7 +8,7 @@ export default function NotFound() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center">
       <span
         aria-hidden="true"
-        className="select-none font-gilroy text-[120px] leading-none font-bold text-green-light-active md:text-[180px]"
+        className="font-gilroy text-green-light-active text-[120px] leading-none font-bold select-none md:text-[180px]"
       >
         404
       </span>
@@ -18,16 +18,12 @@ export default function NotFound() {
         size="5xl"
         weight="bold"
         as="h1"
-        className="mt-2 text-green-normal"
+        className="text-green-normal mt-2"
       >
         Página no encontrada
       </Text>
 
-      <Text
-        font="gilroy"
-        size="lg"
-        className="mt-4 max-w-md text-grey-darker"
-      >
+      <Text font="gilroy" size="lg" className="text-grey-darker mt-4 max-w-md">
         Lo sentimos, la página que buscas no existe o fue movida.
       </Text>
 
@@ -37,7 +33,7 @@ export default function NotFound() {
           href="/"
           icon={
             <CircleButton>
-              <ArrowRightIcon className="w-5 text-gold-normal-hover drop-shadow-[0_0_0.5px_currentColor]" />
+              <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
             </CircleButton>
           }
         >
@@ -46,11 +42,11 @@ export default function NotFound() {
 
         <Button
           variant="secondary"
-          href="/propiedades"
-          className="border border-gold-light-active"
+          href="/properties"
+          className="border-gold-light-active border"
           icon={
             <CircleButton className="bg-gold-light-hover">
-              <ArrowRightIcon className="w-5 text-gold-normal-hover drop-shadow-[0_0_0.5px_currentColor]" />
+              <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
             </CircleButton>
           }
         >

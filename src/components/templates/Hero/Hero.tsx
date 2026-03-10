@@ -23,7 +23,7 @@ export const Hero = () => {
     params.append("adults", String(filters.guestCounts.adults));
     params.append("children", String(filters.guestCounts.children));
     params.append("infants", String(filters.guestCounts.infants));
-    router.push(`/propiedades?${params.toString()}`);
+    router.push(`/properties?${params.toString()}`);
   };
 
   return (

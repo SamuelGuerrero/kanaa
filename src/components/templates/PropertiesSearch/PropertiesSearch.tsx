@@ -142,13 +142,13 @@ export const PropertiesSearch = () => {
     params.append("children", String(filters.guestCounts.children));
     params.append("infants", String(filters.guestCounts.infants));
     params.set("page", "1");
-    router.push(`/propiedades?${params.toString()}`);
+    router.push(`/properties?${params.toString()}`);
   };
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(page));
-    router.push(`/propiedades?${params.toString()}`);
+    router.push(`/properties?${params.toString()}`);
   };
 
   return (
