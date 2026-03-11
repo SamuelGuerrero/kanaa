@@ -1,3 +1,4 @@
+import { Text } from "@/components/atoms";
 import { createPageMetadata } from "@/lib/seo";
 
 import type { Metadata } from "next";
@@ -289,20 +290,20 @@ export default async function TerminosCondicionesPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-green-dark-active px-6 py-16 text-center md:py-24">
-        <h1 className="text-3xl font-bold text-white md:text-5xl">
+      <section className="bg-green-dark-active px-6 pt-36 pb-16 text-center md:pt-44 md:pb-24">
+        <Text as="h1" size="5xl" weight="bold" className="text-white">
           {content.title}
-        </h1>
-        <p className="text-green-light-active mt-4 text-sm">
+        </Text>
+        <Text size="sm" className="text-green-light-active mt-4">
           {content.lastUpdated}
-        </p>
+        </Text>
       </section>
 
       {/* Intro */}
       <section className="bg-grey-light px-6 py-8">
-        <p className="mx-auto max-w-4xl text-center text-base leading-relaxed text-gray-700">
+        <Text font="gilroy" size="base" className="mx-auto max-w-4xl text-center leading-relaxed text-gray-700">
           {content.intro}
-        </p>
+        </Text>
       </section>
 
       {/* Content */}
@@ -310,9 +311,9 @@ export default async function TerminosCondicionesPage({ params }: Props) {
         <div className="space-y-10">
           {content.sections.map((section, index) => (
             <div key={index}>
-              <h2 className="text-green-normal mb-3 text-xl font-semibold md:text-2xl">
+              <Text as="h2" size="2xl" weight="semibold" className="text-green-normal mb-3">
                 {section.heading}
-              </h2>
+              </Text>
               <div
                 className="text-grey-darker leading-relaxed whitespace-pre-line"
                 dangerouslySetInnerHTML={{ __html: section.content }}
