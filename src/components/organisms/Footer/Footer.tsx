@@ -57,9 +57,9 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Legal",
     links: [
-      { href: "", label: "Política de privacidad" },
-      { href: "", label: "Términos y condiciones" },
-      { href: "", label: "Política de cookies" },
+      { href: "/politica-de-privacidad", label: "Política de privacidad" },
+      { href: "/terminos-y-condiciones", label: "Términos y condiciones" },
+      { href: "/politica-de-cookies", label: "Política de cookies" },
     ],
   },
 ];
@@ -81,7 +81,10 @@ export const Footer = () => {
             <FooterColumn
               key={section.title}
               title={section.title}
-              links={section.links}
+              links={section.links.map((link) => ({
+                ...link,
+                href: link.href ? `/${locale}${link.href}` : "",
+              }))}
             />
           ))}
         </div>

@@ -432,6 +432,11 @@ export const enTranslations: Record<string, string> = {
   "En renta": "For rent",
   "En venta (próximamente)": "For sale (coming soon)",
   "Trabaja con nosotros": "Work with us",
+  // Legal pages
+  "Aviso de Privacidad": "Privacy Notice",
+  "Última actualización: 2025": "Last updated: 2025",
+  "Términos y Condiciones": "Terms and Conditions",
+  "Política de Cookies": "Cookie Policy",
 };
 
 const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
