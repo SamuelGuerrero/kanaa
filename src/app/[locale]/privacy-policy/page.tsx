@@ -7,7 +7,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Política de privacidad | Kanaa",
   description:
     "Conoce cómo Kanaa recopila, usa y protege tus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.",
-  path: "/politica-de-privacidad",
+  path: "/privacy-policy",
   keywords: [
     "política de privacidad",
     "aviso de privacidad",

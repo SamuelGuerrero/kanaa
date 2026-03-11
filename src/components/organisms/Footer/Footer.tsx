@@ -57,9 +57,9 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Legal",
     links: [
-      { href: "/politica-de-privacidad", label: "Política de privacidad" },
-      { href: "/terminos-y-condiciones", label: "Términos y condiciones" },
-      { href: "/politica-de-cookies", label: "Política de cookies" },
+      { href: "/privacy-policy", label: "Política de privacidad" },
+      { href: "/terms-and-conditions", label: "Términos y condiciones" },
+      { href: "/cookie-policy", label: "Política de cookies" },
     ],
   },
 ];

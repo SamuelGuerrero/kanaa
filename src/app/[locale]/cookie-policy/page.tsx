@@ -7,7 +7,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Política de cookies | Kanaa",
   description:
     "Información sobre el uso de cookies en el sitio web de Kanaa, incluyendo tipos de cookies, finalidades y cómo gestionarlas o desactivarlas.",
-  path: "/politica-de-cookies",
+  path: "/cookie-policy",
   keywords: [
     "política de cookies",
     "cookies",

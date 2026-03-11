@@ -7,7 +7,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Términos y condiciones | Kanaa",
   description:
     "Lee los términos y condiciones de uso de la plataforma y servicios de Kanaa, incluyendo reservas, cancelaciones, reglas de la casa y responsabilidades.",
-  path: "/terminos-y-condiciones",
+  path: "/terms-and-conditions",
   keywords: [
     "términos y condiciones",
     "condiciones de uso",
