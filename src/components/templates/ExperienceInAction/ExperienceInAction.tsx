@@ -1,4 +1,10 @@
-import { IconApplied, Text } from "@/components/atoms";
+import {
+  FileDockSearchIcon,
+  FrameIcon,
+  GpsFixedIcon,
+  GroupIcon,
+  Text,
+} from "@/components/atoms";
 import { AppliedExperience, type Experience } from "@/components/molecules";
 
 export const experiences: Experience[] = [
@@ -7,28 +13,28 @@ export const experiences: Experience[] = [
     title: "Selección estratégica",
     description:
       "Identificamos ubicaciones con alto  potencial de rentabilidad y  demanda turística sostenible.",
-    Icon: IconApplied,
+    Icon: FrameIcon,
   },
   {
     id: 2,
     title: "Desarrollo inteligente",
     description:
       "Optimizamos propiedades  funcionales y atractivas para el  mercado vacacional.",
-    Icon: IconApplied,
+    Icon: GpsFixedIcon,
   },
   {
     id: 3,
     title: "Gestión eficiente",
     description:
       "Administramos con foco en  ingresos, ocupación y experiencia  del huésped.",
-    Icon: IconApplied,
+    Icon: GroupIcon,
   },
   {
     id: 4,
     title: "Oportunidades claras",
     description:
       "Trabajamos con esquemas  transparentes y decisiones  basadas en datos.",
-    Icon: IconApplied,
+    Icon: FileDockSearchIcon,
   },
 ];
 
