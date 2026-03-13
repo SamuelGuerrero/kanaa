@@ -7,3 +7,4 @@ export * from "./IconAppliedExperience";
 export * from "./FileDockSearchIcon";
 export * from "./FrameIcon";
 export * from "./GpsFixedIcon";
+export * from "./GroupIcon";
