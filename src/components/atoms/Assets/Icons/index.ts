@@ -5,3 +5,4 @@ export * from "./TrendingIcon";
 export * from "./PotentialRevenueCalculator";
 export * from "./IconAppliedExperience";
 export * from "./FileDockSearchIcon";
+export * from "./FrameIcon";
