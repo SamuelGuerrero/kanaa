@@ -3,6 +3,7 @@ import {
   HeroNosotros,
   InfoSection,
 } from "@/components/templates";
+import { getAboutData } from "@/lib/strapi";
 import { createPageMetadata } from "@/lib/seo";
 import JoinOurTeam from "@assets/images/Home/JoinOurTeam.png";
 import WhoAreWe from "@assets/images/Home/WhoAreWe.png";
@@ -24,10 +25,15 @@ type NosotrosPageProps = {
 
 export default async function HomePage({ params }: NosotrosPageProps) {
   const { locale } = await params;
+  const cms = await getAboutData(locale);
 
   return (
     <main className="flex flex-col space-y-1.5 md:space-y-6">
-      <HeroNosotros />
+      <HeroNosotros
+        title={cms?.hero_title}
+        subtitle={cms?.hero_subtitle}
+        buttonLabel={cms?.hero_button_label}
+      />
       <InfoSection
         title="¿Quiénes somos?"
         description="Somos una empresa especializada en gestión integral de alquileres
@@ -87,7 +93,11 @@ export default async function HomePage({ params }: NosotrosPageProps) {
           href: `/${locale}/contact`,
         }}
       />
-      <ExperienceInAction />
+      <ExperienceInAction
+        title={cms?.experience_title}
+        subtitle={cms?.experience_subtitle}
+        steps={cms?.experience_steps}
+      />
       <InfoSection
         title="Únete a nuestro equipo"
         description="En Kanaa buscamos personas que compartan nuestra visión:

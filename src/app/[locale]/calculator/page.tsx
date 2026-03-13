@@ -18,6 +18,7 @@ import {
   type KeyMetricsProps,
 } from "@/components/templates";
 import { DataCalculator } from "@/data/faqData";
+import { getCalculatorData } from "@/lib/strapi";
 import { createPageMetadata } from "@/lib/seo";
 import ChooseKANNA from "@assets/images/Home/ChooseKANNA.png";
 import ReservationManagement from "@assets/images/Home/ReservationManagement.png";
@@ -38,10 +39,18 @@ const METRICS: KeyMetricsProps["metrics"] = [
   { value: "+2", label: "Años de experiencia" },
 ];
 
-export default function HomePage() {
+type Props = { params: Promise<{ locale: string }> };
+
+export default async function HomePage({ params }: Props) {
+  const { locale } = await params;
+  const cms = await getCalculatorData(locale);
+
   return (
     <main className="flex flex-col space-y-1.5 md:space-y-6">
-      <EarningsCalculator />
+      <EarningsCalculator
+        title={cms?.hero_title}
+        subtitle={cms?.hero_subtitle}
+      />
       <InfoSection
         title="¿Por qué elegir Kanaa para gestionar tu propiedad?"
         description="Porque cuidamos tu propiedad, optimizamos tus ingresos y nos encargamos de todo para que tú disfrutes tranquilidad y resultados."

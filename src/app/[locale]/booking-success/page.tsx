@@ -1,4 +1,5 @@
 import { Text } from "@/components/atoms";
+import { getBookingSuccessData } from "@/lib/strapi";
 import { createPageMetadata } from "@/lib/seo";
 
 import type { Metadata } from "next";
@@ -10,14 +11,19 @@ export const metadata: Metadata = createPageMetadata({
   noIndex: true,
 });
 
-export default function BookingSuccessPage() {
+type Props = { params: Promise<{ locale: string }> };
+
+export default async function BookingSuccessPage({ params }: Props) {
+  const { locale } = await params;
+  const cms = await getBookingSuccessData(locale);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center">
       <Text size="5xl" className="text-green-normal">
-        Reserva confirmada
+        {cms?.heading ?? "Reserva confirmada"}
       </Text>
       <Text font="gilroy" size="lg" className="text-grey-darker mt-4">
-        Gracias por tu reserva. Te enviaremos los detalles por correo.
+        {cms?.subtitle ?? "Gracias por tu reserva. Te enviaremos los detalles por correo."}
       </Text>
     </main>
   );

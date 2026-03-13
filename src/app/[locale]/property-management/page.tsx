@@ -10,6 +10,7 @@ import {
   type KeyMetricsProps,
 } from "@/components/templates";
 import { DataPropertyManagment } from "@/data/faqData";
+import { getPropertyManagementData } from "@/lib/strapi";
 import { createPageMetadata } from "@/lib/seo";
 import PeaceAndResults from "@assets/images/Home/PeaceAndResults.png";
 import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
@@ -36,10 +37,14 @@ type GestionPageProps = {
 
 export default async function HomePage({ params }: GestionPageProps) {
   const { locale } = await params;
+  const cms = await getPropertyManagementData(locale);
 
   return (
     <main className="flex flex-col space-y-1.5 md:space-y-6">
-      <BecomeHost />
+      <BecomeHost
+        title={cms?.hero_title}
+        subtitle={cms?.hero_subtitle}
+      />
       <InfoSection
         title="Pensado para quienes buscan tranquilidad y resultados"
         description="Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de tu propiedad."
@@ -57,7 +62,10 @@ export default async function HomePage({ params }: GestionPageProps) {
           href: `/${locale}/contact`,
         }}
       />
-      <IntelligentManagement />
+      <IntelligentManagement
+        title={cms?.intelligent_title}
+        description={cms?.intelligent_description}
+      />
       <RealPropertyPotential
         title="Descubre el verdadero valor de tu alquiler vacacional."
         description="Completa el formulario a continuación para obtener una  estimación personalizada de tus ingresos anuales."

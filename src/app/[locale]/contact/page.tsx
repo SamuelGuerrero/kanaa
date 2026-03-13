@@ -1,4 +1,5 @@
 import { InfoSection, ProjectConversation } from "@/components/templates";
+import { getContactData } from "@/lib/strapi";
 import { createPageMetadata } from "@/lib/seo";
 import TeamRecruitment from "@assets/images/Home/TeamRecruitment.png";
 
@@ -17,10 +18,14 @@ type ContactanosPageProps = {
 
 export default async function HomePage({ params }: ContactanosPageProps) {
   const { locale } = await params;
+  const cms = await getContactData(locale);
 
   return (
     <main className="flex flex-col space-y-1.5 md:space-y-6">
-      <ProjectConversation />
+      <ProjectConversation
+        title={cms?.form_title}
+        subtitle={cms?.form_description}
+      />
       <InfoSection
         title="Únete a nuestro equipo"
         description="En Kanaa buscamos personas que compartan nuestra visión: <br />
