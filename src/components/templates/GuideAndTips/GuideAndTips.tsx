@@ -6,7 +6,7 @@ import GuideAndTip1 from "@assets/images/Home/GuideAndTip1.png";
 import GuideAndTip2 from "@assets/images/Home/GuideAndTip2.png";
 import GuideAndTip3 from "@assets/images/Home/GuideAndTip3.png";
 
-const CardGrid: GuideCardProps[] = [
+const FALLBACK_CARDS: GuideCardProps[] = [
   {
     name: "Los mejores planes de fin de semana en Mérida",
     category: "Para viajeros",
@@ -27,17 +27,45 @@ const CardGrid: GuideCardProps[] = [
   },
 ];
 
-export const GuideAndTips = () => {
+type CmsCard = {
+  name: string;
+  category: string;
+  date: string;
+  imageUrl?: string;
+};
+
+type GuideAndTipsProps = {
+  title?: string | null;
+  subtitle?: string | null;
+  buttonLabel?: string | null;
+  cards?: CmsCard[];
+};
+
+export const GuideAndTips = ({
+  title,
+  subtitle,
+  buttonLabel,
+  cards,
+}: GuideAndTipsProps) => {
+  const displayCards: GuideCardProps[] = cards
+    ? cards.map((c) => ({
+        name: c.name,
+        category: c.category,
+        date: c.date,
+        ...(c.imageUrl ? { imageUrl: c.imageUrl } : {}),
+      }))
+    : FALLBACK_CARDS;
+
   return (
     <section className="bg-green-dark-hover text-grey-light flex w-full flex-col px-4 py-7 sm:py-5 md:items-center md:py-20 md:text-center">
       <Text className="mb-5 md:mb-8" weight="medium" size="5xl">
-        Guías y consejos para viajeros y propietarios
+        {title ?? "Guías y consejos para viajeros y propietarios"}
       </Text>
       <Text className="mb-8" size="lg" font="gilroy">
-        Planifica la estancia perfecta y saca el máximo provecho a tu propiedad.
+        {subtitle ?? "Planifica la estancia perfecta y saca el máximo provecho a tu propiedad."}
       </Text>
       <div className="flex flex-col justify-center gap-5 lg:flex-row">
-        {CardGrid.map((card, index) => (
+        {displayCards.map((card, index) => (
           <GuideCard key={index} {...card} />
         ))}
       </div>
@@ -53,7 +81,7 @@ export const GuideAndTips = () => {
           </CircleButton>
         }
       >
-        Visita nuestro blog
+        {buttonLabel ?? "Visita nuestro blog"}
       </Button>
     </section>
   );

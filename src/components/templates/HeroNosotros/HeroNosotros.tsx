@@ -5,7 +5,17 @@ import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
 import HeroNosotrosBg from "@assets/images/Home/HeroNosotrosBg.png";
 
-export const HeroNosotros = () => {
+type Props = {
+  title?: string;
+  subtitle?: string;
+  buttonLabel?: string;
+};
+
+export const HeroNosotros = ({
+  title = "Alquileres vacacionales fáciles",
+  subtitle = "Agilizamos la gestión del alquiler vacacional para garantizar la tranquilidad y experiencias inolvidables a los huéspedes.",
+  buttonLabel = "Conoce nuestros proyectos",
+}: Props) => {
   return (
     <section
       className="relative h-130 w-full sm:h-200"
@@ -21,7 +31,7 @@ export const HeroNosotros = () => {
 
       <div className="relative z-10 mt-6 flex h-full w-full flex-col justify-center px-3 text-white sm:-mt-25 md:mt-0 md:ml-0 md:min-h-screen md:w-full md:items-center md:py-45">
         <Text className="sm:text-center" size="6xl" weight="medium">
-          Alquileres vacacionales fáciles
+          {title}
         </Text>
 
         <Text
@@ -30,8 +40,7 @@ export const HeroNosotros = () => {
           font="gilroy"
           weight="medium"
         >
-          Agilizamos la gestión del alquiler vacacional para garantizar la
-          tranquilidad y experiencias inolvidables a los huéspedes.
+          {subtitle}
         </Text>
         <Button
           textWeight="bold"
@@ -44,7 +53,7 @@ export const HeroNosotros = () => {
             </CircleButton>
           }
         >
-          Conoce nuestros proyectos
+          {buttonLabel}
         </Button>
       </div>
     </section>

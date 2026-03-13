@@ -4,7 +4,15 @@ import { Text } from "@/components/atoms";
 import { EarningsCalculatorForm } from "@/components/organisms";
 import calculadoraHeroBg from "@assets/images/Home/calculadoraHeroBg.png";
 
-export const EarningsCalculator = () => {
+type Props = {
+  title?: string;
+  subtitle?: string;
+};
+
+export const EarningsCalculator = ({
+  title = "Descubre cuánto puede generar tu propiedad",
+  subtitle = "Calcula el potencial de ingresos de tu inmueble en minutos y recibe una estimación anual personalizada, clara y transparente.",
+}: Props) => {
   return (
     <section className="relative h-230 w-full sm:h-200" data-navbar-theme="dark">
       <div className="absolute inset-0">
@@ -28,7 +36,7 @@ export const EarningsCalculator = () => {
             className="mt-15 max-w-132.5 text-white md:mt-20 md:leading-18"
             weight="medium"
           >
-            Descubre cuánto puede generar tu propiedad
+            {title}
           </Text>
 
           <Text
@@ -37,8 +45,7 @@ export const EarningsCalculator = () => {
             font="gilroy"
             weight="medium"
           >
-            Calcula el potencial de ingresos de tu inmueble en minutos y recibe
-            una estimación anual personalizada, clara y transparente.
+            {subtitle}
           </Text>
         </div>
 

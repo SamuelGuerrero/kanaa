@@ -32,11 +32,27 @@ export const experiences: Experience[] = [
   },
 ];
 
-export const ExperienceInAction = () => {
+type Step = { title?: string; description?: string };
+
+type Props = {
+  title?: string;
+  subtitle?: string;
+  steps?: Step[];
+};
+
+export const ExperienceInAction = ({
+  title = "Nuestra experiencia en acción",
+  subtitle = "Acompañamos cada proyecto desde su origen hasta su operación, cuidando cada etapa del proceso para maximizar su valor",
+  steps,
+}: Props) => {
+  const displayExperiences: Experience[] = steps?.length
+    ? steps.map((s, i) => ({ id: i + 1, title: s.title ?? "", description: s.description ?? "", Icon: IconApplied }))
+    : experiences;
+
   return (
     <section className="flex flex-col items-center bg-white px-4 py-8 md:py-16">
       <Text size="5xl" className="text-green-normal">
-        Nuestra experiencia en acción
+        {title}
       </Text>
       <Text
         font="gilroy"
@@ -44,11 +60,10 @@ export const ExperienceInAction = () => {
         className="text-grey-darker mt-6 mb-8"
         weight="medium"
       >
-        Acompañamos cada proyecto desde su origen hasta su operación, cuidando
-        cada etapa del proceso para maximizar su valor
+        {subtitle}
       </Text>
       <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {experiences.map((exp) => (
+        {displayExperiences.map((exp) => (
           <AppliedExperience key={exp.id} experience={exp} />
         ))}
       </div>

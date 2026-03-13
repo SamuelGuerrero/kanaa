@@ -40,19 +40,35 @@ const Jobs: JobCardProps[] = [
   },
 ];
 
-export const JoinOurTeam = () => {
+type CmsJob = { title: string; job_type: string; description: string };
+
+type Props = {
+  title?: string;
+  subtitle?: string;
+  jobs?: CmsJob[];
+};
+
+export const JoinOurTeam = ({
+  title = "Únete a nuestro equipo",
+  subtitle = "En Kanaa buscamos personas que compartan nuestra visión:",
+  jobs,
+}: Props) => {
+  const displayJobs: JobCardProps[] = jobs?.length
+    ? jobs.map((j) => ({ title: j.title, type: j.job_type, description: j.description }))
+    : Jobs;
+
   return (
     <section className="flex flex-col bg-white px-2 py-5 md:py-16">
       <div className="md:mt-5 md:w-full md:text-center">
         <Text size="5xl" weight="medium" className="text-green-normal">
-          Únete a nuestro equipo
+          {title}
         </Text>
         <Text className="text-grey-darker mt-5" size="lg" font="gilroy">
-          En Kanaa buscamos personas que compartan nuestra visión:
+          {subtitle}
         </Text>
       </div>
       <div className="max-w-8xl mx-auto space-y-3 px-1 pt-8">
-        {Jobs.map((job, index) => (
+        {displayJobs.map((job, index) => (
           <CardJob key={index} {...job} />
         ))}
       </div>

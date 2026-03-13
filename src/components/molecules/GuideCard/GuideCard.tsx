@@ -6,17 +6,23 @@ export type GuideCardProps = {
   name: string;
   category: string;
   date: string;
-  image: StaticImageData;
+  image?: StaticImageData;
+  imageUrl?: string;
 };
 
-export const GuideCard = ({ name, image, category, date }: GuideCardProps) => {
+export const GuideCard = ({ name, image, imageUrl, category, date }: GuideCardProps) => {
+  const src = imageUrl ?? image;
   return (
     <div className="mx-auto w-full rounded-xl border bg-white p-2 pb-4 text-left lg:h-120 lg:w-98 lg:p-0">
-      <Image
-        className="mx-auto w-full rounded-xl rounded-b-none lg:mt-4 lg:h-60 lg:w-90 lg:rounded-none"
-        src={image}
-        alt={name}
-      />
+      {src && (
+        <Image
+          className="mx-auto w-full rounded-xl rounded-b-none lg:mt-4 lg:h-60 lg:w-90 lg:rounded-none"
+          src={src}
+          alt={name}
+          width={imageUrl ? 360 : undefined}
+          height={imageUrl ? 240 : undefined}
+        />
+      )}
 
       <div className="mx-6 mt-5">
         <div className="bg-green-light inline-block rounded-3xl p-2 py-1.5">

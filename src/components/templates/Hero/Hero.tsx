@@ -7,7 +7,13 @@ import { Text } from "@/components/atoms";
 import { ReservationSearch } from "@/components/organisms";
 import HeroBackground from "@assets/images/Home/HeroBackground.png";
 
-export const Hero = () => {
+type HeroProps = {
+  title?: string | null;
+  subtitle?: string | null;
+  backgroundImageUrl?: string | null;
+};
+
+export const Hero = ({ title, subtitle, backgroundImageUrl }: HeroProps) => {
   const router = useRouter();
 
   const handleSearch = (filters: {
@@ -28,21 +34,31 @@ export const Hero = () => {
 
   return (
     <section className="relative min-h-200 w-full sm:min-h-screen">
-      <Image
-        src={HeroBackground}
-        alt="Hero background"
-        fill
-        priority
-        className="object-cover"
-      />
+      {backgroundImageUrl ? (
+        <Image
+          src={backgroundImageUrl}
+          alt="Hero background"
+          fill
+          priority
+          className="object-cover"
+        />
+      ) : (
+        <Image
+          src={HeroBackground}
+          alt="Hero background"
+          fill
+          priority
+          className="object-cover"
+        />
+      )}
 
       <div className="relative z-10 mt-8 flex min-h-170 flex-col items-center justify-center px-4 pt-20 text-center text-white sm:mt-0 sm:min-h-screen sm:pt-0">
         <Text className="max-w-175" size="6xl">
-          Siéntete como en casa, en cualquier lugar
+          {title ?? "Siéntete como en casa, en cualquier lugar"}
         </Text>
 
         <Text size="xl" className="mt-8 mb-10" font="gilroy" weight="medium">
-          Encuentra tu próxima casa de descanso.
+          {subtitle ?? "Encuentra tu próxima casa de descanso."}
         </Text>
         <ReservationSearch onSearch={handleSearch} />
       </div>

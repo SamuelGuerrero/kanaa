@@ -19,9 +19,10 @@ type ImageConfig = {
 };
 
 type ImageProps =
-  | { image: StaticImageData; imageAlt: string; imagesConfig?: never }
-  | { imagesConfig: ImageConfig[]; image?: never; imageAlt?: never }
-  | { image?: never; imageAlt?: never; imagesConfig?: never };
+  | { image: StaticImageData; imageUrl?: never; imageAlt: string; imagesConfig?: never }
+  | { imageUrl: string; image?: never; imageAlt: string; imagesConfig?: never }
+  | { imagesConfig: ImageConfig[]; image?: never; imageUrl?: never; imageAlt?: never }
+  | { image?: never; imageUrl?: never; imageAlt?: never; imagesConfig?: never };
 
 type InfoSectionProps = ImageProps & {
   title: string;
@@ -48,6 +49,7 @@ export const InfoSection = ({
   title,
   description,
   image,
+  imageUrl,
   imageAlt,
   imagesConfig,
   imagePosition = "right",
@@ -154,6 +156,15 @@ export const InfoSection = ({
             />
           ))}
         </div>
+      ) : imageUrl && imageAlt ? (
+        <Image
+          src={imageUrl}
+          alt={imageAlt}
+          className={`h-auto w-full object-contain ${imageClassName ?? ""}`}
+          width={800}
+          height={600}
+          priority
+        />
       ) : image && imageAlt ? (
         <Image
           src={image}

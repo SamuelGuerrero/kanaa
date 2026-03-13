@@ -4,7 +4,15 @@ import { Text } from "@/components/atoms";
 import { BecomeHostForm } from "@/components/organisms";
 import BecomeHostBG from "@assets/images/Home/BecomeHostBG.png";
 
-export const BecomeHost = () => {
+type Props = {
+  title?: string;
+  subtitle?: string;
+};
+
+export const BecomeHost = ({
+  title = "Convierte tu propiedad en un activo rentable",
+  subtitle = "Administra tu propiedad sin complicaciones y con el respaldo de expertos en rentas de alta demanda.",
+}: Props) => {
   return (
     <section
       className="relative h-225 w-full sm:h-200"
@@ -30,7 +38,7 @@ export const BecomeHost = () => {
             className="mt-15 text-white md:mt-20 md:leading-18"
             weight="medium"
           >
-            Convierte tu propiedad en un activo rentable
+            {title}
           </Text>
 
           <Text
@@ -39,8 +47,7 @@ export const BecomeHost = () => {
             font="gilroy"
             weight="medium"
           >
-            Administra tu propiedad sin complicaciones y con el respaldo de
-            expertos en rentas de alta demanda.
+            {subtitle}
           </Text>
         </div>
 

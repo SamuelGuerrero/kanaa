@@ -6,23 +6,41 @@ import { Button } from "@/components/molecules";
 import LeftValueProposition from "@assets/images/Home/LeftValueProposition.png";
 import RightValueProposition from "@assets/images/Home/RightValueProposition.png";
 
-export const ValueProposition = () => {
+type ValuePropositionProps = {
+  title?: string | null;
+  description?: string | null;
+  buttonLabel?: string | null;
+  leftImageUrl?: string | null;
+  rightImageUrl?: string | null;
+};
+
+export const ValueProposition = ({
+  title,
+  description,
+  buttonLabel,
+  leftImageUrl,
+  rightImageUrl,
+}: ValuePropositionProps) => {
   return (
     <section className="flex w-full flex-col gap-5 md:grid md:grid-cols-2">
       <div className="w-full">
         <Image
-          src={LeftValueProposition}
+          src={leftImageUrl ?? LeftValueProposition}
           alt="Left Value Proposition"
           className="h-auto w-full object-contain"
+          width={leftImageUrl ? 800 : undefined}
+          height={leftImageUrl ? 600 : undefined}
           priority
         />
       </div>
 
       <div className="flex w-full flex-col">
         <Image
-          src={RightValueProposition}
+          src={rightImageUrl ?? RightValueProposition}
           alt="Right Value Proposition"
           className="order-3 h-auto w-full object-contain md:order-1"
+          width={rightImageUrl ? 800 : undefined}
+          height={rightImageUrl ? 600 : undefined}
           priority
         />
 
@@ -31,7 +49,7 @@ export const ValueProposition = () => {
             size="5xl"
             className="text-green-normal mb-5 max-w-125 md:leading-[66.2px]"
           >
-            Más que hospedaje, una mejor forma de descansar
+            {title ?? "Más que hospedaje, una mejor forma de descansar"}
           </Text>
 
           <Text
@@ -39,8 +57,8 @@ export const ValueProposition = () => {
             size="lg"
             className="text-grey-darker mb-5 max-w-145 leading-8"
           >
-            En Kanaa disfrutas espacios cómodos, tranquilos y pensados para que
-            te relajes desde el primer momento.
+            {description ??
+              "En Kanaa disfrutas espacios cómodos, tranquilos y pensados para que te relajes desde el primer momento."}
           </Text>
 
           <Button
@@ -53,7 +71,7 @@ export const ValueProposition = () => {
               </CircleButton>
             }
           >
-            Ver alojamientos
+            {buttonLabel ?? "Ver alojamientos"}
           </Button>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { Text } from "@/components/atoms";
 import { TestimonialCarousel, type Testimonial } from "@/components/organisms";
 import { useItemsPerPage } from "@/hooks/useItemsPerPage";
 
-const mockTestimonials: Testimonial[] = [
+const FALLBACK_TESTIMONIALS: Testimonial[] = [
   {
     id: 1,
     name: "Kseniia",
@@ -99,25 +99,34 @@ const mockTestimonials: Testimonial[] = [
   },
 ];
 
-export const BackedExperience = () => {
+type BackedExperienceProps = {
+  title?: string | null;
+  subtitle?: string | null;
+  testimonials?: Testimonial[];
+};
+
+export const BackedExperience = ({
+  title,
+  subtitle,
+  testimonials,
+}: BackedExperienceProps) => {
+  const source = testimonials ?? FALLBACK_TESTIMONIALS;
   const itemsPerPage = useItemsPerPage(1, 3);
-  const [displayedTestimonials, setDisplayedTestimonials] =
-    useState(mockTestimonials);
+  const [displayedTestimonials, setDisplayedTestimonials] = useState(source);
 
   useEffect(() => {
-    setDisplayedTestimonials(
-      itemsPerPage === 1 ? mockTestimonials.slice(0, 3) : mockTestimonials,
-    );
-  }, [itemsPerPage]);
+    setDisplayedTestimonials(itemsPerPage === 1 ? source.slice(0, 3) : source);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemsPerPage, testimonials]);
 
   return (
     <section className="flex flex-col items-center bg-white px-4 py-5 md:py-16 md:text-center">
       <Text size="5xl" className="text-green-normal mr-10">
-        Experiencias que nos respaldan
+        {title ?? "Experiencias que nos respaldan"}
       </Text>
       <Text font="gilroy" size="lg" className="text-grey-darker mt-6 mr-5 mb-8">
-        Huéspedes y propietarios comparten cómo Kanaa transformó su forma de
-        viajar y de gestionar sus propiedades.
+        {subtitle ??
+          "Huéspedes y propietarios comparten cómo Kanaa transformó su forma de viajar y de gestionar sus propiedades."}
       </Text>
       <TestimonialCarousel
         testimonials={displayedTestimonials}

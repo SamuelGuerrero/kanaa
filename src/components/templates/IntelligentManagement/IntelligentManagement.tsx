@@ -5,11 +5,19 @@ import IntelligentManagement1 from "@assets/images/Home/IntelligentManagement1.p
 import IntelligentManagement2 from "@assets/images/Home/IntelligentManagement2.png";
 import IntelligentManagement3 from "@assets/images/Home/IntelligentManagement3.png";
 
-export const IntelligentManagement = () => {
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+export const IntelligentManagement = ({
+  title = "Gestión inteligente de propiedades",
+  description = "Ayudamos a propietarios a maximizar el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo.",
+}: Props) => {
   return (
     <section className="bg-gold-light mx-3 pt-5 pb-3 md:pt-15 md:pb-10 md:text-center">
       <Text size="5xl" weight="medium" className="text-green-normal">
-        Gestión inteligente de propiedades
+        {title}
       </Text>
 
       <div className="my-8 grid gap-2 md:my-10">
@@ -19,10 +27,7 @@ export const IntelligentManagement = () => {
           weight="medium"
           className="text-grey-darker mx-auto sm:w-242.5"
         >
-          Ayudamos a propietarios a maximizar el potencial de sus inmuebles a
-          través de un modelo de gestión profesional, transparente y respaldado
-          por datos. Desde la estrategia de renta hasta la operación diaria, nos
-          ocupamos de todo.
+          {description}
         </Text>
       </div>
 

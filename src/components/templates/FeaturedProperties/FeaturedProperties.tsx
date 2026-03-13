@@ -17,10 +17,17 @@ import type { ApiResponse, Property } from "@/types/property";
 type FeaturedPropertiesProps = DetailedHTMLProps<
   HTMLAttributes<HTMLElement>,
   HTMLElement
-> & {};
+> & {
+  title?: string | null;
+  subtitle?: string | null;
+  buttonLabel?: string | null;
+};
 
 export const FeaturedProperties = ({
   className,
+  title,
+  subtitle,
+  buttonLabel,
   ...rest
 }: FeaturedPropertiesProps) => {
   const [listings, setListings] = useState<Property[]>([]);
@@ -72,11 +79,11 @@ export const FeaturedProperties = ({
       {...rest}
     >
       <Text size="5xl" className="text-green-normal mb-5">
-        Conoce nuestros alojamientos
+        {title ?? "Conoce nuestros alojamientos"}
       </Text>
       <Text size="lg" font="gilroy" className="text-grey-darker">
-        Todos nuestros alojamientos están pensados para que disfrutes de una
-        estadía placentera y relajante.
+        {subtitle ??
+          "Todos nuestros alojamientos están pensados para que disfrutes de una estadía placentera y relajante."}
       </Text>
 
       <Button
@@ -90,7 +97,7 @@ export const FeaturedProperties = ({
           </CircleButton>
         }
       >
-        Ver todos los alojamientos
+        {buttonLabel ?? "Ver todos los alojamientos"}
       </Button>
 
       <PropertyCarousel
