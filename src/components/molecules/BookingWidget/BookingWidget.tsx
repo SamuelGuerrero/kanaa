@@ -126,11 +126,13 @@ export const BookingWidget = ({
           (dateRange.endDate.getTime() - dateRange.startDate.getTime()) /
             (1000 * 60 * 60 * 24),
         )
-      : 2;
+      : 1;
   const stayNightsLabel =
-    locale === "en"
-      ? `for ${totalNights} ${totalNights === 1 ? "night" : "nights"}`
-      : `por ${totalNights} ${totalNights === 1 ? "noche" : "noches"}`;
+    totalNights > 0
+      ? locale === "en"
+        ? `for ${totalNights} ${totalNights === 1 ? "night" : "nights"}`
+        : `por ${totalNights} ${totalNights === 1 ? "noche" : "noches"}`
+      : "";
 
   const formatDateKeyLocal = (date: Date) => {
     const year = date.getFullYear();
@@ -155,7 +157,7 @@ export const BookingWidget = ({
           }
           return total;
         })()
-      : getNightlyPrice(dateRange.startDate ?? new Date()) * totalNights;
+      : price;
   const totalGuests = guests.adults + guests.children + guests.infants;
   const shouldShowNoChargeText =
     !dateRange.startDate || !dateRange.endDate || totalGuests === 0;
