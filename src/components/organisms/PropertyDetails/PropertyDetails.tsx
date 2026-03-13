@@ -124,7 +124,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
       <PropertyImages images={images} propertyName={property.name} />
 
       <div className="mt-10 flex w-full gap-10">
-        <section className="mx-2 pb-10">
+        <section className="mx-2 min-w-0 flex-1 pb-10">
           <Text
             font="gilroy"
             size="2xl"
@@ -311,7 +311,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
           </div>
         </section>
 
-        <section className="hidden sm:block">
+        <section className="sticky top-30 hidden self-start sm:block">
           <BookingWidget
             price={property.price}
             maxCapacity={property.personCapacity}
