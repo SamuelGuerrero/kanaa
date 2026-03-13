@@ -28,9 +28,12 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 export const LanguageProvider = ({
   children,
   initialLocale = "es",
+  cmsEnStrings = {},
 }: {
   children: ReactNode;
   initialLocale?: Locale;
+  /** English translations fetched from Strapi ui-strings at layout level */
+  cmsEnStrings?: Record<string, string>;
 }) => {
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
   const router = useRouter();
@@ -54,9 +57,11 @@ export const LanguageProvider = ({
 
   const t = useCallback(
     (value: string) => {
+      // CMS strings override translations.ts for English
+      if (locale === "en" && cmsEnStrings[value] !== undefined) return cmsEnStrings[value];
       return translateText(value, locale);
     },
-    [locale],
+    [locale, cmsEnStrings],
   );
 
   const contextValue = useMemo(
