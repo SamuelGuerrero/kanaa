@@ -25,6 +25,14 @@ const config = {
         protocol: "https",
         hostname: "a0.muscache.com",
       },
+      {
+        protocol: "https",
+        hostname: "kanaa-media.s3.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "kanaa-media.s3.us-east-1.amazonaws.com",
+      },
     ],
   },
 };
