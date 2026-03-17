@@ -19,6 +19,7 @@ type InputProps = Omit<
   value: string;
   onChange?: (value: string) => void;
   variant?: "text" | "date-dynamic";
+  nonEditable?: boolean;
 };
 
 export const Input = ({
@@ -32,6 +33,7 @@ export const Input = ({
   type = "text",
   variant = "text",
   className = "",
+  nonEditable = false,
   onFocus,
   onBlur,
   ...rest
@@ -51,6 +53,31 @@ export const Input = ({
     }
     onBlur?.(e);
   };
+
+  if (nonEditable) {
+    return (
+      <div>
+        {label && (
+          <Text
+            font="gilroy"
+            size={labelSize}
+            weight={labelWeight}
+            className={`block text-black ${labelClassName}`}
+          >
+            {t(label)}
+          </Text>
+        )}
+        <Text
+          font="gilroy"
+          size="base"
+          weight="medium"
+          className={`text-green-darker ${className}`}
+        >
+          {value || (placeholder ? t(placeholder) : "—")}
+        </Text>
+      </div>
+    );
+  }
 
   return (
     <div>

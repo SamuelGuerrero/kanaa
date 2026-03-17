@@ -34,47 +34,56 @@ type PhoneFormat = {
 const PHONE_FORMATS: Record<string, PhoneFormat> = {
   MX: {
     maxDigits: 10,
-    format: (d) => [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
     placeholder: "555-123-4567",
   },
   US: {
     maxDigits: 10,
-    format: (d) => [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
     placeholder: "555-867-5309",
   },
   CA: {
     maxDigits: 10,
-    format: (d) => [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
     placeholder: "555-867-5309",
   },
   ES: {
     maxDigits: 9,
-    format: (d) => [d.slice(0, 3), d.slice(3, 6), d.slice(6, 9)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 3), d.slice(3, 6), d.slice(6, 9)].filter(Boolean).join("-"),
     placeholder: "612-345-678",
   },
   CO: {
     maxDigits: 10,
-    format: (d) => [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
     placeholder: "310-567-8901",
   },
   AR: {
     maxDigits: 10,
-    format: (d) => [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 3), d.slice(3, 6), d.slice(6, 10)].filter(Boolean).join("-"),
     placeholder: "911-234-5678",
   },
   BR: {
     maxDigits: 11,
-    format: (d) => [d.slice(0, 2), d.slice(2, 7), d.slice(7, 11)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 2), d.slice(2, 7), d.slice(7, 11)].filter(Boolean).join("-"),
     placeholder: "11-98765-4321",
   },
   CL: {
     maxDigits: 9,
-    format: (d) => [d.slice(0, 1), d.slice(1, 5), d.slice(5, 9)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 1), d.slice(1, 5), d.slice(5, 9)].filter(Boolean).join("-"),
     placeholder: "9-1234-5678",
   },
   PE: {
     maxDigits: 9,
-    format: (d) => [d.slice(0, 3), d.slice(3, 6), d.slice(6, 9)].filter(Boolean).join("-"),
+    format: (d) =>
+      [d.slice(0, 3), d.slice(3, 6), d.slice(6, 9)].filter(Boolean).join("-"),
     placeholder: "987-654-321",
   },
 };
@@ -84,13 +93,22 @@ type PhoneInputProps = {
   value: string;
   onChange?: (value: string) => void;
   error?: string;
+  nonEditable?: boolean;
 };
 
-export const PhoneInput = ({ label, value, onChange, error }: PhoneInputProps) => {
+export const PhoneInput = ({
+  label,
+  value,
+  onChange,
+  error,
+  nonEditable = false,
+}: PhoneInputProps) => {
   const { t } = useI18n();
-  const [selectedCountry, setSelectedCountry] = useState<Country>(PHONE_COUNTRIES[0]!);
+  const [selectedCountry, setSelectedCountry] = useState<Country>(
+    PHONE_COUNTRIES[0]!,
+  );
 
-  const fmt = PHONE_FORMATS[selectedCountry.code] ?? PHONE_FORMATS["MX"]!;
+  const fmt = PHONE_FORMATS[selectedCountry.code] ?? PHONE_FORMATS.MX!;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, "").slice(0, fmt.maxDigits);
@@ -105,10 +123,45 @@ export const PhoneInput = ({ label, value, onChange, error }: PhoneInputProps) =
     }
   };
 
+  if (nonEditable) {
+    return (
+      <div>
+        {label && (
+          <Text
+            font="gilroy"
+            size="base"
+            weight="bold"
+            className="text-green-darker leading-5"
+          >
+            {t(label)}
+          </Text>
+        )}
+        <div className="flex items-center gap-2">
+          <span className="inline-block h-5.25 w-7.25 text-[21px] leading-none">
+            {selectedCountry.flag}
+          </span>
+          <Text
+            font="gilroy"
+            size="base"
+            weight="medium"
+            className="text-green-darker"
+          >
+            {value || "—"}
+          </Text>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       {label && (
-        <Text font="gilroy" size="base" weight="bold" className="text-green-darker leading-5">
+        <Text
+          font="gilroy"
+          size="base"
+          weight="bold"
+          className="text-green-darker leading-5"
+        >
           {t(label)}
         </Text>
       )}
@@ -117,7 +170,10 @@ export const PhoneInput = ({ label, value, onChange, error }: PhoneInputProps) =
         {/* Country selector pill */}
         <div className="relative flex shrink-0 items-center">
           <div className="flex items-center gap-0.5 rounded-[10px] bg-[#F4F4F3] px-1.25 py-1.25">
-            <ChevronDown className="text-green-normal h-3.5 w-3.5 shrink-0" strokeWidth={2} />
+            <ChevronDown
+              className="text-green-normal h-3.5 w-3.5 shrink-0"
+              strokeWidth={2}
+            />
             <span className="inline-block h-5.25 w-7.25 text-[21px] leading-none">
               {selectedCountry.flag}
             </span>
@@ -143,7 +199,7 @@ export const PhoneInput = ({ label, value, onChange, error }: PhoneInputProps) =
           value={value}
           onChange={handleChange}
           placeholder={fmt.placeholder}
-          className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium leading-4.75 placeholder-[#6A6A6A] outline-none"
+          className="font-gilroy text-green-darker w-full bg-transparent text-base leading-4.75 font-medium placeholder-[#6A6A6A] outline-none"
         />
       </div>
 
