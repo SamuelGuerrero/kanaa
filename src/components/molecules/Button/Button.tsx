@@ -54,7 +54,7 @@ export const Button = (props: ButtonProps) => {
         : "";
 
   const baseStyles =
-    "rounded-[10px] py-[14px] px-[24px] inline-flex items-center cursor-pointer transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-normal/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none";
+    "rounded-[10px] py-[14px] px-[24px] inline-flex items-center gap-[10.49px] cursor-pointer transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-normal/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none";
 
   const textVariantOverrides =
     variant === "secondary"
@@ -71,9 +71,7 @@ export const Button = (props: ButtonProps) => {
           href={href}
           className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
         >
-          {icon && iconPosition === "left" && (
-            <span className="mr-2">{icon}</span>
-          )}
+          {icon && iconPosition === "left" && icon}
 
           <Text
             font="gilroy"
@@ -84,9 +82,7 @@ export const Button = (props: ButtonProps) => {
             {children}
           </Text>
 
-          {icon && iconPosition === "right" && (
-            <span className="ml-2">{icon}</span>
-          )}
+          {icon && iconPosition === "right" && icon}
         </Link>
       ) : (
         <button
@@ -94,9 +90,7 @@ export const Button = (props: ButtonProps) => {
           type={props.type ?? "button"}
           className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
         >
-          {icon && iconPosition === "left" && (
-            <span className="mr-2">{icon}</span>
-          )}
+          {icon && iconPosition === "left" && icon}
 
           <Text
             font="gilroy"
@@ -107,9 +101,7 @@ export const Button = (props: ButtonProps) => {
             {children}
           </Text>
 
-          {icon && iconPosition === "right" && (
-            <span className="ml-2">{icon}</span>
-          )}
+          {icon && iconPosition === "right" && icon}
         </button>
       )}
     </>
