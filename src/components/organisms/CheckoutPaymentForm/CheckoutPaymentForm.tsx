@@ -92,10 +92,18 @@ export const CheckoutPaymentForm = ({
     },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (values: CheckoutFormValues) => {
     if (!stripe || !elements) return;
     setIsLoading(true);
     setStripeError("");
+    sessionStorage.setItem("guestData", JSON.stringify({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      confirmEmail: values.confirmEmail,
+      phone: values.phone,
+      country: values.country,
+    }));
     try {
       const { error } = await stripe.confirmSetup({
         elements,
