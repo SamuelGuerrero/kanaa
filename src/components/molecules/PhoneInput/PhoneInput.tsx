@@ -119,7 +119,7 @@ export const PhoneInput = ({
     const country = PHONE_COUNTRIES.find((c) => c.code === e.target.value);
     if (country) {
       setSelectedCountry(country);
-      onChange?.(""); // reset on country change
+      onChange?.("");
     }
   };
 
@@ -167,7 +167,6 @@ export const PhoneInput = ({
       )}
 
       <div className="flex items-center gap-2">
-        {/* Country selector pill */}
         <div className="relative flex shrink-0 items-center">
           <div className="flex items-center gap-0.5 rounded-[10px] bg-[#F4F4F3] px-1.25 py-1.25">
             <ChevronDown
@@ -192,7 +191,6 @@ export const PhoneInput = ({
           </select>
         </div>
 
-        {/* Phone number input */}
         <input
           type="tel"
           inputMode="numeric"

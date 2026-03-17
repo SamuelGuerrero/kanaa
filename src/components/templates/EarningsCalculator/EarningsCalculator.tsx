@@ -6,7 +6,10 @@ import calculadoraHeroBg from "@assets/images/Home/calculadoraHeroBg.png";
 
 export const EarningsCalculator = () => {
   return (
-    <section className="relative h-230 w-full sm:h-200" data-navbar-theme="dark">
+    <section
+      className="relative h-230 w-full sm:h-200"
+      data-navbar-theme="dark"
+    >
       <div className="absolute inset-0">
         <Image
           src={calculadoraHeroBg}

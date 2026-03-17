@@ -2,7 +2,7 @@
 
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
@@ -19,8 +19,6 @@ type GuestData = {
   country: string;
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 const formatDate = (date: Date | null | undefined) => {
   if (!date) return "—";
   return new Date(date).toLocaleDateString("es-MX", {
@@ -32,8 +30,6 @@ const formatDate = (date: Date | null | undefined) => {
 
 const formatPrice = (amount: number) =>
   `$${new Intl.NumberFormat("es-MX").format(amount)} MXN`;
-
-// ─── Info Row (right column) ──────────────────────────────────────────────────
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
@@ -55,12 +51,8 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-// ─── Inner (needs useSearchParams) ───────────────────────────────────────────
-
 function BookingSuccessInner() {
   const searchParams = useSearchParams();
-  const params = useParams();
-  const propertyId = params?.propertyId as string;
   const paymentIntent = searchParams.get("payment_intent") ?? "";
   const bookingNumber = paymentIntent
     ? `#${paymentIntent.slice(-8).toUpperCase()}`
@@ -68,7 +60,12 @@ function BookingSuccessInner() {
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [guestData, setGuestData] = useState<GuestData>({
-    firstName: "", lastName: "", email: "", confirmEmail: "", phone: "", country: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    confirmEmail: "",
+    phone: "",
+    country: "",
   });
 
   useEffect(() => {
@@ -81,11 +78,13 @@ function BookingSuccessInner() {
           startDate: parsed.startDate ? new Date(parsed.startDate) : null,
           endDate: parsed.endDate ? new Date(parsed.endDate) : null,
         });
-      } catch { /* ignore */ }
+      } catch {}
     }
     const guestRaw = sessionStorage.getItem("guestData");
     if (guestRaw) {
-      try { setGuestData(JSON.parse(guestRaw) as GuestData); } catch { /* ignore */ }
+      try {
+        setGuestData(JSON.parse(guestRaw) as GuestData);
+      } catch {}
     }
   }, []);
 
@@ -96,7 +95,6 @@ function BookingSuccessInner() {
   return (
     <div className="min-h-screen bg-[#F2F0EA] p-5">
       <section className="rounded-2xl bg-white px-16 pt-36 pb-16">
-        {/* ── Hero ── */}
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex h-32.5 w-32.5 items-center justify-center rounded-full bg-[#EDEEEC]">
             <ShieldCheck
@@ -118,7 +116,12 @@ function BookingSuccessInner() {
             <Text font="gilroy" size="2xl" className="text-green-normal">
               Número de la reserva:
             </Text>
-            <Text font="gilroy" size="2xl" weight="bold" className="text-green-normal">
+            <Text
+              font="gilroy"
+              size="2xl"
+              weight="bold"
+              className="text-green-normal"
+            >
               {bookingNumber}
             </Text>
           </div>
@@ -141,18 +144,55 @@ function BookingSuccessInner() {
                 Información personal
               </Text>
 
-              <div className="grid grid-cols-1 gap-y-4 gap-x-8 sm:grid-cols-2">
-                <Input label="Nombre (s)" value={guestData.firstName} labelSize="base" labelWeight="bold" labelClassName="text-green-darker leading-5" nonEditable />
-                <Input label="Apellidos" value={guestData.lastName} labelSize="base" labelWeight="bold" labelClassName="text-green-darker leading-5" nonEditable />
-                <Input label="Correo electrónico" value={guestData.email} labelSize="base" labelWeight="bold" labelClassName="text-green-darker leading-5" nonEditable />
-                <Input label="Confirma tu correo electrónico" value={guestData.confirmEmail} labelSize="base" labelWeight="bold" labelClassName="text-green-darker leading-5" nonEditable />
-                <PhoneInput label="Número de teléfono" value={guestData.phone} nonEditable />
-                <Input label="País de residencia" value={guestData.country} labelSize="base" labelWeight="bold" labelClassName="text-green-darker leading-5" nonEditable />
+              <div className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+                <Input
+                  label="Nombre (s)"
+                  value={guestData.firstName}
+                  labelSize="base"
+                  labelWeight="bold"
+                  labelClassName="text-green-darker leading-5"
+                  nonEditable
+                />
+                <Input
+                  label="Apellidos"
+                  value={guestData.lastName}
+                  labelSize="base"
+                  labelWeight="bold"
+                  labelClassName="text-green-darker leading-5"
+                  nonEditable
+                />
+                <Input
+                  label="Correo electrónico"
+                  value={guestData.email}
+                  labelSize="base"
+                  labelWeight="bold"
+                  labelClassName="text-green-darker leading-5"
+                  nonEditable
+                />
+                <Input
+                  label="Confirma tu correo electrónico"
+                  value={guestData.confirmEmail}
+                  labelSize="base"
+                  labelWeight="bold"
+                  labelClassName="text-green-darker leading-5"
+                  nonEditable
+                />
+                <PhoneInput
+                  label="Número de teléfono"
+                  value={guestData.phone}
+                  nonEditable
+                />
+                <Input
+                  label="País de residencia"
+                  value={guestData.country}
+                  labelSize="base"
+                  labelWeight="bold"
+                  labelClassName="text-green-darker leading-5"
+                  nonEditable
+                />
               </div>
-
             </div>
 
-            {/* Payment info */}
             <div className="border-grey-normal rounded-2xl border bg-white p-8">
               <Text
                 font="gilroy"
@@ -164,7 +204,6 @@ function BookingSuccessInner() {
               </Text>
 
               <div className="flex gap-12">
-                {/* Price breakdown */}
                 <div className="flex-1 space-y-3">
                   {bookingData && (
                     <div className="flex items-center justify-between">
@@ -207,7 +246,6 @@ function BookingSuccessInner() {
                   </div>
                 </div>
 
-                {/* Payment method */}
                 <div className="flex-1 space-y-3">
                   <div>
                     <Text font="gilroy" size="sm" className="text-grey-darker">
@@ -243,7 +281,6 @@ function BookingSuccessInner() {
                 </div>
               </div>
 
-              {/* Cancellation policy */}
               <Text font="gilroy" size="xs" className="mt-5 text-[#4C4D4C]">
                 Política de cancelación — 100% reembolsable hasta 14 días antes
                 de la llegada — 50% reembolsable hasta 7 días antes de la
@@ -252,9 +289,7 @@ function BookingSuccessInner() {
             </div>
           </div>
 
-          {/* ─ Right column ─ */}
           <div className="space-y-3">
-            {/* Property card */}
             <div className="border-grey-normal rounded-2xl border bg-white p-5">
               <div className="flex gap-5">
                 {bookingData?.propertyImage ? (
@@ -314,7 +349,6 @@ function BookingSuccessInner() {
               </div>
             </div>
 
-            {/* Booking detail rows */}
             <InfoRow
               label="Fechas"
               value={
@@ -331,24 +365,38 @@ function BookingSuccessInner() {
                   : "—"
               }
             />
-            {/* Detalle del precio */}
             <div className="border-grey-normal flex items-center justify-between rounded-[10px] border bg-white px-5 py-4">
               <div>
-                <Text font="gilroy" size="base" weight="bold" className="text-green-darker">
+                <Text
+                  font="gilroy"
+                  size="base"
+                  weight="bold"
+                  className="text-green-darker"
+                >
                   Detalle del precio
                 </Text>
                 {bookingData && (
-                  <Text font="gilroy" size="sm" className="text-grey-darker mt-0.5">
-                    {bookingData.totalNights} {bookingData.totalNights === 1 ? "noche" : "noches"} × {formatPrice(bookingData.pricePerNight ?? 0)}
+                  <Text
+                    font="gilroy"
+                    size="sm"
+                    className="text-grey-darker mt-0.5"
+                  >
+                    {bookingData.totalNights}{" "}
+                    {bookingData.totalNights === 1 ? "noche" : "noches"} ×{" "}
+                    {formatPrice(bookingData.pricePerNight ?? 0)}
                   </Text>
                 )}
               </div>
-              <Text font="gilroy" size="base" weight="bold" className="text-green-darker">
+              <Text
+                font="gilroy"
+                size="base"
+                weight="bold"
+                className="text-green-darker"
+              >
                 {bookingData ? formatPrice(bookingData.totalPrice) : "—"}
               </Text>
             </div>
 
-            {/* Cancel */}
             <Button
               type="button"
               variant="secondary"
@@ -369,8 +417,6 @@ function BookingSuccessInner() {
     </div>
   );
 }
-
-// ─── Page export ──────────────────────────────────────────────────────────────
 
 export default function BookingSuccessPage() {
   return (

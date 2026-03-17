@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-import { ErrorState, LoadingState, NotFoundState } from "@/components/molecules";
+import {
+  ErrorState,
+  LoadingState,
+  NotFoundState,
+} from "@/components/molecules";
 import { PropertyDetailsPage } from "@/components/templates";
 import { useProperty } from "@/hooks/useProperty";
 

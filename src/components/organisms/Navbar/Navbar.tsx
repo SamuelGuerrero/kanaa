@@ -106,7 +106,6 @@ export const Navbar = () => {
         if ((data[3] ?? 0) === 0) return null;
         return { r: data[0]!, g: data[1]!, b: data[2]!, a: data[3]! / 255 };
       } catch {
-        // CORS / tainted canvas — ignore silently
         return null;
       }
     };
@@ -116,7 +115,6 @@ export const Navbar = () => {
       for (const element of elements) {
         if (navRef.current?.contains(element)) continue;
 
-        // 1. Explicit theme hint on any ancestor
         const themed = element.closest("[data-navbar-theme]");
         if (themed && !navRef.current?.contains(themed)) {
           const theme = themed.getAttribute("data-navbar-theme");
@@ -124,13 +122,11 @@ export const Navbar = () => {
           if (theme === "light") return { r: 255, g: 255, b: 255, a: 1 };
         }
 
-        // 2. Sample actual pixel from <img> elements via Canvas
         if (element instanceof HTMLImageElement) {
           const imgColor = sampleImagePixel(element, x, y);
           if (imgColor) return imgColor;
         }
 
-        // 3. CSS background-color (ignore near-transparent elements)
         const bg = parseRgba(window.getComputedStyle(element).backgroundColor);
         if (bg && bg.a > 0.1) return bg;
       }
@@ -141,14 +137,12 @@ export const Navbar = () => {
       const navEl = navRef.current;
       if (!navEl) return;
 
-      // If the navbar itself has a solid background, use it directly
       const navBg = parseRgba(window.getComputedStyle(navEl).backgroundColor);
       if (navBg && navBg.a >= 0.85) {
         setIsLightBackground(luminance(navBg.r, navBg.g, navBg.b) > 0.5);
         return;
       }
 
-      // Sample 5 horizontal points across the vertical center of the navbar
       const rect = navEl.getBoundingClientRect();
       const cy = rect.top + rect.height * 0.5;
       const colors = [0.1, 0.3, 0.5, 0.7, 0.9]
@@ -156,7 +150,6 @@ export const Navbar = () => {
         .filter((c): c is NonNullable<typeof c> => c !== null);
 
       if (colors.length === 0) {
-        // Fallback: body background
         const bodyBg = parseRgba(
           window.getComputedStyle(document.body).backgroundColor,
         );
@@ -174,7 +167,6 @@ export const Navbar = () => {
       setIsLightBackground(luminance(avg.r / n, avg.g / n, avg.b / n) > 0.5);
     };
 
-    // Cancel any pending frame before scheduling a new one
     const scheduleUpdate = () => {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
@@ -183,9 +175,7 @@ export const Navbar = () => {
       });
     };
 
-    // Run immediately on mount / route change
     scheduleUpdate();
-    // Retry after a short delay to catch lazy-loaded images that weren't ready yet
     retryTimer = window.setTimeout(scheduleUpdate, 300);
 
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
@@ -197,7 +187,7 @@ export const Navbar = () => {
       cancelAnimationFrame(rafId);
       clearTimeout(retryTimer);
     };
-  }, [pathname]); // Re-run on every route change
+  }, [pathname]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -248,7 +238,6 @@ export const Navbar = () => {
       ? "text-black"
       : "text-white"
     : "text-white";
-
 
   return (
     <>

@@ -25,7 +25,9 @@ export const InputForm = forwardRef<HTMLInputElement, InputProps>(
     const formatPhoneValue = (raw: string) => {
       const [rawMain] = raw.split(/(?:ext\.?|x)/i);
       const extensionMatch = /(?:ext\.?|x)\s*(\d*)/i.exec(raw);
-      const extension = (extensionMatch?.[1] ?? "").replace(/\D/g, "").slice(0, 6);
+      const extension = (extensionMatch?.[1] ?? "")
+        .replace(/\D/g, "")
+        .slice(0, 6);
 
       const mainInput = (rawMain ?? "").trim();
       const hasPlusPrefix = mainInput.startsWith("+");
@@ -91,7 +93,11 @@ export const InputForm = forwardRef<HTMLInputElement, InputProps>(
     const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
       if (isPhoneInput) {
         const rawValue = event.target.value.trim();
-        if (rawValue === "+52" || rawValue === "+52 ext." || rawValue === "+52 ext") {
+        if (
+          rawValue === "+52" ||
+          rawValue === "+52 ext." ||
+          rawValue === "+52 ext"
+        ) {
           event.target.value = "";
           onChange?.(event as unknown as ChangeEvent<HTMLInputElement>);
         }
@@ -114,7 +120,7 @@ export const InputForm = forwardRef<HTMLInputElement, InputProps>(
 
         <input
           ref={ref}
-          className={`font-gilroy w-70.25 bg-white/10 px-4 text-[16.33px] font-semibold text-white placeholder-white transition outline-none focus:border-[#CBBE99] focus:bg-white/20 focus:ring-2 focus:ring-[#CBBE99]/25 md:h-13.5 ${isPhoneInput ? "appearance-none [font-variant-numeric:tabular-nums] tracking-[0.02em]" : ""} ${error ? "border border-red-300" : ""} ${className ?? ""} `}
+          className={`font-gilroy w-70.25 bg-white/10 px-4 text-[16.33px] font-semibold text-white placeholder-white transition outline-none focus:border-[#CBBE99] focus:bg-white/20 focus:ring-2 focus:ring-[#CBBE99]/25 md:h-13.5 ${isPhoneInput ? "appearance-none tracking-[0.02em] [font-variant-numeric:tabular-nums]" : ""} ${error ? "border border-red-300" : ""} ${className ?? ""} `}
           placeholder={
             props.placeholder ? t(String(props.placeholder)) : undefined
           }

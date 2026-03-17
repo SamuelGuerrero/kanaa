@@ -5,7 +5,19 @@ import { useI18n } from "@/i18n";
 
 import type { DetailedHTMLProps, FocusEvent, InputHTMLAttributes } from "react";
 
-type FontSize = "xxs" | "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl";
+type FontSize =
+  | "xxs"
+  | "xs"
+  | "sm"
+  | "base"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+  | "6xl"
+  | "7xl";
 type FontWeight = "light" | "normal" | "medium" | "semibold" | "bold";
 
 type InputProps = Omit<

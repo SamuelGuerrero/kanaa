@@ -85,7 +85,6 @@ export const BookingWidget = ({
     setActiveField,
   } = useCalendar();
 
-  // Modo controlado: usa el dateRange compartido si se pasa como prop
   const isControlled = sharedDateRange !== undefined;
   const dateRange = isControlled ? sharedDateRange : internalDateRange;
 
@@ -104,7 +103,6 @@ export const BookingWidget = ({
     }
   };
 
-  // Handler propio que opera sobre el dateRange efectivo (interno o externo)
   const handleDateClick = (date: Date) => {
     const isOccupied = occupiedDates.some(
       (d) => d.toDateString() === date.toDateString(),

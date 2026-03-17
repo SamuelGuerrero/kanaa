@@ -116,10 +116,7 @@ export default async function RootLayout({
   const lang = localeFromHost ?? (localeCookie === "en" ? "en" : "es");
 
   return (
-    <html
-      lang={lang}
-      className={`${robotoSerif.variable} ${gilroy.variable}`}
-    >
+    <html lang={lang} className={`${robotoSerif.variable} ${gilroy.variable}`}>
       <head>
         <link
           rel="stylesheet"

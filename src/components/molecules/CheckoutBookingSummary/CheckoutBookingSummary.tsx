@@ -169,7 +169,8 @@ export const CheckoutBookingSummary = ({
             <ModifyButton
               onClick={() => {
                 setShowGuestSelector(false);
-                if (showCalendar) closeCalendar(); else openCalendar("checkin");
+                if (showCalendar) closeCalendar();
+                else openCalendar("checkin");
               }}
             />
           </figure>
@@ -192,7 +193,6 @@ export const CheckoutBookingSummary = ({
           )}
         </div>
 
-        {/* Huéspedes */}
         <div className="relative">
           <figure className="border-grey-normal flex w-full items-center justify-between rounded-[10px] border p-4">
             <div>
@@ -228,7 +228,6 @@ export const CheckoutBookingSummary = ({
           )}
         </div>
 
-        {/* Detalle del precio */}
         <figure className="border-grey-normal w-full rounded-[10px] border p-4">
           <div className="flex items-center justify-between">
             <Text

@@ -99,14 +99,17 @@ export const CheckoutPaymentForm = ({
     if (!stripe || !elements) return;
     setIsLoading(true);
     setStripeError("");
-    sessionStorage.setItem("guestData", JSON.stringify({
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      confirmEmail: values.confirmEmail,
-      phone: values.phone,
-      country: values.country,
-    }));
+    sessionStorage.setItem(
+      "guestData",
+      JSON.stringify({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        confirmEmail: values.confirmEmail,
+        phone: values.phone,
+        country: values.country,
+      }),
+    );
     try {
       const { error } = await stripe.confirmSetup({
         elements,
@@ -155,7 +158,7 @@ export const CheckoutPaymentForm = ({
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
-                          className="font-gilroy text-base font-medium leading-4.75 text-green-darker placeholder-[#6A6A6A] transition-colors duration-150"
+                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6A6A6A] transition-colors duration-150"
                         />
                       )}
                     />
@@ -186,7 +189,7 @@ export const CheckoutPaymentForm = ({
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
-                          className="font-gilroy text-base font-medium leading-4.75 text-green-darker placeholder-[#6A6A6A] transition-colors duration-150"
+                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6A6A6A] transition-colors duration-150"
                         />
                       )}
                     />
@@ -218,7 +221,7 @@ export const CheckoutPaymentForm = ({
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
-                          className="font-gilroy text-base font-medium leading-4.75 text-green-darker placeholder-[#6A6A6A] transition-colors duration-150"
+                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6A6A6A] transition-colors duration-150"
                         />
                       )}
                     />
@@ -250,7 +253,7 @@ export const CheckoutPaymentForm = ({
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
-                          className="font-gilroy text-base font-medium leading-4.75 text-green-darker placeholder-[#6A6A6A] transition-colors duration-150"
+                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6A6A6A] transition-colors duration-150"
                         />
                       )}
                     />
@@ -291,7 +294,6 @@ export const CheckoutPaymentForm = ({
                   )}
                 </div>
 
-                {/* País de residencia */}
                 <div>
                   <div className="border-grey-normal flex h-16.5 flex-col justify-center rounded-xl border bg-white px-4 py-2">
                     <Text
