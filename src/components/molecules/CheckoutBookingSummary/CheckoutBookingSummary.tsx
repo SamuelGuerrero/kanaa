@@ -1,68 +1,255 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+
 import { Text } from "@/components/atoms";
+import {
+  Calendar,
+  GuestSelector,
+  type GuestCounts,
+} from "@/components/molecules";
+import { useCalendar } from "@/hooks/useCalendar";
 
 import type { BookingData } from "@/components/molecules/BookingWidget";
 
 type CheckoutBookingSummaryProps = {
   bookingData: BookingData;
+  occupiedDates?: Date[];
+  onDatesChange?: (startDate: Date | null, endDate: Date | null) => void;
+  onGuestsChange?: (guests: GuestCounts) => void;
 };
 
-const formatDateLong = (date: Date | null) => {
-  if (!date) return "N/A";
-  return date.toLocaleDateString("es-MX", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
+const formatDateRange = (start: Date | null, end: Date | null) => {
+  if (!start || !end) return "N/A";
+  const opts: Intl.DateTimeFormatOptions = {
     day: "numeric",
-  });
+    month: "short",
+    year: "numeric",
+  };
+  const s = start.toLocaleDateString("es-MX", opts);
+  const e = end.toLocaleDateString("es-MX", opts);
+  return `${s} – ${e}`;
 };
+
+const formatGuests = (guests: BookingData["guests"]) => {
+  const total = guests.adults + guests.children;
+  return `${total} ${total === 1 ? "Adulto" : "Adultos"}`;
+};
+
+function ModifyButton({ onClick }: { onClick?: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="font-gilroy hover:bg-gold-light h-11.75 w-29.25 shrink-0 cursor-pointer rounded-[10px] border border-[#A59973] bg-white px-6 py-3.5 text-base font-medium text-[#A59973] transition-colors"
+    >
+      Modificar
+    </button>
+  );
+}
 
 export const CheckoutBookingSummary = ({
   bookingData,
+  occupiedDates = [],
+  onDatesChange,
+  onGuestsChange,
 }: CheckoutBookingSummaryProps) => {
+  const {
+    propertyName,
+    propertyImage,
+    propertyCity,
+    propertyRating,
+    totalPrice,
+    startDate,
+    endDate,
+    guests,
+  } = bookingData;
+
+  const initialized = useRef(false);
+  const {
+    showCalendar,
+    currentMonth,
+    dateRange,
+    handleDateClick,
+    handlePrevMonth,
+    handleNextMonth,
+    clearDates,
+    openCalendar,
+    closeCalendar,
+    setDateRange,
+  } = useCalendar(startDate ?? new Date());
+
+  const [showGuestSelector, setShowGuestSelector] = useState(false);
+  const [localGuests, setLocalGuests] = useState<GuestCounts>(guests);
+
+  useEffect(() => {
+    if (initialized.current) return;
+    if (startDate || endDate) {
+      setDateRange({ startDate: startDate ?? null, endDate: endDate ?? null });
+    }
+    initialized.current = true;
+  }, [startDate, endDate, setDateRange]);
+
+  useEffect(() => {
+    if (!initialized.current) return;
+    if (dateRange.startDate && dateRange.endDate) {
+      onDatesChange?.(dateRange.startDate, dateRange.endDate);
+    }
+  }, [dateRange.startDate, dateRange.endDate]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleGuestsChange = (updated: GuestCounts) => {
+    setLocalGuests(updated);
+    onGuestsChange?.(updated);
+  };
+
+  const displayedStart = dateRange.startDate ?? startDate;
+  const displayedEnd = dateRange.endDate ?? endDate;
+  const displayedGuests = localGuests;
+
   return (
-    <div className="mb-8 rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-6 shadow-sm">
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <Text font="gilroy" size="sm" className="mb-1 text-gray-600">
-            Check-in
-          </Text>
-          <Text font="gilroy" size="base" weight="semibold">
-            {formatDateLong(bookingData.startDate)}
-          </Text>
-        </div>
-        <div className="mx-4 h-12 w-px bg-gray-300" />
-        <div className="flex-1">
-          <Text font="gilroy" size="sm" className="mb-1 text-gray-600">
-            Check-out
-          </Text>
-          <Text font="gilroy" size="base" weight="semibold">
-            {formatDateLong(bookingData.endDate)}
-          </Text>
-        </div>
-        <div className="mx-4 h-12 w-px bg-gray-300" />
-        <div className="flex-1">
-          <Text font="gilroy" size="sm" className="mb-1 text-gray-600">
-            Huéspedes
-          </Text>
-          <Text font="gilroy" size="base" weight="semibold">
-            {bookingData.guests.adults + bookingData.guests.children}
-          </Text>
-        </div>
-        <div className="mx-4 h-12 w-px bg-gray-300" />
-        <div className="flex-1 text-right">
-          <Text font="gilroy" size="sm" className="mb-1 text-gray-600">
-            Total
-          </Text>
+    <div className="border-grey-normal relative rounded-2xl border bg-white p-6">
+      <div className="mb-5 flex items-start gap-4">
+        {propertyImage && (
+          <div className="relative h-37.5 w-37.5 shrink-0 overflow-hidden rounded-xl">
+            <Image
+              src={propertyImage}
+              alt={propertyName ?? "Propiedad"}
+              fill
+              className="h-37.5 w-37.5 object-cover"
+            />
+          </div>
+        )}
+        <div className="min-w-0 flex-1">
           <Text
             font="gilroy"
             size="xl"
             weight="bold"
-            className="text-green-normal"
+            className="text-green-darker leading-snug"
           >
-            ${new Intl.NumberFormat("es-MX").format(bookingData.totalPrice)} MXN
+            {propertyName ?? "Propiedad"}
           </Text>
+          {propertyCity && (
+            <Text font="gilroy" size="xl" className="text-grey-darker mt-0.5">
+              {propertyCity}, México
+            </Text>
+          )}
+          {propertyRating !== undefined && (
+            <div className="mt-1 flex items-center gap-1">
+              <span className="text-sm text-[#FACC15]">★</span>
+              <Text
+                font="gilroy"
+                size="sm"
+                weight="medium"
+                className="text-green-darker"
+              >
+                {propertyRating.toFixed(2)}
+              </Text>
+            </div>
+          )}
         </div>
       </div>
+
+      <section className="flex flex-col space-y-2">
+        <div className="relative">
+          <figure className="border-grey-normal flex w-full items-center justify-between rounded-[10px] border p-4">
+            <div>
+              <Text
+                font="gilroy"
+                size="base"
+                weight="bold"
+                className="text-green-darker"
+              >
+                Fechas
+              </Text>
+              <Text font="gilroy" size="sm" className="text-grey-darker mt-0.5">
+                {formatDateRange(displayedStart ?? null, displayedEnd ?? null)}
+              </Text>
+            </div>
+            <ModifyButton
+              onClick={() => {
+                setShowGuestSelector(false);
+                if (showCalendar) closeCalendar(); else openCalendar("checkin");
+              }}
+            />
+          </figure>
+
+          {showCalendar && (
+            <div className="absolute top-full left-0 z-50 mt-2 w-full">
+              <Calendar
+                currentMonth={currentMonth}
+                dateRange={dateRange}
+                occupiedDates={occupiedDates}
+                onDateClick={(date) => handleDateClick(date, occupiedDates)}
+                onPrevMonth={handlePrevMonth}
+                onNextMonth={handleNextMonth}
+                onClearDates={clearDates}
+                onClose={closeCalendar}
+                showTwoMonths={false}
+                className="mx-auto max-w-full"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Huéspedes */}
+        <div className="relative">
+          <figure className="border-grey-normal flex w-full items-center justify-between rounded-[10px] border p-4">
+            <div>
+              <Text
+                font="gilroy"
+                size="base"
+                weight="bold"
+                className="text-green-darker"
+              >
+                Huéspedes
+              </Text>
+              <Text font="gilroy" size="sm" className="text-grey-darker mt-0.5">
+                {formatGuests(displayedGuests)}
+              </Text>
+            </div>
+            <ModifyButton
+              onClick={() => {
+                closeCalendar();
+                setShowGuestSelector((prev) => !prev);
+              }}
+            />
+          </figure>
+
+          {showGuestSelector && (
+            <div className="absolute top-full left-0 z-50 mt-2 w-full">
+              <GuestSelector
+                guests={localGuests}
+                maxCapacity={20}
+                onGuestsChange={handleGuestsChange}
+                onClose={() => setShowGuestSelector(false)}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Detalle del precio */}
+        <figure className="border-grey-normal w-full rounded-[10px] border p-4">
+          <div className="flex items-center justify-between">
+            <Text
+              font="gilroy"
+              size="base"
+              weight="bold"
+              className="text-green-darker"
+            >
+              Total
+            </Text>
+            <Text
+              font="gilroy"
+              size="base"
+              weight="bold"
+              className="text-green-darker"
+            >
+              ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
+            </Text>
+          </div>
+        </figure>
+      </section>
     </div>
   );
 };
