@@ -204,7 +204,12 @@ export default async function PoliticaPrivacidadPage({ params }: Props) {
         <div className="space-y-10">
           {content.sections.map((section, index) => (
             <div key={index}>
-              <Text as="h2" size="2xl" weight="semibold" className="text-green-normal mb-3">
+              <Text
+                as="h2"
+                size="2xl"
+                weight="semibold"
+                className="text-green-normal mb-3"
+              >
                 {section.heading}
               </Text>
               <div
