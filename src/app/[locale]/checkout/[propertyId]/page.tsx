@@ -6,9 +6,9 @@ import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Text } from "@/components/atoms";
-import { CheckoutHeader } from "@/components/molecules/CheckoutHeader";
 import { CheckoutHero } from "@/components/molecules/CheckoutHero";
 import { CheckoutPaymentForm } from "@/components/organisms/CheckoutPaymentForm";
+import { useListingCalendar } from "@/hooks/useListingCalendar";
 
 import type { BookingData } from "@/components/molecules/BookingWidget";
 
@@ -17,7 +17,7 @@ export default function CheckoutPage() {
   const params = useParams();
   const propertyId = params?.propertyId as string;
   const locale = (params?.locale as string) ?? "es";
-  const isCheckoutDisabled = true;
+  const isCheckoutDisabled = false;
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [stripePromise, setStripePromise] = useState<ReturnType<
@@ -26,6 +26,7 @@ export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const { occupiedDates, priceByDate } = useListingCalendar(propertyId);
 
   useEffect(() => {
     if (isCheckoutDisabled) {
@@ -107,6 +108,45 @@ export default function CheckoutPage() {
     void initializeStripe();
   }, [propertyId, router, isCheckoutDisabled, locale]);
 
+  const handleDatesChange = (startDate: Date | null, endDate: Date | null) => {
+    if (!bookingData) return;
+    const totalNights =
+      startDate && endDate
+        ? Math.ceil(
+            (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+          )
+        : bookingData.totalNights;
+
+    let totalPrice = 0;
+    if (startDate && endDate) {
+      const current = new Date(startDate);
+      while (current < endDate) {
+        const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, "0")}-${String(current.getDate()).padStart(2, "0")}`;
+        totalPrice += priceByDate?.[key] ?? bookingData.pricePerNight ?? 0;
+        current.setDate(current.getDate() + 1);
+      }
+    } else {
+      totalPrice = bookingData.totalPrice;
+    }
+
+    const updated = {
+      ...bookingData,
+      startDate,
+      endDate,
+      totalNights,
+      totalPrice,
+    };
+    sessionStorage.setItem("bookingData", JSON.stringify(updated));
+    setBookingData(updated);
+  };
+
+  const handleGuestsChange = (guests: BookingData["guests"]) => {
+    if (!bookingData) return;
+    const updated = { ...bookingData, guests };
+    sessionStorage.setItem("bookingData", JSON.stringify(updated));
+    setBookingData(updated);
+  };
+
   const options: StripeElementsOptions | undefined = clientSecret
     ? {
         clientSecret,
@@ -142,11 +182,8 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
-      <CheckoutHeader onBack={() => router.back()} />
-
-      {/* Main Content */}
-      <main className="mx-auto max-w-7xl px-4 py-12">
+    <div className="min-h-screen bg-white">
+      <main className="mx-auto max-w-7xl px-4 pt-32 pb-12">
         <CheckoutHero />
 
         {error && (
@@ -166,7 +203,12 @@ export default function CheckoutPage() {
           </div>
         ) : bookingData && stripePromise && options ? (
           <Elements stripe={stripePromise} options={options}>
-            <CheckoutPaymentForm bookingData={bookingData} />
+            <CheckoutPaymentForm
+              bookingData={bookingData}
+              occupiedDates={occupiedDates}
+              onDatesChange={handleDatesChange}
+              onGuestsChange={handleGuestsChange}
+            />
           </Elements>
         ) : (
           <div className="mx-auto max-w-3xl rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-center">
