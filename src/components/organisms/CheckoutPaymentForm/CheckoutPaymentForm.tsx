@@ -12,13 +12,16 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { CircleButton, Text } from "@/components/atoms";
-import { Button, Input, PhoneInput } from "@/components/molecules";
-import { CheckoutBookingSummary } from "@/components/molecules/CheckoutBookingSummary";
-import { StripePoweredBy } from "@/components/molecules/StripePoweredBy";
+import {
+  Button,
+  CheckoutBookingSummary,
+  Input,
+  PhoneInput,
+  StripePoweredBy,
+} from "@/components/molecules";
 import { useI18n } from "@/i18n";
 
-import type { GuestCounts } from "@/components/molecules";
-import type { BookingData } from "@/components/molecules/BookingWidget";
+import type { BookingData, GuestCounts } from "@/components/molecules";
 
 const checkoutSchema = z
   .object({

@@ -12,7 +12,7 @@ import { useCallback, useEffect, useState, type FormEvent } from "react";
 
 import { Text } from "@/components/atoms";
 
-import type { BookingData } from "@/components/molecules/BookingWidget";
+import type { BookingData } from "@/components/molecules";
 
 interface BookingPaymentModalProps {
   isOpen: boolean;

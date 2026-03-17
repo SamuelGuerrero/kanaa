@@ -11,7 +11,7 @@ import {
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
 
-import type { BookingData } from "@/components/molecules/BookingWidget";
+import type { BookingData } from "@/components/molecules";
 
 type CheckoutBookingSummaryProps = {
   bookingData: BookingData;

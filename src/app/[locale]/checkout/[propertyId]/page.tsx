@@ -6,11 +6,11 @@ import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Text } from "@/components/atoms";
-import { CheckoutHero } from "@/components/molecules/CheckoutHero";
-import { CheckoutPaymentForm } from "@/components/organisms/CheckoutPaymentForm";
+import { CheckoutHero } from "@/components/molecules";
+import { CheckoutPaymentForm } from "@/components/organisms";
 import { useListingCalendar } from "@/hooks/useListingCalendar";
 
-import type { BookingData } from "@/components/molecules/BookingWidget";
+import type { BookingData } from "@/components/molecules";
 
 export default function CheckoutPage() {
   const router = useRouter();

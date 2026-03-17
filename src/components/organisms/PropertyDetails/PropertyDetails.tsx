@@ -18,7 +18,7 @@ import { useI18n } from "@/i18n";
 
 import { PropertyImages } from "../PropertyImages";
 
-import type { BookingData } from "@/components/molecules/BookingWidget";
+import type { BookingData } from "@/components/molecules";
 import type { Property } from "@/types/property";
 
 type PropertyDetailsProps = {

@@ -8,7 +8,7 @@ import { Suspense, useEffect, useState } from "react";
 import { CircleButton, Text } from "@/components/atoms";
 import { Button, Input, PhoneInput } from "@/components/molecules";
 
-import type { BookingData } from "@/components/molecules/BookingWidget";
+import type { BookingData } from "@/components/molecules";
 
 type GuestData = {
   firstName: string;
