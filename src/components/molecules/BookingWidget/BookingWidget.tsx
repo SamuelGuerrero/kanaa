@@ -37,6 +37,11 @@ export type BookingData = {
   totalNights: number;
   totalPrice: number;
   listingMapId: string;
+  propertyName?: string;
+  propertyImage?: string;
+  propertyCity?: string;
+  propertyRating?: number;
+  pricePerNight?: number;
 };
 
 export const BookingWidget = ({
