@@ -2,7 +2,7 @@
 
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
@@ -59,6 +59,8 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 
 function BookingSuccessInner() {
   const searchParams = useSearchParams();
+  const params = useParams();
+  const propertyId = params?.propertyId as string;
   const paymentIntent = searchParams.get("payment_intent") ?? "";
   const bookingNumber = paymentIntent
     ? `#${paymentIntent.slice(-8).toUpperCase()}`

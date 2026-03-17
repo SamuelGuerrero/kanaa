@@ -111,7 +111,7 @@ export const CheckoutPaymentForm = ({
       const { error } = await stripe.confirmSetup({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/booking-success`,
+          return_url: `${window.location.origin}/booking-success/${bookingData.listingMapId}`,
         },
       });
       if (error)
