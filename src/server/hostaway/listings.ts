@@ -35,6 +35,7 @@ export async function getListings(options?: {
   offset?: number;
 }) {
   const params = new URLSearchParams();
+  params.set("isBookingEngineActive", "1");
   if (options?.limit) params.set("limit", String(options.limit));
   if (typeof options?.offset === "number")
     params.set("offset", String(options.offset));
