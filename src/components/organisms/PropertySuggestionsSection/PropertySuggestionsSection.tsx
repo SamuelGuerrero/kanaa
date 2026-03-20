@@ -2,7 +2,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
-import { PropertyCarousel } from "@/components/organisms/PropertyCarousel";
+import { PropertyCarousel } from "@/components/organisms";
 
 import type { Property } from "@/types/property";
 

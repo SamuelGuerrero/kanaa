@@ -89,9 +89,7 @@ export function useListingCalendar(
           memoryCache.set(cacheKey, parsed);
           return parsed;
         }
-      } catch {
-        // Ignore cache read errors
-      }
+      } catch {}
       return null;
     };
 
@@ -99,9 +97,7 @@ export function useListingCalendar(
       memoryCache.set(cacheKey, entry);
       try {
         localStorage.setItem(cacheKey, JSON.stringify(entry));
-      } catch {
-        // Ignore storage errors (quota/private mode)
-      }
+      } catch {}
     };
 
     const fetchCalendar = async () => {

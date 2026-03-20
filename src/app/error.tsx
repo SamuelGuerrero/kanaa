@@ -1,6 +1,9 @@
 "use client";
 
-import { ArrowRightIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowRightIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/solid";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
@@ -13,8 +16,8 @@ type ErrorPageProps = {
 export default function ErrorPage({ reset }: ErrorPageProps) {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center">
-      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gold-light-active">
-        <ExclamationTriangleIcon className="h-10 w-10 text-gold-normal" />
+      <div className="bg-gold-light-active flex h-20 w-20 items-center justify-center rounded-full">
+        <ExclamationTriangleIcon className="text-gold-normal h-10 w-10" />
       </div>
 
       <Text
@@ -22,16 +25,12 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
         size="5xl"
         weight="bold"
         as="h1"
-        className="mt-6 text-green-normal"
+        className="text-green-normal mt-6"
       >
         Algo salió mal
       </Text>
 
-      <Text
-        font="gilroy"
-        size="lg"
-        className="mt-4 max-w-md text-grey-darker"
-      >
+      <Text font="gilroy" size="lg" className="text-grey-darker mt-4 max-w-md">
         Ocurrió un error inesperado. Puedes intentarlo de nuevo o regresar al
         inicio.
       </Text>
@@ -42,7 +41,7 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
           onClick={reset}
           icon={
             <CircleButton>
-              <ArrowRightIcon className="w-5 text-gold-normal-hover drop-shadow-[0_0_0.5px_currentColor]" />
+              <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
             </CircleButton>
           }
         >
@@ -52,10 +51,10 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
         <Button
           variant="secondary"
           href="/"
-          className="border border-gold-light-active"
+          className="border-gold-light-active border"
           icon={
             <CircleButton className="bg-gold-light-hover">
-              <ArrowRightIcon className="w-5 text-gold-normal-hover drop-shadow-[0_0_0.5px_currentColor]" />
+              <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
             </CircleButton>
           }
         >

@@ -1,7 +1,8 @@
 "use client";
 
-import { Text } from "../Text";
 import { useI18n } from "@/i18n";
+
+import { Text } from "../Text";
 
 type CopyrightTextProps = {
   className?: string;

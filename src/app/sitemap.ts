@@ -1,4 +1,3 @@
-
 import { siteConfig } from "@/lib/seo";
 import { getListings } from "@/server/hostaway/listings";
 

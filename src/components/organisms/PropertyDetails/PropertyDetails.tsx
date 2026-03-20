@@ -18,7 +18,7 @@ import { useI18n } from "@/i18n";
 
 import { PropertyImages } from "../PropertyImages";
 
-import type { BookingData } from "@/components/molecules/BookingWidget";
+import type { BookingData } from "@/components/molecules";
 import type { Property } from "@/types/property";
 
 type PropertyDetailsProps = {
@@ -47,9 +47,16 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
   console.log("Fechas ocupadas", occupiedDates);
 
   const handleBookingClick = (data: BookingData) => {
-    console.log("Datos de reserva:", data);
+    const enrichedData: BookingData = {
+      ...data,
+      propertyName: property.name,
+      propertyImage: property.listingImages?.[0]?.url ?? property.thumbnailUrl,
+      propertyCity: property.city,
+      propertyRating: property.starRating ?? undefined,
+      pricePerNight: property.price,
+    };
 
-    sessionStorage.setItem("bookingData", JSON.stringify(data));
+    sessionStorage.setItem("bookingData", JSON.stringify(enrichedData));
 
     router.push(`/checkout/${property.id}`);
   };
@@ -205,9 +212,9 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             priceByDate={priceByDate}
             listingMapId={property.id.toString()}
             onBookingClick={handleBookingClick}
-            disableCheckout={true}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
+            disableCheckout
             className="sm:hidden"
           />
 
@@ -319,9 +326,9 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             priceByDate={priceByDate}
             listingMapId={property.id.toString()}
             onBookingClick={handleBookingClick}
-            disableCheckout={true}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
+            disableCheckout
           />
         </section>
       </div>

@@ -289,7 +289,6 @@ export default async function TerminosCondicionesPage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero */}
       <section className="bg-green-dark-active px-6 pt-36 pb-16 text-center md:pt-44 md:pb-24">
         <Text as="h1" size="5xl" weight="bold" className="text-white">
           {content.title}
@@ -299,19 +298,26 @@ export default async function TerminosCondicionesPage({ params }: Props) {
         </Text>
       </section>
 
-      {/* Intro */}
       <section className="bg-grey-light px-6 py-8">
-        <Text font="gilroy" size="base" className="mx-auto max-w-4xl text-center leading-relaxed text-gray-700">
+        <Text
+          font="gilroy"
+          size="base"
+          className="mx-auto max-w-4xl text-center leading-relaxed text-gray-700"
+        >
           {content.intro}
         </Text>
       </section>
 
-      {/* Content */}
       <section className="mx-auto max-w-4xl px-6 py-14 md:py-20">
         <div className="space-y-10">
           {content.sections.map((section, index) => (
             <div key={index}>
-              <Text as="h2" size="2xl" weight="semibold" className="text-green-normal mb-3">
+              <Text
+                as="h2"
+                size="2xl"
+                weight="semibold"
+                className="text-green-normal mb-3"
+              >
                 {section.heading}
               </Text>
               <div

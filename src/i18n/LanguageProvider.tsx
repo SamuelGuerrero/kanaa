@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter, usePathname } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -9,7 +10,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useRouter, usePathname } from "next/navigation";
 
 import { translateText } from "@/i18n/translations";
 

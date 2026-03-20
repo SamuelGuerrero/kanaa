@@ -48,7 +48,6 @@ export const GuestSelector = ({
     <div
       className={`rounded-xl border border-gray-200 bg-white p-4 shadow-lg ${className}`}
     >
-      {/* Adultos */}
       <div className="flex items-center justify-between py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
@@ -83,7 +82,6 @@ export const GuestSelector = ({
         </div>
       </div>
 
-      {/* Niños */}
       <div className="flex items-center justify-between border-t border-gray-200 py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
@@ -118,7 +116,6 @@ export const GuestSelector = ({
         </div>
       </div>
 
-      {/* Bebés */}
       <div className="flex items-center justify-between border-t border-gray-200 py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
@@ -152,7 +149,6 @@ export const GuestSelector = ({
         </div>
       </div>
 
-      {/* Mensaje de capacidad máxima */}
       {totalGuests >= maxCapacity && (
         <div className="mt-2 rounded-lg bg-gray-100 p-3">
           <Text font="gilroy" size="sm" className="text-gray-700">
@@ -163,7 +159,6 @@ export const GuestSelector = ({
         </div>
       )}
 
-      {/* Botón cerrar */}
       <div className="mt-3 flex w-full justify-end border-t border-gray-200 pt-3">
         <button
           type="button"

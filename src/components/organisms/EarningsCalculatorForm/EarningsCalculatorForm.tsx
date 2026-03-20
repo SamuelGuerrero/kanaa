@@ -392,7 +392,11 @@ export const EarningsCalculatorForm = () => {
               className="h-11 w-full md:h-13.75"
               placeholder={t("Dirección de propiedad")}
               type="text"
-              error={errors.propertyAddress?.message ? t(errors.propertyAddress.message) : undefined}
+              error={
+                errors.propertyAddress?.message
+                  ? t(errors.propertyAddress.message)
+                  : undefined
+              }
               {...registerProperty("propertyAddress")}
             />
           </div>
@@ -403,7 +407,11 @@ export const EarningsCalculatorForm = () => {
               type="text"
               inputMode="numeric"
               maxLength={5}
-              error={errors.postalCode?.message ? t(errors.postalCode.message) : undefined}
+              error={
+                errors.postalCode?.message
+                  ? t(errors.postalCode.message)
+                  : undefined
+              }
               {...registerProperty("postalCode")}
             />
             {catalogLoading && (
@@ -421,7 +429,9 @@ export const EarningsCalculatorForm = () => {
               defaultOptionLabel={t("Estado")}
               options={stateOptions}
               disabled={stateOptions.length === 0}
-              error={errors.state?.message ? t(errors.state.message) : undefined}
+              error={
+                errors.state?.message ? t(errors.state.message) : undefined
+              }
               {...registerProperty("state")}
             />
           </div>
@@ -441,7 +451,11 @@ export const EarningsCalculatorForm = () => {
               defaultOptionLabel={t("Colonia")}
               options={neighborhoodOptions}
               disabled={neighborhoodOptions.length === 0}
-              error={errors.neighborhood?.message ? t(errors.neighborhood.message) : undefined}
+              error={
+                errors.neighborhood?.message
+                  ? t(errors.neighborhood.message)
+                  : undefined
+              }
               {...registerProperty("neighborhood")}
             />
           </div>
@@ -457,7 +471,11 @@ export const EarningsCalculatorForm = () => {
                 { value: "5", label: t("5 huéspedes") },
                 { value: "6", label: t("6+ huéspedes") },
               ]}
-              error={errors.guestCount?.message ? t(errors.guestCount.message) : undefined}
+              error={
+                errors.guestCount?.message
+                  ? t(errors.guestCount.message)
+                  : undefined
+              }
               {...registerProperty("guestCount")}
             />
           </div>
@@ -474,7 +492,11 @@ export const EarningsCalculatorForm = () => {
                 { value: "Townhouse", label: t("Townhouse") },
                 { value: "Otro", label: t("Otro") },
               ]}
-              error={errors.propertyType?.message ? t(errors.propertyType.message) : undefined}
+              error={
+                errors.propertyType?.message
+                  ? t(errors.propertyType.message)
+                  : undefined
+              }
               {...registerProperty("propertyType")}
             />
           </div>
@@ -491,7 +513,11 @@ export const EarningsCalculatorForm = () => {
                 { value: "4", label: t("4 habitaciones") },
                 { value: "5", label: t("5+ habitaciones") },
               ]}
-              error={errors.bedroomCount?.message ? t(errors.bedroomCount.message) : undefined}
+              error={
+                errors.bedroomCount?.message
+                  ? t(errors.bedroomCount.message)
+                  : undefined
+              }
               {...registerProperty("bedroomCount")}
             />
           </div>
@@ -508,7 +534,11 @@ export const EarningsCalculatorForm = () => {
                 { value: "3", label: t("3 baños") },
                 { value: "4", label: t("4+ baños") },
               ]}
-              error={errors.bathroomCount?.message ? t(errors.bathroomCount.message) : undefined}
+              error={
+                errors.bathroomCount?.message
+                  ? t(errors.bathroomCount.message)
+                  : undefined
+              }
               {...registerProperty("bathroomCount")}
             />
           </div>
@@ -524,7 +554,11 @@ export const EarningsCalculatorForm = () => {
                 { value: "5-10", label: t("5 a 10 años") },
                 { value: "10+", label: t("Más de 10 años") },
               ]}
-              error={errors.yearsOwned?.message ? t(errors.yearsOwned.message) : undefined}
+              error={
+                errors.yearsOwned?.message
+                  ? t(errors.yearsOwned.message)
+                  : undefined
+              }
               {...registerProperty("yearsOwned")}
             />
           </div>
@@ -714,7 +748,9 @@ export const EarningsCalculatorForm = () => {
                   font="gilroy"
                   className="mx-auto mt-6 max-w-100 text-white"
                 >
-                  {t("Basado en propiedades similares en tu zona y niveles promedio de ocupación.")}
+                  {t(
+                    "Basado en propiedades similares en tu zona y niveles promedio de ocupación.",
+                  )}
                 </Text>
               </div>
 

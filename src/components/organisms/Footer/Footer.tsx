@@ -11,7 +11,7 @@ import {
   type FooterLink,
   type SocialLink,
 } from "@/components/molecules";
-import { LanguageSwitcher } from "@/components/organisms/LanguageSwitcher";
+import { LanguageSwitcher } from "@/components/organisms";
 import { useI18n } from "@/i18n";
 
 const SOCIAL_LINKS: SocialLink[] = [

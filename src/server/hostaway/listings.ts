@@ -30,10 +30,15 @@ export async function getListingById(id: string) {
   return data.result;
 }
 
-export async function getListings(options?: { limit?: number; offset?: number }) {
+export async function getListings(options?: {
+  limit?: number;
+  offset?: number;
+}) {
   const params = new URLSearchParams();
+  params.set("isBookingEngineActive", "1");
   if (options?.limit) params.set("limit", String(options.limit));
-  if (typeof options?.offset === "number") params.set("offset", String(options.offset));
+  if (typeof options?.offset === "number")
+    params.set("offset", String(options.offset));
 
   const query = params.toString();
   const data = await hostawayFetch<ApiResponse<Property[]>>(

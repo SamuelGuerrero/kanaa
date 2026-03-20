@@ -1,9 +1,11 @@
 "use client";
 
-import { PropertyDetails } from "@/components/organisms/PropertyDetails";
-import { PropertyKnowBeforeSection } from "@/components/organisms/PropertyKnowBeforeSection";
-import { PropertyLocationSection } from "@/components/organisms/PropertyLocationSection";
-import { PropertySuggestionsSection } from "@/components/organisms/PropertySuggestionsSection";
+import {
+  PropertyDetails,
+  PropertyKnowBeforeSection,
+  PropertyLocationSection,
+  PropertySuggestionsSection,
+} from "@/components/organisms";
 import { useI18n } from "@/i18n";
 
 import type { Property } from "@/types/property";

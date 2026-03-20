@@ -5,14 +5,33 @@ import { useI18n } from "@/i18n";
 
 import type { DetailedHTMLProps, FocusEvent, InputHTMLAttributes } from "react";
 
+type FontSize =
+  | "xxs"
+  | "xs"
+  | "sm"
+  | "base"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+  | "6xl"
+  | "7xl";
+type FontWeight = "light" | "normal" | "medium" | "semibold" | "bold";
+
 type InputProps = Omit<
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
   "value" | "onChange"
 > & {
   label?: string;
+  labelClassName?: string;
+  labelSize?: FontSize;
+  labelWeight?: FontWeight;
   value: string;
   onChange?: (value: string) => void;
   variant?: "text" | "date-dynamic";
+  nonEditable?: boolean;
 };
 
 export const Input = ({
@@ -20,9 +39,13 @@ export const Input = ({
   onChange,
   placeholder,
   label,
+  labelClassName = "",
+  labelSize = "xs",
+  labelWeight = "medium",
   type = "text",
   variant = "text",
   className = "",
+  nonEditable = false,
   onFocus,
   onBlur,
   ...rest
@@ -43,14 +66,39 @@ export const Input = ({
     onBlur?.(e);
   };
 
+  if (nonEditable) {
+    return (
+      <div>
+        {label && (
+          <Text
+            font="gilroy"
+            size={labelSize}
+            weight={labelWeight}
+            className={`block text-black ${labelClassName}`}
+          >
+            {t(label)}
+          </Text>
+        )}
+        <Text
+          font="gilroy"
+          size="base"
+          weight="medium"
+          className={`text-green-darker ${className}`}
+        >
+          {value || (placeholder ? t(placeholder) : "—")}
+        </Text>
+      </div>
+    );
+  }
+
   return (
     <div>
       {label && (
         <Text
           font="gilroy"
-          size="xs"
-          weight="medium"
-          className="block text-black"
+          size={labelSize}
+          weight={labelWeight}
+          className={`block text-black ${labelClassName}`}
         >
           {t(label)}
         </Text>
@@ -63,7 +111,7 @@ export const Input = ({
         placeholder={placeholder ? t(placeholder) : undefined}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={`text-gilroy w-full overflow-scroll bg-transparent text-sm text-gray-600 placeholder-[#6A6A6A] transition-colors duration-150 outline-none focus:text-gray-900 focus:placeholder:text-gray-400 ${className}`}
+        className={`w-full bg-transparent outline-none ${className}`}
         {...rest}
       />
     </div>

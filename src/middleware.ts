@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 import type { NextRequest } from "next/server";
 
 const locales = ["es", "en"] as const;
@@ -18,7 +19,6 @@ function detectLocale(request: NextRequest): Locale {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip API routes, Next.js internals and static files
   if (
     pathname.startsWith("/api/") ||
     pathname.startsWith("/_next/") ||
@@ -30,14 +30,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check if path already has a locale prefix
   const hasLocale = locales.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );
 
   if (hasLocale) return NextResponse.next();
 
-  // Redirect to locale-prefixed path
   const locale = detectLocale(request);
   const url = request.nextUrl.clone();
   url.pathname = `/${locale}${pathname}`;

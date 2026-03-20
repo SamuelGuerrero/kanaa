@@ -30,7 +30,9 @@ export const AmenityItem = ({
         className="text-green-darker text-[16.79px] leading-7.5"
       >
         {value}
-        {description && <span className="ml-1 sm:hidden">{t(description)}</span>}
+        {description && (
+          <span className="ml-1 sm:hidden">{t(description)}</span>
+        )}
       </Text>
     </div>
   );

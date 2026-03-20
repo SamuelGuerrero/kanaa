@@ -12,7 +12,7 @@ import { useCallback, useEffect, useState, type FormEvent } from "react";
 
 import { Text } from "@/components/atoms";
 
-import type { BookingData } from "@/components/molecules/BookingWidget";
+import type { BookingData } from "@/components/molecules";
 
 interface BookingPaymentModalProps {
   isOpen: boolean;
@@ -75,7 +75,6 @@ function PaymentForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Resumen de reserva */}
       <div className="rounded-lg bg-gray-50 p-4">
         <Text font="gilroy" size="lg" weight="bold" className="mb-3">
           Resumen de tu reserva
@@ -129,7 +128,6 @@ function PaymentForm({
         </div>
       </div>
 
-      {/* Stripe Payment Element */}
       <div>
         <Text font="gilroy" size="lg" weight="bold" className="mb-3">
           Método de pago
@@ -139,7 +137,6 @@ function PaymentForm({
         </div>
       </div>
 
-      {/* Botón de envío */}
       <button
         type="submit"
         disabled={!stripe || isLoading}
@@ -265,7 +262,6 @@ export const BookingPaymentModal = ({
   return (
     <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4">
       <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
-        {/* Header */}
         <div className="mb-6 flex items-center justify-between border-b border-gray-200 pb-4">
           <Text font="gilroy" size="2xl" weight="bold">
             Completa tu reserva
@@ -278,7 +274,6 @@ export const BookingPaymentModal = ({
           </button>
         </div>
 
-        {/* Content */}
         {error && (
           <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
             <Text font="gilroy" size="sm" className="text-red-700">

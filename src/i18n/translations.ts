@@ -1,40 +1,40 @@
 export const enTranslations: Record<string, string> = {
-  "Inicio": "Home",
-  "Propiedades": "Properties",
-  "Nosotros": "About Us",
+  Inicio: "Home",
+  Propiedades: "Properties",
+  Nosotros: "About Us",
   "Gestión de propiedades": "Property Management",
   "Calculadora de ingresos": "Earnings Calculator",
   "Reserva ahora": "Book now",
   "Reserva proximamente": "Book soon",
   "Reserva próximamente": "Book soon",
-  "Kanaa": "Kanaa",
+  Kanaa: "Kanaa",
   "Sobre nosotros": "About us",
   "Nuestro equipo": "Our team",
   "Experiencia & Historia": "Experience & History",
   "Listado de propiedades": "Property listings",
-  "Destacadas": "Featured",
+  Destacadas: "Featured",
   "Guías y tips de viaje": "Travel guides and tips",
   "Únete como propietario": "Join as an owner",
   "Property Management": "Property Management",
-  "Legal": "Legal",
+  Legal: "Legal",
   "Política de privacidad": "Privacy policy",
   "Términos y condiciones": "Terms and conditions",
   "Política de cookies": "Cookies policy",
-  "Contáctanos": "Contact us",
+  Contáctanos: "Contact us",
   "Seguimiento de reserva": "Booking follow-up",
   "Selecciona un destino": "Select a destination",
   "Cargando destinos...": "Loading destinations...",
-  "Destino": "Destination",
-  "Entrada": "Check-in",
-  "Llegada": "Check-in",
-  "Salida": "Check-out",
-  "Huéspedes": "Guests",
+  Destino: "Destination",
+  Entrada: "Check-in",
+  Llegada: "Check-in",
+  Salida: "Check-out",
+  Huéspedes: "Guests",
   "Aún no se te cobrará nada": "You won't be charged yet",
   "Añade fecha": "Add date",
   "Añadir fecha": "Add date",
   "Añade huéspedes": "Add guests",
   "Nombre(s)": "First name(s)",
-  "Apellidos": "Last name(s)",
+  Apellidos: "Last name(s)",
   "Email*": "Email address*",
   WhatsApp: "WhatsApp",
   "Número telefónico": "Phone number",
@@ -102,18 +102,18 @@ export const enTranslations: Record<string, string> = {
   "Realizar búsqueda": "Search",
   "Selecciona tus fechas": "Select your dates",
   "Selecciona huéspedes": "Select guests",
-  "Cerrar": "Close",
+  Cerrar: "Close",
   "Borrar fechas": "Clear dates",
-  "Adultos": "Adults",
+  Adultos: "Adults",
   "13 años o más": "13 years or more",
-  "Niños": "Children",
+  Niños: "Children",
   "De 2 a 12 años": "Ages 2 to 12",
-  "Bebés": "Infants",
+  Bebés: "Infants",
   "Menores de 2 años": "Under 2 years old",
-  "huésped": "guest",
-  "huéspedes": "guests",
-  "bebé": "infant",
-  "bebés": "infants",
+  huésped: "guest",
+  huéspedes: "guests",
+  bebé: "infant",
+  bebés: "infants",
   "Cargando propiedades...": "Loading properties...",
   "Error al cargar propiedades": "Error loading properties",
   Reintentar: "Retry",
@@ -124,14 +124,17 @@ export const enTranslations: Record<string, string> = {
   "Todos nuestros alojamientos están pensados para que disfrutes de una estadía placentera y relajante.":
     "All our accommodations are designed for you to enjoy a pleasant and relaxing stay.",
   "Ver todos los alojamientos": "View all accommodations",
-  "Huésped": "Guest",
+  Huésped: "Guest",
   "Reglas de la casa": "House rules",
   "Seguridad y propiedad": "Safety and property",
   "Gestión inteligente de propiedades": "Smart property management",
-  "Ayudamos a propietarios a maximizar el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo.": "We help property owners maximize the potential of their properties through a professional, transparent, and data-driven management model. From rental strategy to daily operations, we take care of everything.",
+  "Ayudamos a propietarios a maximizar el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo.":
+    "We help property owners maximize the potential of their properties through a professional, transparent, and data-driven management model. From rental strategy to daily operations, we take care of everything.",
   "Experiencias que nos respaldan": "Experiences that back us up",
-  "Descubre el verdadero valor de tu alquiler vacacional.": "Discover the true value of your vacation rental.",
-  "Completa el formulario a continuación para obtener una estimación personalizada de tus ingresos anuales.": "Complete the form below to get a personalized estimate of your annual income.",
+  "Descubre el verdadero valor de tu alquiler vacacional.":
+    "Discover the true value of your vacation rental.",
+  "Completa el formulario a continuación para obtener una estimación personalizada de tus ingresos anuales.":
+    "Complete the form below to get a personalized estimate of your annual income.",
   "Huéspedes y propietarios comparten cómo Kanaa transformó su forma de viajar y de gestionar sus propiedades.":
     "Guests and owners share how Kanaa transformed the way they travel and manage their properties.",
   "Descubre cuánto puede generar tu propiedad":
@@ -144,9 +147,12 @@ export const enTranslations: Record<string, string> = {
   "Calcular ingreso": "Calculate earning",
   "una mejor forma de": "a better way to",
   descansar: "rest",
-  "Nos encargamos de la gestión completa de tu inmueble para que tú obtengas ingresos constantes sin preocuparte por la operación diaria.": "We take care of the complete management of your property so that you can earn steady income without worrying about daily operations.",
-  "Pensado para quienes buscan tranquilidad y resultados": "Designed for those seeking peace of mind and results",
-  "Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de tu propiedad.": "Ideal for owners looking to maximize income without handling daily property management.",
+  "Nos encargamos de la gestión completa de tu inmueble para que tú obtengas ingresos constantes sin preocuparte por la operación diaria.":
+    "We take care of the complete management of your property so that you can earn steady income without worrying about daily operations.",
+  "Pensado para quienes buscan tranquilidad y resultados":
+    "Designed for those seeking peace of mind and results",
+  "Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de tu propiedad.":
+    "Ideal for owners looking to maximize income without handling daily property management.",
   "En Kanaa disfrutas espacios cómodos, tranquilos y pensados para <br /> que te relajes desde el primer momento.":
     "At Kanaa, you enjoy comfortable, peaceful spaces designed for you to relax from the very first moment.",
   "En Kanaa disfrutas espacios cómodos, tranquilos y pensados para que te relajes desde el primer momento.":
@@ -194,16 +200,21 @@ export const enTranslations: Record<string, string> = {
   "Acompañamos cada proyecto desde su origen hasta su operación, cuidando cada etapa del proceso para maximizar su valor":
     "We accompany each project from its inception to its operation, taking care of every stage of the process to maximize its value",
   "Selección estratégica": "Strategic selection",
-  "Identificamos ubicaciones con alto potencial de rentabilidad y demanda turística sostenible.": "We identify locations with high potential for profitability and sustainable tourist demand.",
+  "Identificamos ubicaciones con alto potencial de rentabilidad y demanda turística sostenible.":
+    "We identify locations with high potential for profitability and sustainable tourist demand.",
   "Desarrollo inteligente": "Smart development",
-  "Optimizamos propiedades funcionales y atractivas para el mercado vacacional.": "We optimize properties to be functional and attractive for the vacation rental market.",
+  "Optimizamos propiedades funcionales y atractivas para el mercado vacacional.":
+    "We optimize properties to be functional and attractive for the vacation rental market.",
   "Gestión eficiente": "Efficient management",
-  "Administramos con foco en ingresos, ocupación y experiencia del huésped.": "We manage with a focus on income, occupancy, and guest experience.",
+  "Administramos con foco en ingresos, ocupación y experiencia del huésped.":
+    "We manage with a focus on income, occupancy, and guest experience.",
   "Oportunidades claras": "Clear opportunities",
-  "Trabajamos con esquemas transparentes y decisiones basadas en datos.": "We work with transparent schemes and data-driven decisions.",
+  "Trabajamos con esquemas transparentes y decisiones basadas en datos.":
+    "We work with transparent schemes and data-driven decisions.",
   "Únete a nuestro equipo": "Join our team",
   "Conoce nuestras vacantes": "Discover our vacancies",
-  "Convierte tu propiedad en un activo rentable": "Turn your property into a profitable asset",
+  "Convierte tu propiedad en un activo rentable":
+    "Turn your property into a profitable asset",
   "Administra tu propiedad sin complicaciones y con el respaldo de expertos en rentas de alta demanda.":
     "Manage your property hassle-free with the support of high-demand rental experts.",
   "¿Quiénes somos?": "Who are we?",
@@ -212,9 +223,9 @@ export const enTranslations: Record<string, string> = {
   "Huéspedes felices": "Happy guests",
   "Huésp.": "Guests",
   "Recám.": "Bd.",
-  "Baño": "Bath",
-  "Baños": "Baths",
-  "Compartir": "Share",
+  Baño: "Bath",
+  Baños: "Baths",
+  Compartir: "Share",
   "Enlace copiado": "Link copied",
   "Cerrar galería": "Close gallery",
   "Sobre este lugar": "About this place",
@@ -266,21 +277,23 @@ export const enTranslations: Record<string, string> = {
   "Preguntas frecuentes": "Frequently asked questions",
   "© {year} — Kanaa. Todos los derechos reservados.":
     "© {year} — Kanaa. All rights reserved.",
-  "Idioma": "Language",
-  "Español": "Spanish",
+  Idioma: "Language",
+  Español: "Spanish",
   "Conoce todas nuestras propiedades": "Discover all our properties",
-  "Conoce el potencial real de tu propiedad": "Discover the real potential of your property",
-  "Ingresa algunos datos clave y obtén una estimación de ingresos anual basada en el tipo de inmueble, su capacidad y su ubicación.": "Enter some key data and get an annual income estimate based on the type of property, its capacity, and its location.",
+  "Conoce el potencial real de tu propiedad":
+    "Discover the real potential of your property",
+  "Ingresa algunos datos clave y obtén una estimación de ingresos anual basada en el tipo de inmueble, su capacidad y su ubicación.":
+    "Enter some key data and get an annual income estimate based on the type of property, its capacity, and its location.",
   "Revisa nuestro catálogo completo de propiedades disponibles y encuentra la ideal para ti.":
     "Check out our complete catalog of available properties and find the ideal one for you.",
-  "Página": "Page ",
-  "Anterior": "Previous",
-  "Siguiente": "Next",
-  "de": " of ",
+  Página: "Page ",
+  Anterior: "Previous",
+  Siguiente: "Next",
+  de: " of ",
   "por noche": "per night",
-  "noche": "night",
-  "noches": "nights",
-  "Inglés": "English",
+  noche: "night",
+  noches: "nights",
+  Inglés: "English",
   "¿Qué incluye el servicio de gestión de propiedades?":
     "What does the property management service include?",
   "Nuestro servicio incluye administración integral del inmueble: publicación y optimización del anuncio, gestión de reservas, atención a huéspedes, limpieza profesional, mantenimiento preventivo y reportes periódicos de ingresos.":
@@ -297,15 +310,13 @@ export const enTranslations: Record<string, string> = {
     "What happens if an issue arises with a guest or the property?",
   "Depende de tu preferencia. Puedes definir fechas de uso personal y nosotros gestionamos el calendario para maximizar ingresos cuando esté disponible para renta.":
     "It depends on your preference. You can define personal-use dates, and we manage the calendar to maximize income when it is available for rent.",
-  "¿Cómo y cuándo recibo mis ingresos?":
-    "How and when do I receive my income?",
+  "¿Cómo y cuándo recibo mis ingresos?": "How and when do I receive my income?",
   "Nuestro equipo se encarga de resolver cualquier incidencia de manera inmediata, tanto con huéspedes como con temas operativos o de mantenimiento, para proteger tu inversión.":
     "Our team handles any incident immediately, whether with guests or operational/maintenance issues, to protect your investment.",
   "¿Qué es Kanaa House?": "What is Kanaa House?",
   "Kanaa House es una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrece experiencias premium a los huéspedes.":
     "Kanaa House is a company specialized in managing, operating, and optimizing rental properties, focused on maximizing owners' return on investment while delivering premium guest experiences.",
-  "¿Cómo funciona el modelo de Kanaa?":
-    "How does Kanaa's model work?",
+  "¿Cómo funciona el modelo de Kanaa?": "How does Kanaa's model work?",
   "Nos encargamos de todo el proceso: desde la adecuación y optimización del inmueble, hasta la publicación, gestión de reservas, atención a huéspedes y mantenimiento operativo.":
     "We handle the entire process: from preparing and optimizing the property to publishing, reservation management, guest support, and operational maintenance.",
   "¿Qué tipo de propiedades aceptan?":
@@ -316,12 +327,10 @@ export const enTranslations: Record<string, string> = {
     "What is the benefit for the owner?",
   "El propietario obtiene ingresos sin preocuparse por la operación diaria. Nuestro objetivo es maximizar ocupación, optimizar tarifas y mantener el inmueble en excelente estado.":
     "Owners earn income without worrying about daily operations. Our goal is to maximize occupancy, optimize rates, and keep the property in excellent condition.",
-  "¿Cómo garantizan la rentabilidad?":
-    "How do you ensure profitability?",
+  "¿Cómo garantizan la rentabilidad?": "How do you ensure profitability?",
   "Utilizamos análisis de mercado, estrategias dinámicas de precios y optimización continua del rendimiento para mantener la propiedad competitiva y rentable.":
     "We use market analysis, dynamic pricing strategies, and continuous performance optimization to keep the property competitive and profitable.",
-  "¿Quién se encarga del mantenimiento?":
-    "Who is in charge of maintenance?",
+  "¿Quién se encarga del mantenimiento?": "Who is in charge of maintenance?",
   "Kanaa House coordina mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.":
     "Kanaa House coordinates preventive and corrective maintenance, as well as professional cleaning after each stay.",
   "¿Qué pasa si hay daños en la propiedad?":
@@ -339,8 +348,7 @@ export const enTranslations: Record<string, string> = {
     "How does the earnings calculator work?",
   "La calculadora analiza datos como ubicación, tipo de propiedad, número de huéspedes, habitaciones y temporada para ofrecerte una estimación clara y realista del ingreso potencial de tu propiedad.":
     "The calculator analyzes data such as location, property type, number of guests, rooms, and seasonality to provide a clear and realistic estimate of your property's potential income.",
-  "¿La estimación de ingresos es gratuita?":
-    "Is the income estimate free?",
+  "¿La estimación de ingresos es gratuita?": "Is the income estimate free?",
   "Sí. La estimación es 100% gratuita y no implica ningún compromiso. Es una herramienta diseñada para ayudarte a tomar decisiones informadas.":
     "Yes. The estimate is 100% free and carries no obligation. It is a tool designed to help you make informed decisions.",
   "¿Qué plataformas de reservas gestionan?":
@@ -375,8 +383,7 @@ export const enTranslations: Record<string, string> = {
   "Gestión integral": "Comprehensive management",
   "Nos encargamos de todo.": "We take care of everything.",
   "Optimización de ingresos": "Revenue optimization",
-  "Precios inteligentes, mejores resultados.":
-    "Smart pricing, better results.",
+  "Precios inteligentes, mejores resultados.": "Smart pricing, better results.",
   "Asegúrate de obtener la mayor rentabilidad posible. Utilizamos estrategias integrales y modelos de inteligencia artificial para optimizar el potencial de ingresos de tu propiedad.":
     "Make sure you get the highest possible profitability. We use comprehensive strategies and artificial intelligence models to optimize your property's income potential.",
   "Análisis de datos": "Data analysis",
@@ -389,28 +396,24 @@ export const enTranslations: Record<string, string> = {
   "Administración de listados": "Listing management",
   "Marketing y publicidad": "Marketing and advertising",
   "Asistencia en línea para huéspedes": "Online support for guests",
-  // EarningsCalculatorForm — loading state
   "Espera unos momentos": "Please wait a moment",
   "Estamos calculando el precio aproximado de tu propiedad":
     "We are calculating the approximate price of your property",
-  // EarningsCalculatorForm — result state
   "Tu propiedad podría generar hasta:": "Your property could generate up to:",
   "Basado en propiedades similares en tu zona y niveles promedio de ocupación.":
     "Based on similar properties in your area and average occupancy levels.",
   "Recibir mi análisis personalizado": "Get my personalized analysis",
-  // EarningsCalculatorForm — lead capture form
   "Obtén tu análisis completo": "Get your complete analysis",
   "Te enviaremos una proyección mensual personalizada.":
     "We will send you a personalized monthly projection.",
   "Correo electrónico": "Email",
-  "Teléfono": "Phone",
+  Teléfono: "Phone",
   "Nombre Completo": "Full Name",
   "Enviando...": "Sending...",
   "Recibir mi análisis": "Get my analysis",
   "Solicitud enviada con éxito": "Request sent successfully",
   "Gracias, te enviaremos tu análisis personalizado y nuestro equipo te contactará pronto.":
     "Thank you, we will send you your personalized analysis and our team will contact you shortly.",
-  // EarningsCalculatorForm — validation errors (property form)
   "Ingresa un codigo postal valido.": "Enter a valid postal code.",
   "Selecciona un estado.": "Select a state.",
   "Selecciona una ciudad.": "Select a city.",
@@ -421,18 +424,15 @@ export const enTranslations: Record<string, string> = {
   "Selecciona cantidad de habitaciones.": "Select the number of bedrooms.",
   "Selecciona cantidad de banos.": "Select the number of bathrooms.",
   "Selecciona anos de propiedad.": "Select years of ownership.",
-  // EarningsCalculatorForm — validation errors (lead form)
   "Ingresa un correo valido.": "Enter a valid email.",
   "Ingresa un telefono valido.": "Enter a valid phone number.",
   "Ingresa tu nombre completo.": "Enter your full name.",
   "Ingresa un nombre valido.": "Enter a valid name.",
   "No encontramos los datos de la propiedad.":
     "We couldn't find the property data.",
-  // Navbar
   "En renta": "For rent",
   "En venta (próximamente)": "For sale (coming soon)",
   "Trabaja con nosotros": "Work with us",
-  // Legal pages
   "Aviso de Privacidad": "Privacy Notice",
   "Última actualización: 2025": "Last updated: 2025",
   "Términos y Condiciones": "Terms and Conditions",
@@ -441,10 +441,7 @@ export const enTranslations: Record<string, string> = {
 
 const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
 
-export const translateText = (
-  value: string,
-  locale: "es" | "en",
-): string => {
+export const translateText = (value: string, locale: "es" | "en"): string => {
   if (locale === "es") return value;
   const normalizedValue = normalize(value);
 
