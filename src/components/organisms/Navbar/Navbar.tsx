@@ -347,14 +347,14 @@ export const Navbar = () => {
 
           <Button
             variant="primary"
-            href={`/${locale}/properties`}
+            disabled
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
               </CircleButton>
             }
           >
-            {t("Reserva ahora")}
+            Reserva próximamente
           </Button>
         </div>
 
@@ -476,14 +476,14 @@ export const Navbar = () => {
             <Button
               variant="primary"
               className="mt-2 w-full justify-center"
-              href={`/${locale}/properties`}
+              disabled
               icon={
                 <CircleButton>
                   <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
                 </CircleButton>
               }
             >
-              {t("Reserva ahora")}
+              Reserva próximamente
             </Button>
           </div>
         </div>

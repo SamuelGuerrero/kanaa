@@ -17,7 +17,7 @@ export default function CheckoutPage() {
   const params = useParams();
   const propertyId = params?.propertyId as string;
   const locale = (params?.locale as string) ?? "es";
-  const isCheckoutDisabled = false;
+  const isCheckoutDisabled = true;
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [stripePromise, setStripePromise] = useState<ReturnType<

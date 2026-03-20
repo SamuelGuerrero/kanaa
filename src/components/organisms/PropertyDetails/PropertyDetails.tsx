@@ -214,6 +214,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
+            disableCheckout
             className="sm:hidden"
           />
 
@@ -327,6 +328,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
+            disableCheckout
           />
         </section>
       </div>
