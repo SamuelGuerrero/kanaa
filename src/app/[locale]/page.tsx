@@ -1,3 +1,4 @@
+import { NoteIcon, PeopleIcon, TrendingRoundIcon } from "@/components/atoms";
 import {
   FeaturedProperties,
   Hero,
@@ -45,16 +46,13 @@ export default async function HomePage({ params }: HomePageProps) {
       <KeyMetrics metrics={METRICS} bgColor="bg-gold-light" />
 
       <InfoSection
-        title="Property Management pensado para propietarios"
-        description="En Kanaa administramos tu propiedad de manera profesional, cuidando
-        cada espacio, optimizando la ocupación y ofreciendo una experiencia
-        excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad."
+        title="Gestión de propiedades para propietarios"
         image={PropertyManagement}
         imageAlt="Property Management"
         imagePosition="right"
         className="bg-green-dark-hover py-7 pb-2 sm:pb-7"
         descriptionClassName="text-white mt-8 mr-4 max-w-[600px]"
-        textClassName="md:mt-20 ml-2 text-white  "
+        textClassName="md:mt-20 ml-2 text-white mb-10"
         buttonProps={{
           children: "Conocer más",
           className: " justify-center md:w-auto md:px-6 md:py-2",
@@ -62,6 +60,22 @@ export default async function HomePage({ params }: HomePageProps) {
           circleButtonClassName: "bg-gold-light-active!",
           href: `/${locale}/property-management`,
         }}
+        featuresTextClassName="text-white"
+        featuresIcon="bg-gold-normal !h-[50px] !w-[50px]"
+        features={[
+          {
+            text: "Gestión profesional de propiedades",
+            icon: <TrendingRoundIcon />,
+          },
+          {
+            text: "Optimización de ocupación",
+            icon: <NoteIcon />,
+          },
+          {
+            text: "Experiencia excepcional para huéspedes",
+            icon: <PeopleIcon />,
+          },
+        ]}
       />
 
       <InfoSection

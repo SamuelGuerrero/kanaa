@@ -243,7 +243,7 @@ export const Navbar = () => {
     <>
       <nav
         ref={navRef}
-        className={`bordershadow-lg fixed left-1/2 flex w-full -translate-x-1/2 items-center justify-between px-5 py-4 transition-colors duration-300 sm:w-[96%] sm:rounded-xl md:px-12 md:py-5 md:[background-blend-mode:overlay,normal] md:[backdrop-filter:blur(22.39px)] md:[-webkit-backdrop-filter:blur(22.39px)] md:[background:radial-gradient(90.16%_143.01%_at_15.32%_21.04%,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.045)_77.08%,rgba(255,255,255,0)_100%)] ${navTextClass} ${
+        className={`bordershadow-lg fixed left-1/2 flex w-full -translate-x-1/2 items-center justify-between px-5 py-4 transition-colors duration-300 sm:w-[96%] sm:rounded-xl md:px-12 md:py-5 xl:[background-blend-mode:overlay,normal] xl:[backdrop-filter:blur(22.39px)] xl:[-webkit-backdrop-filter:blur(22.39px)] xl:[background:radial-gradient(90.16%_143.01%_at_15.32%_21.04%,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.045)_77.08%,rgba(255,255,255,0)_100%)] ${navTextClass} ${
           isMobileMenuOpen ? "pointer-events-none z-30" : "z-50"
         } ${
           isScrolled
@@ -476,14 +476,13 @@ export const Navbar = () => {
             <Button
               variant="primary"
               className="mt-2 w-full justify-center"
-              disabled
               icon={
                 <CircleButton>
                   <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
                 </CircleButton>
               }
             >
-              Reserva próximamente
+              Reserva ahora
             </Button>
           </div>
         </div>

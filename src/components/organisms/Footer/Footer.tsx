@@ -35,7 +35,6 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
     links: [
       { href: "", label: "Sobre nosotros" },
       { href: "", label: "Nuestro equipo" },
-      { href: "", label: "Experiencia & Historia" },
     ],
   },
   {
@@ -47,10 +46,9 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
     ],
   },
   {
-    title: "Property Management",
+    title: "Gestión de propiedades",
     links: [
       { href: "", label: "Únete como propietario" },
-      { href: "", label: "Property Management" },
       { href: "", label: "Calculadora de ingresos" },
     ],
   },
@@ -59,7 +57,6 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
     links: [
       { href: "/privacy-policy", label: "Política de privacidad" },
       { href: "/terms-and-conditions", label: "Términos y condiciones" },
-      { href: "/cookie-policy", label: "Política de cookies" },
     ],
   },
 ];
