@@ -17,7 +17,6 @@ export default function CheckoutPage() {
   const params = useParams();
   const propertyId = params?.propertyId as string;
   const locale = (params?.locale as string) ?? "es";
-  const isCheckoutDisabled = true;
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [stripePromise, setStripePromise] = useState<ReturnType<
@@ -29,10 +28,6 @@ export default function CheckoutPage() {
   const { occupiedDates, priceByDate } = useListingCalendar(propertyId);
 
   useEffect(() => {
-    if (isCheckoutDisabled) {
-      router.replace(`/${locale}`);
-      return;
-    }
     const savedBookingData = sessionStorage.getItem("bookingData");
     if (!savedBookingData) {
       router.push(`/${locale}/properties/${propertyId}`);
@@ -106,7 +101,7 @@ export default function CheckoutPage() {
     };
 
     void initializeStripe();
-  }, [propertyId, router, isCheckoutDisabled, locale]);
+  }, [propertyId, router, locale]);
 
   const handleDatesChange = (startDate: Date | null, endDate: Date | null) => {
     if (!bookingData) return;
@@ -165,21 +160,6 @@ export default function CheckoutPage() {
         },
       }
     : undefined;
-
-  if (isCheckoutDisabled) {
-    return (
-      <main className="mx-auto flex min-h-[60vh] max-w-4xl items-center justify-center px-6 py-20">
-        <div className="text-center">
-          <Text size="3xl" weight="bold" className="text-green-normal">
-            Checkout deshabilitado
-          </Text>
-          <Text size="lg" font="gilroy" className="mt-3 text-gray-600">
-            Esta ruta está bloqueada temporalmente.
-          </Text>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white">

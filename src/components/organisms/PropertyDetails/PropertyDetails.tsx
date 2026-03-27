@@ -58,7 +58,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
 
     sessionStorage.setItem("bookingData", JSON.stringify(enrichedData));
 
-    router.push(`/checkout/${property.id}`);
+    router.push(`/${locale}/checkout/${property.id}`);
   };
 
   const fullDescription = (property.description ?? "").trim();
@@ -214,7 +214,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
-            disableCheckout
             className="sm:hidden"
           />
 
@@ -328,7 +327,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
-            disableCheckout
           />
         </section>
       </div>
