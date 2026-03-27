@@ -2,6 +2,7 @@
 
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 import {
   AmenityItem,
@@ -23,6 +24,9 @@ type PropertyCardProps = {
   price: number;
   priceLabel?: string;
   listingId?: string;
+  city?: string;
+  state?: string;
+  country?: string;
   onClick?: () => void;
 };
 
@@ -36,6 +40,9 @@ export const PropertyCard = ({
   price,
   priceLabel,
   listingId,
+  city,
+  state,
+  country,
   onClick,
 }: PropertyCardProps) => {
   const formatDateKeyLocal = (date: Date) => {
@@ -45,6 +52,10 @@ export const PropertyCard = ({
     return `${year}-${month}-${day}`;
   };
 
+  const formatLocation = (value: string | undefined) => {
+    return value === "Ciudad de México" ? "CDMX" : value;
+  };
+
   const todayKey = formatDateKeyLocal(new Date());
   const { priceByDate } = useListingCalendar(listingId ?? "", {
     startDate: todayKey,
@@ -52,12 +63,32 @@ export const PropertyCard = ({
   });
   const displayPrice = priceByDate[todayKey] ?? price;
 
+  const titleRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = titleRef.current;
+    if (!container) return;
+    const el = container.firstElementChild as HTMLElement;
+    if (!el) return;
+
+    el.style.fontSize = "";
+    const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+
+    if (el.scrollHeight > lineHeight + 2) {
+      let fontSize = parseFloat(getComputedStyle(el).fontSize);
+      while (el.scrollHeight > lineHeight + 2 && fontSize > 8) {
+        fontSize -= 0.5;
+        el.style.fontSize = `${fontSize}px`;
+      }
+    }
+  }, [title]);
+
   return (
     <figure
       onClick={onClick}
       className="bg-gold-light-hover group flex w-full cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px] transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg sm:h-[434.9px] sm:w-75.5"
     >
-      <div className="relative h-71.75 w-full overflow-hidden rounded-md">
+      <div className="relative h-71.75 w-full shrink-0 overflow-hidden rounded-md">
         <Image
           src={image}
           alt={title}
@@ -91,13 +122,28 @@ export const PropertyCard = ({
 
         <Text
           font="gilroy"
-          weight="bold"
-          className="text-green-darker text-left text-xl leading-7.5"
+          size="sm"
+          weight="medium"
+          className="text-grey-darker"
         >
-          {title}
+          {formatLocation(city)}, {formatLocation(state)}, {country}
         </Text>
 
-        <PriceDisplay price={displayPrice} label={priceLabel} />
+        <div ref={titleRef}>
+          <Text
+            font="gilroy"
+            weight="bold"
+            className="text-green-darker -mt-1 text-left text-xl"
+          >
+            {title}
+          </Text>
+        </div>
+
+        <PriceDisplay
+          className="-mt-2"
+          price={displayPrice}
+          label={priceLabel}
+        />
       </div>
     </figure>
   );
