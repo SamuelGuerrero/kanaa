@@ -128,9 +128,13 @@ export const enTranslations: Record<string, string> = {
   "Reglas de la casa": "House rules",
   "Seguridad y propiedad": "Safety and property",
   "Gestión inteligente de propiedades": "Smart property management",
+  "Gestión de propiedades inteligente": "Smart property management",
+  "Maximiza el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo.":
+    "Maximize the potential of your properties through a professional, transparent, and data-driven management model. From rental strategy to daily operations, we take care of everything.",
+  "Limpieza y mantenimiento profesional": "Professional cleaning and maintenance",
   "Ayudamos a propietarios a maximizar el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo.":
     "We help property owners maximize the potential of their properties through a professional, transparent, and data-driven management model. From rental strategy to daily operations, we take care of everything.",
-  "Experiencias que nos respaldan": "Experiences that back us up",
+  "Amado por los huéspedes": "Loved by guests",
   "Descubre el verdadero valor de tu alquiler vacacional.":
     "Discover the true value of your vacation rental.",
   "Completa el formulario a continuación para obtener una estimación personalizada de tus ingresos anuales.":
@@ -162,9 +166,7 @@ export const enTranslations: Record<string, string> = {
   "que te relajes desde el primer momento.":
     "you to relax from the very first moment.",
   "Ver alojamientos": "View accommodations",
-  "Property Management <br /> pensado para propietarios":
-    "Property Management <br /> designed for owners",
-  "Property Management pensado para propietarios":
+  "Gestión de propiedades para propietarios":
     "Property Management designed for owners",
   "En Kanaa administramos tu propiedad de manera profesional, cuidando <br /> cada espacio, optimizando la ocupación y ofreciendo una experiencia <br classname='hidden sm:block' /> excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad.":
     "At Kanaa, we manage your property professionally, taking care of every space, optimizing occupancy, and delivering an exceptional guest experience, while you enjoy complete peace of mind.",
@@ -217,6 +219,8 @@ export const enTranslations: Record<string, string> = {
     "Turn your property into a profitable asset",
   "Administra tu propiedad sin complicaciones y con el respaldo de expertos en rentas de alta demanda.":
     "Manage your property hassle-free with the support of high-demand rental experts.",
+  "Cuéntanos un poco de ti para comenzar":
+    "Tell us a little about yourself to get started",
   "¿Quiénes somos?": "Who are we?",
   "Agilizamos la gestión del alquiler vacacional para garantizar la tranquilidad y experiencias inolvidables a los huéspedes.":
     "We streamline vacation rental management to ensure peace of mind and unforgettable experiences for guests.",
@@ -298,24 +302,24 @@ export const enTranslations: Record<string, string> = {
     "What does the property management service include?",
   "Nuestro servicio incluye administración integral del inmueble: publicación y optimización del anuncio, gestión de reservas, atención a huéspedes, limpieza profesional, mantenimiento preventivo y reportes periódicos de ingresos.":
     "Our service includes full property management: listing publication and optimization, reservation management, guest support, professional cleaning, preventive maintenance, and periodic income reports.",
-  "¿Puedo usar el servicio aunque no viva en la misma ciudad que mi propiedad?":
-    "Can I use the service even if I do not live in the same city as my property?",
-  "Sí. Nos encargamos de todo de forma remota para que no tengas que estar presente. Tú puedes monitorear el desempeño de tu propiedad desde cualquier lugar, con total tranquilidad.":
+  "¿Puedo usar el servicio aunque no viva en la misma ciudad?":
+    "Can I use the service even if I do not live in the same city?",
+  "Sí. Nos encargamos de todo de forma remota para que no tengas que estar presente. Tú puedes monitorear el desempeño de tu propiedad desde cualquier lugar.":
     "Yes. We handle everything remotely so you do not have to be present. You can monitor your property's performance from anywhere, with complete peace of mind.",
   "¿Mi propiedad estará disponible todo el año?":
     "Will my property be available all year?",
-  "La estimación se basa en factores como ubicación, tipo de propiedad, número de habitaciones, temporada y demanda del mercado. Con esta información te damos una proyección realista y personalizada.":
-    "The estimate is based on factors such as location, property type, number of rooms, seasonality, and market demand. With this information, we provide a realistic and personalized projection.",
-  "¿Qué pasa si surge un problema con un huésped o con la propiedad?":
-    "What happens if an issue arises with a guest or the property?",
   "Depende de tu preferencia. Puedes definir fechas de uso personal y nosotros gestionamos el calendario para maximizar ingresos cuando esté disponible para renta.":
     "It depends on your preference. You can define personal-use dates, and we manage the calendar to maximize income when it is available for rent.",
-  "¿Cómo y cuándo recibo mis ingresos?": "How and when do I receive my income?",
+  "¿Qué pasa si surge un problema con un huésped o con la propiedad?":
+    "What happens if an issue arises with a guest or the property?",
   "Nuestro equipo se encarga de resolver cualquier incidencia de manera inmediata, tanto con huéspedes como con temas operativos o de mantenimiento, para proteger tu inversión.":
     "Our team handles any incident immediately, whether with guests or operational/maintenance issues, to protect your investment.",
-  "¿Qué es Kanaa House?": "What is Kanaa House?",
-  "Kanaa House es una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrece experiencias premium a los huéspedes.":
-    "Kanaa House is a company specialized in managing, operating, and optimizing rental properties, focused on maximizing owners' return on investment while delivering premium guest experiences.",
+  "¿Cómo y cuándo recibo mis ingresos?": "How and when do I receive my income?",
+  "La estimación se basa en factores como ubicación, tipo de propiedad, número de habitaciones, temporada y demanda del mercado. Con esta información te damos una proyección realista y personalizada.":
+    "The estimate is based on factors such as location, property type, number of rooms, seasonality, and market demand. With this information, we provide a realistic and personalized projection.",
+  "¿Qué es Kanaa?": "What is Kanaa?",
+  "Somos una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrecemos experiencias premium a los huéspedes.":
+    "We are a company specialized in managing, operating, and optimizing rental properties, focused on maximizing owners' return on investment while delivering premium guest experiences.",
   "¿Cómo funciona el modelo de Kanaa?": "How does Kanaa's model work?",
   "Nos encargamos de todo el proceso: desde la adecuación y optimización del inmueble, hasta la publicación, gestión de reservas, atención a huéspedes y mantenimiento operativo.":
     "We handle the entire process: from preparing and optimizing the property to publishing, reservation management, guest support, and operational maintenance.",
@@ -331,8 +335,8 @@ export const enTranslations: Record<string, string> = {
   "Utilizamos análisis de mercado, estrategias dinámicas de precios y optimización continua del rendimiento para mantener la propiedad competitiva y rentable.":
     "We use market analysis, dynamic pricing strategies, and continuous performance optimization to keep the property competitive and profitable.",
   "¿Quién se encarga del mantenimiento?": "Who is in charge of maintenance?",
-  "Kanaa House coordina mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.":
-    "Kanaa House coordinates preventive and corrective maintenance, as well as professional cleaning after each stay.",
+  "Nosotros coordinamos el mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.":
+    "We coordinate preventive and corrective maintenance, as well as professional cleaning after each stay.",
   "¿Qué pasa si hay daños en la propiedad?":
     "What happens if there is damage to the property?",
   "Contamos con procesos de verificación, políticas de seguridad y protocolos para proteger el inmueble ante cualquier eventualidad.":

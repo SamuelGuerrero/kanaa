@@ -11,33 +11,33 @@ export const DataPropertyManagment: FAQItem[] = [
   },
   {
     question:
-      "¿Puedo usar el servicio aunque no viva en la misma ciudad que mi propiedad?",
+      "¿Puedo usar el servicio aunque no viva en la misma ciudad?",
     answer:
-      "Sí. Nos encargamos de todo de forma remota para que no tengas que estar presente. Tú puedes monitorear el desempeño de tu propiedad desde cualquier lugar, con total tranquilidad.",
+      "Sí. Nos encargamos de todo de forma remota para que no tengas que estar presente. Tú puedes monitorear el desempeño de tu propiedad desde cualquier lugar.",
   },
   {
     question: "¿Mi propiedad estará disponible todo el año?",
     answer:
-      "La estimación se basa en factores como ubicación, tipo de propiedad, número de habitaciones, temporada y demanda del mercado. Con esta información te damos una proyección realista y personalizada.",
+      "Depende de tu preferencia. Puedes definir fechas de uso personal y nosotros gestionamos el calendario para maximizar ingresos cuando esté disponible para renta.",
   },
   {
     question:
       "¿Qué pasa si surge un problema con un huésped o con la propiedad?",
     answer:
-      "Depende de tu preferencia. Puedes definir fechas de uso personal y nosotros gestionamos el calendario para maximizar ingresos cuando esté disponible para renta.",
+      "Nuestro equipo se encarga de resolver cualquier incidencia de manera inmediata, tanto con huéspedes como con temas operativos o de mantenimiento, para proteger tu inversión.",
   },
   {
     question: "¿Cómo y cuándo recibo mis ingresos?",
     answer:
-      "Nuestro equipo se encarga de resolver cualquier incidencia de manera inmediata, tanto con huéspedes como con temas operativos o de mantenimiento, para proteger tu inversión.",
+      "La estimación se basa en factores como ubicación, tipo de propiedad, número de habitaciones, temporada y demanda del mercado. Con esta información te damos una proyección realista y personalizada.",
   },
 ] as const;
 
 export const DataHome: FAQItem[] = [
   {
-    question: "¿Qué es Kanaa House?",
+    question: "¿Qué es Kanaa?",
     answer:
-      "Kanaa House es una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrece experiencias premium a los huéspedes.",
+      "Somos una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrecemos experiencias premium a los huéspedes.",
   },
   {
     question: "¿Cómo funciona el modelo de Kanaa?",
@@ -62,7 +62,7 @@ export const DataHome: FAQItem[] = [
   {
     question: "¿Quién se encarga del mantenimiento?",
     answer:
-      "Kanaa House coordina mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.",
+      "Nosotros coordinamos el mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.",
   },
   {
     question: "¿Qué pasa si hay daños en la propiedad?",

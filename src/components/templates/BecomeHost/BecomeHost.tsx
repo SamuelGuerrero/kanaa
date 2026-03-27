@@ -39,8 +39,7 @@ export const BecomeHost = () => {
             font="gilroy"
             weight="medium"
           >
-            Administra tu propiedad sin complicaciones y con el respaldo de
-            expertos en rentas de alta demanda.
+            Cuéntanos un poco de ti para comenzar
           </Text>
         </div>
 

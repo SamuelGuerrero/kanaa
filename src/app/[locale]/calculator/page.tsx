@@ -101,7 +101,7 @@ export default function HomePage() {
         features={[
           { text: "Análisis de datos", icon: <Vector /> },
           {
-            text: "Estrategia de precios dinámicos",
+            text: "Herramientas de fijación de precios robustas",
             icon: <SupportIcon />,
           },
           {

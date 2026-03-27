@@ -1,19 +1,23 @@
-import { CleanIcon, Group, ProiconsDocument, Vector } from "@/components/atoms";
+import {
+  CleanIcon,
+  NoteIcon,
+  NoteTimeIcon,
+  TrendingRoundIcon,
+} from "@/components/atoms";
 import {
   BackedExperience,
   BecomeHost,
   FrequentlyQuestions,
   InfoSection,
-  IntelligentManagement,
   KeyMetrics,
   RealPropertyPotential,
   type KeyMetricsProps,
 } from "@/components/templates";
 import { DataPropertyManagment } from "@/data/faqData";
 import { createPageMetadata } from "@/lib/seo";
-import PeaceAndResults from "@assets/images/Home/PeaceAndResults.png";
 import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
 import rentalManagement2 from "@assets/images/Home/rentalManagement2.png";
+// import PeaceAndResults from "@assets/images/Home/PeaceAndResults.png";
 import RentProperty from "@assets/images/Home/RentProperty.png";
 
 import type { Metadata } from "next";
@@ -40,7 +44,7 @@ export default async function HomePage({ params }: GestionPageProps) {
   return (
     <main className="flex flex-col space-y-1.5 md:space-y-6">
       <BecomeHost />
-      <InfoSection
+      {/* <InfoSection
         title="Pensado para quienes buscan tranquilidad y resultados"
         description="Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de tu propiedad."
         image={PeaceAndResults}
@@ -56,15 +60,26 @@ export default async function HomePage({ params }: GestionPageProps) {
           circleButtonClassName: "bg-grey-light! !inline-flex",
           href: `/${locale}/contact`,
         }}
-      />
-      <IntelligentManagement />
-      <RealPropertyPotential
-        title="Descubre el verdadero valor de tu alquiler vacacional."
-        description="Completa el formulario a continuación para obtener una  estimación personalizada de tus ingresos anuales."
-      />
+      /> */}
       <InfoSection
-        title="Gestión de alquileres vacacionales simplificada"
-        description="Agiliza la gestión del alquiler vacacional para tu tranquilidad y mayor rentabilidad."
+        title="Gestión de propiedades inteligente"
+        description="Maximiza el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. <br /> <br />
+Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo."
+        imagePosition="left"
+        className="pb-36 md:pb-10"
+        descriptionClassName="text-grey-darker !max-w-[520px] mb-10"
+        textClassName="mt-15 mx-2 mr-6 text-green-normal"
+        featuresIcon="bg-green-normal w-[50px] h-[50px]"
+        featuresTextClassName="text-grey-darker"
+        features={[
+          { text: "Administración de listados", icon: <TrendingRoundIcon /> },
+          { text: "Gestión de reserva", icon: <NoteIcon /> },
+          { text: "Limpieza y mantenimiento profesional", icon: <CleanIcon /> },
+          {
+            text: "Optimización de ingresos",
+            icon: <NoteTimeIcon />,
+          },
+        ]}
         imagesConfig={[
           {
             src: rentalManagement1,
@@ -77,21 +92,10 @@ export default async function HomePage({ params }: GestionPageProps) {
             className: "absolute top-[0%] left-[37%] w-[75%] z-10",
           },
         ]}
-        imagePosition="left"
-        className="bg-white! pb-20"
-        descriptionClassName="text-grey-darker"
-        textClassName="ml-3 mt-10 text-green-normal"
-        features={[
-          { text: "Soporte digital y presencial", icon: <Vector /> },
-          { text: "Servicios de limpieza profesional", icon: <CleanIcon /> },
-          {
-            text: "Controles de mantenimiento periódicos",
-            icon: <ProiconsDocument />,
-          },
-          { text: "Servicios de concierge", icon: <Group /> },
-        ]}
-        featuresTextClassName="text-grey-darker"
-        featuresIcon="bg-green-normal h-12.5 w-12.5"
+      />
+      <RealPropertyPotential
+        title="Descubre el verdadero valor de tu alquiler vacacional."
+        description="Completa el formulario a continuación para obtener una  estimación personalizada de tus ingresos anuales."
       />
 
       <KeyMetrics

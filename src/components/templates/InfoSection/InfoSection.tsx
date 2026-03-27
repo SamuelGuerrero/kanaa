@@ -25,7 +25,7 @@ type ImageProps =
 
 type InfoSectionProps = ImageProps & {
   title: string;
-  description: string;
+  description?: string;
   imagePosition?: "left" | "right";
   imageClassName?: string;
   className?: string;
@@ -72,7 +72,7 @@ export const InfoSection = ({
         font="gilroy"
         size="lg"
         className={`mt-6 ml-3 md:leading-8 ${descriptionClassName}`}
-        dangerouslySetInnerHTML={{ __html: description }}
+        dangerouslySetInnerHTML={{ __html: description ?? "" }}
       />
 
       {features?.length ? (
