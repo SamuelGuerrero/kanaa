@@ -29,7 +29,7 @@ export const PropertyCarousel = ({
   className,
   ...rest
 }: PropertyCarouselProps) => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const {
     currentPage,
     totalPages,
@@ -154,7 +154,7 @@ export const PropertyCarousel = ({
                         priceLabel="por noche"
                         listingId={property.id.toString()}
                         onClick={() =>
-                          router.push(`/properties/${property.id}`)
+                          router.push(`/${locale}/properties/${property.id}`)
                         }
                       />
                     );

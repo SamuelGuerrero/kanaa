@@ -11,6 +11,7 @@ import {
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
 import { PropertyCarousel } from "@/components/organisms";
+import { useI18n } from "@/i18n";
 
 import type { ApiResponse, Property } from "@/types/property";
 
@@ -23,6 +24,7 @@ export const FeaturedProperties = ({
   className,
   ...rest
 }: FeaturedPropertiesProps) => {
+  const { locale } = useI18n();
   const [listings, setListings] = useState<Property[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -74,7 +76,7 @@ export const FeaturedProperties = ({
       <Text size="5xl" className="text-green-normal mb-5">
         Conoce nuestros alojamientos
       </Text>
-      <Text size="lg" font="gilroy" className="text-grey-darker">
+      <Text size="lg" font="gilroy" className="text-grey-darker hidden">
         Todos nuestros alojamientos están pensados para que disfrutes de una
         estadía placentera y relajante.
       </Text>
@@ -83,7 +85,7 @@ export const FeaturedProperties = ({
         variant="primary"
         textWeight="bold"
         className="text-gold-normal-hover! mt-5 w-fit font-bold md:mt-10"
-        href="/properties"
+        href={`/${locale}/properties`}
         icon={
           <CircleButton>
             <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

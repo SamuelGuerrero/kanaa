@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 
 import { Text } from "@/components/atoms";
 import { ReservationSearch } from "@/components/organisms";
+import { useI18n } from "@/i18n";
 import HeroBackground from "@assets/images/Home/HeroBackground.png";
 
 export const Hero = () => {
   const router = useRouter();
+  const { locale } = useI18n();
 
   const handleSearch = (filters: {
     destination: string;
@@ -23,7 +25,7 @@ export const Hero = () => {
     params.append("adults", String(filters.guestCounts.adults));
     params.append("children", String(filters.guestCounts.children));
     params.append("infants", String(filters.guestCounts.infants));
-    router.push(`/properties?${params.toString()}`);
+    router.push(`/${locale}/properties?${params.toString()}`);
   };
 
   return (

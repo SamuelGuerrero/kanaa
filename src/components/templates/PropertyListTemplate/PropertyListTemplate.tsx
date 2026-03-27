@@ -39,7 +39,7 @@ export const PropertyListTemplate = ({
   onPageChange,
 }: PropertyListTemplateProps) => {
   const router = useRouter();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
   const paginationPages = (() => {
     const pages: number[] = [];
@@ -66,7 +66,7 @@ export const PropertyListTemplate = ({
             Conoce todas nuestras propiedades
           </Text>
 
-          <Text className="mt-5" size="lg" font="gilroy">
+          <Text className="mt-5 hidden" size="lg" font="gilroy">
             Revisa nuestro catálogo completo de propiedades disponibles y
             encuentra la ideal para ti.
           </Text>
@@ -131,7 +131,10 @@ export const PropertyListTemplate = ({
                       price={property.price}
                       priceLabel="por noche"
                       listingId={property.id.toString()}
-                      onClick={() => router.push(`/properties/${property.id}`)}
+                      city={property.city}
+                      state={property.state}
+                      country={property.country}
+                      onClick={() => router.push(`/${locale}/properties/${property.id}`)}
                     />
                   );
                 })}

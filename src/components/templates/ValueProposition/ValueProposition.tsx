@@ -1,12 +1,16 @@
+"use client";
+
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
+import { useI18n } from "@/i18n";
 import LeftValueProposition from "@assets/images/Home/LeftValueProposition.png";
 import RightValueProposition from "@assets/images/Home/RightValueProposition.png";
 
 export const ValueProposition = () => {
+  const { locale } = useI18n();
   return (
     <section className="flex w-full flex-col gap-5 md:grid md:grid-cols-2">
       <div className="w-full">
@@ -46,7 +50,7 @@ export const ValueProposition = () => {
           <Button
             variant="secondary"
             className="mt-4 justify-center md:w-auto md:px-6 md:py-2"
-            href="/properties"
+            href={`/${locale}/properties`}
             icon={
               <CircleButton className="bg-gold-light-active! ml-3 md:ml-0">
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
@@ -60,3 +64,5 @@ export const ValueProposition = () => {
     </section>
   );
 };
+
+//Ver si se queda la sección o se cambian los textos
