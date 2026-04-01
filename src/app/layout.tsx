@@ -123,7 +123,7 @@ export default async function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         />
       </head>
-      <body className="bg-[url('/svg/main.svg')] bg-contain bg-top bg-repeat p-1.5 sm:p-4">
+      <body className="bg-[url('/svg/main.svg')] bg-contain bg-top bg-repeat p-1.5 xl:p-4">
         {children}
       </body>
     </html>

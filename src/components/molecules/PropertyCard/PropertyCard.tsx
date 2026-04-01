@@ -24,9 +24,9 @@ type PropertyCardProps = {
   price: number;
   priceLabel?: string;
   listingId?: string;
-  city?: string;
-  state?: string;
-  country?: string;
+  city: string;
+  state: string;
+  country: string;
   onClick?: () => void;
 };
 
@@ -86,7 +86,7 @@ export const PropertyCard = ({
   return (
     <figure
       onClick={onClick}
-      className="bg-gold-light-hover group flex w-full cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px] transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg sm:h-[434.9px] sm:w-75.5"
+      className="bg-gold-light-hover group flex w-full cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px] transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg sm:h-112.5 sm:w-75.5"
     >
       <div className="relative h-71.75 w-full shrink-0 overflow-hidden rounded-md">
         <Image

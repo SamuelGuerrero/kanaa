@@ -53,10 +53,14 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 
 function BookingSuccessInner() {
   const searchParams = useSearchParams();
-  const paymentIntent = searchParams.get("payment_intent") ?? "";
-  const bookingNumber = paymentIntent
-    ? `#${paymentIntent.slice(-8).toUpperCase()}`
-    : "#—";
+  const setupIntentId = searchParams.get("setup_intent") ?? "";
+  const reservationId = searchParams.get("reservation_id") ?? "";
+  const paymentPending = searchParams.get("payment_pending") === "true";
+  const bookingNumber = reservationId
+    ? `#${reservationId}`
+    : setupIntentId
+      ? `#${setupIntentId.slice(-8).toUpperCase()}`
+      : "#—";
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [guestData, setGuestData] = useState<GuestData>({
@@ -67,8 +71,55 @@ function BookingSuccessInner() {
     phone: "",
     country: "",
   });
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [cancelError, setCancelError] = useState("");
+  const [paymentDate, setPaymentDate] = useState("");
+
+  const handleCancelReservation = async () => {
+    if (!reservationId) return;
+
+    const confirmed = window.confirm(
+      "¿Estás seguro que deseas cancelar esta reserva? Esta acción no se puede deshacer.",
+    );
+    if (!confirmed) return;
+
+    setIsCancelling(true);
+    setCancelError("");
+
+    try {
+      const response = await fetch("/api/hostaway/reservations/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reservationId: Number(reservationId) }),
+      });
+
+      const data = (await response.json()) as {
+        success?: boolean;
+        error?: string;
+        details?: string;
+      };
+
+      if (!response.ok || !data.success) {
+        setCancelError(
+          data.error ?? "Error al cancelar la reservación",
+        );
+        return;
+      }
+
+      setIsCancelled(true);
+      sessionStorage.removeItem("bookingData");
+      sessionStorage.removeItem("guestData");
+      sessionStorage.removeItem("reservationResult");
+    } catch {
+      setCancelError("Error inesperado al cancelar la reservación");
+    } finally {
+      setIsCancelling(false);
+    }
+  };
 
   useEffect(() => {
+    setPaymentDate(new Date().toLocaleString("es-MX"));
     const raw = sessionStorage.getItem("bookingData");
     if (raw) {
       try {
@@ -107,9 +158,19 @@ function BookingSuccessInner() {
             as="h1"
             size="4xl"
             weight="medium"
-            className="text-green-normal"
+            className={
+              isCancelled
+                ? "text-red-600"
+                : paymentPending
+                  ? "text-amber-600"
+                  : "text-green-normal"
+            }
           >
-            ¡Reserva confirmada!
+            {isCancelled
+              ? "Reserva cancelada"
+              : paymentPending
+                ? "Reserva creada — pago pendiente"
+                : "¡Reserva confirmada!"}
           </Text>
 
           <div className="flex items-center gap-2">
@@ -126,9 +187,19 @@ function BookingSuccessInner() {
             </Text>
           </div>
 
-          <Text font="gilroy" size="lg" className="text-green-normal">
-            Hemos enviado los detalles de tu reserva a{" "}
-            <span className="font-bold">{guestData.email || "tu correo"}</span>
+          <Text
+            font="gilroy"
+            size="lg"
+            className={paymentPending ? "text-amber-600" : "text-green-normal"}
+          >
+            {paymentPending
+              ? "Tu reserva fue creada pero el cobro está pendiente de confirmación. Te notificaremos cuando se procese el pago."
+              : `Hemos enviado los detalles de tu reserva a `}
+            {!paymentPending && (
+              <span className="font-bold">
+                {guestData.email || "tu correo"}
+              </span>
+            )}
           </Text>
         </div>
 
@@ -257,7 +328,7 @@ function BookingSuccessInner() {
                       weight="medium"
                       className="text-green-darker"
                     >
-                      {new Date().toLocaleString("es-MX")}
+                      {paymentDate || "—"}
                     </Text>
                   </div>
                   <div>
@@ -271,7 +342,7 @@ function BookingSuccessInner() {
                         weight="medium"
                         className="text-green-darker"
                       >
-                        ****{paymentIntent.slice(-4) || "0000"}
+                        ****{setupIntentId.slice(-4) || "····"}
                       </Text>
                       <span className="rounded bg-[#0457A0] px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">
                         VISA
@@ -397,19 +468,37 @@ function BookingSuccessInner() {
               </Text>
             </div>
 
+            {cancelError && (
+              <div className="mt-2 rounded-xl border border-red-200 bg-red-50 p-3">
+                <Text font="gilroy" size="sm" className="text-red-700">
+                  {cancelError}
+                </Text>
+              </div>
+            )}
+
             <Button
               type="button"
               variant="secondary"
               className="mt-2 h-14.5 w-full justify-center"
               textWeight="medium"
-              textClassName="text-[#7C7356]"
+              textClassName={isCancelled ? "text-gray-400" : "text-[#7C7356]"}
+              disabled={isCancelling || isCancelled || !reservationId}
+              onClick={handleCancelReservation}
               icon={
-                <CircleButton className="bg-[#E3DFD4]!">
-                  <ArrowRight className="h-6 w-6 text-[#958A68] drop-shadow-[0_0_0.5px_currentColor]" />
-                </CircleButton>
+                isCancelling ? (
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#7C7356] border-t-transparent" />
+                ) : (
+                  <CircleButton className="bg-[#E3DFD4]!">
+                    <ArrowRight className="h-6 w-6 text-[#958A68] drop-shadow-[0_0_0.5px_currentColor]" />
+                  </CircleButton>
+                )
               }
             >
-              Cancelar reserva
+              {isCancelling
+                ? "Cancelando..."
+                : isCancelled
+                  ? "Reserva cancelada"
+                  : "Cancelar reserva"}
             </Button>
           </div>
         </div>

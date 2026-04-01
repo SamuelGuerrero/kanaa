@@ -43,63 +43,8 @@ export default async function HomePage({ params }: HomePageProps) {
       <Hero />
       <FeaturedProperties />
       <ValueProposition />
+      {/* Espacios pensados para ti */}
       <KeyMetrics metrics={METRICS} bgColor="bg-gold-light" />
-
-      <InfoSection
-        title="Gestión de propiedades para propietarios"
-        image={PropertyManagement}
-        imageAlt="Property Management"
-        imagePosition="right"
-        className="bg-green-dark-hover py-7 pb-2 sm:pb-7"
-        descriptionClassName="text-white mt-8 mr-4 max-w-[600px]"
-        textClassName="md:mt-20 ml-2 text-white mb-10"
-        buttonProps={{
-          children: "Conocer más",
-          className: " justify-center md:w-auto md:px-6 md:py-2",
-          textWeight: "bold",
-          circleButtonClassName: "bg-gold-light-active!",
-          href: `/${locale}/property-management`,
-        }}
-        featuresTextClassName="text-white"
-        featuresIcon="bg-gold-normal !h-[50px] !w-[50px]"
-        features={[
-          {
-            text: "Gestión profesional de propiedades",
-            icon: <TrendingRoundIcon />,
-          },
-          {
-            text: "Optimización de ocupación",
-            icon: <NoteIcon />,
-          },
-          {
-            text: "Experiencia excepcional para huéspedes",
-            icon: <PeopleIcon />,
-          },
-        ]}
-      />
-
-      <InfoSection
-        title="Descubre cuánto puede generar tu propiedad"
-        description="Calcula el potencial de ingresos de tu inmueble en minutos y recibe una
-        estimación anual personalizada, clara y transparente."
-        image={DiscoverGenerate}
-        imageAlt="DiscoverGenerate"
-        imagePosition="left"
-        className="bg-white"
-        textClassName="md:mt-20 mx-2 text-green-normal "
-        descriptionClassName="text-green-normal mt-8 max-w-[600px]"
-        buttonProps={{
-          children: "Ir a la calculadora",
-          className:
-            " justify-center md:w-auto md:px-6 md:py-2 text-gold-dark!",
-          textWeight: "bold",
-          href: `/${locale}/calculator`,
-        }}
-      />
-
-      <BackedExperience />
-      <GuideAndTips />
-      <FrequentlyQuestions data={DataHome} />
     </main>
   );
 }

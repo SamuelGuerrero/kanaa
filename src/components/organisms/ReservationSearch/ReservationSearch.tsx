@@ -345,10 +345,10 @@ export const ReservationSearch = ({
     <form
       onSubmit={handleSearch}
       suppressHydrationWarning
-      className={`relative flex h-92 w-[95%] flex-col items-center overflow-visible rounded-xl bg-white p-3 text-left sm:shadow-lg md:h-16 md:w-205.75 md:flex-row md:gap-0 md:rounded-full md:p-0 md:shadow-none ${className ?? ""}`}
+      className={`relative flex h-92 w-[95%] flex-col items-center overflow-visible rounded-xl bg-white p-3 text-left sm:shadow-lg md:h-16 md:max-w-205.75 md:flex-row md:gap-0 md:rounded-full md:p-0 md:shadow-none ${className ?? ""}`}
     >
       <div
-        className={`relative mb-3 w-full px-6 py-4 md:mb-0 md:w-70.75 md:min-w-70.75 md:py-0 ${selectorContainerClass}`}
+        className={`relative mb-3 w-full px-6 py-4 md:mb-0 md:py-0 xl:w-70.75 xl:min-w-70.75 ${selectorContainerClass}`}
       >
         <div className="absolute top-1/2 right-0 hidden h-[85%] w-px -translate-y-1/2 bg-gray-200 md:block" />
         <div className="relative">

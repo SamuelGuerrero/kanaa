@@ -20,6 +20,12 @@ type FeaturedPropertiesProps = DetailedHTMLProps<
   HTMLElement
 > & {};
 
+const getItemsPerPage = (width: number) => {
+  if (width < 640) return 1;
+  if (width < 1024) return 2;
+  return 4;
+};
+
 export const FeaturedProperties = ({
   className,
   ...rest
@@ -29,14 +35,12 @@ export const FeaturedProperties = ({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [itemsPerPage, setItemsPerPage] = useState(
-    typeof window !== "undefined" && window.innerWidth < 640 ? 1 : 4,
+    typeof window !== "undefined" ? getItemsPerPage(window.innerWidth) : 4,
   );
 
   useEffect(() => {
-    const handleResize = () => {
-      setItemsPerPage(window.innerWidth < 640 ? 1 : 4);
-    };
-
+    const handleResize = () =>
+      setItemsPerPage(getItemsPerPage(window.innerWidth));
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

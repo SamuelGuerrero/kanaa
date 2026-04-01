@@ -120,7 +120,7 @@ export const enTranslations: Record<string, string> = {
   "Cargando testimonios...": "Loading testimonials...",
   "Error al cargar testimonios": "Error loading testimonials",
   "No hay testimonios disponibles": "No testimonials available",
-  "Conoce nuestros alojamientos": "Discover our accommodations",
+  "Conoce nuestros alojamientos": "Discover our properties",
   "Todos nuestros alojamientos están pensados para que disfrutes de una estadía placentera y relajante.":
     "All our accommodations are designed for you to enjoy a pleasant and relaxing stay.",
   "Ver todos los alojamientos": "View all accommodations",
@@ -166,7 +166,7 @@ export const enTranslations: Record<string, string> = {
   "que te relajes desde el primer momento.":
     "you to relax from the very first moment.",
   "Ver alojamientos": "View accommodations",
-  "Gestión de propiedades para propietarios":
+  "Gestión de propiedades para inversionistas":
     "Property Management designed for owners",
   "En Kanaa administramos tu propiedad de manera profesional, cuidando <br /> cada espacio, optimizando la ocupación y ofreciendo una experiencia <br classname='hidden sm:block' /> excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad.":
     "At Kanaa, we manage your property professionally, taking care of every space, optimizing occupancy, and delivering an exceptional guest experience, while you enjoy complete peace of mind.",

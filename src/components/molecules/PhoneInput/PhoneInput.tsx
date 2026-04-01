@@ -112,7 +112,8 @@ export const PhoneInput = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, "").slice(0, fmt.maxDigits);
-    onChange?.(fmt.format(digits));
+    const formatted = fmt.format(digits);
+    onChange?.(digits ? `${selectedCountry.dial} ${formatted}` : "");
   };
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -194,7 +195,7 @@ export const PhoneInput = ({
         <input
           type="tel"
           inputMode="numeric"
-          value={value}
+          value={value.replace(`${selectedCountry.dial} `, "")}
           onChange={handleChange}
           placeholder={fmt.placeholder}
           className="font-gilroy text-green-darker w-full bg-transparent text-base leading-4.75 font-medium placeholder-[#6A6A6A] outline-none"

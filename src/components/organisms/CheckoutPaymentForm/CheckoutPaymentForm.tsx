@@ -23,6 +23,15 @@ import { useI18n } from "@/i18n";
 
 import type { BookingData, GuestCounts } from "@/components/molecules";
 
+const formatDateForApi = (date: Date | null): string => {
+  if (!date) return "";
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const checkoutSchema = z
   .object({
     firstName: z.string().min(1, "El nombre es requerido"),
@@ -99,29 +108,101 @@ export const CheckoutPaymentForm = ({
     if (!stripe || !elements) return;
     setIsLoading(true);
     setStripeError("");
-    sessionStorage.setItem(
-      "guestData",
-      JSON.stringify({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        confirmEmail: values.confirmEmail,
-        phone: values.phone,
-        country: values.country,
-      }),
-    );
+
+    const guestData = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      confirmEmail: values.confirmEmail,
+      phone: values.phone,
+      country: values.country,
+    };
+    sessionStorage.setItem("guestData", JSON.stringify(guestData));
+
     try {
-      const { error } = await stripe.confirmSetup({
+      // 1. Save payment method via SetupIntent (no redirect)
+      const { error, setupIntent } = await stripe.confirmSetup({
         elements,
+        redirect: "if_required",
         confirmParams: {
           return_url: `${window.location.origin}/booking-success/${bookingData.listingMapId}`,
         },
       });
-      if (error)
+
+      if (error) {
         setStripeError(error.message ?? "Ocurrió un error al procesar el pago");
+        return;
+      }
+
+      if (!setupIntent || setupIntent.status !== "succeeded") {
+        setStripeError("No se pudo confirmar el método de pago");
+        return;
+      }
+
+      // 2. Create reservation in Hostaway
+      const reservationResponse = await fetch(
+        "/api/hostaway/reservations/confirm",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            listingMapId: Number(bookingData.listingMapId),
+            guestFirstName: values.firstName,
+            guestLastName: values.lastName,
+            guestEmail: values.email,
+            phone: values.phone,
+            guestCountry: values.country,
+            arrivalDate: formatDateForApi(bookingData.startDate),
+            departureDate: formatDateForApi(bookingData.endDate),
+            numberOfGuests:
+              bookingData.guests.adults +
+              bookingData.guests.children +
+              bookingData.guests.infants,
+            adults: bookingData.guests.adults,
+            children: bookingData.guests.children || null,
+            infants: bookingData.guests.infants || null,
+            totalPrice: bookingData.totalPrice,
+            setupIntentId: setupIntent.id,
+          }),
+        },
+      );
+
+      const reservationData = (await reservationResponse.json()) as {
+        success?: boolean;
+        reservationId?: number;
+        error?: string;
+        details?: string;
+        paymentStatus?: string;
+        paymentPending?: boolean;
+      };
+
+      if (!reservationResponse.ok || !reservationData.success) {
+        setStripeError(
+          reservationData.error ??
+            "Error al crear la reservación. Tu método de pago fue guardado.",
+        );
+        return;
+      }
+
+      // 3. Save reservation info and redirect to success
+      sessionStorage.setItem(
+        "reservationResult",
+        JSON.stringify({
+          reservationId: reservationData.reservationId,
+          setupIntentId: setupIntent.id,
+          paymentStatus: reservationData.paymentStatus,
+          paymentPending: reservationData.paymentPending,
+        }),
+      );
+
+      const paymentQuery = reservationData.paymentPending
+        ? "&payment_pending=true"
+        : "";
+
+      window.location.href = `/${window.location.pathname.split("/")[1]}/booking-success/${bookingData.listingMapId}?setup_intent=${setupIntent.id}&reservation_id=${reservationData.reservationId}${paymentQuery}`;
     } catch (err) {
       setStripeError("Error inesperado al procesar el pago");
-      console.error("Error en confirmSetup:", err);
+      console.error("Error en checkout:", err);
     } finally {
       setIsLoading(false);
     }
@@ -154,7 +235,7 @@ export const CheckoutPaymentForm = ({
                           value={field.value}
                           onChange={field.onChange}
                           onBlur={field.onBlur}
-                          placeholder="Alexander"
+                          placeholder="Nombre"
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
@@ -185,7 +266,7 @@ export const CheckoutPaymentForm = ({
                           value={field.value}
                           onChange={field.onChange}
                           onBlur={field.onBlur}
-                          placeholder="Montes de Oca"
+                          placeholder="Apellidos"
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
@@ -217,7 +298,7 @@ export const CheckoutPaymentForm = ({
                           value={field.value}
                           onChange={field.onChange}
                           onBlur={field.onBlur}
-                          placeholder="alexander@tucorreo.com"
+                          placeholder="correo@ejemplo.com"
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
@@ -249,7 +330,7 @@ export const CheckoutPaymentForm = ({
                           value={field.value}
                           onChange={field.onChange}
                           onBlur={field.onBlur}
-                          placeholder="alexander@tucorreo.com"
+                          placeholder="correo@ejemplo.com"
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
