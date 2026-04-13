@@ -64,16 +64,17 @@ export default async function HomePage({ params }: GestionPageProps) {
       <InfoSection
         title="Gestión de propiedades inteligente"
         description="Maximiza el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. <br /> <br />
-Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo."
+        Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo."
         imagePosition="left"
         className="pb-36 md:pb-10"
-        descriptionClassName="text-grey-darker !max-w-[520px] mb-10"
+        descriptionClassName="text-grey-darker xl:max-w-[520px] mb-10"
         textClassName="mt-15 mx-2 mr-6 text-green-normal"
         featuresIcon="bg-green-normal w-[50px] h-[50px]"
         featuresTextClassName="text-grey-darker"
+        imagesContainerClassName="md:mb-10"
         features={[
           { text: "Administración de listados", icon: <TrendingRoundIcon /> },
-          { text: "Gestión de reserva", icon: <NoteIcon /> },
+          { text: "Gestión de reservas", icon: <NoteIcon /> },
           { text: "Limpieza y mantenimiento profesional", icon: <CleanIcon /> },
           {
             text: "Optimización de ingresos",
@@ -84,18 +85,21 @@ Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo."
           {
             src: rentalManagement1,
             alt: "Top",
-            className: "absolute top-[29%] left-0 w-[70%] object-contain z-20",
+            className:
+              "absolute top-[29%] left-0 sm:-left-10 xl:left-0 w-[70%] object-contain z-20",
           },
           {
             src: rentalManagement2,
             alt: "Base",
-            className: "absolute top-[0%] left-[37%] w-[75%] z-10",
+            className:
+              "absolute top-[0%] left-[30%] sm:left-[20%] xl:left-[37%] w-[75%] z-10",
           },
         ]}
       />
       <RealPropertyPotential
         title="Descubre el verdadero valor de tu alquiler vacacional."
         description="Completa el formulario a continuación para obtener una  estimación personalizada de tus ingresos anuales."
+        descriptionClassName="xl:max-w-125!"
       />
 
       <KeyMetrics
