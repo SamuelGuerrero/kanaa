@@ -7,7 +7,7 @@ import calculadoraHeroBg from "@assets/images/Home/calculadoraHeroBg.png";
 export const EarningsCalculator = () => {
   return (
     <section
-      className="relative h-230 w-full sm:h-200"
+      className="relative h-230 w-full md:h-300 xl:h-200"
       data-navbar-theme="dark"
     >
       <div className="absolute inset-0">
@@ -24,11 +24,11 @@ export const EarningsCalculator = () => {
         />
       </div>
 
-      <div className="relative z-10 mt-15 flex flex-col items-center px-3 sm:mt-34 md:flex-row md:justify-between md:px-10">
-        <div className="mb-5 max-w-138.5 md:mb-55">
+      <div className="relative z-10 mt-15 flex flex-col items-center px-3 sm:mt-34 xl:flex-row xl:justify-between xl:px-10">
+        <div className="mb-5 md:max-w-[90%] md:text-center xl:mb-55 xl:max-w-138.5 xl:text-left">
           <Text
             size="6xl"
-            className="mt-15 max-w-132.5 text-white md:mt-20 md:leading-18"
+            className="mt-15 text-white xl:mt-20 xl:max-w-132.5 xl:leading-18"
             weight="medium"
           >
             Descubre cuánto puede generar tu propiedad
@@ -36,7 +36,7 @@ export const EarningsCalculator = () => {
 
           <Text
             size="xl"
-            className="text-grey-light mt-3 md:mt-5"
+            className="text-grey-light mt-3 xl:mt-5"
             font="gilroy"
             weight="medium"
           >

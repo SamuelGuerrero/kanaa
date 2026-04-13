@@ -34,6 +34,7 @@ type InfoSectionProps = ImageProps & {
   featuresTextClassName?: string;
   featuresIcon?: string;
   featureClassName?: string;
+  imagesContainerClassName?: string;
   features?: FeatureItem[];
   buttonProps?: {
     textWeight?: "bold" | "normal" | "light";
@@ -59,28 +60,29 @@ export const InfoSection = ({
   featuresTextClassName,
   featuresIcon,
   featureClassName,
+  imagesContainerClassName,
   buttonProps,
 }: InfoSectionProps) => {
   const textContent = (
-    <div className="order-1 w-full md:order-0">
+    <div className="order-1 w-full xl:order-0">
       <Text
-        className={`${textClassName} md:leading-[66.2px]`}
+        className={`${textClassName} xl:leading-[66.2px]`}
         size="5xl"
         dangerouslySetInnerHTML={{ __html: title }}
       />
       <Text
         font="gilroy"
         size="lg"
-        className={`mt-6 ml-3 md:leading-8 ${descriptionClassName}`}
+        className={`mt-6 ml-3 xl:leading-8 ${descriptionClassName}`}
         dangerouslySetInnerHTML={{ __html: description ?? "" }}
       />
 
       {features?.length ? (
-        <ul className="mt-8 mb-10 space-y-4 px-1 md:ml-4 md:px-0">
+        <ul className="mt-8 mb-10 space-y-4 px-1 xl:ml-4 xl:px-0">
           {features.map((item, index) => (
             <li
               key={index}
-              className={`${featureClassName} flex ${item.title ? "flex-col items-start md:flex-row md:items-center" : "items-center"} gap-3 rounded-[10px]`}
+              className={`${featureClassName} flex ${item.title ? "flex-col items-start xl:flex-row xl:items-center" : "items-center"} gap-3 rounded-[10px]`}
             >
               {item.icon && (
                 <span
@@ -90,7 +92,7 @@ export const InfoSection = ({
                 </span>
               )}
               {item.title ? (
-                <div className="mt-2 md:mt-0">
+                <div className="mt-2 xl:mt-0">
                   <Text
                     font="gilroy"
                     size="2xl"
@@ -120,30 +122,30 @@ export const InfoSection = ({
             </li>
           ))}
         </ul>
-      ) : (
-        buttonProps && (
-          <Button
-            textWeight={buttonProps.textWeight}
-            variant="primary"
-            className={`${buttonProps.className} mt-10 mb-11 ml-3 md:ml-2`}
-            href={buttonProps.href}
-            icon={
-              <CircleButton className={buttonProps.circleButtonClassName}>
-                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-              </CircleButton>
-            }
-          >
-            {buttonProps.children}
-          </Button>
-        )
+      ) : null}
+
+      {buttonProps && (
+        <Button
+          textWeight={buttonProps.textWeight}
+          variant="primary"
+          className={`${buttonProps.className} mt-10 mb-11 ml-3 xl:ml-2`}
+          href={buttonProps.href}
+          icon={
+            <CircleButton className={buttonProps.circleButtonClassName}>
+              <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+            </CircleButton>
+          }
+        >
+          {buttonProps.children}
+        </Button>
       )}
     </div>
   );
 
   const imageContent = (
-    <div className="order-2 flex w-full items-center justify-center md:order-0">
+    <div className="order-2 flex w-full items-center justify-center xl:order-0">
       {imagesConfig?.length ? (
-        <div className="relative mx-auto mr-11 -mb-10 aspect-655/680 w-full max-w-163.75 md:mr-15 md:mb-0">
+        <div className={`relative mx-auto mr-11 -mb-10 aspect-655/680 w-full max-w-163.75 xl:mr-15 xl:mb-0 ${imagesContainerClassName ?? ""}`}>
           {imagesConfig.map((img, index) => (
             <Image
               key={index}
@@ -166,9 +168,9 @@ export const InfoSection = ({
   );
 
   return (
-    <div className={`${className} w-full px-2 py-3 md:px-8.5`}>
+    <div className={`${className} w-full px-2 py-3 xl:px-8.5`}>
       <div
-        className={`grid grid-cols-1 md:grid-cols-2 md:gap-8 ${imagePosition === "left" ? "direction-rtl" : ""}`}
+        className={`grid grid-cols-1 xl:grid-cols-2 xl:gap-8 ${imagePosition === "left" ? "direction-rtl" : ""}`}
       >
         {imagePosition === "left" ? (
           <>

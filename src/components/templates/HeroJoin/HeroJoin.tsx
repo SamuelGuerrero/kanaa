@@ -14,7 +14,7 @@ export const HeroJoin = () => {
         className="smm object-cover"
       />
 
-      <div className="relative z-1 -mt-50 flex min-h-screen flex-col items-center justify-center px-1 text-center text-white md:py-45 lg:mt-0">
+      <div className="relative z-1 -mt-50 flex min-h-screen flex-col items-center justify-center px-1 text-center text-white md:mt-0 md:py-45 lg:mt-0">
         <Text size="6xl" weight="medium">
           Trabaja con nosotros
         </Text>
