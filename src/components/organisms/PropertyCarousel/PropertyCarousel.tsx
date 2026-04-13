@@ -141,7 +141,7 @@ export const PropertyCarousel = ({
           direction="prev"
           onClick={prevPage}
           disabled={!shouldShowControls}
-          className="hidden md:left-10 md:block xl:-left-10"
+          className="hidden md:left-6 md:block xl:-left-10"
         />
 
         <div
@@ -196,7 +196,7 @@ export const PropertyCarousel = ({
           direction="next"
           onClick={nextPage}
           disabled={!shouldShowControls}
-          className="hidden md:right-10 md:block xl:-right-10"
+          className="hidden md:right-6 md:block xl:-right-10"
         />
       </div>
 

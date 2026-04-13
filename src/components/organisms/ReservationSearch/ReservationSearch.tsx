@@ -376,7 +376,7 @@ export const ReservationSearch = ({
               ))
             )}
           </select>
-          <ChevronDownIcon className="pointer-events-none absolute right-0 bottom-0 h-4 w-4 text-[#6A6A6A]" />
+          <ChevronDownIcon className="pointer-events-none absolute right-0 bottom-0 hidden h-4 w-4 text-[#6A6A6A] xl:block" />
         </div>
       </div>
 
