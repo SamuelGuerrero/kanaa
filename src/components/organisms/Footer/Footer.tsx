@@ -35,6 +35,7 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
     links: [
       { href: "", label: "Sobre nosotros" },
       { href: "", label: "Nuestro equipo" },
+      { href: "", label: "Bolsa de trabajo" },
     ],
   },
   {
@@ -106,7 +107,7 @@ export const Footer = () => {
           <Button
             variant="primary"
             textWeight="bold"
-            className="text-gold-dark! !hidden w-full items-center justify-center font-bold md:w-fit"
+            className="text-gold-dark! hidden! w-full items-center justify-center font-bold md:w-fit"
             href="#"
             icon={
               <CircleButton>

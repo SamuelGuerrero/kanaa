@@ -243,12 +243,12 @@ export const Navbar = () => {
     <>
       <nav
         ref={navRef}
-        className={`bordershadow-lg fixed left-1/2 flex w-full -translate-x-1/2 items-center justify-between px-5 py-4 transition-colors duration-300 sm:w-[96%] sm:rounded-xl md:px-12 md:py-5 xl:[background-blend-mode:overlay,normal] xl:[backdrop-filter:blur(22.39px)] xl:[-webkit-backdrop-filter:blur(22.39px)] xl:[background:radial-gradient(90.16%_143.01%_at_15.32%_21.04%,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.045)_77.08%,rgba(255,255,255,0)_100%)] ${navTextClass} ${
+        className={`bordershadow-lg fixed left-1/2 flex w-full -translate-x-1/2 items-center justify-between px-5 py-4 transition-colors duration-300 xl:w-[96%] xl:rounded-xl xl:px-12 xl:py-5 xl:[background-blend-mode:overlay,normal] xl:[backdrop-filter:blur(22.39px)] xl:[-webkit-backdrop-filter:blur(22.39px)] xl:[background:radial-gradient(90.16%_143.01%_at_15.32%_21.04%,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.045)_77.08%,rgba(255,255,255,0)_100%)] ${navTextClass} ${
           isMobileMenuOpen ? "pointer-events-none z-30" : "z-50"
         } ${
           isScrolled
-            ? "top-0 bg-white sm:top-4 md:bg-transparent"
-            : "sm:top-8.5"
+            ? "top-0 bg-white xl:top-4 xl:bg-transparent"
+            : "xl:top-8.5"
         }`}
       >
         <Link href={`/${locale}`} aria-label="Ir al inicio">
@@ -354,7 +354,7 @@ export const Navbar = () => {
               </CircleButton>
             }
           >
-            Reserva próximamente
+            Reserva ahora
           </Button>
         </div>
 
