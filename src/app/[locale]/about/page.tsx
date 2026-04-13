@@ -43,17 +43,19 @@ export default async function HomePage({ params }: NosotrosPageProps) {
           {
             src: WhoAreWeTop,
             alt: "WhoAreWeTop",
-            className: "absolute top-[29%] left-0 w-[70%] object-contain z-20",
+            className:
+              "absolute top-[29%] left-0 sm:-left-10 xl:left-0 w-[70%] object-contain z-20",
           },
           {
             src: WhoAreWeBase,
             alt: "WhoAreWeBase",
-            className: "absolute top-[0%] left-[37%] w-[75%] z-10",
+            className:
+              "absolute top-[0%] left-[30%] sm:left-[20%] xl:left-[37%] w-[75%] z-10",
           },
         ]}
         imagePosition="right"
         className="bg-grey-light pt-10 pb-20 sm:pt-0"
-        descriptionClassName="text-grey-darker w-[340px] md:w-[600px]"
+        descriptionClassName="text-grey-darker w-[340px] md:max-w-[600px] w-full"
         textClassName="mt-0 md:mt-20 ml-4 text-green-normal"
         buttonProps={{
           children: "Conoce nuestros proyectos",

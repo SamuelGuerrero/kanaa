@@ -48,7 +48,7 @@ export default function HomePage() {
         image={ChooseKANNA}
         imageAlt="Calculadora de ingresos"
         imagePosition="left"
-        imageClassName="hidden md:block"
+        imageClassName="hidden xl:block"
         className="bg-white"
         textClassName="ml-2 mt-4 text-green-normal"
         descriptionClassName="text-green-normal max-w-[600px]"
@@ -86,17 +86,19 @@ export default function HomePage() {
           {
             src: RevenueOptimization,
             alt: "Top",
-            className: "absolute top-[29%] left-0 w-[70%] object-contain z-20",
+            className:
+              "absolute top-[29%] left-0 sm:-left-10 xl:left-0 w-[70%] object-contain z-20",
           },
           {
             src: RevenueOptimizationBase,
             alt: "Base",
-            className: "absolute top-[0%] left-[37%] w-[75%] z-10",
+            className:
+              "absolute top-[0%] left-[30%] sm:left-[25%] xl:left-[37%] w-[75%] z-10",
           },
         ]}
         imagePosition="right"
         className="bg-grey-light pb-20"
-        descriptionClassName="text-grey-darker w-[346px] md:w-[525px]"
+        descriptionClassName="text-grey-darker w-[90%] xl:w-[525px]"
         textClassName="ml-2 text-green-normal mt-4 sm:mt-15"
         features={[
           { text: "Análisis de datos", icon: <Vector /> },
