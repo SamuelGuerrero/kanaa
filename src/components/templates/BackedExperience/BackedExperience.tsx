@@ -100,28 +100,25 @@ const mockTestimonials: Testimonial[] = [
 ];
 
 export const BackedExperience = () => {
-  const itemsPerPage = useItemsPerPage(1, 3);
+  const itemsPerPage = useItemsPerPage(1, 1, 2, 3);
   const [displayedTestimonials, setDisplayedTestimonials] =
     useState(mockTestimonials);
 
   useEffect(() => {
+    const totalPages = itemsPerPage === 1 ? 3 : 3;
     setDisplayedTestimonials(
-      itemsPerPage === 1 ? mockTestimonials.slice(0, 3) : mockTestimonials,
+      mockTestimonials.slice(0, itemsPerPage * totalPages),
     );
   }, [itemsPerPage]);
 
   return (
     <section className="flex flex-col items-center bg-white px-4 py-5 md:py-16 md:text-center">
       <Text size="5xl" className="text-green-normal mr-10 mb-10">
-        Amado por los huéspedes
+        Experiencias que se sienten
       </Text>
-      <Text
-        font="gilroy"
-        size="lg"
-        className="text-grey-darker mt-6 mr-5 mb-8 hidden"
-      >
-        Huéspedes y propietarios comparten cómo Kanaa transformó su forma de
-        viajar y de gestionar sus propiedades.
+      <Text font="gilroy" size="lg" className="text-grey-darker mt-6 mr-5 mb-8">
+        Descubre cómo cada estancia con Kanaa se convierte en momentos
+        memorables, pensados para disfrutar sin preocupaciones.
       </Text>
       <TestimonialCarousel
         testimonials={displayedTestimonials}
@@ -130,5 +127,3 @@ export const BackedExperience = () => {
     </section>
   );
 };
-
-// Revisar temas de redireccionado con idioma

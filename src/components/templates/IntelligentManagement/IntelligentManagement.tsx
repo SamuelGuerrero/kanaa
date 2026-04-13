@@ -26,9 +26,9 @@ export const IntelligentManagement = () => {
           weight="medium"
           className="text-grey-darker mx-auto sm:w-242.5"
         >
-          Maximiza el potencial de sus inmuebles a través de un modelo de gestión
-          profesional, transparente y respaldado por datos. Desde la estrategia
-          de renta hasta la operación diaria, nos ocupamos de todo.
+          Maximiza el potencial de sus inmuebles a través de un modelo de
+          gestión profesional, transparente y respaldado por datos. Desde la
+          estrategia de renta hasta la operación diaria, nos ocupamos de todo.
         </Text>
       </div>
 

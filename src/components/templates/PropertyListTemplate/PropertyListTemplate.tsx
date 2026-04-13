@@ -66,9 +66,8 @@ export const PropertyListTemplate = ({
             Conoce todas nuestras propiedades
           </Text>
 
-          <Text className="mt-5 hidden" size="lg" font="gilroy">
-            Revisa nuestro catálogo completo de propiedades disponibles y
-            encuentra la ideal para ti.
+          <Text className="mt-5" size="lg" font="gilroy">
+            Explora nuestro catálogo y encuentra tu propiedad ideal.
           </Text>
 
           <ReservationSearch
@@ -134,7 +133,9 @@ export const PropertyListTemplate = ({
                       city={property.city}
                       state={property.state}
                       country={property.country}
-                      onClick={() => router.push(`/${locale}/properties/${property.id}`)}
+                      onClick={() =>
+                        router.push(`/${locale}/properties/${property.id}`)
+                      }
                     />
                   );
                 })}

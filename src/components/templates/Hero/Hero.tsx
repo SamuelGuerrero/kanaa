@@ -44,7 +44,7 @@ export const Hero = () => {
         </Text>
 
         <Text size="xl" className="mt-8 mb-10" font="gilroy" weight="medium">
-          Encuentra tu próxima casa de descanso.
+          Hospédate con nosotros
         </Text>
         <ReservationSearch onSearch={handleSearch} />
       </div>

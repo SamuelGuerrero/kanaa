@@ -80,9 +80,8 @@ export const FeaturedProperties = ({
       <Text size="5xl" className="text-green-normal mb-5">
         Conoce nuestros alojamientos
       </Text>
-      <Text size="lg" font="gilroy" className="text-grey-darker hidden">
-        Todos nuestros alojamientos están pensados para que disfrutes de una
-        estadía placentera y relajante.
+      <Text size="lg" font="gilroy" className="text-grey-darker">
+        Alojamientos pensados para tu descanso.
       </Text>
 
       <Button
