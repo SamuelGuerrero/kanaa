@@ -20,6 +20,10 @@ export const AccordionQuestions = ({ items }: AccordionQuestionsProps) => {
 
   return (
     <div className="w-full max-w-3xl space-y-4">
+      <Text size="5xl" weight="medium" className="text-green-normal mb-10">
+        Preguntas frecuentes
+      </Text>
+
       {items.map((faqItem, index) => {
         const isOpen = activeIndex === index;
 
