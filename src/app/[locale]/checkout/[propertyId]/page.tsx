@@ -9,6 +9,7 @@ import { Text } from "@/components/atoms";
 import { CheckoutHero } from "@/components/molecules";
 import { CheckoutPaymentForm } from "@/components/organisms";
 import { useListingCalendar } from "@/hooks/useListingCalendar";
+import { usePriceDetails } from "@/hooks/usePriceDetails";
 
 import type { BookingData } from "@/components/molecules";
 
@@ -24,7 +25,31 @@ export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const { occupiedDates, priceByDate } = useListingCalendar(propertyId);
+  const { occupiedDates } = useListingCalendar(propertyId);
+
+  const numberOfGuests = bookingData
+    ? bookingData.guests.adults + bookingData.guests.children
+    : 1;
+
+  const { priceDetails, isLoading: isPriceLoading } = usePriceDetails(
+    propertyId,
+    bookingData?.startDate ?? null,
+    bookingData?.endDate ?? null,
+    Math.max(1, numberOfGuests),
+  );
+
+  useEffect(() => {
+    if (!priceDetails || !bookingData) return;
+
+    const updated = {
+      ...bookingData,
+      totalPrice: priceDetails.totalPrice,
+      priceBreakdown: priceDetails,
+    };
+
+    sessionStorage.setItem("bookingData", JSON.stringify(updated));
+    setBookingData(updated);
+  }, [priceDetails]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const savedBookingData = sessionStorage.getItem("bookingData");
@@ -64,6 +89,11 @@ export default function CheckoutPage() {
         }
 
         const stripe = await loadStripe(publishableKey);
+
+        if (!stripe) {
+          throw new Error("Stripe no pudo inicializarse en este navegador");
+        }
+
         setStripePromise(Promise.resolve(stripe));
 
         const intentResponse = await fetch(
@@ -111,24 +141,11 @@ export default function CheckoutPage() {
           )
         : bookingData.totalNights;
 
-    let totalPrice = 0;
-    if (startDate && endDate) {
-      const current = new Date(startDate);
-      while (current < endDate) {
-        const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, "0")}-${String(current.getDate()).padStart(2, "0")}`;
-        totalPrice += priceByDate?.[key] ?? bookingData.pricePerNight ?? 0;
-        current.setDate(current.getDate() + 1);
-      }
-    } else {
-      totalPrice = bookingData.totalPrice;
-    }
-
     const updated = {
       ...bookingData,
       startDate,
       endDate,
       totalNights,
-      totalPrice,
     };
     sessionStorage.setItem("bookingData", JSON.stringify(updated));
     setBookingData(updated);
@@ -144,17 +161,45 @@ export default function CheckoutPage() {
   const options: StripeElementsOptions | undefined = clientSecret
     ? {
         clientSecret,
+        loader: "always",
         appearance: {
           theme: "stripe",
           variables: {
             colorPrimary: "#10b981",
             colorBackground: "#ffffff",
             colorText: "#1f2937",
+            colorTextPlaceholder: "#6b7280",
+            colorIcon: "#4b5563",
             colorDanger: "#ef4444",
             fontFamily:
               "'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
             spacingUnit: "4px",
             borderRadius: "12px",
+          },
+          rules: {
+            ".Input": {
+              backgroundColor: "#ffffff",
+              color: "#1f2937",
+              border: "1px solid #dadcd9",
+              boxShadow: "none",
+            },
+            ".Input:focus": {
+              border: "1px solid #4a5b42",
+              boxShadow: "0 0 0 1px #4a5b42",
+            },
+            ".Label": {
+              color: "#1f2937",
+            },
+            ".Tab": {
+              backgroundColor: "#ffffff",
+              color: "#1f2937",
+              border: "1px solid #dadcd9",
+            },
+            ".Tab--selected": {
+              border: "1px solid #4a5b42",
+              color: "#111827",
+              boxShadow: "0 0 0 1px #4a5b42",
+            },
           },
         },
       }
@@ -187,6 +232,8 @@ export default function CheckoutPage() {
               occupiedDates={occupiedDates}
               onDatesChange={handleDatesChange}
               onGuestsChange={handleGuestsChange}
+              priceBreakdown={priceDetails}
+              isPriceLoading={isPriceLoading}
             />
           </Elements>
         ) : (

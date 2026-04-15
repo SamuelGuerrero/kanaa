@@ -22,6 +22,7 @@ import {
 import { useI18n } from "@/i18n";
 
 import type { BookingData, GuestCounts } from "@/components/molecules";
+import type { PriceDetails } from "@/hooks/usePriceDetails";
 
 const formatDateForApi = (date: Date | null): string => {
   if (!date) return "";
@@ -59,6 +60,8 @@ type CheckoutPaymentFormProps = {
   occupiedDates?: Date[];
   onDatesChange?: (startDate: Date | null, endDate: Date | null) => void;
   onGuestsChange?: (guests: GuestCounts) => void;
+  priceBreakdown?: PriceDetails | null;
+  isPriceLoading?: boolean;
 };
 
 const COUNTRIES = [
@@ -79,6 +82,8 @@ export const CheckoutPaymentForm = ({
   occupiedDates,
   onDatesChange,
   onGuestsChange,
+  priceBreakdown,
+  isPriceLoading,
 }: CheckoutPaymentFormProps) => {
   const { t } = useI18n();
   const stripe = useStripe();
@@ -629,6 +634,8 @@ export const CheckoutPaymentForm = ({
             occupiedDates={occupiedDates}
             onDatesChange={onDatesChange}
             onGuestsChange={onGuestsChange}
+            priceBreakdown={priceBreakdown}
+            isPriceLoading={isPriceLoading}
           />
         </div>
       </div>

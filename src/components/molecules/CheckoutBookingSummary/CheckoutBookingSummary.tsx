@@ -12,12 +12,15 @@ import {
 import { useCalendar } from "@/hooks/useCalendar";
 
 import type { BookingData } from "@/components/molecules";
+import type { PriceDetails } from "@/hooks/usePriceDetails";
 
 type CheckoutBookingSummaryProps = {
   bookingData: BookingData;
   occupiedDates?: Date[];
   onDatesChange?: (startDate: Date | null, endDate: Date | null) => void;
   onGuestsChange?: (guests: GuestCounts) => void;
+  priceBreakdown?: PriceDetails | null;
+  isPriceLoading?: boolean;
 };
 
 const formatDateRange = (start: Date | null, end: Date | null) => {
@@ -54,6 +57,8 @@ export const CheckoutBookingSummary = ({
   occupiedDates = [],
   onDatesChange,
   onGuestsChange,
+  priceBreakdown,
+  isPriceLoading,
 }: CheckoutBookingSummaryProps) => {
   const {
     propertyName,
@@ -229,24 +234,84 @@ export const CheckoutBookingSummary = ({
         </div>
 
         <figure className="border-grey-normal w-full rounded-[10px] border p-4">
-          <div className="flex items-center justify-between">
-            <Text
-              font="gilroy"
-              size="base"
-              weight="bold"
-              className="text-green-darker"
-            >
-              Total
-            </Text>
-            <Text
-              font="gilroy"
-              size="base"
-              weight="bold"
-              className="text-green-darker"
-            >
-              ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
-            </Text>
-          </div>
+          {isPriceLoading ? (
+            <div className="flex items-center justify-center py-2">
+              <div className="border-t-green-normal h-5 w-5 animate-spin rounded-full border-2 border-gray-200" />
+            </div>
+          ) : priceBreakdown?.components &&
+            priceBreakdown.components.length > 0 ? (
+            <div className="space-y-2">
+              {priceBreakdown.components
+                .filter((c) => c.isIncludedInTotalPrice === 1)
+                .map((component, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between"
+                  >
+                    <Text
+                      font="gilroy"
+                      size="sm"
+                      className="text-grey-darker"
+                    >
+                      {component.title}
+                    </Text>
+                    <Text
+                      font="gilroy"
+                      size="sm"
+                      className={
+                        component.total < 0
+                          ? "text-green-600"
+                          : "text-grey-darker"
+                      }
+                    >
+                      {component.total < 0 ? "-" : ""}$
+                      {new Intl.NumberFormat("es-MX").format(
+                        Math.abs(component.total),
+                      )}{" "}
+                      MXN
+                    </Text>
+                  </div>
+                ))}
+              <div className="border-grey-normal my-1 border-t" />
+              <div className="flex items-center justify-between">
+                <Text
+                  font="gilroy"
+                  size="base"
+                  weight="bold"
+                  className="text-green-darker"
+                >
+                  Total
+                </Text>
+                <Text
+                  font="gilroy"
+                  size="base"
+                  weight="bold"
+                  className="text-green-darker"
+                >
+                  ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
+                </Text>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between">
+              <Text
+                font="gilroy"
+                size="base"
+                weight="bold"
+                className="text-green-darker"
+              >
+                Total
+              </Text>
+              <Text
+                font="gilroy"
+                size="base"
+                weight="bold"
+                className="text-green-darker"
+              >
+                ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
+              </Text>
+            </div>
+          )}
         </figure>
       </section>
     </div>
