@@ -13,6 +13,10 @@ import {
   type GuestCounts,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
+import {
+  usePriceDetails,
+  type PriceDetails,
+} from "@/hooks/usePriceDetails";
 import { useI18n } from "@/i18n";
 
 import { Button } from "../Button";
@@ -42,6 +46,7 @@ export type BookingData = {
   propertyCity?: string;
   propertyRating?: number;
   pricePerNight?: number;
+  priceBreakdown?: PriceDetails;
 };
 
 export const BookingWidget = ({
@@ -149,7 +154,7 @@ export const BookingWidget = ({
     return priceByDate?.[key] ?? price;
   };
 
-  const totalPrice =
+  const nightlyTotal =
     dateRange.startDate && dateRange.endDate
       ? (() => {
           let total = 0;
@@ -162,6 +167,15 @@ export const BookingWidget = ({
         })()
       : price;
   const totalGuests = guests.adults + guests.children + guests.infants;
+
+  const { priceDetails, isLoading: isPriceLoading } = usePriceDetails(
+    listingMapId,
+    dateRange.startDate,
+    dateRange.endDate,
+    Math.max(1, guests.adults + guests.children),
+  );
+
+  const totalPrice = priceDetails?.totalPrice ?? nightlyTotal;
   const shouldShowNoChargeText =
     !dateRange.startDate || !dateRange.endDate || totalGuests === 0;
   const showMobileSheet = showCalendar || showGuestSelector;
@@ -182,6 +196,7 @@ export const BookingWidget = ({
       totalNights,
       totalPrice,
       listingMapId,
+      priceBreakdown: priceDetails ?? undefined,
     };
 
     onBookingClick?.(bookingData);
@@ -301,7 +316,11 @@ export const BookingWidget = ({
     >
       <div className="flex space-x-2.5">
         <Text size="4xl" font="gilroy" weight="bold" className="text-white">
-          ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
+          {isPriceLoading && dateRange.startDate && dateRange.endDate ? (
+            <span className="inline-block h-8 w-32 animate-pulse rounded bg-white/20" />
+          ) : (
+            `$${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN`
+          )}
         </Text>
         <Text size="lg" font="gilroy" className="mt-1 text-white sm:mt-2.5">
           {stayNightsLabel}
