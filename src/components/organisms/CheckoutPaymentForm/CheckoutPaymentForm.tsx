@@ -62,6 +62,7 @@ type CheckoutPaymentFormProps = {
   onGuestsChange?: (guests: GuestCounts) => void;
   priceBreakdown?: PriceDetails | null;
   isPriceLoading?: boolean;
+  paymentIntentId?: string | null;
 };
 
 const COUNTRIES = [
@@ -84,6 +85,7 @@ export const CheckoutPaymentForm = ({
   onGuestsChange,
   priceBreakdown,
   isPriceLoading,
+  paymentIntentId,
 }: CheckoutPaymentFormProps) => {
   const { t } = useI18n();
   const stripe = useStripe();
@@ -125,12 +127,20 @@ export const CheckoutPaymentForm = ({
     sessionStorage.setItem("guestData", JSON.stringify(guestData));
 
     try {
-      // 1. Save payment method via SetupIntent (no redirect)
-      const { error, setupIntent } = await stripe.confirmSetup({
+      // 1. Charge the card via PaymentIntent
+      const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         redirect: "if_required",
         confirmParams: {
-          return_url: `${window.location.origin}/booking-success/${bookingData.listingMapId}`,
+          payment_method_data: {
+            billing_details: {
+              name: `${values.firstName} ${values.lastName}`.trim(),
+              email: values.email,
+              phone: values.phone,
+              address: { country: values.country },
+            },
+          },
+          return_url: `${window.location.origin}/${window.location.pathname.split("/")[1]}/booking-success/${bookingData.listingMapId}`,
         },
       });
 
@@ -139,12 +149,12 @@ export const CheckoutPaymentForm = ({
         return;
       }
 
-      if (!setupIntent || setupIntent.status !== "succeeded") {
-        setStripeError("No se pudo confirmar el método de pago");
+      if (!paymentIntent || paymentIntent.status !== "succeeded") {
+        setStripeError("No se pudo confirmar el pago");
         return;
       }
 
-      // 2. Create reservation in Hostaway
+      // 2. Payment succeeded — now create reservation in Hostaway
       const reservationResponse = await fetch(
         "/api/hostaway/reservations/confirm",
         {
@@ -167,7 +177,7 @@ export const CheckoutPaymentForm = ({
             children: bookingData.guests.children || null,
             infants: bookingData.guests.infants || null,
             totalPrice: bookingData.totalPrice,
-            setupIntentId: setupIntent.id,
+            paymentIntentId: paymentIntentId ?? paymentIntent.id,
           }),
         },
       );
@@ -177,14 +187,12 @@ export const CheckoutPaymentForm = ({
         reservationId?: number;
         error?: string;
         details?: string;
-        paymentStatus?: string;
-        paymentPending?: boolean;
       };
 
       if (!reservationResponse.ok || !reservationData.success) {
         setStripeError(
           reservationData.error ??
-            "Error al crear la reservación. Tu método de pago fue guardado.",
+            "Error al crear la reservación. Tu pago fue procesado, contacta soporte.",
         );
         return;
       }
@@ -194,19 +202,17 @@ export const CheckoutPaymentForm = ({
         "reservationResult",
         JSON.stringify({
           reservationId: reservationData.reservationId,
-          setupIntentId: setupIntent.id,
-          paymentStatus: reservationData.paymentStatus,
-          paymentPending: reservationData.paymentPending,
+          paymentIntentId: paymentIntent.id,
         }),
       );
 
-      const paymentQuery = reservationData.paymentPending
-        ? "&payment_pending=true"
-        : "";
-
-      window.location.href = `/${window.location.pathname.split("/")[1]}/booking-success/${bookingData.listingMapId}?setup_intent=${setupIntent.id}&reservation_id=${reservationData.reservationId}${paymentQuery}`;
+      window.location.href = `/${window.location.pathname.split("/")[1]}/booking-success/${bookingData.listingMapId}?payment_intent=${paymentIntent.id}&reservation_id=${reservationData.reservationId}`;
     } catch (err) {
-      setStripeError("Error inesperado al procesar el pago");
+      setStripeError(
+        err instanceof Error
+          ? err.message
+          : "Error inesperado al procesar el pago",
+      );
       console.error("Error en checkout:", err);
     } finally {
       setIsLoading(false);
