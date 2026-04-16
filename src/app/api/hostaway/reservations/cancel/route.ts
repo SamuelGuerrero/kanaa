@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
+import Stripe from "stripe";
 
 import { getHostawayAuthorizationHeader } from "@/server/hostaway/auth";
 
 const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2026-03-25.dahlia",
+});
+
 interface CancelReservationBody {
   reservationId: number;
+  paymentIntentId?: string;
 }
 
 interface HostawayCancelResponse {
@@ -15,17 +21,18 @@ interface HostawayCancelResponse {
 }
 
 export async function POST(request: Request) {
-  let reservationId: number | undefined;
+  let body: CancelReservationBody;
 
   try {
-    const body = (await request.json()) as CancelReservationBody;
-    reservationId = body.reservationId;
+    body = (await request.json()) as CancelReservationBody;
   } catch {
     return NextResponse.json(
       { error: "El cuerpo de la solicitud es inválido" },
       { status: 400 },
     );
   }
+
+  const { reservationId, paymentIntentId } = body;
 
   if (!reservationId || typeof reservationId !== "number") {
     return NextResponse.json(
@@ -34,6 +41,27 @@ export async function POST(request: Request) {
     );
   }
 
+  // 1. Refund via Stripe if paymentIntentId is provided
+  let refundId: string | null = null;
+  if (paymentIntentId) {
+    try {
+      const refund = await stripe.refunds.create({
+        payment_intent: paymentIntentId,
+      });
+      refundId = refund.id;
+    } catch (error) {
+      console.error("Error creating Stripe refund:", error);
+      return NextResponse.json(
+        {
+          error: "No se pudo procesar el reembolso en Stripe",
+          details: error instanceof Error ? error.message : "Error desconocido",
+        },
+        { status: 502 },
+      );
+    }
+  }
+
+  // 2. Cancel reservation in Hostaway
   let authorization: string;
   try {
     authorization = await getHostawayAuthorizationHeader();
@@ -103,5 +131,6 @@ export async function POST(request: Request) {
   return NextResponse.json({
     success: true,
     reservation: data.result ?? null,
+    refundId,
   });
 }

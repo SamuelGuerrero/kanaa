@@ -53,13 +53,12 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 
 function BookingSuccessInner() {
   const searchParams = useSearchParams();
-  const setupIntentId = searchParams.get("setup_intent") ?? "";
+  const paymentIntentId = searchParams.get("payment_intent") ?? "";
   const reservationId = searchParams.get("reservation_id") ?? "";
-  const paymentPending = searchParams.get("payment_pending") === "true";
   const bookingNumber = reservationId
     ? `#${reservationId}`
-    : setupIntentId
-      ? `#${setupIntentId.slice(-8).toUpperCase()}`
+    : paymentIntentId
+      ? `#${paymentIntentId.slice(-8).toUpperCase()}`
       : "#—";
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
@@ -91,7 +90,10 @@ function BookingSuccessInner() {
       const response = await fetch("/api/hostaway/reservations/cancel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reservationId: Number(reservationId) }),
+        body: JSON.stringify({
+          reservationId: Number(reservationId),
+          paymentIntentId: paymentIntentId || undefined,
+        }),
       });
 
       const data = (await response.json()) as {
@@ -159,18 +161,12 @@ function BookingSuccessInner() {
             size="4xl"
             weight="medium"
             className={
-              isCancelled
-                ? "text-red-600"
-                : paymentPending
-                  ? "text-amber-600"
-                  : "text-green-normal"
+              isCancelled ? "text-red-600" : "text-green-normal"
             }
           >
             {isCancelled
               ? "Reserva cancelada"
-              : paymentPending
-                ? "Reserva creada — pago pendiente"
-                : "¡Reserva confirmada!"}
+              : "¡Reserva confirmada!"}
           </Text>
 
           <div className="flex items-center gap-2">
@@ -190,16 +186,12 @@ function BookingSuccessInner() {
           <Text
             font="gilroy"
             size="lg"
-            className={paymentPending ? "text-amber-600" : "text-green-normal"}
+            className="text-green-normal"
           >
-            {paymentPending
-              ? "Tu reserva fue creada pero el cobro está pendiente de confirmación. Te notificaremos cuando se procese el pago."
-              : `Hemos enviado los detalles de tu reserva a `}
-            {!paymentPending && (
-              <span className="font-bold">
-                {guestData.email || "tu correo"}
-              </span>
-            )}
+            Hemos enviado los detalles de tu reserva a{" "}
+            <span className="font-bold">
+              {guestData.email || "tu correo"}
+            </span>
           </Text>
         </div>
 
@@ -342,7 +334,7 @@ function BookingSuccessInner() {
                         weight="medium"
                         className="text-green-darker"
                       >
-                        ****{setupIntentId.slice(-4) || "····"}
+                        ****{paymentIntentId.slice(-4) || "····"}
                       </Text>
                       <span className="rounded bg-[#0457A0] px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white">
                         VISA
