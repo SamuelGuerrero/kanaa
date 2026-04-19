@@ -5,6 +5,8 @@ import { Roboto_Serif } from "next/font/google";
 import localFont from "next/font/local";
 import { cookies, headers } from "next/headers";
 
+import { StructuredData } from "@/components/atoms";
+import { organizationSchema, webSiteSchema } from "@/lib/schemas";
 import { siteConfig, toAbsoluteUrl } from "@/lib/seo";
 
 import type { ReactNode } from "react";
@@ -19,31 +21,41 @@ export const metadata: Metadata = {
   applicationName: "Kanaa",
   referrer: "origin-when-cross-origin",
   keywords: [
-    "gestion de propiedades",
+    "gestión de propiedades vacacionales",
+    "renta vacacional México",
+    "property management México",
     "alquiler vacacional",
-    "property management",
-    "renta vacacional",
+    "administración de propiedades",
     "kanaa",
+    "vacation rental management",
+    "ingresos por renta",
   ],
-  authors: [{ name: "Kanaa" }],
+  authors: [{ name: "Kanaa", url: siteConfig.siteUrl }],
   creator: "Kanaa",
   publisher: "Kanaa",
   alternates: {
-    canonical: "/",
+    canonical: "/es",
+    languages: {
+      es: `${siteConfig.siteUrl}/es`,
+      en: `${siteConfig.siteUrl}/en`,
+      "x-default": `${siteConfig.siteUrl}/es`,
+    },
   },
   openGraph: {
     type: "website",
     locale: "es_MX",
+    alternateLocale: "en_US",
     siteName: "Kanaa",
-    url: "/",
+    url: "/es",
     title: siteConfig.defaultTitle,
     description: siteConfig.description,
     images: [
       {
-        url: toAbsoluteUrl("/favicon.ico"),
+        url: toAbsoluteUrl("/og-image.png"),
         width: 1200,
         height: 630,
-        alt: "Kanaa",
+        alt: "Kanaa — Gestión de propiedades vacacionales en México",
+        type: "image/png",
       },
     ],
   },
@@ -51,7 +63,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.defaultTitle,
     description: siteConfig.description,
-    images: [toAbsoluteUrl("/favicon.ico")],
+    images: [toAbsoluteUrl("/og-image.png")],
+    creator: "@kanaahouse",
+    site: "@kanaahouse",
   },
   robots: {
     index: true,
@@ -64,7 +78,15 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: "/favicon.ico",
+  },
+  category: "business",
 };
 
 const robotoSerif = Roboto_Serif({
@@ -118,10 +140,25 @@ export default async function RootLayout({
   return (
     <html lang={lang} className={`${robotoSerif.variable} ${gilroy.variable}`}>
       <head>
+        {/* Preconnect to external resources for performance */}
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+        <link
+          rel="preconnect"
+          href="https://hostaway-platform.s3.us-west-2.amazonaws.com"
+        />
+        <link rel="dns-prefetch" href="https://js.stripe.com" />
+        <link rel="dns-prefetch" href="https://a0.muscache.com" />
+
+        {/* Font Awesome stylesheet */}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          crossOrigin="anonymous"
         />
+
+        {/* Global JSON-LD structured data */}
+        <StructuredData data={organizationSchema()} />
+        <StructuredData data={webSiteSchema()} />
       </head>
       <body className="bg-[url('/svg/main.svg')] bg-contain bg-top bg-repeat p-1.5 xl:p-4">
         {children}

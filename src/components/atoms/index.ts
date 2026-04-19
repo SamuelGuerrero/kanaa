@@ -11,3 +11,4 @@ export * from "./SocialMediaIcon";
 export * from "./InputForm";
 export * from "./SelectForm";
 export * from "./Loader";
+export * from "./StructuredData";
