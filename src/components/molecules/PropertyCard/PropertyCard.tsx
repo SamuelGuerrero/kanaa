@@ -56,12 +56,22 @@ export const PropertyCard = ({
     return value === "Ciudad de México" ? "CDMX" : value;
   };
 
+  // Fetch a 7-day window so we always find at least one priced available day,
+  // even when today itself is occupied or has no calendar price.
   const todayKey = formatDateKeyLocal(new Date());
+  const sevenDaysKey = formatDateKeyLocal(
+    new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  );
   const { priceByDate } = useListingCalendar(listingId ?? "", {
     startDate: todayKey,
-    endDate: todayKey,
+    endDate: sevenDaysKey,
   });
-  const displayPrice = priceByDate[todayKey] ?? price;
+
+  // Prefer the minimum upcoming calendar price over the raw listing price so that
+  // the card and the detail page always reflect the same pricing source.
+  const upcomingPrices = Object.values(priceByDate);
+  const displayPrice =
+    upcomingPrices.length > 0 ? Math.min(...upcomingPrices) : price;
 
   const textRef = useRef<HTMLSpanElement>(null);
 

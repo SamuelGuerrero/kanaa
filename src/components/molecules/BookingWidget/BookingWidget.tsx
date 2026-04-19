@@ -151,6 +151,19 @@ export const BookingWidget = ({
     return priceByDate?.[key] ?? price;
   };
 
+  // When no dates are selected, show the nearest upcoming calendar price so that
+  // this widget is consistent with the price shown on the property card.
+  // Falls back to `price` (property base rate) only when the calendar hasn't
+  // loaded yet or has no upcoming data.
+  const nearestCalendarPrice = (() => {
+    if (!priceByDate) return price;
+    const todayStr = formatDateKeyLocal(new Date());
+    const entries = Object.entries(priceByDate)
+      .filter(([key]) => key >= todayStr)
+      .sort(([a], [b]) => a.localeCompare(b));
+    return entries[0]?.[1] ?? price;
+  })();
+
   const nightlyTotal =
     dateRange.startDate && dateRange.endDate
       ? (() => {
@@ -162,7 +175,7 @@ export const BookingWidget = ({
           }
           return total;
         })()
-      : price;
+      : nearestCalendarPrice;
   const totalGuests = guests.adults + guests.children + guests.infants;
 
   const { priceDetails, isLoading: isPriceLoading } = usePriceDetails(
