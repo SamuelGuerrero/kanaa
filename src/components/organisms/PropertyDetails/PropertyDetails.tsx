@@ -179,11 +179,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
               variant="primary"
               className="mt-4 hidden! sm:flex!"
               onClick={() => setShowFullDescription((prev) => !prev)}
-              icon={
-                <CircleButton>
-                  <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-                </CircleButton>
-              }
             >
               {showFullDescription ? "Mostrar menos" : "Mostrar más"}
             </Button>
@@ -253,11 +248,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
                 variant="primary"
                 textClassName="mx-auto!"
                 className="sm:bg-gold-light-hover text-gold-dark! mt-4 w-full border border-[#D1D5DB] bg-transparent px-0! sm:w-fit sm:border-none sm:px-4!"
-                icon={
-                  <CircleButton className="hidden sm:flex">
-                    <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-                  </CircleButton>
-                }
                 onClick={() => setShowAllAmenities((prev) => !prev)}
               >
                 {showAllAmenities ? (
