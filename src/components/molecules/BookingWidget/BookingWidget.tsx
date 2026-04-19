@@ -13,10 +13,7 @@ import {
   type GuestCounts,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
-import {
-  usePriceDetails,
-  type PriceDetails,
-} from "@/hooks/usePriceDetails";
+import { usePriceDetails, type PriceDetails } from "@/hooks/usePriceDetails";
 import { useI18n } from "@/i18n";
 
 import { Button } from "../Button";
@@ -68,13 +65,13 @@ export const BookingWidget = ({
     children: 0,
     infants: 0,
   });
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [isSheetVisible, setIsSheetVisible] = useState(false);
   const [isClosingSheet, setIsClosingSheet] = useState(false);
-  const [sheetDragY, setSheetDragY] = useState(0);
-  const [touchStartY, setTouchStartY] = useState<number | null>(null);
+  const sheetScrollRef = useRef<HTMLDivElement | null>(null);
   const [canDragSheet, setCanDragSheet] = useState(false);
   const closeTimeoutRef = useRef<number | null>(null);
-  const sheetScrollRef = useRef<HTMLDivElement | null>(null);
+  const [sheetDragY, setSheetDragY] = useState(0);
 
   const {
     showCalendar,
@@ -181,7 +178,7 @@ export const BookingWidget = ({
   const showMobileSheet = showCalendar || showGuestSelector;
 
   const handleBookingClick = () => {
-    if (disableCheckout) {
+    if (disableCheckout || isPriceLoading) {
       return;
     }
     if (!dateRange.startDate || !dateRange.endDate) {
@@ -451,7 +448,12 @@ export const BookingWidget = ({
           variant="secondary"
           textClassName="text-base font-medium"
           className="w-fit"
-          disabled={disableCheckout}
+          disabled={
+            disableCheckout ||
+            isPriceLoading ||
+            !dateRange.startDate ||
+            !dateRange.endDate
+          }
           onClick={handleBookingClick}
           icon={
             <CircleButton className="bg-gold-light-active!">
