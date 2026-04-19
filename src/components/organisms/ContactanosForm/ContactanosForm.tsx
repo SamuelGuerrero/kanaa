@@ -222,9 +222,9 @@ export const ContactanosForm = () => {
               {...register("textArea")}
             />
             {errors.textArea?.message ? (
-              <p className="mt-1 text-xs text-red-200">
-                {t(errors.textArea.message)}
-              </p>
+              <Text font="gilroy" size="xs" className="mt-1 text-red-200">
+                {errors.textArea.message}
+              </Text>
             ) : null}
           </div>
           {submitError ? (
