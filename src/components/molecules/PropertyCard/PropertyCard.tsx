@@ -2,7 +2,7 @@
 
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import {
   AmenityItem,
@@ -63,25 +63,25 @@ export const PropertyCard = ({
   });
   const displayPrice = priceByDate[todayKey] ?? price;
 
-  const titleRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
 
-  useEffect(() => {
-    const container = titleRef.current;
-    if (!container) return;
-    const el = container.firstElementChild as HTMLElement;
+  const handleMouseEnter = () => {
+    const el = textRef.current;
     if (!el) return;
+    const overflow = el.scrollWidth - el.parentElement!.clientWidth;
+    if (overflow <= 0) return;
+    const duration = Math.max(1.5, overflow / 40);
+    el.style.setProperty("--marquee-distance", `-${overflow}px`);
+    el.style.setProperty("--marquee-duration", `${duration}s`);
+    el.classList.add("marquee-animate");
+  };
 
-    el.style.fontSize = "";
-    const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
-
-    if (el.scrollHeight > lineHeight + 2) {
-      let fontSize = parseFloat(getComputedStyle(el).fontSize);
-      while (el.scrollHeight > lineHeight + 2 && fontSize > 8) {
-        fontSize -= 0.5;
-        el.style.fontSize = `${fontSize}px`;
-      }
-    }
-  }, [title]);
+  const handleMouseLeave = () => {
+    const el = textRef.current;
+    if (!el) return;
+    el.classList.remove("marquee-animate");
+    el.style.transform = "translateX(0)";
+  };
 
   return (
     <figure
@@ -129,14 +129,20 @@ export const PropertyCard = ({
           {formatLocation(city)}, {formatLocation(state)}, {country}
         </Text>
 
-        <div ref={titleRef}>
-          <Text
-            font="gilroy"
-            weight="bold"
-            className="text-green-darker -mt-1 text-left text-xl"
-          >
-            {title}
-          </Text>
+        <div
+          className="overflow-hidden"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <span ref={textRef} className="inline-block whitespace-nowrap">
+            <Text
+              font="gilroy"
+              weight="bold"
+              className="text-green-darker -mt-1 text-left text-xl"
+            >
+              {title}
+            </Text>
+          </span>
         </div>
 
         <PriceDisplay
