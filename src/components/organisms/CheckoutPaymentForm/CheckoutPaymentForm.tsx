@@ -178,6 +178,7 @@ export const CheckoutPaymentForm = ({
             infants: bookingData.guests.infants || null,
             totalPrice: bookingData.totalPrice,
             paymentIntentId: paymentIntentId ?? paymentIntent.id,
+            propertyName: bookingData.propertyName ?? undefined,
           }),
         },
       );

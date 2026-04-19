@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 
+import { env } from "@/env";
+import { buildReservationConfirmationHtml } from "@/server/email/templates/reservation-confirmation";
 import { getHostawayAuthorizationHeader } from "@/server/hostaway/auth";
 
 const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
+const SITE_URL = "https://kanaa.house";
 
 interface CreateReservationBody {
   listingMapId: number;
@@ -19,6 +22,7 @@ interface CreateReservationBody {
   infants: number | null;
   totalPrice: number;
   paymentIntentId?: string;
+  propertyName?: string;
 }
 
 interface HostawayReservationResponse {
@@ -49,6 +53,7 @@ export async function POST(request: Request) {
       infants,
       totalPrice,
       paymentIntentId,
+      propertyName,
     } = body;
 
     if (
@@ -146,6 +151,50 @@ export async function POST(request: Request) {
           "Failed to register charge in Hostaway (reservation still created):",
           chargeError,
         );
+      }
+    }
+
+    // Send confirmation email to guest
+    if (reservationId && guestEmail) {
+      try {
+        const formatDate = (dateStr: string) => {
+          const [year, month, day] = dateStr.split("-");
+          return `${day}/${month}/${year}`;
+        };
+
+        const totalGuests = adults + (children ?? 0) + (infants ?? 0);
+        const guestsLabel = `${totalGuests} ${totalGuests === 1 ? "Adulto" : "Adultos"}`;
+        const formattedAmount = new Intl.NumberFormat("es-MX").format(totalPrice);
+
+        const html = buildReservationConfirmationHtml({
+          guestName: `${guestFirstName} ${guestLastName}`.trim(),
+          reservationId,
+          paidAmount: `$${formattedAmount}`,
+          propertyName: propertyName ?? "Propiedad Kanaa",
+          checkIn: formatDate(arrivalDate),
+          checkOut: formatDate(departureDate),
+          guestsTotal: guestsLabel,
+          reservationTrackingUrl: `${SITE_URL}/es/reservation-tracking`,
+          year: new Date().getFullYear(),
+          supportEmail: env.RESEND_FROM_EMAIL,
+        });
+
+        await fetch(env.RESEND_API_BASE_URL, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${env.RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: env.RESEND_FROM_EMAIL,
+            to: [guestEmail],
+            subject: `Kanaa | Confirmación de reserva #${reservationId}`,
+            html,
+          }),
+        });
+      } catch (emailError) {
+        // Non-critical — reservation is already created, just log the error
+        console.error("Failed to send confirmation email:", emailError);
       }
     }
 
