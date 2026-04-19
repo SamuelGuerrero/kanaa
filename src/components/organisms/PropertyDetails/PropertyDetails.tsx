@@ -209,6 +209,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
+            disableCheckout={process.env.NODE_ENV === "production"}
             className="sm:hidden"
           />
 
