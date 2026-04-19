@@ -2,6 +2,7 @@ import {
   CleanIcon,
   NoteIcon,
   NoteTimeIcon,
+  StructuredData,
   TrendingRoundIcon,
 } from "@/components/atoms";
 import {
@@ -14,6 +15,7 @@ import {
   type KeyMetricsProps,
 } from "@/components/templates";
 import { DataPropertyManagment } from "@/data/faqData";
+import { faqPageSchema, propertyManagementServiceSchema } from "@/lib/schemas";
 import { createPageMetadata } from "@/lib/seo";
 import rentalManagement1 from "@assets/images/Home/rentalManagement1.png";
 import rentalManagement2 from "@assets/images/Home/rentalManagement2.png";
@@ -42,6 +44,9 @@ export default async function HomePage({ params }: GestionPageProps) {
   const { locale } = await params;
 
   return (
+    <>
+      <StructuredData data={propertyManagementServiceSchema()} />
+      <StructuredData data={faqPageSchema(DataPropertyManagment)} />
     <main className="flex flex-col space-y-1.5 md:space-y-6">
       <BecomeHost />
       {/* <InfoSection
@@ -129,5 +134,6 @@ export default async function HomePage({ params }: GestionPageProps) {
         }}
       />
     </main>
+    </>
   );
 }

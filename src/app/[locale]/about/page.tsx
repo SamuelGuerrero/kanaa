@@ -16,6 +16,7 @@ export const metadata: Metadata = createPageMetadata({
   description:
     "Conoce a Kanaa: equipo, enfoque operativo y visión para transformar propiedades en activos rentables y bien administrados.",
   path: "/about",
+  keywords: ["Kanaa equipo", "gestión vacacional México", "sobre Kanaa"],
 });
 
 type NosotrosPageProps = {
