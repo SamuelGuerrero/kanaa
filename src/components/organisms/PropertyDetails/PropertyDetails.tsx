@@ -299,9 +299,9 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
 
             <div>
               <Text size="sm" font="gilroy" className="text-gray-darker">
-                {t("Política de cancelación")} <br />
-                {t("100% rembolsable hasta 14 días antes de la llegada")} <br />
-                {t("50% rembolsable hasta 7 días antes de la llegada")}
+                Política de cancelación <br />
+                100% rembolsable hasta 14 días antes de la llegada <br />
+                50% rembolsable hasta 7 días antes de la llegada
               </Text>
             </div>
           </div>

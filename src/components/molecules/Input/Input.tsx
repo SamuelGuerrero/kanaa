@@ -85,7 +85,7 @@ export const Input = ({
           weight="medium"
           className={`text-green-darker ${className}`}
         >
-          {value || placeholder ?? "—"}
+          {value || (placeholder ?? "—")}
         </Text>
       </div>
     );

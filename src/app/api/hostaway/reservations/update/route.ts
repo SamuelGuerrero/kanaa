@@ -100,13 +100,13 @@ export async function POST(request: Request) {
     guestFirstName: guestFirstName.trim(),
     guestLastName: guestLastName.trim(),
     guestEmail: guestEmail.trim(),
-    guestCountry: guestCountry?.trim() || null,
+    guestCountry: guestCountry?.trim() ?? null,
     phone: phone?.trim() ? phone.replace(/[\s\-()]/g, "") : null,
     arrivalDate,
     departureDate,
     adults,
-    children: children || null,
-    infants: infants || null,
+    children: children ?? null,
+    infants: infants ?? null,
     numberOfGuests,
   };
 

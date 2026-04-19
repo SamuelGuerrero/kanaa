@@ -2,7 +2,6 @@
 
 import { Text } from "@/components/atoms";
 import { InfoCard } from "@/components/molecules";
-import { useI18n } from "@/i18n";
 
 import type { ReactNode } from "react";
 
@@ -19,7 +18,6 @@ export const PropertyKnowBeforeSection = ({
   houseRules,
   safetyItems,
 }: PropertyKnowBeforeSectionProps) => {
-  const { t } = useI18n();
 
   return (
     <section className="mt-12 w-full border-t border-t-[#D9D4CC] pt-10">
@@ -51,7 +49,7 @@ export const PropertyKnowBeforeSection = ({
           >
             <div className="text-grey-darker font-gilroy space-y-1 text-base">
               {houseRules.map((rule) => (
-                <div key={rule}>{t(rule)}</div>
+                <Text as="div" key={rule}>{rule}</Text>
               ))}
             </div>
           </InfoCard>
@@ -64,7 +62,7 @@ export const PropertyKnowBeforeSection = ({
           >
             <div className="text-grey-darker font-gilroy space-y-1 text-base">
               {safetyItems.map((item) => (
-                <div key={item}>{t(item)}</div>
+                <Text as="div" key={item}>{item}</Text>
               ))}
             </div>
           </InfoCard>

@@ -149,7 +149,7 @@ export const CheckoutPaymentForm = ({
         return;
       }
 
-      if (!paymentIntent || paymentIntent.status !== "succeeded") {
+      if (paymentIntent?.status !== "succeeded") {
         setStripeError("No se pudo confirmar el pago");
         return;
       }

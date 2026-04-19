@@ -415,12 +415,12 @@ export const EarningsCalculatorForm = () => {
               {...registerProperty("postalCode")}
             />
             {catalogLoading && (
-              <p className="mt-1 text-xs text-white/80">
-                {t("Buscando código postal...")}
-              </p>
+              <Text font="gilroy" size="xs" className="mt-1 text-white/80">
+                Buscando código postal...
+              </Text>
             )}
             {catalogError && (
-              <p className="mt-1 text-xs text-red-200">{t(catalogError)}</p>
+              <Text font="gilroy" size="xs" className="mt-1 text-red-200">{catalogError}</Text>
             )}
           </div>
           <div className="col-span-1">
@@ -564,9 +564,9 @@ export const EarningsCalculatorForm = () => {
           </div>
 
           {predictionError && (
-            <p className="col-span-2 mt-1 text-sm text-red-200">
-              {t(predictionError)}
-            </p>
+            <Text font="gilroy" size="sm" className="col-span-2 mt-1 text-red-200">
+              {predictionError}
+            </Text>
           )}
 
           <Button
@@ -590,10 +590,10 @@ export const EarningsCalculatorForm = () => {
         <div className="relative z-10 h-106.25 px-4 text-center md:px-10">
           <div className="mx-auto flex w-full max-w-138.5 flex-col items-center gap-5 pt-17">
             <Text size="3xl" weight="medium" className="text-white">
-              {t("Espera unos momentos")}
+              Espera unos momentos
             </Text>
             <Text font="gilroy" size="lg" className="text-white">
-              {t("Estamos calculando el precio aproximado de tu propiedad")}
+              Estamos calculando el precio aproximado de tu propiedad
             </Text>
           </div>
 
@@ -607,27 +607,27 @@ export const EarningsCalculatorForm = () => {
             hasSubmittedLead ? (
               <div className="mx-auto max-w-4xl px-4 pt-10 md:px-0">
                 <Text size="3xl" weight="medium" className="text-white">
-                  {t("Solicitud enviada con éxito")}
+                  Solicitud enviada con éxito
                 </Text>
                 <Text
                   font="gilroy"
                   size="lg"
                   className="mx-auto mt-4 max-w-3xl text-white/90"
                 >
-                  {leadStatusMessage ? t(leadStatusMessage) : ""}
+                  {leadStatusMessage ?? ""}
                 </Text>
               </div>
             ) : (
               <div className="mx-auto w-full px-4 md:px-0">
                 <Text size="3xl" weight="medium" className="text-white">
-                  {t("Obtén tu análisis completo")}
+                  Obtén tu análisis completo
                 </Text>
                 <Text
                   font="gilroy"
                   size="lg"
                   className="mx-auto mt-4 max-w-3xl text-white"
                 >
-                  {t("Te enviaremos una proyección mensual personalizada.")}
+                  Te enviaremos una proyección mensual personalizada.
                 </Text>
 
                 <form
@@ -653,7 +653,7 @@ export const EarningsCalculatorForm = () => {
                       font="gilroy"
                       className="-mt-2 text-left text-red-200"
                     >
-                      {t(leadContactErrors.contactEmail.message)}
+                      {leadContactErrors.contactEmail.message}
                     </Text>
                   ) : null}
 
@@ -676,7 +676,7 @@ export const EarningsCalculatorForm = () => {
                       font="gilroy"
                       className="-mt-2 text-left text-red-200"
                     >
-                      {t(leadContactErrors.contactPhone.message)}
+                      {leadContactErrors.contactPhone.message}
                     </Text>
                   ) : null}
 
@@ -699,7 +699,7 @@ export const EarningsCalculatorForm = () => {
                       font="gilroy"
                       className="-mt-2 text-left text-red-200"
                     >
-                      {t(leadContactErrors.contactFullName.message)}
+                      {leadContactErrors.contactFullName.message}
                     </Text>
                   ) : null}
 
@@ -729,7 +729,7 @@ export const EarningsCalculatorForm = () => {
           ) : (
             <>
               <Text size="3xl" weight="medium" className="text-white">
-                {t("Tu propiedad podría generar hasta:")}
+                Tu propiedad podría generar hasta:
               </Text>
 
               <div className="w-max-content">
@@ -748,9 +748,7 @@ export const EarningsCalculatorForm = () => {
                   font="gilroy"
                   className="mx-auto mt-6 max-w-100 text-white"
                 >
-                  {t(
-                    "Basado en propiedades similares en tu zona y niveles promedio de ocupación.",
-                  )}
+                  Basado en propiedades similares en tu zona y niveles promedio de ocupación.
                 </Text>
               </div>
 

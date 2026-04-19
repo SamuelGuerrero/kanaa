@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { CarouselButton, PaginationDots } from "@/components/atoms";
+import { CarouselButton, PaginationDots, Text } from "@/components/atoms";
 import { PropertyCard } from "@/components/molecules";
 import { useCarouselPagination } from "@/hooks/useCarouselPagination";
 import { useI18n } from "@/i18n";
@@ -56,7 +56,7 @@ export const PropertyCarousel = ({
   itemsPerPage: itemsPerPageProp,
   ...rest
 }: PropertyCarouselProps) => {
-  const { t, locale } = useI18n();
+  const { locale } = useI18n();
   const responsiveItemsPerPage = useResponsiveItemsPerPage();
   const itemsPerPage = itemsPerPageProp ?? responsiveItemsPerPage;
 
@@ -98,7 +98,7 @@ export const PropertyCarousel = ({
         <div className="flex min-h-100 items-center justify-center">
           <div className="text-center">
             <div className="border-gold-normal mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2" />
-            <p className="text-gray-600">{t("Cargando propiedades...")}</p>
+            <Text className="text-gray-600">Cargando propiedades...</Text>
           </div>
         </div>
       </section>
@@ -110,10 +110,10 @@ export const PropertyCarousel = ({
       <section>
         <div className="flex min-h-100 items-center justify-center text-center text-red-500">
           <div>
-            <p className="mb-2 text-xl font-semibold">
-              {t("Error al cargar propiedades")}
-            </p>
-            <p>{error}</p>
+            <Text size="xl" weight="semibold" className="mb-2">
+              Error al cargar propiedades
+            </Text>
+            <Text>{error}</Text>
           </div>
         </div>
       </section>

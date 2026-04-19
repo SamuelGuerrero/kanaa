@@ -51,10 +51,10 @@ export const GuestSelector = ({
       <div className="flex items-center justify-between py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
-            {t("Adultos")}
+            Adultos
           </Text>
           <Text font="gilroy" size="sm" className="text-gray-600">
-            {t("13 años o más")}
+            13 años o más
           </Text>
         </div>
         <div className="flex items-center gap-3">
@@ -85,10 +85,10 @@ export const GuestSelector = ({
       <div className="flex items-center justify-between border-t border-gray-200 py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
-            {t("Niños")}
+            Niños
           </Text>
           <Text font="gilroy" size="sm" className="text-gray-600">
-            {t("De 2 a 12 años")}
+            De 2 a 12 años
           </Text>
         </div>
         <div className="flex items-center gap-3">
@@ -119,10 +119,10 @@ export const GuestSelector = ({
       <div className="flex items-center justify-between border-t border-gray-200 py-4">
         <div>
           <Text font="gilroy" size="base" weight="semibold">
-            {t("Bebés")}
+            Bebés
           </Text>
           <Text font="gilroy" size="sm" className="text-gray-600">
-            {t("Menores de 2 años")}
+            Menores de 2 años
           </Text>
         </div>
         <div className="flex items-center gap-3">
