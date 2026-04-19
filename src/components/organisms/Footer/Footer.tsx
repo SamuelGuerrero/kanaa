@@ -107,8 +107,8 @@ export const Footer = () => {
           <Button
             variant="primary"
             textWeight="bold"
-            className="text-gold-dark! hidden! w-full items-center justify-center font-bold md:w-fit"
-            href="#"
+            className="text-gold-dark! flex flex-1 items-center justify-center font-bold md:w-full md:flex-none lg:w-fit"
+            href={`/${locale}/reservation-tracking`}
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
