@@ -10,6 +10,7 @@ import {
   type GuestCounts,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
+import { useI18n } from "@/i18n";
 
 import type { BookingData } from "@/components/molecules";
 import type { PriceDetails } from "@/hooks/usePriceDetails";
@@ -40,6 +41,21 @@ const formatGuests = (guests: BookingData["guests"]) => {
   return `${total} ${total === 1 ? "Adulto" : "Adultos"}`;
 };
 
+const COMPONENT_TITLE_TRANSLATIONS_ES: Record<string, string> = {
+  "base rate": "Tarifa base",
+  "cleaning fee": "Cargo de limpieza",
+  "lodging tax": "Impuesto de hospedaje",
+  "sales tax": "Impuesto sobre ventas",
+};
+
+const normalizeComponentTitle = (title: string) =>
+  title.trim().toLowerCase().replace(/\s+/g, " ");
+
+const translateComponentTitle = (title: string, locale: string) => {
+  if (locale !== "es") return title;
+  return COMPONENT_TITLE_TRANSLATIONS_ES[normalizeComponentTitle(title)] ?? title;
+};
+
 function ModifyButton({ onClick }: { onClick?: () => void }) {
   return (
     <button
@@ -60,6 +76,7 @@ export const CheckoutBookingSummary = ({
   priceBreakdown,
   isPriceLoading,
 }: CheckoutBookingSummaryProps) => {
+  const { locale } = useI18n();
   const {
     propertyName,
     propertyImage,
@@ -253,7 +270,7 @@ export const CheckoutBookingSummary = ({
                       size="sm"
                       className="text-grey-darker"
                     >
-                      {component.title}
+                      {translateComponentTitle(component.title, locale)}
                     </Text>
                     <Text
                       font="gilroy"
