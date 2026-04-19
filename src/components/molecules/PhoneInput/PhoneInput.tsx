@@ -4,7 +4,6 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 import { Text } from "@/components/atoms";
-import { useI18n } from "@/i18n";
 
 type Country = {
   code: string;
@@ -103,7 +102,6 @@ export const PhoneInput = ({
   error,
   nonEditable = false,
 }: PhoneInputProps) => {
-  const { t } = useI18n();
   const [selectedCountry, setSelectedCountry] = useState<Country>(
     PHONE_COUNTRIES[0]!,
   );
@@ -134,7 +132,7 @@ export const PhoneInput = ({
             weight="bold"
             className="text-green-darker leading-5"
           >
-            {t(label)}
+            {label}
           </Text>
         )}
         <div className="flex items-center gap-2">
@@ -163,7 +161,7 @@ export const PhoneInput = ({
           weight="bold"
           className="text-green-darker leading-5"
         >
-          {t(label)}
+          {label}
         </Text>
       )}
 

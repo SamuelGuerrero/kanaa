@@ -114,7 +114,7 @@ export const InputForm = forwardRef<HTMLInputElement, InputProps>(
             weight="medium"
             className="mb-1 block text-white"
           >
-            {t(label)}
+            {label}
           </Text>
         )}
 
@@ -135,7 +135,7 @@ export const InputForm = forwardRef<HTMLInputElement, InputProps>(
 
         {error && (
           <Text size="xs" font="gilroy" className="mt-1 text-red-200">
-            {t(error)}
+            {error}
           </Text>
         )}
       </div>

@@ -602,7 +602,7 @@ export const CheckoutPaymentForm = ({
           {stripeError && (
             <div className="rounded-xl border border-red-200 bg-red-50 p-4">
               <Text font="gilroy" size="sm" className="text-red-700">
-                {t(stripeError)}
+                {stripeError}
               </Text>
             </div>
           )}
