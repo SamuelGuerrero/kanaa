@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { AccordionQuestions } from "@/components/molecules";
-import FAQBg from "@assets/images/home/FAQBg.png";
+import FAQBg from "@assets/images/Home/FAQBg.png";
 
 import type { FAQItem } from "@/data/faqData";
 
