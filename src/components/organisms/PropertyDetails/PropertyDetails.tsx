@@ -209,7 +209,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
-            disableCheckout={process.env.NODE_ENV === "production"}
+            disableCheckout={process.env.NEXT_PUBLIC_BOOKING_ENABLED !== "true"}
             className="sm:hidden"
           />
 
@@ -318,6 +318,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
+            disableCheckout={process.env.NEXT_PUBLIC_BOOKING_ENABLED !== "true"}
           />
         </section>
       </div>
