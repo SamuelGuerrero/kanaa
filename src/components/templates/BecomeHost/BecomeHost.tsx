@@ -23,11 +23,11 @@ export const BecomeHost = () => {
         />
       </div>
 
-      <div className="relative z-10 mt-15 flex h-full flex-col items-center gap-10 px-3 sm:mt-24 sm:w-full md:flex-row md:justify-between md:px-10">
-        <div className="mb-5 max-w-138.5 md:mb-55">
+      <div className="relative z-10 mt-15 flex h-full flex-col items-center gap-10 px-3 sm:mt-24 sm:w-full xl:flex-row xl:justify-between xl:px-10">
+        <div className="mb-5 md:text-center xl:mb-55 xl:max-w-138.5 xl:text-left">
           <Text
             size="6xl"
-            className="mt-15 text-white md:mt-20 md:leading-18"
+            className="mt-15 text-white xl:mt-20 xl:leading-18"
             weight="medium"
           >
             Convierte tu propiedad en un activo rentable
@@ -35,7 +35,7 @@ export const BecomeHost = () => {
 
           <Text
             size="xl"
-            className="mt-3 pr-2 text-white md:mt-5"
+            className="mt-3 pr-2 text-white xl:mt-5"
             font="gilroy"
             weight="medium"
           >
@@ -44,7 +44,7 @@ export const BecomeHost = () => {
           </Text>
         </div>
 
-        <BecomeHostForm className="-mt-10 sm:-mt-25" />
+        <BecomeHostForm className="-mt-10 xl:-mt-25" />
       </div>
     </section>
   );

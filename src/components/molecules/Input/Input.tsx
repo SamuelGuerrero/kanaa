@@ -76,7 +76,7 @@ export const Input = ({
             weight={labelWeight}
             className={`block text-black ${labelClassName}`}
           >
-            {t(label)}
+            {label}
           </Text>
         )}
         <Text
@@ -85,7 +85,7 @@ export const Input = ({
           weight="medium"
           className={`text-green-darker ${className}`}
         >
-          {value || (placeholder ? t(placeholder) : "—")}
+          {value || (placeholder ?? "—")}
         </Text>
       </div>
     );
@@ -100,7 +100,7 @@ export const Input = ({
           weight={labelWeight}
           className={`block text-black ${labelClassName}`}
         >
-          {t(label)}
+          {label}
         </Text>
       )}
 

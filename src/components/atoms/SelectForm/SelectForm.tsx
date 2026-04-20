@@ -38,7 +38,7 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
       <div className={`flex flex-col gap-1 ${wrapperClassName}`}>
         {label && (
           <Text font="gilroy" size="sm" weight="medium" className="text-white">
-            {t(label)}
+            {label}
           </Text>
         )}
         <div className="relative">
@@ -70,7 +70,7 @@ export const SelectForm = forwardRef<HTMLSelectElement, SelectFormProps>(
 
         {error && (
           <Text id={`${props.id}-error`} size="xs" className="text-red-200">
-            {t(error)}
+            {error}
           </Text>
         )}
       </div>

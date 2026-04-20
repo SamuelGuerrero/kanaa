@@ -11,8 +11,22 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           "/api/",
           "/checkout/",
-          "/booking-success",
-          "/booking-confirmation",
+          "/booking-success/",
+          "/booking-confirmation/",
+          "/reservation-tracking/",
+          "/_next/",
+        ],
+      },
+      // Allow Googlebot full access to public pages
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: [
+          "/api/",
+          "/checkout/",
+          "/booking-success/",
+          "/booking-confirmation/",
+          "/reservation-tracking/",
         ],
       },
     ],

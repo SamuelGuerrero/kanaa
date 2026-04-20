@@ -14,7 +14,7 @@ export const LanguageSwitcher = () => {
   return (
     <div className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1.5">
       <Text size="xs" font="gilroy" className="text-green-light-active">
-        {t("Idioma")}
+        Idioma
       </Text>
       <div className="inline-flex rounded-full bg-white/10 p-0.5">
         {LANGUAGES.map((language) => (

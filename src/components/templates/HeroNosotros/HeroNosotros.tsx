@@ -1,11 +1,15 @@
+"use client";
+
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
+import { useI18n } from "@/i18n";
 import HeroNosotrosBg from "@assets/images/Home/HeroNosotrosBg.png";
 
 export const HeroNosotros = () => {
+  const { locale } = useI18n();
   return (
     <section
       className="relative h-130 w-full sm:h-200"
@@ -37,7 +41,7 @@ export const HeroNosotros = () => {
           textWeight="bold"
           variant="primary"
           className="text-gold-dark! mt-10 w-fit"
-          href="/properties"
+          href={`/${locale}/properties`}
           icon={
             <CircleButton className="bg-grey-light!">
               <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

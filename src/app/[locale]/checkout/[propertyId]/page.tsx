@@ -3,36 +3,59 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe, type StripeElementsOptions } from "@stripe/stripe-js";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Text } from "@/components/atoms";
 import { CheckoutHero } from "@/components/molecules";
 import { CheckoutPaymentForm } from "@/components/organisms";
 import { useListingCalendar } from "@/hooks/useListingCalendar";
+import { usePriceDetails } from "@/hooks/usePriceDetails";
 
 import type { BookingData } from "@/components/molecules";
+
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  : null;
 
 export default function CheckoutPage() {
   const router = useRouter();
   const params = useParams();
   const propertyId = params?.propertyId as string;
   const locale = (params?.locale as string) ?? "es";
-  const isCheckoutDisabled = true;
-
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
-  const [stripePromise, setStripePromise] = useState<ReturnType<
-    typeof loadStripe
-  > | null>(null);
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const { occupiedDates, priceByDate } = useListingCalendar(propertyId);
+  const [isBootstrapping, setIsBootstrapping] = useState(true);
+  const [isPaymentIntentLoading, setIsPaymentIntentLoading] = useState(false);
+  const { occupiedDates } = useListingCalendar(propertyId);
+  const requestKeyRef = useRef<string | null>(null);
+
+  const numberOfGuests = bookingData
+    ? bookingData.guests.adults + bookingData.guests.children
+    : 1;
+
+  const { priceDetails, isLoading: isPriceLoading } = usePriceDetails(
+    propertyId,
+    bookingData?.startDate ?? null,
+    bookingData?.endDate ?? null,
+    Math.max(1, numberOfGuests),
+  );
 
   useEffect(() => {
-    if (isCheckoutDisabled) {
-      router.replace(`/${locale}`);
-      return;
-    }
+    if (!priceDetails || !bookingData) return;
+
+    const updated = {
+      ...bookingData,
+      totalPrice: priceDetails.totalPrice,
+      priceBreakdown: priceDetails,
+    };
+
+    sessionStorage.setItem("bookingData", JSON.stringify(updated));
+    setBookingData(updated);
+  }, [priceDetails]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     const savedBookingData = sessionStorage.getItem("bookingData");
     if (!savedBookingData) {
       router.push(`/${locale}/properties/${propertyId}`);
@@ -47,66 +70,102 @@ export default function CheckoutPage() {
     };
 
     setBookingData(bookingDataWithDates);
+    setIsBootstrapping(false);
+  }, [propertyId, router, locale]);
 
-    const initializeStripe = async () => {
+  const paymentIntentRequestKey = useMemo(() => {
+    if (!bookingData?.startDate || !bookingData?.endDate || !bookingData?.totalPrice) {
+      return null;
+    }
+
+    return JSON.stringify({
+      listingMapId: bookingData.listingMapId,
+      startDate: bookingData.startDate.toISOString(),
+      endDate: bookingData.endDate.toISOString(),
+      totalPrice: bookingData.totalPrice,
+      guests: bookingData.guests.adults + bookingData.guests.children,
+    });
+  }, [bookingData]);
+
+  useEffect(() => {
+    if (!bookingData || !paymentIntentRequestKey || isPriceLoading) {
+      return;
+    }
+
+    if (!stripePromise) {
+      setError("Falta configurar NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY");
+      return;
+    }
+
+    if (requestKeyRef.current === paymentIntentRequestKey) {
+      return;
+    }
+
+    const startDate = bookingData.startDate;
+    const endDate = bookingData.endDate;
+
+    if (!startDate || !endDate) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const createPaymentIntent = async () => {
+      setIsPaymentIntentLoading(true);
+      setError("");
+      setClientSecret(null);
+
       try {
-        const keyResponse = await fetch(
-          `/api/hostaway/stripe/get-publishable-key?listingMapId=${parsedData.listingMapId}`,
-        );
+        const response = await fetch("/api/stripe/create-payment-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: bookingData.totalPrice,
+            currency: "mxn",
+            listingId: bookingData.listingMapId,
+            arrivalDate: startDate.toISOString().slice(0, 10),
+            departureDate: endDate.toISOString().slice(0, 10),
+            numberOfGuests:
+              bookingData.guests.adults + bookingData.guests.children,
+          }),
+        });
 
-        if (!keyResponse.ok) {
-          const errorData = (await keyResponse.json()) as { error?: string };
+        if (!response.ok) {
+          const errorData = (await response.json()) as { error?: string };
           throw new Error(
-            errorData.error ?? "Error obteniendo la clave de Stripe",
+            errorData.error ?? "Error creando la intención de pago",
           );
         }
 
-        const { publishableKey } = (await keyResponse.json()) as {
-          publishableKey: string;
-        };
-
-        if (!publishableKey) {
-          throw new Error("No se recibió la clave de Stripe");
-        }
-
-        const stripe = await loadStripe(publishableKey);
-        setStripePromise(Promise.resolve(stripe));
-
-        const intentResponse = await fetch(
-          "/api/hostaway/stripe/create-setup-intent",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ listingMapId: parsedData.listingMapId }),
-          },
-        );
-
-        if (!intentResponse.ok) {
-          const errorData = (await intentResponse.json()) as {
-            error?: string;
-          };
-          throw new Error(errorData.error ?? "Error creando el setup intent");
-        }
-
-        const { clientSecret: secret } = (await intentResponse.json()) as {
+        const data = (await response.json()) as {
           clientSecret: string;
+          paymentIntentId: string;
         };
 
-        if (!secret) {
-          throw new Error("No se recibió el client secret");
-        }
+        if (cancelled) return;
 
-        setClientSecret(secret);
+        requestKeyRef.current = paymentIntentRequestKey;
+        setClientSecret(data.clientSecret);
+        setPaymentIntentId(data.paymentIntentId);
       } catch (err) {
-        console.error("Error inicializando Stripe:", err);
+        if (cancelled) return;
+        console.error("Error creando PaymentIntent:", err);
+        setClientSecret(null);
+        setPaymentIntentId(null);
         setError(err instanceof Error ? err.message : "Error desconocido");
       } finally {
-        setIsLoading(false);
+        if (!cancelled) {
+          setIsPaymentIntentLoading(false);
+        }
       }
     };
 
-    void initializeStripe();
-  }, [propertyId, router, isCheckoutDisabled, locale]);
+    void createPaymentIntent();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [bookingData, isPriceLoading, paymentIntentRequestKey]);
 
   const handleDatesChange = (startDate: Date | null, endDate: Date | null) => {
     if (!bookingData) return;
@@ -117,24 +176,11 @@ export default function CheckoutPage() {
           )
         : bookingData.totalNights;
 
-    let totalPrice = 0;
-    if (startDate && endDate) {
-      const current = new Date(startDate);
-      while (current < endDate) {
-        const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, "0")}-${String(current.getDate()).padStart(2, "0")}`;
-        totalPrice += priceByDate?.[key] ?? bookingData.pricePerNight ?? 0;
-        current.setDate(current.getDate() + 1);
-      }
-    } else {
-      totalPrice = bookingData.totalPrice;
-    }
-
     const updated = {
       ...bookingData,
       startDate,
       endDate,
       totalNights,
-      totalPrice,
     };
     sessionStorage.setItem("bookingData", JSON.stringify(updated));
     setBookingData(updated);
@@ -147,39 +193,27 @@ export default function CheckoutPage() {
     setBookingData(updated);
   };
 
-  const options: StripeElementsOptions | undefined = clientSecret
-    ? {
-        clientSecret,
-        appearance: {
-          theme: "stripe",
-          variables: {
-            colorPrimary: "#10b981",
-            colorBackground: "#ffffff",
-            colorText: "#1f2937",
-            colorDanger: "#ef4444",
-            fontFamily:
-              "'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-            spacingUnit: "4px",
-            borderRadius: "12px",
+  const options: StripeElementsOptions | undefined =
+    clientSecret && stripePromise
+      ? {
+          clientSecret,
+          appearance: {
+            theme: "stripe",
+            variables: {
+              colorPrimary: "#10b981",
+              colorBackground: "#ffffff",
+              colorText: "#1f2937",
+              colorDanger: "#ef4444",
+              fontFamily:
+                "'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              spacingUnit: "4px",
+              borderRadius: "12px",
+            },
           },
-        },
-      }
-    : undefined;
+        }
+      : undefined;
 
-  if (isCheckoutDisabled) {
-    return (
-      <main className="mx-auto flex min-h-[60vh] max-w-4xl items-center justify-center px-6 py-20">
-        <div className="text-center">
-          <Text size="3xl" weight="bold" className="text-green-normal">
-            Checkout deshabilitado
-          </Text>
-          <Text size="lg" font="gilroy" className="mt-3 text-gray-600">
-            Esta ruta está bloqueada temporalmente.
-          </Text>
-        </div>
-      </main>
-    );
-  }
+  const isLoading = isBootstrapping || isPaymentIntentLoading;
 
   return (
     <div className="min-h-screen bg-white">
@@ -208,6 +242,9 @@ export default function CheckoutPage() {
               occupiedDates={occupiedDates}
               onDatesChange={handleDatesChange}
               onGuestsChange={handleGuestsChange}
+              priceBreakdown={priceDetails}
+              isPriceLoading={isPriceLoading}
+              paymentIntentId={paymentIntentId}
             />
           </Elements>
         ) : (

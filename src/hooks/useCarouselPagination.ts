@@ -28,6 +28,8 @@ export function useCarouselPagination<T>({
     [items.length, itemsPerPage],
   );
 
+  console.log("Total de paginas", totalPages, items.length, itemsPerPage)
+
   const shouldShowControls = useMemo(
     () => items.length > itemsPerPage,
     [items.length, itemsPerPage],

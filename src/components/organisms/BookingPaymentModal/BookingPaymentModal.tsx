@@ -20,6 +20,15 @@ interface BookingPaymentModalProps {
   bookingData: BookingData;
 }
 
+const formatDateForApi = (date: Date | null): string => {
+  if (!date) return "";
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 function PaymentForm({
   bookingData,
   onSuccess,
@@ -43,8 +52,10 @@ function PaymentForm({
     setMessage("");
 
     try {
-      const { error } = await stripe.confirmSetup({
+      // 1. Save payment method via SetupIntent
+      const { error, setupIntent } = await stripe.confirmSetup({
         elements,
+        redirect: "if_required",
         confirmParams: {
           return_url: `${window.location.origin}/booking-confirmation`,
         },
@@ -52,12 +63,59 @@ function PaymentForm({
 
       if (error) {
         setMessage(error.message ?? "Ocurrió un error al procesar el pago");
-      } else {
-        onSuccess();
+        return;
       }
+
+      if (setupIntent?.status !== "succeeded") {
+        setMessage("No se pudo confirmar el método de pago");
+        return;
+      }
+
+      // 2. Create reservation in Hostaway
+      const reservationResponse = await fetch(
+        "/api/hostaway/reservations/confirm",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            listingMapId: Number(bookingData.listingMapId),
+            guestFirstName: "Huésped",
+            guestLastName: "Kanaa",
+            guestEmail: "",
+            phone: "",
+            guestCountry: "",
+            arrivalDate: formatDateForApi(bookingData.startDate),
+            departureDate: formatDateForApi(bookingData.endDate),
+            numberOfGuests:
+              bookingData.guests.adults +
+              bookingData.guests.children +
+              bookingData.guests.infants,
+            adults: bookingData.guests.adults,
+            children: bookingData.guests.children || null,
+            infants: bookingData.guests.infants || null,
+            totalPrice: bookingData.totalPrice,
+            setupIntentId: setupIntent.id,
+          }),
+        },
+      );
+
+      const reservationData = (await reservationResponse.json()) as {
+        success?: boolean;
+        error?: string;
+      };
+
+      if (!reservationResponse.ok || !reservationData.success) {
+        setMessage(
+          reservationData.error ??
+            "Error al crear la reservación. Tu método de pago fue guardado.",
+        );
+        return;
+      }
+
+      onSuccess();
     } catch (err) {
       setMessage("Error inesperado al procesar el pago");
-      console.error("Error en confirmSetup:", err);
+      console.error("Error en checkout:", err);
     } finally {
       setIsLoading(false);
     }

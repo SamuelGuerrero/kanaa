@@ -8,12 +8,14 @@ import {
   type SearchFilters,
 } from "@/components/organisms";
 import { PropertyListTemplate } from "@/components/templates";
+import { useI18n } from "@/i18n";
 
 import type { ApiResponse, Property } from "@/types/property";
 
 export const PropertiesSearch = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { locale } = useI18n();
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -142,13 +144,13 @@ export const PropertiesSearch = () => {
     params.append("children", String(filters.guestCounts.children));
     params.append("infants", String(filters.guestCounts.infants));
     params.set("page", "1");
-    router.push(`/properties?${params.toString()}`);
+    router.push(`/${locale}/properties?${params.toString()}`);
   };
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(page));
-    router.push(`/properties?${params.toString()}`);
+    router.push(`/${locale}/properties?${params.toString()}`);
   };
 
   return (

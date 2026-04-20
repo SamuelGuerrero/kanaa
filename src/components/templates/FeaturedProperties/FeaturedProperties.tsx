@@ -11,6 +11,7 @@ import {
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
 import { PropertyCarousel } from "@/components/organisms";
+import { useI18n } from "@/i18n";
 
 import type { ApiResponse, Property } from "@/types/property";
 
@@ -19,22 +20,27 @@ type FeaturedPropertiesProps = DetailedHTMLProps<
   HTMLElement
 > & {};
 
+const getItemsPerPage = (width: number) => {
+  if (width < 640) return 1;
+  if (width < 1024) return 2;
+  return 4;
+};
+
 export const FeaturedProperties = ({
   className,
   ...rest
 }: FeaturedPropertiesProps) => {
+  const { locale } = useI18n();
   const [listings, setListings] = useState<Property[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [itemsPerPage, setItemsPerPage] = useState(
-    typeof window !== "undefined" && window.innerWidth < 640 ? 1 : 4,
+    typeof window !== "undefined" ? getItemsPerPage(window.innerWidth) : 4,
   );
 
   useEffect(() => {
-    const handleResize = () => {
-      setItemsPerPage(window.innerWidth < 640 ? 1 : 4);
-    };
-
+    const handleResize = () =>
+      setItemsPerPage(getItemsPerPage(window.innerWidth));
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -75,15 +81,14 @@ export const FeaturedProperties = ({
         Conoce nuestros alojamientos
       </Text>
       <Text size="lg" font="gilroy" className="text-grey-darker">
-        Todos nuestros alojamientos están pensados para que disfrutes de una
-        estadía placentera y relajante.
+        Alojamientos pensados para tu descanso.
       </Text>
 
       <Button
         variant="primary"
         textWeight="bold"
         className="text-gold-normal-hover! mt-5 w-fit font-bold md:mt-10"
-        href="/properties"
+        href={`/${locale}/properties`}
         icon={
           <CircleButton>
             <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

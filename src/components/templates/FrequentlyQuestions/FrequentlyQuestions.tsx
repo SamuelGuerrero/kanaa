@@ -1,5 +1,7 @@
-import { Text } from "@/components/atoms";
+import Image from "next/image";
+
 import { AccordionQuestions } from "@/components/molecules";
+import FAQBg from "@assets/images/home/FAQBg.png";
 
 import type { FAQItem } from "@/data/faqData";
 
@@ -8,15 +10,13 @@ type FrequentlyQuestionsProps = {
 };
 export const FrequentlyQuestions = ({ data }: FrequentlyQuestionsProps) => {
   return (
-    <section className="flex flex-col gap-8 bg-white px-3 py-10 md:flex-row md:justify-between md:space-x-10 md:px-14 md:py-16">
-      <div className="w-87 md:mt-5 md:w-full">
-        <Text size="5xl" weight="medium" className="text-green-normal">
-          Preguntas frecuentes
-        </Text>
-        <Text className="text-grey-darker mt-5" size="lg" font="gilroy">
-          Consulta las preguntas más frecuentes y obtén información rápida y
-          clara sobre cómo trabajamos.
-        </Text>
+    <section className="flex flex-col gap-8 bg-white px-3 py-10 xl:flex-row xl:justify-between xl:space-x-10 xl:px-14 xl:py-16">
+      <div className="w-87 xl:mt-5 xl:w-full">
+        <Image
+          src={FAQBg}
+          alt="FAQ Background"
+          className="mt-5 hidden w-full rounded-lg object-cover xl:block"
+        />
       </div>
 
       <AccordionQuestions items={data} />

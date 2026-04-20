@@ -179,11 +179,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
               variant="primary"
               className="mt-4 hidden! sm:flex!"
               onClick={() => setShowFullDescription((prev) => !prev)}
-              icon={
-                <CircleButton>
-                  <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-                </CircleButton>
-              }
             >
               {showFullDescription ? "Mostrar menos" : "Mostrar más"}
             </Button>
@@ -214,7 +209,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
-            disableCheckout
+            disableCheckout={process.env.NODE_ENV === "production"}
             className="sm:hidden"
           />
 
@@ -254,11 +249,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
                 variant="primary"
                 textClassName="mx-auto!"
                 className="sm:bg-gold-light-hover text-gold-dark! mt-4 w-full border border-[#D1D5DB] bg-transparent px-0! sm:w-fit sm:border-none sm:px-4!"
-                icon={
-                  <CircleButton className="hidden sm:flex">
-                    <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-                  </CircleButton>
-                }
                 onClick={() => setShowAllAmenities((prev) => !prev)}
               >
                 {showAllAmenities ? (
@@ -310,9 +300,9 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
 
             <div>
               <Text size="sm" font="gilroy" className="text-gray-darker">
-                {t("Política de cancelación")} <br />
-                {t("100% rembolsable hasta 14 días antes de la llegada")} <br />
-                {t("50% rembolsable hasta 7 días antes de la llegada")}
+                Política de cancelación <br />
+                100% rembolsable hasta 14 días antes de la llegada <br />
+                50% rembolsable hasta 7 días antes de la llegada
               </Text>
             </div>
           </div>
@@ -328,7 +318,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
             onBookingClick={handleBookingClick}
             sharedDateRange={dateRange}
             onSharedDateRangeChange={setDateRange}
-            disableCheckout
           />
         </section>
       </div>

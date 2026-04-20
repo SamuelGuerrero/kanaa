@@ -6,13 +6,13 @@ import ContactanosHeroBg from "@assets/images/Home/ContactanosHeroBg.png";
 
 export const ProjectConversation = () => {
   return (
-    <section className="relative min-h-230 w-full overflow-hidden sm:min-h-200 sm:pt-30">
+    <section className="relative min-h-230 w-full overflow-hidden xl:min-h-200 xl:pt-30">
       <div className="absolute inset-0">
         <Image
           src={ContactanosHeroBg}
           alt="BecomeHostBG"
           fill
-          className="object-cover object-[72%] md:object-center"
+          className="object-cover object-[90%] xl:object-center"
         />
         <div className="absolute inset-0" />
         <div
@@ -21,15 +21,15 @@ export const ProjectConversation = () => {
         />
       </div>
 
-      <div className="relative z-10 mt-5 flex h-full flex-col items-center justify-between px-3 md:flex-row md:pr-20 md:pl-10">
-        <div className="mb-10 max-w-183.25 md:mb-55">
-          <Text size="6xl" className="mt-20 max-w-112.5 text-white">
+      <div className="relative z-10 mt-5 flex h-full flex-col items-center justify-between px-3 xl:flex-row xl:pr-20 xl:pl-10">
+        <div className="mx-auto mb-10 md:w-[80%] xl:mb-55 xl:max-w-183.25">
+          <Text size="6xl" className="mt-20 text-white xl:max-w-112.5">
             Hablemos de tu proyecto
           </Text>
 
           <Text
             size="xl"
-            className="text-grey-light mt-5 max-w-135"
+            className="text-grey-light mt-5 xl:max-w-135"
             font="gilroy"
           >
             Déjanos tus datos y uno de nuestros asesores se pondrá en contacto

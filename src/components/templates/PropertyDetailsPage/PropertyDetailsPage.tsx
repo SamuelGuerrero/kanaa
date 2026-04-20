@@ -38,7 +38,14 @@ export const PropertyDetailsPage = ({
       <div className="bg-grey-light-hover flex w-full flex-col items-center px-3 pt-5 pb-10 sm:p-15 sm:pt-15">
         <PropertyLocationSection
           title="Dónde te vas a quedar"
-          subtitle={`${property.city}, ${property.state}, ${property.country}`}
+          subtitle={[
+              property.publicAddress || property.street,
+              property.city,
+              property.state,
+              property.country,
+            ]
+              .filter(Boolean)
+              .join(", ")}
           mapTitle={
             locale === "en"
               ? `Map of ${property.name}`

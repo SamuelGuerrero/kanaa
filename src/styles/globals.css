@@ -121,3 +121,14 @@ textarea:-moz-autofill,
 select:-moz-autofill {
   box-shadow: 0 0 0 1000px transparent inset;
 }
+
+@keyframes marquee-bounce {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(var(--marquee-distance, 0px)); }
+}
+
+.marquee-animate {
+  animation: marquee-bounce var(--marquee-duration, 3s) ease-in-out infinite alternate;
+  display: inline-block;
+  white-space: nowrap;
+}

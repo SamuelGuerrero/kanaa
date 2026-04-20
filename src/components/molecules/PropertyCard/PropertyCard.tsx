@@ -2,6 +2,7 @@
 
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { useRef } from "react";
 
 import {
   AmenityItem,
@@ -23,6 +24,9 @@ type PropertyCardProps = {
   price: number;
   priceLabel?: string;
   listingId?: string;
+  city: string;
+  state: string;
+  country: string;
   onClick?: () => void;
 };
 
@@ -36,6 +40,9 @@ export const PropertyCard = ({
   price,
   priceLabel,
   listingId,
+  city,
+  state,
+  country,
   onClick,
 }: PropertyCardProps) => {
   const formatDateKeyLocal = (date: Date) => {
@@ -45,19 +52,53 @@ export const PropertyCard = ({
     return `${year}-${month}-${day}`;
   };
 
+  const formatLocation = (value: string | undefined) => {
+    return value === "Ciudad de México" ? "CDMX" : value;
+  };
+
+  // Fetch a 7-day window so we always find at least one priced available day,
+  // even when today itself is occupied or has no calendar price.
   const todayKey = formatDateKeyLocal(new Date());
+  const sevenDaysKey = formatDateKeyLocal(
+    new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  );
   const { priceByDate } = useListingCalendar(listingId ?? "", {
     startDate: todayKey,
-    endDate: todayKey,
+    endDate: sevenDaysKey,
   });
-  const displayPrice = priceByDate[todayKey] ?? price;
+
+  // Prefer the minimum upcoming calendar price over the raw listing price so that
+  // the card and the detail page always reflect the same pricing source.
+  const upcomingPrices = Object.values(priceByDate);
+  const displayPrice =
+    upcomingPrices.length > 0 ? Math.min(...upcomingPrices) : price;
+
+  const textRef = useRef<HTMLSpanElement>(null);
+
+  const handleMouseEnter = () => {
+    const el = textRef.current;
+    if (!el) return;
+    const overflow = el.scrollWidth - el.parentElement!.clientWidth;
+    if (overflow <= 0) return;
+    const duration = Math.max(1.5, overflow / 40);
+    el.style.setProperty("--marquee-distance", `-${overflow}px`);
+    el.style.setProperty("--marquee-duration", `${duration}s`);
+    el.classList.add("marquee-animate");
+  };
+
+  const handleMouseLeave = () => {
+    const el = textRef.current;
+    if (!el) return;
+    el.classList.remove("marquee-animate");
+    el.style.transform = "translateX(0)";
+  };
 
   return (
     <figure
       onClick={onClick}
-      className="bg-gold-light-hover group flex w-full cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px] transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg sm:h-[434.9px] sm:w-75.5"
+      className="bg-gold-light-hover group flex w-full cursor-pointer flex-col gap-5 rounded-lg p-[10px_10px_20px] transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg sm:h-114 sm:w-75.5"
     >
-      <div className="relative h-71.75 w-full overflow-hidden rounded-md">
+      <div className="relative h-71.75 w-full shrink-0 overflow-hidden rounded-md">
         <Image
           src={image}
           alt={title}
@@ -91,13 +132,34 @@ export const PropertyCard = ({
 
         <Text
           font="gilroy"
-          weight="bold"
-          className="text-green-darker text-left text-xl leading-7.5"
+          size="sm"
+          weight="medium"
+          className="text-grey-darker"
         >
-          {title}
+          {formatLocation(city)}, {formatLocation(state)}, {country}
         </Text>
 
-        <PriceDisplay price={displayPrice} label={priceLabel} />
+        <div
+          className="overflow-hidden"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <span ref={textRef} className="inline-block whitespace-nowrap">
+            <Text
+              font="gilroy"
+              weight="bold"
+              className="text-green-darker -mt-1 text-left text-xl"
+            >
+              {title}
+            </Text>
+          </span>
+        </div>
+
+        <PriceDisplay
+          className="-mt-2"
+          price={displayPrice}
+          label={priceLabel}
+        />
       </div>
     </figure>
   );

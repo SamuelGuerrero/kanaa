@@ -136,7 +136,7 @@ export const TestimonialCarousel = ({
           direction="prev"
           onClick={prevPage}
           disabled={!shouldShowControls}
-          className="-left-12 hidden sm:block"
+          className="-left-12 hidden xl:block"
         />
 
         <div
@@ -172,7 +172,7 @@ export const TestimonialCarousel = ({
           direction="next"
           onClick={nextPage}
           disabled={!shouldShowControls}
-          className="-right-12 hidden sm:block"
+          className="-right-12 hidden xl:block"
         />
       </div>
 

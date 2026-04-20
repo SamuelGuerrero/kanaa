@@ -10,6 +10,13 @@ export const metadata: Metadata = createPageMetadata({
   description:
     "Explora propiedades vacacionales administradas por Kanaa con información detallada, disponibilidad y amenidades.",
   path: "/properties",
+  keywords: [
+    "propiedades vacacionales México",
+    "alquiler vacacional",
+    "casas de renta vacacional",
+    "vacation rentals Mexico",
+    "rentas de temporada",
+  ],
 });
 
 export default function PropertiesPage() {

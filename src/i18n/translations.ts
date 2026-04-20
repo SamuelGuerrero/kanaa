@@ -10,16 +10,13 @@ export const enTranslations: Record<string, string> = {
   Kanaa: "Kanaa",
   "Sobre nosotros": "About us",
   "Nuestro equipo": "Our team",
-  "Experiencia & Historia": "Experience & History",
   "Listado de propiedades": "Property listings",
   Destacadas: "Featured",
   "Guías y tips de viaje": "Travel guides and tips",
   "Únete como propietario": "Join as an owner",
-  "Property Management": "Property Management",
   Legal: "Legal",
   "Política de privacidad": "Privacy policy",
   "Términos y condiciones": "Terms and conditions",
-  "Política de cookies": "Cookies policy",
   Contáctanos: "Contact us",
   "Seguimiento de reserva": "Booking follow-up",
   "Selecciona un destino": "Select a destination",
@@ -120,70 +117,37 @@ export const enTranslations: Record<string, string> = {
   "Cargando testimonios...": "Loading testimonials...",
   "Error al cargar testimonios": "Error loading testimonials",
   "No hay testimonios disponibles": "No testimonials available",
-  "Conoce nuestros alojamientos": "Discover our accommodations",
+  "Conoce nuestros alojamientos": "Discover our properties",
+  "Alojamientos pensados para tu descanso.":
+    "Accommodations designed for your rest.",
   "Todos nuestros alojamientos están pensados para que disfrutes de una estadía placentera y relajante.":
     "All our accommodations are designed for you to enjoy a pleasant and relaxing stay.",
   "Ver todos los alojamientos": "View all accommodations",
   Huésped: "Guest",
   "Reglas de la casa": "House rules",
   "Seguridad y propiedad": "Safety and property",
-  "Gestión inteligente de propiedades": "Smart property management",
-  "Ayudamos a propietarios a maximizar el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo.":
-    "We help property owners maximize the potential of their properties through a professional, transparent, and data-driven management model. From rental strategy to daily operations, we take care of everything.",
-  "Experiencias que nos respaldan": "Experiences that back us up",
+  "Gestión de propiedades inteligente": "Smart property management",
+  "Maximiza el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. <br /> <br /> Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo.":
+    "Maximize the potential of your properties through a professional, transparent, and data-driven management model. <br /> <br /> From rental strategy to daily operations, we take care of everything.",
+  "Limpieza y mantenimiento profesional": "Professional cleaning and maintenance",
+  "Gestión profesional de propiedades": "Professional property management",
+  "Optimización de ocupación": "Occupancy optimization",
+  "Experiencia excepcional para huéspedes": "Exceptional guest experience",
   "Descubre el verdadero valor de tu alquiler vacacional.":
     "Discover the true value of your vacation rental.",
   "Completa el formulario a continuación para obtener una estimación personalizada de tus ingresos anuales.":
     "Complete the form below to get a personalized estimate of your annual income.",
-  "Huéspedes y propietarios comparten cómo Kanaa transformó su forma de viajar y de gestionar sus propiedades.":
-    "Guests and owners share how Kanaa transformed the way they travel and manage their properties.",
   "Descubre cuánto puede generar tu propiedad":
     "Discover how much your property can generate",
-  "Más que hospedaje, <br /> una mejor forma de <br /> descansar":
-    "More than lodging, <br /> a better way <br /> to rest",
-  "Más que hospedaje, una mejor forma de descansar":
-    "More than lodging, a better way to rest",
-  "Más que hospedaje,": "More than lodging,",
-  "Calcular ingreso": "Calculate earning",
-  "una mejor forma de": "a better way to",
-  descansar: "rest",
   "Nos encargamos de la gestión completa de tu inmueble para que tú obtengas ingresos constantes sin preocuparte por la operación diaria.":
     "We take care of the complete management of your property so that you can earn steady income without worrying about daily operations.",
-  "Pensado para quienes buscan tranquilidad y resultados":
-    "Designed for those seeking peace of mind and results",
-  "Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de tu propiedad.":
-    "Ideal for owners looking to maximize income without handling daily property management.",
-  "En Kanaa disfrutas espacios cómodos, tranquilos y pensados para <br /> que te relajes desde el primer momento.":
-    "At Kanaa, you enjoy comfortable, peaceful spaces designed for you to relax from the very first moment.",
-  "En Kanaa disfrutas espacios cómodos, tranquilos y pensados para que te relajes desde el primer momento.":
-    "At Kanaa, you enjoy comfortable, peaceful spaces designed for you to relax from the very first moment.",
-  "En Kanaa disfrutas espacios cómodos, tranquilos y pensados para":
-    "At Kanaa, you enjoy comfortable, peaceful spaces designed for",
-  "que te relajes desde el primer momento.":
-    "you to relax from the very first moment.",
   "Ver alojamientos": "View accommodations",
-  "Property Management <br /> pensado para propietarios":
-    "Property Management <br /> designed for owners",
-  "Property Management pensado para propietarios":
-    "Property Management designed for owners",
-  "En Kanaa administramos tu propiedad de manera profesional, cuidando <br /> cada espacio, optimizando la ocupación y ofreciendo una experiencia <br classname='hidden sm:block' /> excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad.":
-    "At Kanaa, we manage your property professionally, taking care of every space, optimizing occupancy, and delivering an exceptional guest experience, while you enjoy complete peace of mind.",
-  "En Kanaa administramos tu propiedad de manera profesional, cuidando cada espacio, optimizando la ocupación y ofreciendo una experiencia excepcional a los huéspedes, mientras tú disfrutas de total tranquilidad.":
-    "At Kanaa, we manage your property professionally, taking care of every space, optimizing occupancy, and delivering an exceptional guest experience, while you enjoy complete peace of mind.",
   "Conocer más": "Learn more",
   "Calcula el potencial de ingresos de tu inmueble en minutos y recibe una estimación anual personalizada, clara y transparente.":
     "Calculate your property's earning potential in minutes and get a clear, personalized annual estimate.",
-  "Calcula el potencial de ingresos de tu inmueble en minutos y recibe una <br /> estimación anual personalizada, clara y transparente.":
-    "Calculate your property's earning potential in minutes and get a <br /> clear, personalized annual estimate.",
-  "Calcula el potencial de ingresos de tu inmueble en minutos y recibe una":
-    "Calculate your property's earning potential in minutes and get a",
-  "estimación anual personalizada, clara y transparente.":
-    "clear, personalized annual estimate.",
   "Ir a la calculadora": "Go to calculator",
   "Guías y consejos para viajeros y propietarios":
     "Guides and tips for travelers and owners",
-  "Planifica la estancia perfecta y saca el máximo provecho a tu propiedad.":
-    "Plan the perfect stay and get the most out of your property.",
   "Los mejores planes de fin de semana en Mérida":
     "Best weekend plans in Merida",
   "Para viajeros": "For travelers",
@@ -217,6 +181,8 @@ export const enTranslations: Record<string, string> = {
     "Turn your property into a profitable asset",
   "Administra tu propiedad sin complicaciones y con el respaldo de expertos en rentas de alta demanda.":
     "Manage your property hassle-free with the support of high-demand rental experts.",
+  "Cuéntanos un poco de ti para comenzar":
+    "Tell us a little about yourself to get started",
   "¿Quiénes somos?": "Who are we?",
   "Agilizamos la gestión del alquiler vacacional para garantizar la tranquilidad y experiencias inolvidables a los huéspedes.":
     "We streamline vacation rental management to ensure peace of mind and unforgettable experiences for guests.",
@@ -259,7 +225,6 @@ export const enTranslations: Record<string, string> = {
   "Valoración promedio": "Average rating",
   "Propiedades gestionadas": "Managed properties",
   "Siéntete como en casa, en cualquier lugar": "Feel at home, anywhere",
-  "Encuentra tu próxima casa de descanso.": "Find your next vacation home.",
   "Somos una empresa especializada en gestión integral de alquileres vacacionales, creada para simplificar la vida de los propietarios y elevar la experiencia de los huéspedes. <br /> <br /> En Kanaa combinamos estrategia inmobiliaria, tecnología y operación profesional para transformar propiedades en activos rentables, bien administrados y sin complicaciones. Nos enfocamos en cada detalle para que tú solo disfrutes los resultados.":
     "We are a company specialized in comprehensive vacation rental management, created to simplify owners' lives and elevate the guest experience. <br /> <br /> At Kanaa, we combine real estate strategy, technology, and professional operations to transform properties into profitable, well-managed, and hassle-free assets. We focus on every detail so you can simply enjoy the results.",
   "Somos una empresa especializada en gestión integral de alquileres vacacionales, creada para simplificar la vida de los propietarios y elevar la experiencia de los huéspedes. <br/> <br/> En Kanaa combinamos estrategia inmobiliaria, tecnología y operación profesional para transformar propiedades en activos rentables, bien administrados y sin complicaciones. Nos enfocamos en cada detalle para que tú solo disfrutes los resultados.":
@@ -284,8 +249,6 @@ export const enTranslations: Record<string, string> = {
     "Discover the real potential of your property",
   "Ingresa algunos datos clave y obtén una estimación de ingresos anual basada en el tipo de inmueble, su capacidad y su ubicación.":
     "Enter some key data and get an annual income estimate based on the type of property, its capacity, and its location.",
-  "Revisa nuestro catálogo completo de propiedades disponibles y encuentra la ideal para ti.":
-    "Check out our complete catalog of available properties and find the ideal one for you.",
   Página: "Page ",
   Anterior: "Previous",
   Siguiente: "Next",
@@ -298,24 +261,24 @@ export const enTranslations: Record<string, string> = {
     "What does the property management service include?",
   "Nuestro servicio incluye administración integral del inmueble: publicación y optimización del anuncio, gestión de reservas, atención a huéspedes, limpieza profesional, mantenimiento preventivo y reportes periódicos de ingresos.":
     "Our service includes full property management: listing publication and optimization, reservation management, guest support, professional cleaning, preventive maintenance, and periodic income reports.",
-  "¿Puedo usar el servicio aunque no viva en la misma ciudad que mi propiedad?":
-    "Can I use the service even if I do not live in the same city as my property?",
-  "Sí. Nos encargamos de todo de forma remota para que no tengas que estar presente. Tú puedes monitorear el desempeño de tu propiedad desde cualquier lugar, con total tranquilidad.":
+  "¿Puedo usar el servicio aunque no viva en la misma ciudad?":
+    "Can I use the service even if I do not live in the same city?",
+  "Sí. Nos encargamos de todo de forma remota para que no tengas que estar presente. Tú puedes monitorear el desempeño de tu propiedad desde cualquier lugar.":
     "Yes. We handle everything remotely so you do not have to be present. You can monitor your property's performance from anywhere, with complete peace of mind.",
   "¿Mi propiedad estará disponible todo el año?":
     "Will my property be available all year?",
-  "La estimación se basa en factores como ubicación, tipo de propiedad, número de habitaciones, temporada y demanda del mercado. Con esta información te damos una proyección realista y personalizada.":
-    "The estimate is based on factors such as location, property type, number of rooms, seasonality, and market demand. With this information, we provide a realistic and personalized projection.",
-  "¿Qué pasa si surge un problema con un huésped o con la propiedad?":
-    "What happens if an issue arises with a guest or the property?",
   "Depende de tu preferencia. Puedes definir fechas de uso personal y nosotros gestionamos el calendario para maximizar ingresos cuando esté disponible para renta.":
     "It depends on your preference. You can define personal-use dates, and we manage the calendar to maximize income when it is available for rent.",
-  "¿Cómo y cuándo recibo mis ingresos?": "How and when do I receive my income?",
+  "¿Qué pasa si surge un problema con un huésped o con la propiedad?":
+    "What happens if an issue arises with a guest or the property?",
   "Nuestro equipo se encarga de resolver cualquier incidencia de manera inmediata, tanto con huéspedes como con temas operativos o de mantenimiento, para proteger tu inversión.":
     "Our team handles any incident immediately, whether with guests or operational/maintenance issues, to protect your investment.",
-  "¿Qué es Kanaa House?": "What is Kanaa House?",
-  "Kanaa House es una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrece experiencias premium a los huéspedes.":
-    "Kanaa House is a company specialized in managing, operating, and optimizing rental properties, focused on maximizing owners' return on investment while delivering premium guest experiences.",
+  "¿Cómo y cuándo recibo mis ingresos?": "How and when do I receive my income?",
+  "La estimación se basa en factores como ubicación, tipo de propiedad, número de habitaciones, temporada y demanda del mercado. Con esta información te damos una proyección realista y personalizada.":
+    "The estimate is based on factors such as location, property type, number of rooms, seasonality, and market demand. With this information, we provide a realistic and personalized projection.",
+  "¿Qué es Kanaa?": "What is Kanaa?",
+  "Somos una empresa especializada en la gestión, operación y optimización de propiedades para renta, enfocada en maximizar el retorno de inversión de los propietarios mientras ofrecemos experiencias premium a los huéspedes.":
+    "We are a company specialized in managing, operating, and optimizing rental properties, focused on maximizing owners' return on investment while delivering premium guest experiences.",
   "¿Cómo funciona el modelo de Kanaa?": "How does Kanaa's model work?",
   "Nos encargamos de todo el proceso: desde la adecuación y optimización del inmueble, hasta la publicación, gestión de reservas, atención a huéspedes y mantenimiento operativo.":
     "We handle the entire process: from preparing and optimizing the property to publishing, reservation management, guest support, and operational maintenance.",
@@ -331,8 +294,8 @@ export const enTranslations: Record<string, string> = {
   "Utilizamos análisis de mercado, estrategias dinámicas de precios y optimización continua del rendimiento para mantener la propiedad competitiva y rentable.":
     "We use market analysis, dynamic pricing strategies, and continuous performance optimization to keep the property competitive and profitable.",
   "¿Quién se encarga del mantenimiento?": "Who is in charge of maintenance?",
-  "Kanaa House coordina mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.":
-    "Kanaa House coordinates preventive and corrective maintenance, as well as professional cleaning after each stay.",
+  "Nosotros coordinamos el mantenimiento preventivo y correctivo, así como limpieza profesional después de cada estancia.":
+    "We coordinate preventive and corrective maintenance, as well as professional cleaning after each stay.",
   "¿Qué pasa si hay daños en la propiedad?":
     "What happens if there is damage to the property?",
   "Contamos con procesos de verificación, políticas de seguridad y protocolos para proteger el inmueble ante cualquier eventualidad.":
@@ -363,14 +326,6 @@ export const enTranslations: Record<string, string> = {
     "Who handles guest support?",
   "Nuestro equipo se encarga de la comunicación antes, durante y después de la estancia, con una atención clara, rápida y constante para huéspedes y para ti.":
     "Our team handles communication before, during, and after each stay, with clear, fast, and consistent support for guests and for you.",
-  "Gestión de alquileres vacacionales simplificada":
-    "Simplified vacation rental management",
-  "Agiliza la gestión del alquiler vacacional para tu tranquilidad y mayor rentabilidad.":
-    "Streamline vacation rental management for your peace of mind and greater profitability.",
-  "Soporte digital y presencial": "Digital and on-site support",
-  "Servicios de limpieza profesional": "Professional cleaning services",
-  "Controles de mantenimiento periódicos": "Periodic maintenance checks",
-  "Servicios de concierge": "Concierge services",
   "¿Por qué elegir Kanaa para gestionar tu propiedad?":
     "Why choose Kanaa to manage your property?",
   "Porque cuidamos tu propiedad, optimizamos tus ingresos y nos encargamos de todo para que tú disfrutes tranquilidad y resultados.":
@@ -387,10 +342,11 @@ export const enTranslations: Record<string, string> = {
   "Asegúrate de obtener la mayor rentabilidad posible. Utilizamos estrategias integrales y modelos de inteligencia artificial para optimizar el potencial de ingresos de tu propiedad.":
     "Make sure you get the highest possible profitability. We use comprehensive strategies and artificial intelligence models to optimize your property's income potential.",
   "Análisis de datos": "Data analysis",
-  "Estrategia de precios dinámicos": "Dynamic pricing strategy",
+  "Herramientas de fijación de precios robustas": "Robust pricing tools",
   "Predicciones de tendencias": "Trend forecasting",
   "Informes transparentes": "Transparent reports",
   "Gestión de reservas": "Reservation management",
+  "Gestión de reserva": "Reservation management",
   "Nos encargamos de administrar todas tus reservas y publicar tu propiedad en las principales plataformas de renta vacacional para maximizar su visibilidad y ocupación. <br /> <br /> Además, damos seguimiento continuo a cada huésped, asegurando una comunicación clara, ágil y sin fricciones en todo momento.":
     "We handle all your reservations and list your property on the main vacation rental platforms to maximize visibility and occupancy. <br /> <br /> In addition, we continuously follow up with each guest, ensuring clear, agile, and frictionless communication at all times.",
   "Administración de listados": "Listing management",
@@ -437,6 +393,112 @@ export const enTranslations: Record<string, string> = {
   "Última actualización: 2025": "Last updated: 2025",
   "Términos y Condiciones": "Terms and Conditions",
   "Política de Cookies": "Cookie Policy",
+
+  // --- Páginas principales ---
+  "Manejo de propiedades pensado para propietarios":
+    "Property management designed for owners",
+  "estancias realizadas": "completed stays",
+  "Hospédate con nosotros": "Stay with us",
+  "Conoce nuestros proyectos": "Discover our projects",
+  "Experiencias que se sienten": "Experiences you can feel",
+  "Descubre cómo cada estancia con Kanaa se convierte en momentos memorables, pensados para disfrutar sin preocupaciones.":
+    "Discover how every stay with Kanaa becomes memorable moments, designed for worry-free enjoyment.",
+  "Artículos, tips y recomendaciones para tomar mejores decisiones al momento de reservar.":
+    "Articles, tips, and recommendations to make better decisions when booking.",
+  "Encuentra tu espacio ideal para sentirte en calma":
+    "Find your ideal space to feel at ease",
+  "Cada lugar está diseñado para brindarte calma, confort y una experiencia que se siente desde que llegas.":
+    "Every place is designed to offer you calm, comfort, and an experience you feel from the moment you arrive.",
+  "Sé parte de la evolución en la gestión de alquileres vacacionales.":
+    "Be part of the evolution in vacation rental management.",
+  "Hablemos de tu proyecto": "Let's talk about your project",
+  "Déjanos tus datos y uno de nuestros asesores se pondrá en contacto contigo para entender tu necesidad y acompañarte en el siguiente paso.":
+    "Leave us your details and one of our advisors will contact you to understand your needs and guide you through the next step.",
+  "Explora nuestro catálogo y encuentra tu propiedad ideal.":
+    "Explore our catalog and find your ideal property.",
+  "No se encontraron propiedades": "No properties found",
+  "Intenta ajustar tus filtros de búsqueda":
+    "Try adjusting your search filters",
+  "Bolsa de trabajo": "Careers",
+  "Error al cargar listings": "Error loading listings",
+  "Error desconocido": "Unknown error",
+
+  // --- Checkout y booking ---
+  "Información personal": "Personal information",
+  "Nombre (s)": "First name(s)",
+  Nombre: "Name",
+  "correo@ejemplo.com": "email@example.com",
+  "Confirma tu correo electrónico": "Confirm your email",
+  "Número de teléfono": "Phone number",
+  "País de residencia": "Country of residence",
+  "Selecciona un país": "Select a country",
+  "Añadir tus datos para facturación": "Add your billing information",
+  "Información del pago": "Payment information",
+  "100% reembolsable hasta 14 días antes de la llegada":
+    "100% refundable up to 14 days before arrival",
+  "50% reembolsable hasta 7 días antes de la llegada":
+    "50% refundable up to 7 days before arrival",
+  "Confirmar y pagar": "Confirm and pay",
+  "Al confirmar, aceptas nuestros términos y condiciones":
+    "By confirming, you accept our terms and conditions",
+  "No se pudo confirmar el método de pago":
+    "The payment method could not be confirmed",
+  "Error al crear la reservación. Tu método de pago fue guardado.":
+    "Error creating the reservation. Your payment method was saved.",
+  "El nombre es requerido": "Name is required",
+  "Los apellidos son requeridos": "Last name is required",
+  "Correo electrónico inválido": "Invalid email address",
+  "Número de teléfono inválido": "Invalid phone number",
+  "Debes aceptar los términos y condiciones":
+    "You must accept the terms and conditions",
+  "Debes aceptar la política de cancelación":
+    "You must accept the cancellation policy",
+  "Los correos no coinciden": "Email addresses do not match",
+
+  // --- Booking success ---
+  "Reserva cancelada": "Reservation cancelled",
+  "Reserva creada — pago pendiente": "Reservation created — payment pending",
+  "¡Reserva confirmada!": "Reservation confirmed!",
+  "Número de la reserva:": "Reservation number:",
+  "Tu reserva fue creada pero el cobro está pendiente de confirmación. Te notificaremos cuando se procese el pago.":
+    "Your reservation was created but the charge is pending confirmation. We will notify you when the payment is processed.",
+  "Hemos enviado los detalles de tu reserva a ":
+    "We have sent your reservation details to ",
+  Total: "Total",
+  Fecha: "Date",
+  "Método de pago": "Payment method",
+  Fechas: "Dates",
+  Adulto: "Adult",
+  "Detalle del precio": "Price details",
+  día: "day",
+  días: "days",
+  "Cancelando...": "Cancelling...",
+  "Cancelar reserva": "Cancel reservation",
+  "Error al cancelar la reservación": "Error cancelling the reservation",
+  "Error inesperado al cancelar la reservación":
+    "Unexpected error cancelling the reservation",
+  "Reserva por": "Booking for",
+  Propiedad: "Property",
+  México: "Mexico",
+
+  // --- Formularios (ContactanosForm / BecomeHostForm) ---
+  "Escribe tu nombre.": "Enter your name.",
+  "Escribe tus apellidos.": "Enter your last name.",
+  "Escribe un correo valido.": "Enter a valid email.",
+  "Escribe un telefono valido.": "Enter a valid phone number.",
+  "Selecciona un motivo.": "Select a reason.",
+  "Escribe al menos 10 caracteres.": "Enter at least 10 characters.",
+  "Estamos enviando tu solicitud. En breve te mostraremos la confirmación.":
+    "We are sending your request. We will show you the confirmation shortly.",
+  "Gracias por escribirnos. Nuestro equipo se pondrá en contacto contigo a la brevedad.":
+    "Thank you for writing to us. Our team will contact you shortly.",
+  "No se pudo enviar tu solicitud. Intenta de nuevo.":
+    "Your request could not be sent. Please try again.",
+  "Gestion de propiedades": "Property management",
+  "Renta vacacional": "Vacation rental",
+  Alianzas: "Partnerships",
+  Soporte: "Support",
+  "Selecciona un estado": "Select a state",
 };
 
 const normalize = (value: string) => value.replace(/\s+/g, " ").trim();

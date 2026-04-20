@@ -4,7 +4,6 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 import { Text } from "@/components/atoms";
-import { useI18n } from "@/i18n";
 
 type Country = {
   code: string;
@@ -103,7 +102,6 @@ export const PhoneInput = ({
   error,
   nonEditable = false,
 }: PhoneInputProps) => {
-  const { t } = useI18n();
   const [selectedCountry, setSelectedCountry] = useState<Country>(
     PHONE_COUNTRIES[0]!,
   );
@@ -112,7 +110,8 @@ export const PhoneInput = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, "").slice(0, fmt.maxDigits);
-    onChange?.(fmt.format(digits));
+    const formatted = fmt.format(digits);
+    onChange?.(digits ? `${selectedCountry.dial} ${formatted}` : "");
   };
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -133,7 +132,7 @@ export const PhoneInput = ({
             weight="bold"
             className="text-green-darker leading-5"
           >
-            {t(label)}
+            {label}
           </Text>
         )}
         <div className="flex items-center gap-2">
@@ -162,7 +161,7 @@ export const PhoneInput = ({
           weight="bold"
           className="text-green-darker leading-5"
         >
-          {t(label)}
+          {label}
         </Text>
       )}
 
@@ -194,7 +193,7 @@ export const PhoneInput = ({
         <input
           type="tel"
           inputMode="numeric"
-          value={value}
+          value={value.replace(`${selectedCountry.dial} `, "")}
           onChange={handleChange}
           placeholder={fmt.placeholder}
           className="font-gilroy text-green-darker w-full bg-transparent text-base leading-4.75 font-medium placeholder-[#6A6A6A] outline-none"
