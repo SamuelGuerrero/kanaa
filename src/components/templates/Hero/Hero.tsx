@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
 import { Text } from "@/components/atoms";
 import { ReservationSearch } from "@/components/organisms";
 import { useI18n } from "@/i18n";
-import heroImg1 from "@assets/images/home/hero-img-1.png";
-import heroImg2 from "@assets/images/home/hero-img-2.png";
-import heroImg3 from "@assets/images/home/hero-img-3.png";
-import heroImg4 from "@assets/images/home/hero-img-4.png";
+import heroImg1 from "@assets/images/Home/hero-img-1.png";
+import heroImg2 from "@assets/images/Home/hero-img-2.png";
+import heroImg3 from "@assets/images/Home/hero-img-3.png";
+import heroImg4 from "@assets/images/Home/hero-img-4.png";
 
 const SLIDES = [heroImg1, heroImg2, heroImg3, heroImg4];
 const INTERVAL_MS = 5000;
