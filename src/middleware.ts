@@ -19,8 +19,22 @@ function detectLocale(request: NextRequest): Locale {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (pathname.startsWith("/admin") || pathname.startsWith("/api/")) {
+    if (pathname.startsWith("/admin")) {
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-is-payload-admin", "1");
+
+      return NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
+    }
+
+    return NextResponse.next();
+  }
+
   if (
-    pathname.startsWith("/api/") ||
     pathname.startsWith("/_next/") ||
     pathname === "/favicon.ico" ||
     pathname === "/robots.txt" ||
