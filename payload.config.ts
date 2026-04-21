@@ -44,8 +44,8 @@ export default buildConfig({
   db: sqliteAdapter({
     client: {
       url: process.env.PAYLOAD_DATABASE_URL ?? "file:./prisma/payload.db",
-      // Required for Turso in production — leave unset for local SQLite
-      authToken: process.env.TURSO_AUTH_TOKEN,
+      // Required for Turso — distinct from TURSO_AUTH_TOKEN used by Prisma
+      authToken: process.env.PAYLOAD_TURSO_AUTH_TOKEN,
     },
   }),
 
