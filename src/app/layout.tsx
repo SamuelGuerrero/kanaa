@@ -1,5 +1,3 @@
-import "@styles/globals.css";
-
 import { type Metadata } from "next";
 import { Roboto_Serif } from "next/font/google";
 import localFont from "next/font/local";
@@ -130,8 +128,15 @@ const gilroy = localFont({
 export default async function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const cookieStore = await cookies();
   const headerStore = await headers();
+
+  // Payload admin gets its own html/body from RootLayout — skip Kanaa wrapper
+  const isPayloadAdmin = headerStore.get("x-is-payload-admin") === "1";
+  if (isPayloadAdmin) {
+    return <>{children}</>;
+  }
+
+  const cookieStore = await cookies();
   const host = headerStore.get("x-forwarded-host") ?? headerStore.get("host");
   const localeFromHost = host?.toLowerCase().startsWith("en.") ? "en" : null;
   const localeCookie = cookieStore.get("kanaa_locale")?.value;
