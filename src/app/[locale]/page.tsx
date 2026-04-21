@@ -92,7 +92,7 @@ export default async function HomePage({ params }: HomePageProps) {
     date: g.date,
     imageUrl:
       g.image && typeof g.image === "object" && "url" in g.image
-        ? (g.image.url as string)
+        ? g.image.url!
         : null,
   }));
 
