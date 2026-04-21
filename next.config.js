@@ -3,10 +3,11 @@
  * This is especially useful for Docker builds.
  */
 import "./src/env.js";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 /** @type {import("next").NextConfig} */
 const config = {
-  serverExternalPackages: ["better-sqlite3"],
+  serverExternalPackages: ["better-sqlite3", "sharp", "graphql"],
 
   // Compress responses (gzip/brotli)
   compress: true,
@@ -110,4 +111,4 @@ const config = {
   },
 };
 
-export default config;
+export default withPayload(config);
