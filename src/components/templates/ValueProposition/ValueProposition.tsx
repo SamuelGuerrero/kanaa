@@ -9,7 +9,17 @@ import { useI18n } from "@/i18n";
 import LeftValueProposition from "@assets/images/Home/LeftValueProposition.png";
 import RightValueProposition from "@assets/images/Home/RightValueProposition.png";
 
-export const ValueProposition = () => {
+type ValuePropositionProps = {
+  title?: string;
+  description?: string;
+  buttonText?: string;
+};
+
+export const ValueProposition = ({
+  title = "Encuentra tu espacio ideal para sentirte en calma",
+  description = "Cada lugar está diseñado para brindarte calma, confort y una experiencia que se siente desde que llegas.",
+  buttonText = "Contáctanos",
+}: ValuePropositionProps) => {
   const { locale } = useI18n();
   return (
     <section className="flex w-full flex-col gap-5 xl:grid xl:grid-cols-2">
@@ -35,7 +45,7 @@ export const ValueProposition = () => {
             size="5xl"
             className="text-green-normal mb-5 max-w-170 xl:leading-[66.2px]"
           >
-            Encuentra tu espacio ideal para sentirte en calma
+            {title}
           </Text>
 
           <Text
@@ -43,8 +53,7 @@ export const ValueProposition = () => {
             size="lg"
             className="text-grey-darker mb-5 max-w-118 leading-8"
           >
-            Cada lugar está diseñado para brindarte calma, confort y una
-            experiencia que se siente desde que llegas.
+            {description}
           </Text>
 
           <Button
@@ -57,7 +66,7 @@ export const ValueProposition = () => {
               </CircleButton>
             }
           >
-            Contáctanos
+            {buttonText}
           </Button>
         </div>
       </div>

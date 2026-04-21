@@ -99,26 +99,32 @@ const mockTestimonials: Testimonial[] = [
   },
 ];
 
-export const BackedExperience = () => {
+type BackedExperienceProps = {
+  title?: string;
+  description?: string;
+  testimonials?: Testimonial[];
+};
+
+export const BackedExperience = ({
+  title = "Experiencias que se sienten",
+  description = "Descubre cómo cada estancia con Kanaa se convierte en momentos memorables, pensados para disfrutar sin preocupaciones.",
+  testimonials: testimonialsProp,
+}: BackedExperienceProps) => {
+  const source = testimonialsProp ?? mockTestimonials;
   const itemsPerPage = useItemsPerPage(1, 1, 2, 3);
-  const [displayedTestimonials, setDisplayedTestimonials] =
-    useState(mockTestimonials);
+  const [displayedTestimonials, setDisplayedTestimonials] = useState(source);
 
   useEffect(() => {
-    const totalPages = itemsPerPage === 1 ? 3 : 3;
-    setDisplayedTestimonials(
-      mockTestimonials.slice(0, itemsPerPage * totalPages),
-    );
-  }, [itemsPerPage]);
+    setDisplayedTestimonials(source.slice(0, itemsPerPage * 3));
+  }, [itemsPerPage, source]);
 
   return (
     <section className="flex flex-col items-center bg-white px-4 py-5 md:py-16 md:text-center">
       <Text size="5xl" className="text-green-normal mr-10 mb-10">
-        Experiencias que se sienten
+        {title}
       </Text>
       <Text font="gilroy" size="lg" className="text-grey-darker mt-6 mr-5 mb-8">
-        Descubre cómo cada estancia con Kanaa se convierte en momentos
-        memorables, pensados para disfrutar sin preocupaciones.
+        {description}
       </Text>
       <TestimonialCarousel
         testimonials={displayedTestimonials}

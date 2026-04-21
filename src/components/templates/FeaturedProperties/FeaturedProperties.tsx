@@ -18,7 +18,11 @@ import type { ApiResponse, Property } from "@/types/property";
 type FeaturedPropertiesProps = DetailedHTMLProps<
   HTMLAttributes<HTMLElement>,
   HTMLElement
-> & {};
+> & {
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+};
 
 const getItemsPerPage = (width: number) => {
   if (width < 640) return 1;
@@ -28,6 +32,9 @@ const getItemsPerPage = (width: number) => {
 
 export const FeaturedProperties = ({
   className,
+  title = "Conoce nuestros alojamientos",
+  subtitle = "Alojamientos pensados para tu descanso.",
+  buttonText = "Ver todos los alojamientos",
   ...rest
 }: FeaturedPropertiesProps) => {
   const { locale } = useI18n();
@@ -78,10 +85,10 @@ export const FeaturedProperties = ({
       {...rest}
     >
       <Text size="5xl" className="text-green-normal mb-5">
-        Conoce nuestros alojamientos
+        {title}
       </Text>
       <Text size="lg" font="gilroy" className="text-grey-darker">
-        Alojamientos pensados para tu descanso.
+        {subtitle}
       </Text>
 
       <Button
@@ -95,7 +102,7 @@ export const FeaturedProperties = ({
           </CircleButton>
         }
       >
-        Ver todos los alojamientos
+        {buttonText}
       </Button>
 
       <PropertyCarousel

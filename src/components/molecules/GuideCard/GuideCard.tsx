@@ -6,7 +6,7 @@ export type GuideCardProps = {
   name: string;
   category: string;
   date: string;
-  image: StaticImageData;
+  image: StaticImageData | string;
 };
 
 export const GuideCard = ({ name, image, category, date }: GuideCardProps) => {
@@ -16,6 +16,7 @@ export const GuideCard = ({ name, image, category, date }: GuideCardProps) => {
         className="mx-auto w-full rounded-xl rounded-b-none lg:mt-4 lg:h-60 lg:w-90 lg:rounded-none"
         src={image}
         alt={name}
+        {...(typeof image === "string" ? { width: 360, height: 240 } : {})}
       />
 
       <div className="mx-6 mt-5">
