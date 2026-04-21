@@ -347,7 +347,6 @@ export const Navbar = () => {
 
           <Button
             variant="primary"
-            disabled
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
