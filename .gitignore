@@ -48,3 +48,8 @@ yarn-error.log*
 
 # idea files
 .idea
+
+# Payload CMS
+prisma/payload.db
+prisma/payload.db-shm
+prisma/payload.db-wal

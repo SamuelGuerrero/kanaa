@@ -6,7 +6,9 @@ import GuideAndTip1 from "@assets/images/Home/GuideAndTip1.png";
 import GuideAndTip2 from "@assets/images/Home/GuideAndTip2.png";
 import GuideAndTip3 from "@assets/images/Home/GuideAndTip3.png";
 
-const CardGrid: GuideCardProps[] = [
+const STATIC_IMAGES = [GuideAndTip1, GuideAndTip2, GuideAndTip3] as const;
+
+const DEFAULT_CARDS: GuideCardProps[] = [
   {
     name: "Los mejores planes de fin de semana en Mérida",
     category: "Para viajeros",
@@ -27,23 +29,49 @@ const CardGrid: GuideCardProps[] = [
   },
 ];
 
-export const GuideAndTips = () => {
+type CmsCard = {
+  name: string;
+  category: string;
+  date: string;
+  imageUrl?: string | null;
+};
+
+type GuideAndTipsProps = {
+  title?: string;
+  description?: string;
+  buttonText?: string;
+  cards?: CmsCard[];
+};
+
+export const GuideAndTips = ({
+  title = "Guías y consejos para viajeros y propietarios",
+  description = "Artículos, tips y recomendaciones para tomar mejores decisiones al momento de reservar.",
+  buttonText = "Visita nuestro blog",
+  cards,
+}: GuideAndTipsProps) => {
+  const displayCards: GuideCardProps[] = cards
+    ? cards.map((c, i) => ({
+        name: c.name,
+        category: c.category,
+        date: c.date,
+        image: c.imageUrl ?? STATIC_IMAGES[i % STATIC_IMAGES.length] ?? GuideAndTip1,
+      }))
+    : DEFAULT_CARDS;
+
   return (
     <section className="bg-green-dark-hover text-grey-light flex w-full flex-col px-4 py-7 sm:py-5 xl:items-center xl:py-20 xl:text-center">
-      {/* Cambiar font */}
       <Text
         className="mb-5 text-2xl! xl:mb-8 xl:text-5xl!"
         weight="medium"
         size="5xl"
       >
-        Guías y consejos para viajeros y propietarios
+        {title}
       </Text>
       <Text className="mb-8" size="lg" font="gilroy">
-        Artículos, tips y recomendaciones para tomar mejores decisiones al
-        momento de reservar.
+        {description}
       </Text>
       <div className="flex flex-col justify-center gap-5 lg:flex-row">
-        {CardGrid.map((card, index) => (
+        {displayCards.map((card, index) => (
           <GuideCard key={index} {...card} />
         ))}
       </div>
@@ -59,7 +87,7 @@ export const GuideAndTips = () => {
           </CircleButton>
         }
       >
-        Visita nuestro blog
+        {buttonText}
       </Button>
     </section>
   );

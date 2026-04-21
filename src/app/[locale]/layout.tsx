@@ -1,3 +1,5 @@
+import "@styles/globals.css";
+
 import { Footer, Navbar } from "@/components/organisms";
 import { LanguageProvider } from "@/i18n";
 

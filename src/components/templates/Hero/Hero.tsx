@@ -16,7 +16,15 @@ const SLIDES = [heroImg1, heroImg2, heroImg3, heroImg4];
 const INTERVAL_MS = 5000;
 const FADE_MS = 1800;
 
-export const Hero = () => {
+type HeroProps = {
+  title?: string;
+  subtitle?: string;
+};
+
+export const Hero = ({
+  title = "Siéntete como en casa, en cualquier lugar",
+  subtitle = "Hospédate con nosotros",
+}: HeroProps) => {
   const router = useRouter();
   const { locale } = useI18n();
   const [current, setCurrent] = useState(0);
@@ -71,11 +79,11 @@ export const Hero = () => {
 
       <div className="relative z-10 mt-8 flex min-h-170 flex-col items-center justify-center px-4 pt-20 text-center text-white sm:mt-0 sm:min-h-screen sm:pt-0">
         <Text className="max-w-175" size="6xl">
-          Siéntete como en casa, en cualquier lugar
+          {title}
         </Text>
 
         <Text size="xl" className="mt-8 mb-10" font="gilroy" weight="medium">
-          Hospédate con nosotros
+          {subtitle}
         </Text>
         <ReservationSearch onSearch={handleSearch} />
       </div>

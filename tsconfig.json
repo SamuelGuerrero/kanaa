@@ -40,7 +40,8 @@
       "@types/*": ["./src/types/*"],
       "@actions/*": ["./src/actions/*"],
       "@styles/*": ["./src/styles/*"],
-      "@utils/*": ["./src/lib/utils/*"]
+      "@utils/*": ["./src/lib/utils/*"],
+      "@payload-config": ["./payload.config.ts"]
     }
   },
   "include": [
