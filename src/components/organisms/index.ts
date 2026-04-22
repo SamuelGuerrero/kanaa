@@ -14,3 +14,4 @@ export * from "./ContactanosForm";
 export * from "./BookingPaymentModal";
 export * from "./CheckoutPaymentForm";
 export * from "./LanguageSwitcher";
+export * from "./ShareModal";
