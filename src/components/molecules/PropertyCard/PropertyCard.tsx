@@ -12,7 +12,7 @@ import {
   Text,
   ToiletIcon,
 } from "@/components/atoms";
-import { useListingCalendar } from "@/hooks/useListingCalendar";
+import { useNightlyPrice } from "@/hooks/useNightlyPrice";
 
 type PropertyCardProps = {
   image: string;
@@ -45,33 +45,11 @@ export const PropertyCard = ({
   country,
   onClick,
 }: PropertyCardProps) => {
-  const formatDateKeyLocal = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
   const formatLocation = (value: string | undefined) => {
     return value === "Ciudad de México" ? "CDMX" : value;
   };
 
-  // Fetch a 7-day window so we always find at least one priced available day,
-  // even when today itself is occupied or has no calendar price.
-  const todayKey = formatDateKeyLocal(new Date());
-  const sevenDaysKey = formatDateKeyLocal(
-    new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-  );
-  const { priceByDate } = useListingCalendar(listingId ?? "", {
-    startDate: todayKey,
-    endDate: sevenDaysKey,
-  });
-
-  // Prefer the minimum upcoming calendar price over the raw listing price so that
-  // the card and the detail page always reflect the same pricing source.
-  const upcomingPrices = Object.values(priceByDate);
-  const displayPrice =
-    upcomingPrices.length > 0 ? Math.min(...upcomingPrices) : price;
+  const { price: displayPrice, isLoading: isPriceLoading } = useNightlyPrice(listingId ?? "", price);
 
   const textRef = useRef<HTMLSpanElement>(null);
 
@@ -155,11 +133,15 @@ export const PropertyCard = ({
           </span>
         </div>
 
-        <PriceDisplay
-          className="-mt-2"
-          price={displayPrice}
-          label={priceLabel}
-        />
+        {isPriceLoading ? (
+          <div className="-mt-2 h-6 w-28 animate-pulse rounded bg-gold-light-active" />
+        ) : (
+          <PriceDisplay
+            className="-mt-2"
+            price={displayPrice}
+            label={priceLabel}
+          />
+        )}
       </div>
     </figure>
   );

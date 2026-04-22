@@ -13,6 +13,7 @@ import {
   type GuestCounts,
 } from "@/components/molecules";
 import { useCalendar } from "@/hooks/useCalendar";
+import { useNightlyPrice } from "@/hooks/useNightlyPrice";
 import { usePriceDetails, type PriceDetails } from "@/hooks/usePriceDetails";
 import { useI18n } from "@/i18n";
 
@@ -151,18 +152,7 @@ export const BookingWidget = ({
     return priceByDate?.[key] ?? price;
   };
 
-  // When no dates are selected, show the nearest upcoming calendar price so that
-  // this widget is consistent with the price shown on the property card.
-  // Falls back to `price` (property base rate) only when the calendar hasn't
-  // loaded yet or has no upcoming data.
-  const nearestCalendarPrice = (() => {
-    if (!priceByDate) return price;
-    const todayStr = formatDateKeyLocal(new Date());
-    const entries = Object.entries(priceByDate)
-      .filter(([key]) => key >= todayStr)
-      .sort(([a], [b]) => a.localeCompare(b));
-    return entries[0]?.[1] ?? price;
-  })();
+  const nightlyPrice = useNightlyPrice(listingMapId, price);
 
   const nightlyTotal =
     dateRange.startDate && dateRange.endDate
@@ -175,7 +165,7 @@ export const BookingWidget = ({
           }
           return total;
         })()
-      : nearestCalendarPrice;
+      : nightlyPrice.price;
   const totalGuests = guests.adults + guests.children + guests.infants;
 
   const { priceDetails, isLoading: isPriceLoading } = usePriceDetails(
@@ -326,7 +316,8 @@ export const BookingWidget = ({
     >
       <div className="flex space-x-2.5">
         <Text size="4xl" font="gilroy" weight="bold" className="text-white">
-          {isPriceLoading && dateRange.startDate && dateRange.endDate ? (
+          {(isPriceLoading && dateRange.startDate && dateRange.endDate) ||
+          (nightlyPrice.isLoading && !dateRange.startDate && !dateRange.endDate) ? (
             <span className="inline-block h-8 w-32 animate-pulse rounded bg-white/20" />
           ) : (
             `$${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN`
