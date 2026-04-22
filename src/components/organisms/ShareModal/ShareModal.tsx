@@ -22,7 +22,7 @@ type ShareOption = {
   id: string;
   label: string;
   icon: React.ReactNode;
-  action: () => void;
+  action: () => void | Promise<void>;
 };
 
 const FacebookIcon = () => (
@@ -55,7 +55,12 @@ const MessagesIcon = () => (
   </svg>
 );
 
-export const ShareModal = ({ isOpen, onClose, url, title }: ShareModalProps) => {
+export const ShareModal = ({
+  isOpen,
+  onClose,
+  url,
+  title,
+}: ShareModalProps) => {
   const [copied, setCopied] = useState(false);
   const [visible, setVisible] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -138,8 +143,7 @@ export const ShareModal = ({ isOpen, onClose, url, title }: ShareModalProps) => 
       id: "whatsapp",
       label: "WhatsApp",
       icon: <WhatsAppIcon />,
-      action: () =>
-        window.open(`https://wa.me/?text=${encodedUrl}`, "_blank"),
+      action: () => window.open(`https://wa.me/?text=${encodedUrl}`, "_blank"),
     },
     {
       id: "messenger",
@@ -204,10 +208,8 @@ export const ShareModal = ({ isOpen, onClose, url, title }: ShareModalProps) => 
     >
       {/* Desktop: centered modal */}
       <div
-        className={`absolute left-1/2 top-1/2 hidden w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-8 shadow-xl transition-all duration-300 sm:block ${
-          isAnimatingIn
-            ? "scale-100 opacity-100"
-            : "scale-95 opacity-0"
+        className={`absolute top-1/2 left-1/2 hidden w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-8 shadow-xl transition-all duration-300 sm:block ${
+          isAnimatingIn ? "scale-100 opacity-100" : "scale-95 opacity-0"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -244,7 +246,7 @@ export const ShareModal = ({ isOpen, onClose, url, title }: ShareModalProps) => 
 
       {/* Mobile: bottom sheet */}
       <div
-        className={`absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white px-5 pb-10 pt-4 shadow-xl transition-transform duration-300 sm:hidden ${
+        className={`absolute right-0 bottom-0 left-0 rounded-t-3xl bg-white px-5 pt-4 pb-10 shadow-xl transition-transform duration-300 sm:hidden ${
           isAnimatingIn ? "translate-y-0" : "translate-y-full"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -253,7 +255,7 @@ export const ShareModal = ({ isOpen, onClose, url, title }: ShareModalProps) => 
           <div className="h-1 w-10 rounded-full bg-gray-300" />
         </div>
 
-        <div className="mb-6 mt-4 flex items-center justify-between">
+        <div className="mt-4 mb-6 flex items-center justify-between">
           <Text font="gilroy" size="2xl" weight="bold">
             Comparte este espacio
           </Text>

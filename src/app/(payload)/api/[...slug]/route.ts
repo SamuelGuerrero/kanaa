@@ -6,6 +6,7 @@ import {
   REST_POST,
   REST_PUT,
 } from "@payloadcms/next/routes";
+
 import configPromise from "@payload-config";
 
 export const GET = REST_GET(configPromise);

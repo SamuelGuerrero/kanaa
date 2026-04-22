@@ -1,5 +1,7 @@
 import { NotFoundPage } from "@payloadcms/next/views";
+
 import configPromise from "@payload-config";
+
 import { importMap } from "../importMap.js";
 
 type Args = {

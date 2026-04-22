@@ -1,4 +1,11 @@
-import { NoteIcon, PeopleIcon, StructuredData, TrendingRoundIcon } from "@/components/atoms";
+import { getPayload } from "payload";
+
+import {
+  NoteIcon,
+  PeopleIcon,
+  StructuredData,
+  TrendingRoundIcon,
+} from "@/components/atoms";
 import {
   FeaturedProperties,
   Hero,
@@ -10,14 +17,13 @@ import {
   GuideAndTips,
   FrequentlyQuestions,
 } from "@/components/templates";
-import type { Testimonial } from "@/components/organisms";
 import { faqPageSchema, localBusinessSchema } from "@/lib/schemas";
 import { createPageMetadata } from "@/lib/seo";
 import DiscoverGenerate from "@assets/images/Home/DiscoverGenerate.png";
 import PropertyManagement from "@assets/images/Home/PropertyManagement.png";
-import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
+import type { Testimonial } from "@/components/organisms";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = createPageMetadata({
@@ -139,11 +145,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
         <FeaturedProperties
           title={
-            (
-              homeContent.featuredProperties as
-                | { title?: string }
-                | undefined
-            )?.title
+            (homeContent.featuredProperties as { title?: string } | undefined)
+              ?.title
           }
           subtitle={
             (
@@ -163,11 +166,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
         <ValueProposition
           title={
-            (
-              homeContent.valueProposition as
-                | { title?: string }
-                | undefined
-            )?.title
+            (homeContent.valueProposition as { title?: string } | undefined)
+              ?.title
           }
           description={
             (
@@ -240,11 +240,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
         <BackedExperience
           title={
-            (
-              homeContent.experienceSection as
-                | { title?: string }
-                | undefined
-            )?.title
+            (homeContent.experienceSection as { title?: string } | undefined)
+              ?.title
           }
           description={
             (
@@ -261,18 +258,12 @@ export default async function HomePage({ params }: HomePageProps) {
             (homeContent.guideSection as { title?: string } | undefined)?.title
           }
           description={
-            (
-              homeContent.guideSection as
-                | { description?: string }
-                | undefined
-            )?.description
+            (homeContent.guideSection as { description?: string } | undefined)
+              ?.description
           }
           buttonText={
-            (
-              homeContent.guideSection as
-                | { buttonText?: string }
-                | undefined
-            )?.buttonText
+            (homeContent.guideSection as { buttonText?: string } | undefined)
+              ?.buttonText
           }
           cards={guideCards.length > 0 ? guideCards : undefined}
         />

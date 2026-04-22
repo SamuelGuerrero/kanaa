@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
-
 import { RootPage, generatePageMetadata } from "@payloadcms/next/views";
+
 import configPromise from "@payload-config";
+
 import { importMap } from "../importMap.js";
+
+import type { Metadata } from "next";
 
 type Args = {
   params: Promise<{ segments: string[] }>;
