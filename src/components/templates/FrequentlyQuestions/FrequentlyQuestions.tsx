@@ -1,9 +1,8 @@
 import Image from "next/image";
 
 import { AccordionQuestions } from "@/components/molecules";
-import FAQBg from "@assets/images/Home/FAQBg.png";
-
 import { DataHome, type FAQItem } from "@/data/faqData";
+import FAQBg from "@assets/images/Home/FAQBg.png";
 
 type FrequentlyQuestionsProps = {
   data?: FAQItem[];

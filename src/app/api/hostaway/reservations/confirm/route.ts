@@ -23,6 +23,7 @@ interface CreateReservationBody {
   totalPrice: number;
   paymentIntentId?: string;
   propertyName?: string;
+  locale?: "es" | "en";
 }
 
 interface HostawayReservationResponse {
@@ -54,6 +55,7 @@ export async function POST(request: Request) {
       totalPrice,
       paymentIntentId,
       propertyName,
+      locale,
     } = body;
 
     if (
@@ -162,8 +164,17 @@ export async function POST(request: Request) {
           return `${day}/${month}/${year}`;
         };
 
-        const totalGuests = adults + (children ?? 0) + (infants ?? 0);
-        const guestsLabel = `${totalGuests} ${totalGuests === 1 ? "Adulto" : "Adultos"}`;
+        const guestParts: string[] = [];
+        if (locale === "en") {
+          guestParts.push(`${adults} ${adults === 1 ? "Adult" : "Adults"}`);
+          if ((children ?? 0) > 0) guestParts.push(`${children} ${children === 1 ? "Child" : "Children"}`);
+          if ((infants ?? 0) > 0) guestParts.push(`${infants} ${infants === 1 ? "Infant" : "Infants"}`);
+        } else {
+          guestParts.push(`${adults} ${adults === 1 ? "Adulto" : "Adultos"}`);
+          if ((children ?? 0) > 0) guestParts.push(`${children} ${children === 1 ? "Niño" : "Niños"}`);
+          if ((infants ?? 0) > 0) guestParts.push(`${infants} ${infants === 1 ? "Bebé" : "Bebés"}`);
+        }
+        const guestsLabel = guestParts.join(", ");
         const formattedAmount = new Intl.NumberFormat("es-MX").format(totalPrice);
 
         const html = buildReservationConfirmationHtml({
@@ -174,9 +185,10 @@ export async function POST(request: Request) {
           checkIn: formatDate(arrivalDate),
           checkOut: formatDate(departureDate),
           guestsTotal: guestsLabel,
-          reservationTrackingUrl: `${SITE_URL}/es/reservation-tracking`,
+          reservationTrackingUrl: `${SITE_URL}/${locale ?? "es"}/reservation-tracking`,
           year: new Date().getFullYear(),
           supportEmail: env.RESEND_FROM_EMAIL,
+          locale: locale ?? "es",
         });
 
         await fetch(env.RESEND_API_BASE_URL, {
@@ -188,7 +200,9 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             from: env.RESEND_FROM_EMAIL,
             to: [guestEmail],
-            subject: `Kanaa | Confirmación de reserva #${reservationId}`,
+            subject: locale === "en"
+                ? `Kanaa | Booking Confirmation #${reservationId}`
+                : `Kanaa | Confirmación de reserva #${reservationId}`,
             html,
           }),
         });

@@ -454,6 +454,16 @@ export const enTranslations: Record<string, string> = {
   "Debes aceptar la política de cancelación":
     "You must accept the cancellation policy",
   "Los correos no coinciden": "Email addresses do not match",
+  "Completa tu reserva": "Complete your booking",
+  "Estás a un paso de confirmar tu reserva":
+    "You're one step away from confirming your booking",
+  "Acepto los": "I accept the",
+  "términos y condiciones": "terms and conditions",
+  "Acepto la": "I accept the",
+  "políticas de cancelación": "cancellation policy",
+  "y la política de cancelación": "and the cancellation policy",
+  "Debes aceptar los términos y condiciones y la política de cancelación":
+    "You must accept the terms and conditions and cancellation policy",
 
   // --- Booking success ---
   "Reserva cancelada": "Reservation cancelled",
@@ -480,6 +490,7 @@ export const enTranslations: Record<string, string> = {
   "Reserva por": "Booking for",
   Propiedad: "Property",
   México: "Mexico",
+  "Detalles de tu reserva": "Your reservation details",
 
   // --- Formularios (ContactanosForm / BecomeHostForm) ---
   "Escribe tu nombre.": "Enter your name.",
