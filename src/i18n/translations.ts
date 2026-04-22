@@ -517,7 +517,10 @@ export const enTranslations: Record<string, string> = {
   "Impuesto de hospedaje": "Lodging tax",
   "Impuesto sobre ventas": "Sales tax",
   "Estado de pago": "Payment status",
-  " Política de cancelación — 100% reembolsable hasta 14 días antes de la llegada — 50% reembolsable hasta 7 días antes de la llegada": "Cancellation policy — 100% refundable up to 14 days before arrival — 50% refundable up to 7 days before arrival",
+  "Política de cancelación — 100% reembolsable hasta 14 días antes de la llegada — 50% reembolsable hasta 7 días antes de la llegada": "Cancellation policy — 100% refundable up to 14 days before arrival — 50% refundable up to 7 days before arrival",
+  "Ingresa tu número de reserva y correo electrónico para consultar el estado de tu reservación": "Enter your reservation number and email to check your reservation status",
+  "Número de reservación": "Reservation number",
+  "Buscar reservación": "Search reservation",
 };
 
 const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
