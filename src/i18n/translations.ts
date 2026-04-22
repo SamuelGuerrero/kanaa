@@ -470,6 +470,7 @@ export const enTranslations: Record<string, string> = {
   "Reserva creada — pago pendiente": "Reservation created — payment pending",
   "¡Reserva confirmada!": "Reservation confirmed!",
   Reserva: "Reservation",
+  "Reserva #": "Booking #",
   Noches: "Nights",
   "Número de la reserva:": "Reservation number:",
   "Tu reserva fue creada pero el cobro está pendiente de confirmación. Te notificaremos cuando se procese el pago.":

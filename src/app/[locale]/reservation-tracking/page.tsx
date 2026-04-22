@@ -2,11 +2,13 @@
 
 import { ArrowRight, Search, ShieldCheck, XCircle } from "lucide-react";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button, Input } from "@/components/molecules";
 import { usePriceDetails } from "@/hooks/usePriceDetails";
+import { useI18n } from "@/i18n";
 
 const COMPONENT_TITLE_ES: Record<string, string> = {
   "base rate": "Tarifa base",
@@ -149,53 +151,103 @@ function LookupForm({
 }: {
   onFound: (reservation: ReservationData) => void;
 }) {
-  const [reservationId, setReservationId] = useState("");
-  const [email, setEmail] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const initialReservationId = searchParams.get("reservationId") ?? "";
+  const initialEmail = searchParams.get("email") ?? "";
+  const hasAutoSearched = useRef(false);
+
+  const [reservationId, setReservationId] = useState(initialReservationId);
+  const [email, setEmail] = useState(initialEmail);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
+  const lookupReservation = useCallback(
+    async ({
+      rawReservationId,
+      rawEmail,
+    }: {
+      rawReservationId: string;
+      rawEmail: string;
+    }) => {
+      setError("");
 
-    const id = Number(reservationId.replace("#", "").trim());
-    const trimmedEmail = email.trim();
+      const normalizedReservationId = rawReservationId.replace("#", "").trim();
+      const trimmedEmail = rawEmail.trim();
+      const id = Number(normalizedReservationId);
 
-    if (!id || isNaN(id)) {
-      setError("Ingresa un número de reservación válido");
-      return;
-    }
-    if (!trimmedEmail) {
-      setError("Ingresa tu correo electrónico");
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const response = await fetch("/api/hostaway/reservations/lookup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reservationId: id, email: trimmedEmail }),
-      });
-
-      const data = (await response.json()) as {
-        success?: boolean;
-        reservation?: ReservationData;
-        error?: string;
-      };
-
-      if (!response.ok || !data.success || !data.reservation) {
-        setError(data.error ?? "No se pudo encontrar la reservación");
-        return;
+      if (!id || isNaN(id)) {
+        setError("Ingresa un número de reservación válido");
+        return false;
+      }
+      if (!trimmedEmail) {
+        setError("Ingresa tu correo electrónico");
+        return false;
       }
 
-      onFound(data.reservation);
-    } catch {
-      setError("Error inesperado al buscar la reservación");
-    } finally {
-      setIsLoading(false);
-    }
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("reservationId", String(id));
+      params.set("email", trimmedEmail);
+      router.replace(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
+
+      setIsLoading(true);
+
+      try {
+        const response = await fetch("/api/hostaway/reservations/lookup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ reservationId: id, email: trimmedEmail }),
+        });
+
+        const data = (await response.json()) as {
+          success?: boolean;
+          reservation?: ReservationData;
+          error?: string;
+        };
+
+        if (!response.ok || !data.success || !data.reservation) {
+          setError(data.error ?? "No se pudo encontrar la reservación");
+          return false;
+        }
+
+        onFound(data.reservation);
+        return true;
+      } catch {
+        setError("Error inesperado al buscar la reservación");
+        return false;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [onFound, pathname, router, searchParams],
+  );
+
+  useEffect(() => {
+    setReservationId(initialReservationId);
+    setEmail(initialEmail);
+  }, [initialEmail, initialReservationId, lookupReservation]);
+
+  useEffect(() => {
+    if (hasAutoSearched.current) return;
+    if (!initialReservationId || !initialEmail) return;
+
+    hasAutoSearched.current = true;
+    void lookupReservation({
+      rawReservationId: initialReservationId,
+      rawEmail: initialEmail,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialEmail, initialReservationId]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await lookupReservation({
+      rawReservationId: reservationId,
+      rawEmail: email,
+    });
   };
 
   return (
@@ -289,6 +341,7 @@ function ReservationDetail({
   reservation: ReservationData;
   onBack: () => void;
 }) {
+  const { t } = useI18n();
   const [currentReservation, setCurrentReservation] =
     useState<ReservationData>(reservation);
   const [form, setForm] = useState<ReservationEditForm>(
@@ -503,7 +556,7 @@ function ReservationDetail({
 
           <div className="flex items-center gap-3">
             <Text font="gilroy" size="2xl" className="text-green-normal">
-              Reserva #{currentReservation.id}
+              {t("Reserva #")} {currentReservation.id}
             </Text>
             <StatusBadge
               status={isCancelled ? "cancelled" : currentReservation.status}
