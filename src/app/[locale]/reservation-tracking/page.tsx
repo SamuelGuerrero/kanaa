@@ -2,10 +2,21 @@
 
 import { ArrowRight, Search, ShieldCheck, XCircle } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button, Input } from "@/components/molecules";
+import { usePriceDetails } from "@/hooks/usePriceDetails";
+
+const COMPONENT_TITLE_ES: Record<string, string> = {
+  "base rate": "Tarifa base",
+  "cleaning fee": "Cargo de limpieza",
+  "lodging tax": "Impuesto de hospedaje",
+  "sales tax": "Impuesto sobre ventas",
+};
+
+const translateTitle = (title: string) =>
+  COMPONENT_TITLE_ES[title.trim().toLowerCase().replace(/\s+/g, " ")] ?? title;
 
 type ReservationData = {
   id: number;
@@ -290,11 +301,23 @@ function ReservationDetail({
   const [saveError, setSaveError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState("");
 
+  const arrivalDateObj = useMemo(
+    () => new Date(currentReservation.arrivalDate + "T12:00:00"),
+    [currentReservation.arrivalDate],
+  );
+  const departureDateObj = useMemo(
+    () => new Date(currentReservation.departureDate + "T12:00:00"),
+    [currentReservation.departureDate],
+  );
+
+  const { priceDetails, isLoading: isPriceLoading } = usePriceDetails(
+    String(currentReservation.listingMapId),
+    arrivalDateObj,
+    departureDateObj,
+    Math.max(1, currentReservation.adults + (currentReservation.children ?? 0)),
+  );
+
   const isCancelled = currentReservation.status === "cancelled";
-  const isEditable =
-    !isCancelled &&
-    currentReservation.status !== "declined" &&
-    currentReservation.status !== "cancelled";
 
   const isCancellable =
     !isCancelled &&
@@ -355,13 +378,6 @@ function ReservationDetail({
     } finally {
       setIsCancelling(false);
     }
-  };
-
-  const handleEdit = () => {
-    setSaveError("");
-    setSaveSuccess("");
-    setForm(toEditForm(currentReservation));
-    setIsEditing(true);
   };
 
   const handleSave = async () => {
@@ -513,7 +529,10 @@ function ReservationDetail({
                   label="Nombre (s)"
                   value={form.guestFirstName}
                   onChange={(value) =>
-                    setForm((previous) => ({ ...previous, guestFirstName: value }))
+                    setForm((previous) => ({
+                      ...previous,
+                      guestFirstName: value,
+                    }))
                   }
                   labelSize="base"
                   labelWeight="bold"
@@ -529,7 +548,10 @@ function ReservationDetail({
                   label="Apellidos"
                   value={form.guestLastName}
                   onChange={(value) =>
-                    setForm((previous) => ({ ...previous, guestLastName: value }))
+                    setForm((previous) => ({
+                      ...previous,
+                      guestLastName: value,
+                    }))
                   }
                   labelSize="base"
                   labelWeight="bold"
@@ -578,7 +600,10 @@ function ReservationDetail({
                   label="País de residencia"
                   value={form.guestCountry}
                   onChange={(value) =>
-                    setForm((previous) => ({ ...previous, guestCountry: value }))
+                    setForm((previous) => ({
+                      ...previous,
+                      guestCountry: value,
+                    }))
                   }
                   labelSize="base"
                   labelWeight="bold"
@@ -611,7 +636,10 @@ function ReservationDetail({
                   label="Fecha de salida"
                   value={form.departureDate}
                   onChange={(value) =>
-                    setForm((previous) => ({ ...previous, departureDate: value }))
+                    setForm((previous) => ({
+                      ...previous,
+                      departureDate: value,
+                    }))
                   }
                   type="date"
                   labelSize="base"
@@ -736,12 +764,12 @@ function ReservationDetail({
                   </Text>
                   <span
                     className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                      currentReservation.isPaid
+                      true
                         ? "border-green-200 bg-green-50 text-green-600"
                         : "border-yellow-200 bg-yellow-50 text-yellow-600"
                     }`}
                   >
-                    {currentReservation.isPaid ? "Pagado" : "Pendiente"}
+                    {true ? "Pagado" : "Pendiente"}
                   </span>
                 </div>
               </div>
@@ -816,6 +844,97 @@ function ReservationDetail({
               value={`${nights} ${nights === 1 ? "noche" : "noches"}`}
             />
 
+            <div className="border-grey-normal rounded-[10px] border bg-white px-5 py-4">
+              <Text
+                font="gilroy"
+                size="base"
+                weight="bold"
+                className="text-green-darker mb-3"
+              >
+                Detalle del precio
+              </Text>
+              {isPriceLoading ? (
+                <div className="flex items-center justify-center py-2">
+                  <div className="border-t-green-normal h-5 w-5 animate-spin rounded-full border-2 border-gray-200" />
+                </div>
+              ) : priceDetails?.components &&
+                priceDetails.components.length > 0 ? (
+                <div className="space-y-2">
+                  {priceDetails.components
+                    .filter((c) => c.isIncludedInTotalPrice === 1)
+                    .map((component, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between"
+                      >
+                        <Text
+                          font="gilroy"
+                          size="sm"
+                          className="text-grey-darker"
+                        >
+                          {translateTitle(component.title)}
+                        </Text>
+                        <Text
+                          font="gilroy"
+                          size="sm"
+                          className={
+                            component.total < 0
+                              ? "text-green-600"
+                              : "text-grey-darker"
+                          }
+                        >
+                          {component.total < 0 ? "-" : ""}$
+                          {new Intl.NumberFormat("es-MX").format(
+                            Math.abs(component.total),
+                          )}{" "}
+                          MXN
+                        </Text>
+                      </div>
+                    ))}
+                  <div className="border-grey-normal my-1 border-t" />
+                  <div className="flex items-center justify-between">
+                    <Text
+                      font="gilroy"
+                      size="sm"
+                      weight="bold"
+                      className="text-green-darker"
+                    >
+                      Total
+                    </Text>
+                    <Text
+                      font="gilroy"
+                      size="sm"
+                      weight="bold"
+                      className="text-green-darker"
+                    >
+                      $
+                      {new Intl.NumberFormat("es-MX").format(
+                        priceDetails.totalPrice,
+                      )}{" "}
+                      MXN
+                    </Text>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between">
+                  <Text font="gilroy" size="sm" className="text-grey-darker">
+                    Total
+                  </Text>
+                  <Text
+                    font="gilroy"
+                    size="sm"
+                    weight="bold"
+                    className="text-green-darker"
+                  >
+                    {formatPrice(
+                      currentReservation.totalPrice,
+                      currentReservation.currency,
+                    )}
+                  </Text>
+                </div>
+              )}
+            </div>
+
             {saveError && (
               <div className="mt-2 rounded-xl border border-red-200 bg-red-50 p-3">
                 <Text font="gilroy" size="sm" className="text-red-700">
@@ -838,24 +957,6 @@ function ReservationDetail({
                   {cancelError}
                 </Text>
               </div>
-            )}
-
-            {isEditable && !isEditing && (
-              <Button
-                type="button"
-                variant="primary"
-                className="h-14.5 w-full justify-center"
-                textWeight="bold"
-                textClassName="text-gold-dark"
-                onClick={handleEdit}
-                icon={
-                  <CircleButton>
-                    <ArrowRight className="text-gold-normal-hover h-6 w-6 drop-shadow-[0_0_0.5px_currentColor]" />
-                  </CircleButton>
-                }
-              >
-                Editar reserva
-              </Button>
             )}
 
             {isEditing && (
@@ -909,7 +1010,7 @@ function ReservationDetail({
               <Button
                 type="button"
                 variant="secondary"
-                className="mt-2 h-14.5 w-full justify-center"
+                className="mt-2 h-14.5 w-full justify-center border-[#7C7356] bg-[#E3DFD4]! hover:bg-[#E3DFD4] focus:bg-[#E3DFD4]"
                 textWeight="medium"
                 textClassName="text-[#7C7356]"
                 disabled={isCancelling || isEditing || isSaving}
@@ -928,17 +1029,17 @@ function ReservationDetail({
               </Button>
             )}
 
-              <Button
-                type="button"
-                variant="secondary"
-                className="mt-2 h-14.5 w-full justify-center"
-                textWeight="medium"
-                textClassName="text-green-normal"
-                onClick={onBack}
-                disabled={isSaving}
-                icon={
-                  <CircleButton className="bg-[#EDEEEC]!">
-                    <ArrowRight className="text-green-normal h-6 w-6 rotate-180 drop-shadow-[0_0_0.5px_currentColor]" />
+            <Button
+              type="button"
+              variant="secondary"
+              className="mt-2 h-14.5 w-full justify-center border border-[#7C7356]"
+              textWeight="medium"
+              textClassName="text-green-normal"
+              onClick={onBack}
+              disabled={isSaving}
+              icon={
+                <CircleButton className="bg-[#EDEEEC]!">
+                  <ArrowRight className="text-green-normal h-6 w-6 rotate-180 drop-shadow-[0_0_0.5px_currentColor]" />
                 </CircleButton>
               }
               iconPosition="left"

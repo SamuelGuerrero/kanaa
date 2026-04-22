@@ -10,6 +10,16 @@ import { Button, Input, PhoneInput } from "@/components/molecules";
 
 import type { BookingData } from "@/components/molecules";
 
+const COMPONENT_TITLE_ES: Record<string, string> = {
+  "base rate": "Tarifa base",
+  "cleaning fee": "Cargo de limpieza",
+  "lodging tax": "Impuesto de hospedaje",
+  "sales tax": "Impuesto sobre ventas",
+};
+
+const translateTitle = (title: string) =>
+  COMPONENT_TITLE_ES[title.trim().toLowerCase().replace(/\s+/g, " ")] ?? title;
+
 type GuestData = {
   firstName: string;
   lastName: string;
@@ -428,36 +438,55 @@ function BookingSuccessInner() {
                   : "—"
               }
             />
-            <div className="border-grey-normal flex items-center justify-between rounded-[10px] border bg-white px-5 py-4">
-              <div>
-                <Text
-                  font="gilroy"
-                  size="base"
-                  weight="bold"
-                  className="text-green-darker"
-                >
-                  Detalle del precio
-                </Text>
-                {bookingData && (
-                  <Text
-                    font="gilroy"
-                    size="sm"
-                    className="text-grey-darker mt-0.5"
-                  >
-                    {bookingData.totalNights}{" "}
-                    {bookingData.totalNights === 1 ? "noche" : "noches"} ×{" "}
-                    {formatPrice(bookingData.pricePerNight ?? 0)}
-                  </Text>
-                )}
-              </div>
+            <div className="border-grey-normal rounded-[10px] border bg-white px-5 py-4">
               <Text
                 font="gilroy"
                 size="base"
                 weight="bold"
-                className="text-green-darker"
+                className="text-green-darker mb-3"
               >
-                {bookingData ? formatPrice(bookingData.totalPrice) : "—"}
+                Detalle del precio
               </Text>
+              {bookingData?.priceBreakdown?.components &&
+              bookingData.priceBreakdown.components.length > 0 ? (
+                <div className="space-y-2">
+                  {bookingData.priceBreakdown.components
+                    .filter((c) => c.isIncludedInTotalPrice === 1)
+                    .map((component, idx) => (
+                      <div key={idx} className="flex items-center justify-between">
+                        <Text font="gilroy" size="sm" className="text-grey-darker">
+                          {translateTitle(component.title)}
+                        </Text>
+                        <Text
+                          font="gilroy"
+                          size="sm"
+                          className={component.total < 0 ? "text-green-600" : "text-grey-darker"}
+                        >
+                          {component.total < 0 ? "-" : ""}$
+                          {new Intl.NumberFormat("es-MX").format(Math.abs(component.total))} MXN
+                        </Text>
+                      </div>
+                    ))}
+                  <div className="border-grey-normal my-1 border-t" />
+                  <div className="flex items-center justify-between">
+                    <Text font="gilroy" size="sm" weight="bold" className="text-green-darker">
+                      Total
+                    </Text>
+                    <Text font="gilroy" size="sm" weight="bold" className="text-green-darker">
+                      {formatPrice(bookingData.priceBreakdown.totalPrice)}
+                    </Text>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between">
+                  <Text font="gilroy" size="sm" className="text-grey-darker">
+                    Total
+                  </Text>
+                  <Text font="gilroy" size="sm" weight="bold" className="text-green-darker">
+                    {bookingData ? formatPrice(bookingData.totalPrice) : "—"}
+                  </Text>
+                </div>
+              )}
             </div>
 
             {cancelError && (
@@ -471,7 +500,7 @@ function BookingSuccessInner() {
             <Button
               type="button"
               variant="secondary"
-              className="mt-2 h-14.5 w-full justify-center"
+              className="mt-2 h-14.5 w-full justify-center border border-[#7C7356]"
               textWeight="medium"
               textClassName={isCancelled ? "text-gray-400" : "text-[#7C7356]"}
               disabled={isCancelling || isCancelled || !reservationId}
