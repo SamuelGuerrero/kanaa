@@ -28,6 +28,17 @@ export default function CheckoutPage() {
   const [error, setError] = useState("");
   const [isBootstrapping, setIsBootstrapping] = useState(true);
   const [isPaymentIntentLoading, setIsPaymentIntentLoading] = useState(false);
+  const [addBillingData, setAddBillingData] = useState(false);
+  const [billingData, setBillingData] = useState({
+    rfc: "",
+    razonSocial: "",
+    regimenFiscal: "",
+    codigoPostal: "",
+    usoCFDI: "",
+    direccion: "",
+    emailFacturacion: "",
+  });
+  const [billingTouched, setBillingTouched] = useState<Record<string, boolean>>({});
   const { occupiedDates } = useListingCalendar(propertyId);
   const requestKeyRef = useRef<string | null>(null);
 
@@ -245,6 +256,12 @@ export default function CheckoutPage() {
               priceBreakdown={priceDetails}
               isPriceLoading={isPriceLoading}
               paymentIntentId={paymentIntentId}
+              addBillingData={addBillingData}
+              onAddBillingDataChange={setAddBillingData}
+              billingData={billingData}
+              onBillingDataChange={setBillingData}
+              billingTouched={billingTouched}
+              onBillingTouchedChange={setBillingTouched}
             />
           </Elements>
         ) : (

@@ -55,6 +55,18 @@ const checkoutSchema = z
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
+type BillingData = {
+  rfc: string;
+  razonSocial: string;
+  regimenFiscal: string;
+  codigoPostal: string;
+  usoCFDI: string;
+  direccion: string;
+  emailFacturacion: string;
+};
+
+export type { BillingData };
+
 type CheckoutPaymentFormProps = {
   bookingData: BookingData;
   occupiedDates?: Date[];
@@ -63,6 +75,12 @@ type CheckoutPaymentFormProps = {
   priceBreakdown?: PriceDetails | null;
   isPriceLoading?: boolean;
   paymentIntentId?: string | null;
+  addBillingData: boolean;
+  onAddBillingDataChange: (value: boolean) => void;
+  billingData: BillingData;
+  onBillingDataChange: (data: BillingData) => void;
+  billingTouched: Record<string, boolean>;
+  onBillingTouchedChange: (touched: Record<string, boolean>) => void;
 };
 
 const COUNTRIES = [
@@ -86,13 +104,41 @@ export const CheckoutPaymentForm = ({
   priceBreakdown,
   isPriceLoading,
   paymentIntentId,
+  addBillingData,
+  onAddBillingDataChange,
+  billingData,
+  onBillingDataChange,
+  billingTouched,
+  onBillingTouchedChange,
 }: CheckoutPaymentFormProps) => {
   const { t } = useI18n();
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
   const [stripeError, setStripeError] = useState("");
-  const [addBillingData, setAddBillingData] = useState(false);
+
+  const getBillingErrors = () => {
+    const errors: Record<string, string> = {};
+    if (!billingData.rfc.trim()) errors.rfc = "RFC requerido";
+    if (!billingData.razonSocial.trim())
+      errors.razonSocial = "Nombre o razón social requerido";
+    if (!billingData.regimenFiscal.trim())
+      errors.regimenFiscal = "Régimen fiscal requerido";
+    if (!billingData.codigoPostal.trim())
+      errors.codigoPostal = "Código postal requerido";
+    if (!billingData.usoCFDI.trim()) errors.usoCFDI = "Uso de CFDI requerido";
+    if (!billingData.direccion.trim()) errors.direccion = "Dirección requerida";
+    if (!billingData.emailFacturacion.trim()) {
+      errors.emailFacturacion = "Correo de facturación requerido";
+    } else if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(billingData.emailFacturacion)
+    ) {
+      errors.emailFacturacion = "Correo electrónico inválido";
+    }
+    return errors;
+  };
+
+  const billingErrors = getBillingErrors();
 
   const {
     control,
@@ -113,6 +159,18 @@ export const CheckoutPaymentForm = ({
 
   const onSubmit = async (values: CheckoutFormValues) => {
     if (!stripe || !elements) return;
+
+    if (addBillingData) {
+      const errors = getBillingErrors();
+      if (Object.keys(errors).length > 0) {
+        const allTouched = Object.fromEntries(
+          Object.keys(billingData).map((k) => [k, true]),
+        );
+        onBillingTouchedChange(allTouched);
+        return;
+      }
+    }
+
     setIsLoading(true);
     setStripeError("");
 
@@ -207,6 +265,36 @@ export const CheckoutPaymentForm = ({
         }),
       );
 
+      // 4. Send billing request email if requested
+      if (addBillingData) {
+        try {
+          await fetch("/api/billing/send-invoice-request", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              billing: billingData,
+              guest: {
+                firstName: values.firstName,
+                lastName: values.lastName,
+                email: values.email,
+                phone: values.phone,
+              },
+              reservation: {
+                propertyName: bookingData.propertyName ?? "Propiedad Kanaa",
+                arrivalDate: formatDateForApi(bookingData.startDate),
+                departureDate: formatDateForApi(bookingData.endDate),
+                totalNights: bookingData.totalNights,
+                totalPrice: bookingData.totalPrice,
+                guests: bookingData.guests,
+                reservationId: reservationData.reservationId,
+              },
+            }),
+          });
+        } catch {
+          // Non-blocking — reservation already confirmed
+        }
+      }
+
       window.location.href = `/${window.location.pathname.split("/")[1]}/booking-success/${bookingData.listingMapId}?payment_intent=${paymentIntent.id}&reservation_id=${reservationData.reservationId}`;
     } catch (err) {
       setStripeError(
@@ -251,7 +339,7 @@ export const CheckoutPaymentForm = ({
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
-                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6A6A6A] transition-colors duration-150"
+                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6a6a6acd] transition-colors duration-150"
                         />
                       )}
                     />
@@ -282,7 +370,7 @@ export const CheckoutPaymentForm = ({
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
-                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6A6A6A] transition-colors duration-150"
+                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6a6a6acd] transition-colors duration-150"
                         />
                       )}
                     />
@@ -314,7 +402,7 @@ export const CheckoutPaymentForm = ({
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
-                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6A6A6A] transition-colors duration-150"
+                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6a6a6acd] transition-colors duration-150"
                         />
                       )}
                     />
@@ -346,7 +434,7 @@ export const CheckoutPaymentForm = ({
                           labelSize="base"
                           labelWeight="bold"
                           labelClassName="text-green-darker leading-5"
-                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6A6A6A] transition-colors duration-150"
+                          className="font-gilroy text-green-darker text-base leading-4.75 font-medium placeholder-[#6a6a6acd] transition-colors duration-150"
                         />
                       )}
                     />
@@ -438,7 +526,10 @@ export const CheckoutPaymentForm = ({
               <input
                 type="checkbox"
                 checked={addBillingData}
-                onChange={(e) => setAddBillingData(e.target.checked)}
+                onChange={(e) => {
+                  onAddBillingDataChange(e.target.checked);
+                  if (!e.target.checked) onBillingTouchedChange({});
+                }}
                 className="absolute inset-0 cursor-pointer opacity-0"
               />
               <div
@@ -453,6 +544,313 @@ export const CheckoutPaymentForm = ({
               Añadir tus datos para facturación
             </Text>
           </label>
+
+          {addBillingData && (
+            <section>
+              <Text
+                font="gilroy"
+                size="xl"
+                weight="bold"
+                className="text-green-normal mb-4"
+              >
+                Datos de facturación
+              </Text>
+              <div className="border-grey-normal rounded-2xl border bg-white p-6">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {/* RFC */}
+                  <div>
+                    <div className="border-grey-normal flex h-16.5 flex-col justify-center rounded-xl border bg-white px-4 py-2">
+                      <Text
+                        font="gilroy"
+                        size="base"
+                        weight="bold"
+                        className="text-green-darker leading-5"
+                      >
+                        RFC
+                      </Text>
+                      <input
+                        type="text"
+                        value={billingData.rfc}
+                        onChange={(e) =>
+                          onBillingDataChange({ ...billingData, rfc: e.target.value.toUpperCase() })
+                        }
+                        onBlur={() =>
+                          onBillingTouchedChange({ ...billingTouched, rfc: true })
+                        }
+                        placeholder="XAXX010101000"
+                        maxLength={13}
+                        className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
+                      />
+                    </div>
+                    {billingTouched.rfc && billingErrors.rfc && (
+                      <Text
+                        font="gilroy"
+                        size="xs"
+                        className="mt-1 ml-1 text-red-500"
+                      >
+                        {billingErrors.rfc}
+                      </Text>
+                    )}
+                  </div>
+
+                  {/* Razón social */}
+                  <div>
+                    <div className="border-grey-normal flex h-16.5 flex-col justify-center rounded-xl border bg-white px-4 py-2">
+                      <Text
+                        font="gilroy"
+                        size="base"
+                        weight="bold"
+                        className="text-green-darker leading-5"
+                      >
+                        Nombre completo o razón social
+                      </Text>
+                      <input
+                        type="text"
+                        value={billingData.razonSocial}
+                        onChange={(e) =>
+                          onBillingDataChange({ ...billingData, razonSocial: e.target.value })
+                        }
+                        onBlur={() =>
+                          onBillingTouchedChange({ ...billingTouched, razonSocial: true })
+                        }
+                        placeholder="Juan García S.A. de C.V."
+                        className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
+                      />
+                    </div>
+                    {billingTouched.razonSocial &&
+                      billingErrors.razonSocial && (
+                        <Text
+                          font="gilroy"
+                          size="xs"
+                          className="mt-1 ml-1 text-red-500"
+                        >
+                          {billingErrors.razonSocial}
+                        </Text>
+                      )}
+                  </div>
+
+                  {/* Régimen fiscal */}
+                  <div>
+                    <div className="border-grey-normal flex h-16.5 flex-col justify-center rounded-xl border bg-white px-4 py-2">
+                      <Text
+                        font="gilroy"
+                        size="base"
+                        weight="bold"
+                        className="text-green-darker leading-5"
+                      >
+                        Régimen Fiscal
+                      </Text>
+                      <select
+                        value={billingData.regimenFiscal}
+                        onChange={(e) =>
+                          onBillingDataChange({ ...billingData, regimenFiscal: e.target.value })
+                        }
+                        onBlur={() =>
+                          onBillingTouchedChange({ ...billingTouched, regimenFiscal: true })
+                        }
+                        className="font-gilroy text-green-darker w-full appearance-none bg-transparent text-base font-medium outline-none"
+                      >
+                        <option value="" disabled>
+                          Selecciona un régimen
+                        </option>
+                        <option value="601">
+                          601 - General de Ley Personas Morales
+                        </option>
+                        <option value="603">
+                          603 - Personas Morales con Fines no Lucrativos
+                        </option>
+                        <option value="605">
+                          605 - Sueldos y Salarios e Ingresos Asimilados
+                        </option>
+                        <option value="606">606 - Arrendamiento</option>
+                        <option value="612">
+                          612 - Personas Físicas con Actividades Empresariales
+                        </option>
+                        <option value="616">
+                          616 - Sin obligaciones fiscales
+                        </option>
+                        <option value="621">
+                          621 - Régimen de Incorporación Fiscal
+                        </option>
+                        <option value="625">
+                          625 - Ingresos a través de Plataformas Tecnológicas
+                        </option>
+                        <option value="626">
+                          626 - Régimen Simplificado de Confianza (RESICO)
+                        </option>
+                      </select>
+                    </div>
+                    {billingTouched.regimenFiscal &&
+                      billingErrors.regimenFiscal && (
+                        <Text
+                          font="gilroy"
+                          size="xs"
+                          className="mt-1 ml-1 text-red-500"
+                        >
+                          {billingErrors.regimenFiscal}
+                        </Text>
+                      )}
+                  </div>
+
+                  {/* Código postal */}
+                  <div>
+                    <div className="border-grey-normal flex h-16.5 flex-col justify-center rounded-xl border bg-white px-4 py-2">
+                      <Text
+                        font="gilroy"
+                        size="base"
+                        weight="bold"
+                        className="text-green-darker leading-5"
+                      >
+                        Código postal del domicilio
+                      </Text>
+                      <input
+                        type="text"
+                        value={billingData.codigoPostal}
+                        onChange={(e) =>
+                          onBillingDataChange({ ...billingData, codigoPostal: e.target.value.replace(/\D/g, "").slice(0, 5) })
+                        }
+                        onBlur={() =>
+                          onBillingTouchedChange({ ...billingTouched, codigoPostal: true })
+                        }
+                        placeholder="06600"
+                        maxLength={5}
+                        className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
+                      />
+                    </div>
+                    {billingTouched.codigoPostal &&
+                      billingErrors.codigoPostal && (
+                        <Text
+                          font="gilroy"
+                          size="xs"
+                          className="mt-1 ml-1 text-red-500"
+                        >
+                          {billingErrors.codigoPostal}
+                        </Text>
+                      )}
+                  </div>
+
+                  {/* Uso de CFDI */}
+                  <div>
+                    <div className="border-grey-normal flex h-16.5 flex-col justify-center rounded-xl border bg-white px-4 py-2">
+                      <Text
+                        font="gilroy"
+                        size="base"
+                        weight="bold"
+                        className="text-green-darker leading-5"
+                      >
+                        Uso de CFDI
+                      </Text>
+                      <select
+                        value={billingData.usoCFDI}
+                        onChange={(e) =>
+                          onBillingDataChange({ ...billingData, usoCFDI: e.target.value })
+                        }
+                        onBlur={() =>
+                          onBillingTouchedChange({ ...billingTouched, usoCFDI: true })
+                        }
+                        className="font-gilroy text-green-darker w-full appearance-none bg-transparent text-base font-medium outline-none"
+                      >
+                        <option value="" disabled>
+                          Selecciona un uso
+                        </option>
+                        <option value="G01">
+                          G01 - Adquisición de mercancias
+                        </option>
+                        <option value="G03">G03 - Gastos en general</option>
+                        <option value="I01">I01 - Construcciones</option>
+                        <option value="D05">
+                          D05 - Intereses reales por créditos hipotecarios
+                        </option>
+                        <option value="S01">S01 - Sin efectos fiscales</option>
+                        <option value="CP01">CP01 - Pagos</option>
+                        <option value="CN01">CN01 - Nómina</option>
+                      </select>
+                    </div>
+                    {billingTouched.usoCFDI && billingErrors.usoCFDI && (
+                      <Text
+                        font="gilroy"
+                        size="xs"
+                        className="mt-1 ml-1 text-red-500"
+                      >
+                        {billingErrors.usoCFDI}
+                      </Text>
+                    )}
+                  </div>
+
+                  {/* Dirección de facturación */}
+                  <div>
+                    <div className="border-grey-normal flex h-16.5 flex-col justify-center rounded-xl border bg-white px-4 py-2">
+                      <Text
+                        font="gilroy"
+                        size="base"
+                        weight="bold"
+                        className="text-green-darker leading-5"
+                      >
+                        Dirección de facturación
+                      </Text>
+                      <input
+                        type="text"
+                        value={billingData.direccion}
+                        onChange={(e) =>
+                          onBillingDataChange({ ...billingData, direccion: e.target.value })
+                        }
+                        onBlur={() =>
+                          onBillingTouchedChange({ ...billingTouched, direccion: true })
+                        }
+                        placeholder="Calle, número, colonia, ciudad"
+                        className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
+                      />
+                    </div>
+                    {billingTouched.direccion && billingErrors.direccion && (
+                      <Text
+                        font="gilroy"
+                        size="xs"
+                        className="mt-1 ml-1 text-red-500"
+                      >
+                        {billingErrors.direccion}
+                      </Text>
+                    )}
+                  </div>
+
+                  {/* Correo de facturación */}
+                  <div className="sm:col-span-2">
+                    <div className="border-grey-normal flex h-16.5 flex-col justify-center rounded-xl border bg-white px-4 py-2">
+                      <Text
+                        font="gilroy"
+                        size="base"
+                        weight="bold"
+                        className="text-green-darker leading-5"
+                      >
+                        Correo electrónico para recibir PDF y XML
+                      </Text>
+                      <input
+                        type="email"
+                        value={billingData.emailFacturacion}
+                        onChange={(e) =>
+                          onBillingDataChange({ ...billingData, emailFacturacion: e.target.value })
+                        }
+                        onBlur={() =>
+                          onBillingTouchedChange({ ...billingTouched, emailFacturacion: true })
+                        }
+                        placeholder="facturacion@empresa.com"
+                        className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
+                      />
+                    </div>
+                    {billingTouched.emailFacturacion &&
+                      billingErrors.emailFacturacion && (
+                        <Text
+                          font="gilroy"
+                          size="xs"
+                          className="mt-1 ml-1 text-red-500"
+                        >
+                          {billingErrors.emailFacturacion}
+                        </Text>
+                      )}
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
 
           <section>
             <Text
