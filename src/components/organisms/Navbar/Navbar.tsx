@@ -346,8 +346,8 @@ export const Navbar = () => {
           })}
 
           <Button
-            href={`/${locale}/properties`}
             variant="primary"
+            disabled
             icon={
               <CircleButton>
                 <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
@@ -474,7 +474,6 @@ export const Navbar = () => {
 
           <div onClick={() => setIsMobileMenuOpen(false)}>
             <Button
-              href={`/${locale}/properties`}
               variant="primary"
               className="mt-2 w-full justify-center"
               icon={
