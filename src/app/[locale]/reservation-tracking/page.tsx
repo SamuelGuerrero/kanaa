@@ -762,7 +762,7 @@ function ReservationDetail({
                   <Text font="gilroy" size="sm" className="text-grey-darker">
                     Estado de pago:
                   </Text>
-                  <span
+                  <Text
                     className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${
                       true
                         ? "border-green-200 bg-green-50 text-green-600"
@@ -770,7 +770,7 @@ function ReservationDetail({
                     }`}
                   >
                     {true ? "Pagado" : "Pendiente"}
-                  </span>
+                  </Text>
                 </div>
               </div>
 
