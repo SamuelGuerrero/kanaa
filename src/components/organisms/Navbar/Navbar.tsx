@@ -346,6 +346,7 @@ export const Navbar = () => {
           })}
 
           <Button
+            href={`/${locale}/properties`}
             variant="primary"
             icon={
               <CircleButton>
@@ -473,6 +474,7 @@ export const Navbar = () => {
 
           <div onClick={() => setIsMobileMenuOpen(false)}>
             <Button
+              href={`/${locale}/properties`}
               variant="primary"
               className="mt-2 w-full justify-center"
               icon={
