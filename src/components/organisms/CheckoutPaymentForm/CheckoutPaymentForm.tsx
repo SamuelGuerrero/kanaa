@@ -42,10 +42,7 @@ const checkoutSchema = z
     phone: z.string().min(7, "Número de teléfono inválido"),
     country: z.string().min(1, "Selecciona un país"),
     acceptedTerms: z.literal(true, {
-      errorMap: () => ({ message: "Debes aceptar los términos y condiciones" }),
-    }),
-    acceptedCancellation: z.literal(true, {
-      errorMap: () => ({ message: "Debes aceptar la política de cancelación" }),
+      errorMap: () => ({ message: "Debes aceptar los términos y condiciones y la política de cancelación" }),
     }),
   })
   .refine((data) => data.email === data.confirmEmail, {
@@ -111,7 +108,7 @@ export const CheckoutPaymentForm = ({
   billingTouched,
   onBillingTouchedChange,
 }: CheckoutPaymentFormProps) => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -119,16 +116,17 @@ export const CheckoutPaymentForm = ({
 
   const getBillingErrors = () => {
     const errors: Record<string, string> = {};
-    if (!billingData.rfc.trim()) errors.rfc = "RFC requerido";
-    if (!billingData.razonSocial.trim())
+    if (!billingData?.rfc?.trim()) errors.rfc = "RFC requerido";
+    if (!billingData?.razonSocial?.trim())
       errors.razonSocial = "Nombre o razón social requerido";
-    if (!billingData.regimenFiscal.trim())
+    if (!billingData?.regimenFiscal?.trim())
       errors.regimenFiscal = "Régimen fiscal requerido";
-    if (!billingData.codigoPostal.trim())
+    if (!billingData?.codigoPostal?.trim())
       errors.codigoPostal = "Código postal requerido";
-    if (!billingData.usoCFDI.trim()) errors.usoCFDI = "Uso de CFDI requerido";
-    if (!billingData.direccion.trim()) errors.direccion = "Dirección requerida";
-    if (!billingData.emailFacturacion.trim()) {
+    if (!billingData?.usoCFDI?.trim()) errors.usoCFDI = "Uso de CFDI requerido";
+    if (!billingData?.direccion?.trim())
+      errors.direccion = "Dirección requerida";
+    if (!billingData?.emailFacturacion?.trim()) {
       errors.emailFacturacion = "Correo de facturación requerido";
     } else if (
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(billingData.emailFacturacion)
@@ -237,6 +235,7 @@ export const CheckoutPaymentForm = ({
             totalPrice: bookingData.totalPrice,
             paymentIntentId: paymentIntentId ?? paymentIntent.id,
             propertyName: bookingData.propertyName ?? undefined,
+              locale,
           }),
         },
       );
@@ -572,10 +571,16 @@ export const CheckoutPaymentForm = ({
                         type="text"
                         value={billingData.rfc}
                         onChange={(e) =>
-                          onBillingDataChange({ ...billingData, rfc: e.target.value.toUpperCase() })
+                          onBillingDataChange({
+                            ...billingData,
+                            rfc: e.target.value.toUpperCase(),
+                          })
                         }
                         onBlur={() =>
-                          onBillingTouchedChange({ ...billingTouched, rfc: true })
+                          onBillingTouchedChange({
+                            ...billingTouched,
+                            rfc: true,
+                          })
                         }
                         placeholder="XAXX010101000"
                         maxLength={13}
@@ -608,12 +613,18 @@ export const CheckoutPaymentForm = ({
                         type="text"
                         value={billingData.razonSocial}
                         onChange={(e) =>
-                          onBillingDataChange({ ...billingData, razonSocial: e.target.value })
+                          onBillingDataChange({
+                            ...billingData,
+                            razonSocial: e.target.value,
+                          })
                         }
                         onBlur={() =>
-                          onBillingTouchedChange({ ...billingTouched, razonSocial: true })
+                          onBillingTouchedChange({
+                            ...billingTouched,
+                            razonSocial: true,
+                          })
                         }
-                        placeholder="Juan García S.A. de C.V."
+                        placeholder="Kanaa S.A. de C.V."
                         className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
                       />
                     </div>
@@ -643,10 +654,16 @@ export const CheckoutPaymentForm = ({
                       <select
                         value={billingData.regimenFiscal}
                         onChange={(e) =>
-                          onBillingDataChange({ ...billingData, regimenFiscal: e.target.value })
+                          onBillingDataChange({
+                            ...billingData,
+                            regimenFiscal: e.target.value,
+                          })
                         }
                         onBlur={() =>
-                          onBillingTouchedChange({ ...billingTouched, regimenFiscal: true })
+                          onBillingTouchedChange({
+                            ...billingTouched,
+                            regimenFiscal: true,
+                          })
                         }
                         className="font-gilroy text-green-darker w-full appearance-none bg-transparent text-base font-medium outline-none"
                       >
@@ -707,10 +724,18 @@ export const CheckoutPaymentForm = ({
                         type="text"
                         value={billingData.codigoPostal}
                         onChange={(e) =>
-                          onBillingDataChange({ ...billingData, codigoPostal: e.target.value.replace(/\D/g, "").slice(0, 5) })
+                          onBillingDataChange({
+                            ...billingData,
+                            codigoPostal: e.target.value
+                              .replace(/\D/g, "")
+                              .slice(0, 5),
+                          })
                         }
                         onBlur={() =>
-                          onBillingTouchedChange({ ...billingTouched, codigoPostal: true })
+                          onBillingTouchedChange({
+                            ...billingTouched,
+                            codigoPostal: true,
+                          })
                         }
                         placeholder="06600"
                         maxLength={5}
@@ -743,10 +768,16 @@ export const CheckoutPaymentForm = ({
                       <select
                         value={billingData.usoCFDI}
                         onChange={(e) =>
-                          onBillingDataChange({ ...billingData, usoCFDI: e.target.value })
+                          onBillingDataChange({
+                            ...billingData,
+                            usoCFDI: e.target.value,
+                          })
                         }
                         onBlur={() =>
-                          onBillingTouchedChange({ ...billingTouched, usoCFDI: true })
+                          onBillingTouchedChange({
+                            ...billingTouched,
+                            usoCFDI: true,
+                          })
                         }
                         className="font-gilroy text-green-darker w-full appearance-none bg-transparent text-base font-medium outline-none"
                       >
@@ -792,10 +823,16 @@ export const CheckoutPaymentForm = ({
                         type="text"
                         value={billingData.direccion}
                         onChange={(e) =>
-                          onBillingDataChange({ ...billingData, direccion: e.target.value })
+                          onBillingDataChange({
+                            ...billingData,
+                            direccion: e.target.value,
+                          })
                         }
                         onBlur={() =>
-                          onBillingTouchedChange({ ...billingTouched, direccion: true })
+                          onBillingTouchedChange({
+                            ...billingTouched,
+                            direccion: true,
+                          })
                         }
                         placeholder="Calle, número, colonia, ciudad"
                         className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
@@ -827,10 +864,16 @@ export const CheckoutPaymentForm = ({
                         type="email"
                         value={billingData.emailFacturacion}
                         onChange={(e) =>
-                          onBillingDataChange({ ...billingData, emailFacturacion: e.target.value })
+                          onBillingDataChange({
+                            ...billingData,
+                            emailFacturacion: e.target.value,
+                          })
                         }
                         onBlur={() =>
-                          onBillingTouchedChange({ ...billingTouched, emailFacturacion: true })
+                          onBillingTouchedChange({
+                            ...billingTouched,
+                            emailFacturacion: true,
+                          })
                         }
                         placeholder="facturacion@empresa.com"
                         className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
@@ -918,14 +961,15 @@ export const CheckoutPaymentForm = ({
                       size="base"
                       className="text-green-darker"
                     >
-                      Acepto los{" "}
+                      {t("Acepto los")}{" "}
                       <a
-                        href="/es/terms-and-conditions"
+                        href={`/${locale}/terms-and-conditions`}
                         className="text-gold-normal underline"
                         target="_blank"
                       >
-                        términos y condiciones
+                        {t("términos y condiciones")}
                       </a>
+                      {" "}{t("y la política de cancelación")}
                     </Text>
                   </label>
                 )}
@@ -937,61 +981,6 @@ export const CheckoutPaymentForm = ({
                   className="mt-1 ml-10 text-red-500"
                 >
                   {errors.acceptedTerms.message}
-                </Text>
-              )}
-            </div>
-
-            <div>
-              <Controller
-                name="acceptedCancellation"
-                control={control}
-                render={({ field }) => (
-                  <label className="flex cursor-pointer items-center gap-3">
-                    <div className="relative mt-0.5 h-7.5 w-7.5 shrink-0">
-                      <input
-                        type="checkbox"
-                        checked={!!field.value}
-                        onChange={(e) =>
-                          field.onChange(e.target.checked || undefined)
-                        }
-                        onBlur={field.onBlur}
-                        className="absolute inset-0 cursor-pointer opacity-0"
-                      />
-                      <div
-                        className={`flex h-7.5 w-7.5 items-center justify-center rounded-lg border border-[#A68D6E] ${field.value ? "bg-green-normal" : "bg-white"}`}
-                      >
-                        {field.value && (
-                          <Check
-                            className="h-4 w-4 text-[#A68D6E]"
-                            strokeWidth={2.5}
-                          />
-                        )}
-                      </div>
-                    </div>
-                    <Text
-                      font="gilroy"
-                      size="base"
-                      className="text-green-darker"
-                    >
-                      Acepto la{" "}
-                      <a
-                        href="/es/privacy-policy"
-                        className="text-gold-normal underline"
-                        target="_blank"
-                      >
-                        políticas de cancelación
-                      </a>
-                    </Text>
-                  </label>
-                )}
-              />
-              {errors.acceptedCancellation && (
-                <Text
-                  font="gilroy"
-                  size="xs"
-                  className="mt-1 ml-10 text-red-500"
-                >
-                  {errors.acceptedCancellation.message}
                 </Text>
               )}
             </div>

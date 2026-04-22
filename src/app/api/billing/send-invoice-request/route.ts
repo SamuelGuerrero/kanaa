@@ -72,7 +72,7 @@ const buildTemplate = (p: Payload) => {
       <!-- HEADER -->
       <tr>
         <td style="background:#2c3728;padding:32px 24px;text-align:center;">
-          <img src="https://i.postimg.cc/h4651wVz/logo.png" alt="Kanaa Logo" width="140" style="display:block;margin:0 auto 18px auto;" />
+          <img src="https://kanaa-media.s3.us-east-1.amazonaws.com/logo.svg" alt="Kanaa Logo" width="140" style="display:block;margin:0 auto 18px auto;" />
           <h1 style="margin:0;font-size:22px;line-height:1.3;color:#ffffff;font-weight:600;">
             Solicitud de Facturación
           </h1>

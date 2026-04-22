@@ -38,7 +38,9 @@ export default function CheckoutPage() {
     direccion: "",
     emailFacturacion: "",
   });
-  const [billingTouched, setBillingTouched] = useState<Record<string, boolean>>({});
+  const [billingTouched, setBillingTouched] = useState<Record<string, boolean>>(
+    {},
+  );
   const { occupiedDates } = useListingCalendar(propertyId);
   const requestKeyRef = useRef<string | null>(null);
 
@@ -85,7 +87,11 @@ export default function CheckoutPage() {
   }, [propertyId, router, locale]);
 
   const paymentIntentRequestKey = useMemo(() => {
-    if (!bookingData?.startDate || !bookingData?.endDate || !bookingData?.totalPrice) {
+    if (
+      !bookingData?.startDate ||
+      !bookingData?.endDate ||
+      !bookingData?.totalPrice
+    ) {
       return null;
     }
 
@@ -204,25 +210,25 @@ export default function CheckoutPage() {
     setBookingData(updated);
   };
 
-  const options: StripeElementsOptions | undefined =
-    clientSecret && stripePromise
-      ? {
-          clientSecret,
-          appearance: {
-            theme: "stripe",
-            variables: {
-              colorPrimary: "#10b981",
-              colorBackground: "#ffffff",
-              colorText: "#1f2937",
-              colorDanger: "#ef4444",
-              fontFamily:
-                "'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-              spacingUnit: "4px",
-              borderRadius: "12px",
-            },
-          },
-        }
-      : undefined;
+  const options: StripeElementsOptions | undefined = useMemo(() => {
+    if (!clientSecret || !stripePromise) return undefined;
+    return {
+      clientSecret,
+      appearance: {
+        theme: "stripe",
+        variables: {
+          colorPrimary: "#10b981",
+          colorBackground: "#ffffff",
+          colorText: "#1f2937",
+          colorDanger: "#ef4444",
+          fontFamily:
+            "'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          spacingUnit: "4px",
+          borderRadius: "12px",
+        },
+      },
+    };
+  }, [clientSecret]);
 
   const isLoading = isBootstrapping || isPaymentIntentLoading;
 
