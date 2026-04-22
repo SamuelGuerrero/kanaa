@@ -19,6 +19,7 @@ type PropertyOverviewProps = {
   className?: string;
   showButton?: boolean;
   name?: string;
+  onShare?: () => void;
 };
 
 export const PropertyOverview = ({
@@ -31,6 +32,7 @@ export const PropertyOverview = ({
   className,
   showButton,
   name,
+  onShare,
 }: PropertyOverviewProps) => {
   const { t } = useI18n();
   const [copied, setCopied] = useState(false);
@@ -52,6 +54,14 @@ export const PropertyOverview = ({
     hideTimerRef.current = setTimeout(() => {
       setCopied(false);
     }, 2000);
+  };
+
+  const handleShareClick = () => {
+    if (onShare) {
+      onShare();
+      return;
+    }
+    void handleCopyUrl();
   };
 
   const handleCopyUrl = async () => {
@@ -121,7 +131,7 @@ export const PropertyOverview = ({
               }
               variant="primary"
               className="border-gold-light-active border bg-white"
-              onClick={handleCopyUrl}
+              onClick={handleShareClick}
             >
               Compartir
             </Button>
