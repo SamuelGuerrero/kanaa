@@ -961,9 +961,10 @@ function ReservationDetail({
                       className="text-green-darker"
                     >
                       $
-                      {new Intl.NumberFormat("es-MX").format(
-                        priceDetails.totalPrice,
-                      )}{" "}
+                      {new Intl.NumberFormat("es-MX", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }).format(priceDetails.totalPrice)}{" "}
                       MXN
                     </Text>
                   </div>

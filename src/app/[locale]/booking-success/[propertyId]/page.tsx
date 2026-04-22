@@ -39,7 +39,10 @@ const formatDate = (date: Date | null | undefined) => {
 };
 
 const formatPrice = (amount: number) =>
-  `$${new Intl.NumberFormat("es-MX").format(amount)} MXN`;
+  `$${new Intl.NumberFormat("es-MX", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount)} MXN`;
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
@@ -113,9 +116,7 @@ function BookingSuccessInner() {
       };
 
       if (!response.ok || !data.success) {
-        setCancelError(
-          data.error ?? "Error al cancelar la reservación",
-        );
+        setCancelError(data.error ?? "Error al cancelar la reservación");
         return;
       }
 
@@ -170,13 +171,9 @@ function BookingSuccessInner() {
             as="h1"
             size="4xl"
             weight="medium"
-            className={
-              isCancelled ? "text-red-600" : "text-green-normal"
-            }
+            className={isCancelled ? "text-red-600" : "text-green-normal"}
           >
-            {isCancelled
-              ? "Reserva cancelada"
-              : "¡Reserva confirmada!"}
+            {isCancelled ? "Reserva cancelada" : "¡Reserva confirmada!"}
           </Text>
 
           <div className="flex items-center gap-2">
@@ -193,15 +190,9 @@ function BookingSuccessInner() {
             </Text>
           </div>
 
-          <Text
-            font="gilroy"
-            size="lg"
-            className="text-green-normal"
-          >
+          <Text font="gilroy" size="lg" className="text-green-normal">
             Hemos enviado los detalles de tu reserva a{" "}
-            <span className="font-bold">
-              {guestData.email || "tu correo"}
-            </span>
+            <span className="font-bold">{guestData.email || "tu correo"}</span>
           </Text>
         </div>
 
@@ -453,26 +444,50 @@ function BookingSuccessInner() {
                   {bookingData.priceBreakdown.components
                     .filter((c) => c.isIncludedInTotalPrice === 1)
                     .map((component, idx) => (
-                      <div key={idx} className="flex items-center justify-between">
-                        <Text font="gilroy" size="sm" className="text-grey-darker">
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between"
+                      >
+                        <Text
+                          font="gilroy"
+                          size="sm"
+                          className="text-grey-darker"
+                        >
                           {translateTitle(component.title)}
                         </Text>
                         <Text
                           font="gilroy"
                           size="sm"
-                          className={component.total < 0 ? "text-green-600" : "text-grey-darker"}
+                          className={
+                            component.total < 0
+                              ? "text-green-600"
+                              : "text-grey-darker"
+                          }
                         >
                           {component.total < 0 ? "-" : ""}$
-                          {new Intl.NumberFormat("es-MX").format(Math.abs(component.total))} MXN
+                          {new Intl.NumberFormat("es-MX").format(
+                            Math.abs(component.total),
+                          )}{" "}
+                          MXN
                         </Text>
                       </div>
                     ))}
                   <div className="border-grey-normal my-1 border-t" />
                   <div className="flex items-center justify-between">
-                    <Text font="gilroy" size="sm" weight="bold" className="text-green-darker">
+                    <Text
+                      font="gilroy"
+                      size="sm"
+                      weight="bold"
+                      className="text-green-darker"
+                    >
                       Total
                     </Text>
-                    <Text font="gilroy" size="sm" weight="bold" className="text-green-darker">
+                    <Text
+                      font="gilroy"
+                      size="sm"
+                      weight="bold"
+                      className="text-green-darker"
+                    >
                       {formatPrice(bookingData.priceBreakdown.totalPrice)}
                     </Text>
                   </div>
@@ -482,7 +497,12 @@ function BookingSuccessInner() {
                   <Text font="gilroy" size="sm" className="text-grey-darker">
                     Total
                   </Text>
-                  <Text font="gilroy" size="sm" weight="bold" className="text-green-darker">
+                  <Text
+                    font="gilroy"
+                    size="sm"
+                    weight="bold"
+                    className="text-green-darker"
+                  >
                     {bookingData ? formatPrice(bookingData.totalPrice) : "—"}
                   </Text>
                 </div>

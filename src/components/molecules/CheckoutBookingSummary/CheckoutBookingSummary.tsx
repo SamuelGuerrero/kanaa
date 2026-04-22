@@ -53,7 +53,9 @@ const normalizeComponentTitle = (title: string) =>
 
 const translateComponentTitle = (title: string, locale: string) => {
   if (locale !== "es") return title;
-  return COMPONENT_TITLE_TRANSLATIONS_ES[normalizeComponentTitle(title)] ?? title;
+  return (
+    COMPONENT_TITLE_TRANSLATIONS_ES[normalizeComponentTitle(title)] ?? title
+  );
 };
 
 function ModifyButton({ onClick }: { onClick?: () => void }) {
@@ -261,15 +263,8 @@ export const CheckoutBookingSummary = ({
               {priceBreakdown.components
                 .filter((c) => c.isIncludedInTotalPrice === 1)
                 .map((component, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-between"
-                  >
-                    <Text
-                      font="gilroy"
-                      size="sm"
-                      className="text-grey-darker"
-                    >
+                  <div key={idx} className="flex items-center justify-between">
+                    <Text font="gilroy" size="sm" className="text-grey-darker">
                       {translateComponentTitle(component.title, locale)}
                     </Text>
                     <Text
@@ -305,7 +300,12 @@ export const CheckoutBookingSummary = ({
                   weight="bold"
                   className="text-green-darker"
                 >
-                  ${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN
+                  $
+                  {new Intl.NumberFormat("es-MX", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }).format(totalPrice)}{" "}
+                  MXN
                 </Text>
               </div>
             </div>
