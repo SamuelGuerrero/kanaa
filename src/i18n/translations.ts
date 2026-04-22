@@ -469,6 +469,8 @@ export const enTranslations: Record<string, string> = {
   "Reserva cancelada": "Reservation cancelled",
   "Reserva creada — pago pendiente": "Reservation created — payment pending",
   "¡Reserva confirmada!": "Reservation confirmed!",
+  Reserva: "Reservation",
+  Noches: "Nights",
   "Número de la reserva:": "Reservation number:",
   "Tu reserva fue creada pero el cobro está pendiente de confirmación. Te notificaremos cuando se procese el pago.":
     "Your reservation was created but the charge is pending confirmation. We will notify you when the payment is processed.",
@@ -510,6 +512,12 @@ export const enTranslations: Record<string, string> = {
   Alianzas: "Partnerships",
   Soporte: "Support",
   "Selecciona un estado": "Select a state",
+  "Tarifa base": "Base rate",
+  "Cargo de limpieza": "Cleaning fee",
+  "Impuesto de hospedaje": "Lodging tax",
+  "Impuesto sobre ventas": "Sales tax",
+  "Estado de pago": "Payment status",
+  " Política de cancelación — 100% reembolsable hasta 14 días antes de la llegada — 50% reembolsable hasta 7 días antes de la llegada": "Cancellation policy — 100% refundable up to 14 days before arrival — 50% refundable up to 7 days before arrival",
 };
 
 const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
