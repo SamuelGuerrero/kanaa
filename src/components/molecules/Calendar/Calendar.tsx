@@ -113,6 +113,22 @@ export const Calendar = ({
     return next;
   }, [currentMonth]);
 
+  const toMidnight = (d: Date) =>
+    new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+  // When start is selected but end isn't, find the first occupied date after
+  // start and block it AND everything after (Airbnb-style).
+  const checkoutCutoff = useMemo(() => {
+    if (!dateRange.startDate || dateRange.endDate) return null;
+    const start = toMidnight(dateRange.startDate);
+    return (
+      occupiedDates
+        .map(toMidnight)
+        .filter((d) => d > start)
+        .sort((a, b) => a.getTime() - b.getTime())[0] ?? null
+    );
+  }, [dateRange.startDate, dateRange.endDate, occupiedDates]);
+
   const renderMonth = (monthDate: Date) => {
     const year = monthDate.getFullYear();
     const month = monthDate.getMonth();
@@ -148,7 +164,11 @@ export const Calendar = ({
             }
 
             const date = new Date(year, month, day);
-            const isDisabled = isDateBeforeToday(date);
+            const normalizedDate = toMidnight(date);
+            const isDisabled =
+              isDateBeforeToday(date) ||
+              (checkoutCutoff != null &&
+                normalizedDate >= checkoutCutoff);
             const isOccupied = isDateOccupied(date, occupiedDates);
             const isStart =
               dateRange.startDate && isSameDay(date, dateRange.startDate);
@@ -186,7 +206,9 @@ export const Calendar = ({
                   className={`relative z-10 flex h-10 w-10 items-center justify-center text-sm font-medium transition-all duration-200 ease-out ${
                     isDisabled || isOccupied
                       ? "cursor-not-allowed text-gray-300"
-                      : "cursor-pointer hover:scale-105 hover:border hover:border-gray-900"
+                      : isInRange
+                        ? "cursor-pointer hover:scale-105"
+                        : "cursor-pointer hover:scale-105 hover:border hover:border-gray-900"
                   } ${
                     isStart || isEnd
                       ? "rounded-full bg-gray-900 text-white hover:bg-gray-900"

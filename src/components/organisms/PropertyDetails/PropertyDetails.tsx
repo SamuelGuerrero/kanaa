@@ -102,9 +102,13 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
       : locale === "en"
         ? "Select check-in and check-out dates"
         : "Selecciona fecha de llegada y salida";
+  const toDay = (d: Date) =>
+    new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
   const handleInlineCalendarDateClick = (date: Date) => {
+    const clickedDay = toDay(date);
     const isOccupied = occupiedDates.some(
-      (occupiedDate) => occupiedDate.toDateString() === date.toDateString(),
+      (d) => toDay(d).getTime() === clickedDay.getTime(),
     );
     if (isOccupied) return;
 
@@ -113,10 +117,17 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
       return;
     }
 
-    if (date <= dateRange.startDate) {
+    if (clickedDay <= toDay(dateRange.startDate)) {
       setDateRange({ startDate: date, endDate: null });
       return;
     }
+
+    const startDay = toDay(dateRange.startDate);
+    const hasOccupiedInRange = occupiedDates.some((d) => {
+      const day = toDay(d);
+      return day > startDay && day < clickedDay;
+    });
+    if (hasOccupiedInRange) return;
 
     setDateRange({ startDate: dateRange.startDate, endDate: date });
   };
@@ -236,9 +247,7 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
                   ? property.listingAmenities
                   : property.listingAmenities.slice(
                       0,
-                      showAllAmenities
-                        ? property.listingAmenities.length
-                        : 8,
+                      showAllAmenities ? property.listingAmenities.length : 8,
                     )
                 ).map((amenity) => (
                   <div className="flex items-center gap-2" key={amenity.id}>
@@ -325,9 +334,6 @@ export const PropertyDetails = ({ property }: PropertyDetailsProps) => {
               sharedDateRange={dateRange}
               onSharedDateRangeChange={setDateRange}
             />
-            <Text size="xs" className="mt-2 text-center" weight="semibold">
-              Los precios pueden variar según la fecha y disponibilidad.
-            </Text>
           </section>
         </div>
       </section>
