@@ -345,17 +345,18 @@ export const Navbar = () => {
             );
           })}
 
-          <Button
-            variant="primary"
-            disabled
-            icon={
-              <CircleButton>
-                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-              </CircleButton>
-            }
-          >
-            Reserva ahora
-          </Button>
+          <Link href={`/${locale}/properties`}>
+            <Button
+              variant="primary"
+              icon={
+                <CircleButton>
+                  <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+                </CircleButton>
+              }
+            >
+              {t("Reserva ahora")}
+            </Button>
+          </Link>
         </div>
 
         <button
@@ -472,7 +473,7 @@ export const Navbar = () => {
             );
           })}
 
-          <div onClick={() => setIsMobileMenuOpen(false)}>
+          <Link href={`/${locale}/properties`} onClick={() => setIsMobileMenuOpen(false)}>
             <Button
               variant="primary"
               className="mt-2 w-full justify-center"
@@ -482,9 +483,9 @@ export const Navbar = () => {
                 </CircleButton>
               }
             >
-              Reserva ahora
+              {t("Reserva ahora")}
             </Button>
-          </div>
+          </Link>
         </div>
       </nav>
     </>
