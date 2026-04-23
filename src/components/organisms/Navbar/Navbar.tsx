@@ -473,7 +473,10 @@ export const Navbar = () => {
             );
           })}
 
-          <Link href={`/${locale}/properties`} onClick={() => setIsMobileMenuOpen(false)}>
+          <Link
+            href={`/${locale}/properties`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             <Button
               variant="primary"
               className="mt-2 w-full justify-center"

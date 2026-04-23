@@ -167,8 +167,7 @@ export const Calendar = ({
             const normalizedDate = toMidnight(date);
             const isDisabled =
               isDateBeforeToday(date) ||
-              (checkoutCutoff != null &&
-                normalizedDate >= checkoutCutoff);
+              (checkoutCutoff != null && normalizedDate >= checkoutCutoff);
             const isOccupied = isDateOccupied(date, occupiedDates);
             const isStart =
               dateRange.startDate && isSameDay(date, dateRange.startDate);

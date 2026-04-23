@@ -57,8 +57,12 @@ const buildTemplate = (p: Payload) => {
   const { billing, guest, reservation } = p;
   const guestCount =
     `${reservation.guests.adults} adulto${reservation.guests.adults !== 1 ? "s" : ""}` +
-    (reservation.guests.children > 0 ? `, ${reservation.guests.children} niño${reservation.guests.children !== 1 ? "s" : ""}` : "") +
-    (reservation.guests.infants > 0 ? `, ${reservation.guests.infants} bebé${reservation.guests.infants !== 1 ? "s" : ""}` : "");
+    (reservation.guests.children > 0
+      ? `, ${reservation.guests.children} niño${reservation.guests.children !== 1 ? "s" : ""}`
+      : "") +
+    (reservation.guests.infants > 0
+      ? `, ${reservation.guests.infants} bebé${reservation.guests.infants !== 1 ? "s" : ""}`
+      : "");
 
   const totalFormatted = new Intl.NumberFormat("es-MX", {
     style: "currency",
@@ -156,7 +160,11 @@ export async function POST(req: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { ok: false, error: "Datos inválidos", fieldErrors: parsed.error.flatten().fieldErrors },
+        {
+          ok: false,
+          error: "Datos inválidos",
+          fieldErrors: parsed.error.flatten().fieldErrors,
+        },
         { status: 400 },
       );
     }

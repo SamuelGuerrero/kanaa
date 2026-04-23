@@ -16,7 +16,12 @@ export function useNightlyPrice(listingId: string, fallback: number) {
     return d;
   }, []);
 
-  const { priceDetails, isLoading } = usePriceDetails(listingId, today, tomorrow, 1);
+  const { priceDetails, isLoading } = usePriceDetails(
+    listingId,
+    today,
+    tomorrow,
+    1,
+  );
 
   return {
     price: priceDetails?.totalPrice ?? fallback,

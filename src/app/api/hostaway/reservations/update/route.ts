@@ -112,14 +112,17 @@ export async function POST(request: Request) {
 
   let response: Response;
   try {
-    response = await fetch(`${HOSTAWAY_API_URL}/reservations/${reservationId}`, {
-      method: "PUT",
-      headers: {
-        Authorization: authorization,
-        "Content-Type": "application/json",
+    response = await fetch(
+      `${HOSTAWAY_API_URL}/reservations/${reservationId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: authorization,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       },
-      body: JSON.stringify(payload),
-    });
+    );
   } catch (error) {
     console.error("Error de red al actualizar reservación:", error);
     return NextResponse.json(

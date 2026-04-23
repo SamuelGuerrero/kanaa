@@ -190,18 +190,42 @@ export async function seed(payload: Payload): Promise<void> {
   const guideCardData = [
     {
       order: 1,
-      es: { name: "Los mejores planes de fin de semana en Mérida", category: "Para viajeros", date: "20 de agosto, 2025" },
-      en: { name: "Best weekend plans in Merida", category: "For travelers", date: "August 20, 2025" },
+      es: {
+        name: "Los mejores planes de fin de semana en Mérida",
+        category: "Para viajeros",
+        date: "20 de agosto, 2025",
+      },
+      en: {
+        name: "Best weekend plans in Merida",
+        category: "For travelers",
+        date: "August 20, 2025",
+      },
     },
     {
       order: 2,
-      es: { name: "Errores comunes que los propietarios deben evitar", category: "Para propietarios", date: "20 de agosto, 2025" },
-      en: { name: "Common mistakes owners should avoid", category: "For owners", date: "August 20, 2025" },
+      es: {
+        name: "Errores comunes que los propietarios deben evitar",
+        category: "Para propietarios",
+        date: "20 de agosto, 2025",
+      },
+      en: {
+        name: "Common mistakes owners should avoid",
+        category: "For owners",
+        date: "August 20, 2025",
+      },
     },
     {
       order: 3,
-      es: { name: "Tips para viajar con familia o mascotas", category: "Lifestyle", date: "20 de agosto, 2025" },
-      en: { name: "Tips for traveling with family or pets", category: "Lifestyle", date: "August 20, 2025" },
+      es: {
+        name: "Tips para viajar con familia o mascotas",
+        category: "Lifestyle",
+        date: "20 de agosto, 2025",
+      },
+      en: {
+        name: "Tips for traveling with family or pets",
+        category: "Lifestyle",
+        date: "August 20, 2025",
+      },
     },
   ];
 

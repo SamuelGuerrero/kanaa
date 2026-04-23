@@ -49,7 +49,10 @@ export const PropertyCard = ({
     return value === "Ciudad de México" ? "CDMX" : value;
   };
 
-  const { price: displayPrice, isLoading: isPriceLoading } = useNightlyPrice(listingId ?? "", price);
+  const { price: displayPrice, isLoading: isPriceLoading } = useNightlyPrice(
+    listingId ?? "",
+    price,
+  );
 
   const textRef = useRef<HTMLSpanElement>(null);
 
@@ -134,7 +137,7 @@ export const PropertyCard = ({
         </div>
 
         {isPriceLoading ? (
-          <div className="-mt-2 h-6 w-28 animate-pulse rounded bg-gold-light-active" />
+          <div className="bg-gold-light-active -mt-2 h-6 w-28 animate-pulse rounded" />
         ) : (
           <PriceDisplay
             className="-mt-2"

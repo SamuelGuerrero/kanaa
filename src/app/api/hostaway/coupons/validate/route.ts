@@ -18,7 +18,12 @@ interface HostawayCoupon {
   amount: number;
   isActive: number;
   isExpired: number;
-  lengthOfStayCondition: "moreThanOrEqualTo" | "lessThanOrEqualTo" | "exactly" | "between" | null;
+  lengthOfStayCondition:
+    | "moreThanOrEqualTo"
+    | "lessThanOrEqualTo"
+    | "exactly"
+    | "between"
+    | null;
   lengthOfStayValue: number | null;
   lengthOfStayMaxValue: number | null;
   checkInDateStart: string | null;
@@ -61,11 +66,17 @@ const validateCouponConditions = (
     return "Este cupón ha expirado o no está activo.";
   }
 
-  if (coupon.numberOfUsesInitial > 0 && coupon.numberOfUsesUsed >= coupon.numberOfUsesInitial) {
+  if (
+    coupon.numberOfUsesInitial > 0 &&
+    coupon.numberOfUsesUsed >= coupon.numberOfUsesInitial
+  ) {
     return "Este cupón ha alcanzado su límite de usos.";
   }
 
-  if (coupon.listingMapIds?.length && !coupon.listingMapIds.includes(listingMapId)) {
+  if (
+    coupon.listingMapIds?.length &&
+    !coupon.listingMapIds.includes(listingMapId)
+  ) {
     return "Este cupón no aplica para esta propiedad.";
   }
 
@@ -99,7 +110,11 @@ const validateCouponConditions = (
     if (coupon.lengthOfStayCondition === "exactly" && nights !== min) {
       return `Este cupón aplica solo para estancias de exactamente ${min} ${min === 1 ? "noche" : "noches"}.`;
     }
-    if (coupon.lengthOfStayCondition === "between" && max != null && (nights < min || nights > max)) {
+    if (
+      coupon.lengthOfStayCondition === "between" &&
+      max != null &&
+      (nights < min || nights > max)
+    ) {
       return `Este cupón aplica solo para estancias de entre ${min} y ${max} noches.`;
     }
   }
@@ -114,7 +129,10 @@ export async function POST(request: NextRequest) {
 
     if (!couponName || !listingMapId || !startingDate || !endingDate) {
       return NextResponse.json(
-        { error: "couponName, listingMapId, startingDate y endingDate son requeridos" },
+        {
+          error:
+            "couponName, listingMapId, startingDate y endingDate son requeridos",
+        },
         { status: 400 },
       );
     }
@@ -124,46 +142,75 @@ export async function POST(request: NextRequest) {
     // Fetch coupon details first to validate conditions locally
     const couponInfoRes = await fetch(
       `${HOSTAWAY_API_URL}/coupons?name=${encodeURIComponent(couponName)}&limit=1`,
-      { headers: { Authorization: authorization, "Cache-Control": "no-cache" } },
+      {
+        headers: { Authorization: authorization, "Cache-Control": "no-cache" },
+      },
     );
 
     if (!couponInfoRes.ok) {
       return NextResponse.json(
-        { success: false, error: "El código de cupón no existe o no es válido." },
+        {
+          success: false,
+          error: "El código de cupón no existe o no es válido.",
+        },
         { status: 400 },
       );
     }
 
-    const couponInfo = (await couponInfoRes.json()) as HostawayCouponListResponse;
+    const couponInfo =
+      (await couponInfoRes.json()) as HostawayCouponListResponse;
     const coupon = couponInfo.result?.[0];
 
     if (!coupon) {
       return NextResponse.json(
-        { success: false, error: "El código de cupón no existe o no es válido." },
+        {
+          success: false,
+          error: "El código de cupón no existe o no es válido.",
+        },
         { status: 400 },
       );
     }
 
-    const conditionError = validateCouponConditions(coupon, listingMapId, startingDate, endingDate);
+    const conditionError = validateCouponConditions(
+      coupon,
+      listingMapId,
+      startingDate,
+      endingDate,
+    );
     if (conditionError) {
-      return NextResponse.json({ success: false, error: conditionError }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: conditionError },
+        { status: 400 },
+      );
     }
 
     // Conditions pass — create the reservation coupon
-    const reservationCouponRes = await fetch(`${HOSTAWAY_API_URL}/reservationCoupons`, {
-      method: "POST",
-      headers: {
-        Authorization: authorization,
-        "Content-Type": "application/json",
-        "Cache-Control": "no-cache",
+    const reservationCouponRes = await fetch(
+      `${HOSTAWAY_API_URL}/reservationCoupons`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: authorization,
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
+        },
+        body: JSON.stringify({
+          couponName,
+          listingMapId,
+          startingDate,
+          endingDate,
+        }),
       },
-      body: JSON.stringify({ couponName, listingMapId, startingDate, endingDate }),
-    });
+    );
 
     const reservationData =
       (await reservationCouponRes.json()) as HostawayReservationCouponResponse;
 
-    if (!reservationCouponRes.ok || reservationData.status !== "success" || !reservationData.result) {
+    if (
+      !reservationCouponRes.ok ||
+      reservationData.status !== "success" ||
+      !reservationData.result
+    ) {
       return NextResponse.json(
         { success: false, error: "Cupón no valido. Intenta de nuevo." },
         { status: 400 },
@@ -173,7 +220,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       reservationCouponId: reservationData.result.reservationCouponId,
-      ...(coupon.type === "percentage" && coupon.amount > 0 && { discountPercent: coupon.amount }),
+      ...(coupon.type === "percentage" &&
+        coupon.amount > 0 && { discountPercent: coupon.amount }),
     });
   } catch (error) {
     console.error("Error validando cupón:", error);

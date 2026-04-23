@@ -18,7 +18,14 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as CreatePaymentIntentBody;
 
-    const { amount, currency, listingId, arrivalDate, departureDate, numberOfGuests } = body;
+    const {
+      amount,
+      currency,
+      listingId,
+      arrivalDate,
+      departureDate,
+      numberOfGuests,
+    } = body;
 
     if (!amount || !listingId || !arrivalDate || !departureDate) {
       return NextResponse.json(

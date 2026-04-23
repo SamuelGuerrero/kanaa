@@ -39,13 +39,13 @@ export const PropertyDetailsPage = ({
         <PropertyLocationSection
           title="Dónde te vas a quedar"
           subtitle={[
-              property.publicAddress || property.street,
-              property.city,
-              property.state,
-              property.country,
-            ]
-              .filter(Boolean)
-              .join(", ")}
+            property.publicAddress || property.street,
+            property.city,
+            property.state,
+            property.country,
+          ]
+            .filter(Boolean)
+            .join(", ")}
           mapTitle={
             locale === "en"
               ? `Map of ${property.name}`

@@ -202,18 +202,20 @@ export const vacationRentalSchema = ({
 
   // Amenity details
   if (bedrooms != null) schema.numberOfRooms = bedrooms;
-  if (bathrooms != null) schema.amenityFeature = [
-    {
-      "@type": "LocationFeatureSpecification",
-      name: "Bathrooms",
-      value: bathrooms,
-    },
-  ];
-  if (maxGuests != null) schema.occupancy = {
-    "@type": "QuantitativeValue",
-    minValue: 1,
-    maxValue: maxGuests,
-  };
+  if (bathrooms != null)
+    schema.amenityFeature = [
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Bathrooms",
+        value: bathrooms,
+      },
+    ];
+  if (maxGuests != null)
+    schema.occupancy = {
+      "@type": "QuantitativeValue",
+      minValue: 1,
+      maxValue: maxGuests,
+    };
 
   // Price
   if (pricePerNight != null) {

@@ -4,7 +4,7 @@ export const useItemsPerPage = (
   mobileItems: number,
   tabletVerticalItems: number,
   tabletHorizontalItems: number,
-  desktopItems: number
+  desktopItems: number,
 ) => {
   const [itemsPerPage, setItemsPerPage] = useState(desktopItems);
 

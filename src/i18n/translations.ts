@@ -129,7 +129,8 @@ export const enTranslations: Record<string, string> = {
   "Gestión de propiedades inteligente": "Smart property management",
   "Maximiza el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. <br /> <br /> Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo.":
     "Maximize the potential of your properties through a professional, transparent, and data-driven management model. <br /> <br /> From rental strategy to daily operations, we take care of everything.",
-  "Limpieza y mantenimiento profesional": "Professional cleaning and maintenance",
+  "Limpieza y mantenimiento profesional":
+    "Professional cleaning and maintenance",
   "Gestión profesional de propiedades": "Professional property management",
   "Optimización de ocupación": "Occupancy optimization",
   "Experiencia excepcional para huéspedes": "Exceptional guest experience",
@@ -522,10 +523,12 @@ export const enTranslations: Record<string, string> = {
   "Buscar otra reserva": "Search another reservation",
   "Fecha de salida": "Check-out date",
   "Fecha de llegada": "Check-in date",
-  "Pagado": "Paid",
-  "Pendiente": "Pending",
-  "Política de cancelación — 100% reembolsable hasta 14 días antes de la llegada — 50% reembolsable hasta 7 días antes de la llegada": "Cancellation policy — 100% refundable up to 14 days before arrival — 50% refundable up to 7 days before arrival",
-  "Ingresa tu número de reserva y correo electrónico para consultar el estado de tu reservación": "Enter your reservation number and email to check your reservation status",
+  Pagado: "Paid",
+  Pendiente: "Pending",
+  "Política de cancelación — 100% reembolsable hasta 14 días antes de la llegada — 50% reembolsable hasta 7 días antes de la llegada":
+    "Cancellation policy — 100% refundable up to 14 days before arrival — 50% refundable up to 7 days before arrival",
+  "Ingresa tu número de reserva y correo electrónico para consultar el estado de tu reservación":
+    "Enter your reservation number and email to check your reservation status",
   "Número de reservación": "Reservation number",
   "Buscar reservación": "Search reservation",
 };

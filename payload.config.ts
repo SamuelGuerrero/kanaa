@@ -54,8 +54,7 @@ export default buildConfig({
   sharp,
 
   secret:
-    process.env.PAYLOAD_SECRET ??
-    "dev-secret-change-me-in-production-please",
+    process.env.PAYLOAD_SECRET ?? "dev-secret-change-me-in-production-please",
 
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

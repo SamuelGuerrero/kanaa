@@ -54,7 +54,8 @@ export const GuideAndTips = ({
         name: c.name,
         category: c.category,
         date: c.date,
-        image: c.imageUrl ?? STATIC_IMAGES[i % STATIC_IMAGES.length] ?? GuideAndTip1,
+        image:
+          c.imageUrl ?? STATIC_IMAGES[i % STATIC_IMAGES.length] ?? GuideAndTip1,
       }))
     : DEFAULT_CARDS;
 

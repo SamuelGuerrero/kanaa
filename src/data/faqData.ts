@@ -10,8 +10,7 @@ export const DataPropertyManagment: FAQItem[] = [
       "Nuestro servicio incluye administración integral del inmueble: publicación y optimización del anuncio, gestión de reservas, atención a huéspedes, limpieza profesional, mantenimiento preventivo y reportes periódicos de ingresos.",
   },
   {
-    question:
-      "¿Puedo usar el servicio aunque no viva en la misma ciudad?",
+    question: "¿Puedo usar el servicio aunque no viva en la misma ciudad?",
     answer:
       "Sí. Nos encargamos de todo de forma remota para que no tengas que estar presente. Tú puedes monitorear el desempeño de tu propiedad desde cualquier lugar.",
   },

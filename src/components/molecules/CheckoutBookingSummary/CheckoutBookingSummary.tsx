@@ -60,7 +60,13 @@ const translateComponentTitle = (title: string, locale: string) => {
   );
 };
 
-function ModifyButton({ onClick, locale }: { onClick?: () => void; locale: string }) {
+function ModifyButton({
+  onClick,
+  locale,
+}: {
+  onClick?: () => void;
+  locale: string;
+}) {
   return (
     <button
       type="button"

@@ -19,7 +19,8 @@ const i18n = {
     paymentConfirmation: "Confirmación de pago",
     bookingConfirmed: "Reserva Confirmada",
     greeting: (name: string) => `Estimado/a <strong>${name}</strong>,`,
-    greetingBody: "Su pago fue procesado exitosamente. Le recomendamos conservar este correo como comprobante oficial de su reservación.",
+    greetingBody:
+      "Su pago fue procesado exitosamente. Le recomendamos conservar este correo como comprobante oficial de su reservación.",
     paymentSummary: "Resumen de pago",
     reservationNumber: "Número de reserva",
     status: "Estado",
@@ -30,7 +31,8 @@ const i18n = {
     guests: "Huéspedes",
     total: "Total",
     ctaTitle: "Gestión de su reserva",
-    ctaBody: "Para cancelaciones o modificaciones, acceda al panel de seguimiento con su número de reserva y correo electrónico.",
+    ctaBody:
+      "Para cancelaciones o modificaciones, acceda al panel de seguimiento con su número de reserva y correo electrónico.",
     ctaButton: "Ver mi reserva",
     note: "Este correo electrónico confirma que su pago fue procesado correctamente y puede utilizarse como comprobante oficial ante cualquier solicitud relacionada con su reservación.",
     rights: (year: number) => `© ${year} Kanaa. Todos los derechos reservados.`,
@@ -42,7 +44,8 @@ const i18n = {
     paymentConfirmation: "Payment confirmation",
     bookingConfirmed: "Booking Confirmed",
     greeting: (name: string) => `Dear <strong>${name}</strong>,`,
-    greetingBody: "Your payment has been successfully processed. We recommend keeping this email as the official proof of your reservation.",
+    greetingBody:
+      "Your payment has been successfully processed. We recommend keeping this email as the official proof of your reservation.",
     paymentSummary: "Payment summary",
     reservationNumber: "Reservation number",
     status: "Status",
@@ -53,7 +56,8 @@ const i18n = {
     guests: "Guests",
     total: "Total",
     ctaTitle: "Manage your reservation",
-    ctaBody: "For cancellations or modifications, access the tracking panel with your reservation number and email address.",
+    ctaBody:
+      "For cancellations or modifications, access the tracking panel with your reservation number and email address.",
     ctaButton: "View my booking",
     note: "This email confirms that your payment was processed correctly and can be used as official proof for any request related to your reservation.",
     rights: (year: number) => `© ${year} Kanaa. All rights reserved.`,

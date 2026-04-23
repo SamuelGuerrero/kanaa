@@ -145,7 +145,9 @@ export const InfoSection = ({
   const imageContent = (
     <div className="order-2 flex w-full items-center justify-center xl:order-0">
       {imagesConfig?.length ? (
-        <div className={`relative mx-auto mr-11 -mb-10 aspect-655/680 w-full max-w-163.75 xl:mr-15 xl:mb-0 ${imagesContainerClassName ?? ""}`}>
+        <div
+          className={`relative mx-auto mr-11 -mb-10 aspect-655/680 w-full max-w-163.75 xl:mr-15 xl:mb-0 ${imagesContainerClassName ?? ""}`}
+        >
           {imagesConfig.map((img, index) => (
             <Image
               key={index}

@@ -5,7 +5,8 @@ export const HomePageContent: GlobalConfig = {
   label: "Contenido del Home",
   admin: {
     group: "Home",
-    description: "Administra todos los textos y contenidos de la página de inicio",
+    description:
+      "Administra todos los textos y contenidos de la página de inicio",
   },
   fields: [
     {

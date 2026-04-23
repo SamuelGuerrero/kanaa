@@ -57,7 +57,8 @@ const config = {
           // Restrict permissions for browser features
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(self), payment=(self)",
+            value:
+              "camera=(), microphone=(), geolocation=(self), payment=(self)",
           },
           // Enforce HTTPS (only sent on HTTPS connections)
           {
@@ -88,7 +89,8 @@ const config = {
       },
       {
         // Medium cache for public images (og-image, icons, svgs)
-        source: "/(favicon.ico|og-image.png|apple-touch-icon.png|icon.png|.*\\.svg)",
+        source:
+          "/(favicon.ico|og-image.png|apple-touch-icon.png|icon.png|.*\\.svg)",
         headers: [
           {
             key: "Cache-Control",

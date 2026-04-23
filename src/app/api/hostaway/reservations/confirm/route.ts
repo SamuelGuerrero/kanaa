@@ -144,7 +144,10 @@ export async function POST(request: Request) {
               amount: totalPrice,
               paymentMethod: "credit_card",
               status: "paid",
-              scheduledDate: new Date().toISOString().slice(0, 19).replace("T", " "),
+              scheduledDate: new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace("T", " "),
             }),
           },
         );
@@ -167,15 +170,25 @@ export async function POST(request: Request) {
         const guestParts: string[] = [];
         if (locale === "en") {
           guestParts.push(`${adults} ${adults === 1 ? "Adult" : "Adults"}`);
-          if ((children ?? 0) > 0) guestParts.push(`${children} ${children === 1 ? "Child" : "Children"}`);
-          if ((infants ?? 0) > 0) guestParts.push(`${infants} ${infants === 1 ? "Infant" : "Infants"}`);
+          if ((children ?? 0) > 0)
+            guestParts.push(
+              `${children} ${children === 1 ? "Child" : "Children"}`,
+            );
+          if ((infants ?? 0) > 0)
+            guestParts.push(
+              `${infants} ${infants === 1 ? "Infant" : "Infants"}`,
+            );
         } else {
           guestParts.push(`${adults} ${adults === 1 ? "Adulto" : "Adultos"}`);
-          if ((children ?? 0) > 0) guestParts.push(`${children} ${children === 1 ? "Niño" : "Niños"}`);
-          if ((infants ?? 0) > 0) guestParts.push(`${infants} ${infants === 1 ? "Bebé" : "Bebés"}`);
+          if ((children ?? 0) > 0)
+            guestParts.push(`${children} ${children === 1 ? "Niño" : "Niños"}`);
+          if ((infants ?? 0) > 0)
+            guestParts.push(`${infants} ${infants === 1 ? "Bebé" : "Bebés"}`);
         }
         const guestsLabel = guestParts.join(", ");
-        const formattedAmount = new Intl.NumberFormat("es-MX").format(totalPrice);
+        const formattedAmount = new Intl.NumberFormat("es-MX").format(
+          totalPrice,
+        );
 
         const html = buildReservationConfirmationHtml({
           guestName: `${guestFirstName} ${guestLastName}`.trim(),
@@ -200,7 +213,8 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             from: env.RESEND_FROM_EMAIL,
             to: [guestEmail],
-            subject: locale === "en"
+            subject:
+              locale === "en"
                 ? `Kanaa | Booking Confirmation #${reservationId}`
                 : `Kanaa | Confirmación de reserva #${reservationId}`,
             html,

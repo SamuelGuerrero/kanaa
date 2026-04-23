@@ -47,9 +47,9 @@ export default async function HomePage({ params }: GestionPageProps) {
     <>
       <StructuredData data={propertyManagementServiceSchema()} />
       <StructuredData data={faqPageSchema(DataPropertyManagment)} />
-    <main className="flex flex-col space-y-1.5 md:space-y-6">
-      <BecomeHost />
-      {/* <InfoSection
+      <main className="flex flex-col space-y-1.5 md:space-y-6">
+        <BecomeHost />
+        {/* <InfoSection
         title="Pensado para quienes buscan tranquilidad y resultados"
         description="Ideal para propietarios que buscan maximizar ingresos sin encargarse de la gestión diaria de tu propiedad."
         image={PeaceAndResults}
@@ -66,74 +66,77 @@ export default async function HomePage({ params }: GestionPageProps) {
           href: `/${locale}/contact`,
         }}
       /> */}
-      <InfoSection
-        title="Gestión de propiedades inteligente"
-        description="Maximiza el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. <br /> <br />
+        <InfoSection
+          title="Gestión de propiedades inteligente"
+          description="Maximiza el potencial de sus inmuebles a través de un modelo de gestión profesional, transparente y respaldado por datos. <br /> <br />
         Desde la estrategia de renta hasta la operación diaria, nos ocupamos de todo."
-        imagePosition="left"
-        className="pb-36 md:pb-10"
-        descriptionClassName="text-grey-darker xl:max-w-[520px] mb-10"
-        textClassName="mt-15 mx-2 mr-6 text-green-normal"
-        featuresIcon="bg-green-normal w-[50px] h-[50px]"
-        featuresTextClassName="text-grey-darker"
-        imagesContainerClassName="md:mb-10"
-        features={[
-          { text: "Administración de listados", icon: <TrendingRoundIcon /> },
-          { text: "Gestión de reservas", icon: <NoteIcon /> },
-          { text: "Limpieza y mantenimiento profesional", icon: <CleanIcon /> },
-          {
-            text: "Optimización de ingresos",
-            icon: <NoteTimeIcon />,
-          },
-        ]}
-        imagesConfig={[
-          {
-            src: rentalManagement1,
-            alt: "Top",
-            className:
-              "absolute top-[29%] left-0 sm:-left-10 xl:left-0 w-[70%] object-contain z-20",
-          },
-          {
-            src: rentalManagement2,
-            alt: "Base",
-            className:
-              "absolute top-[0%] left-[30%] sm:left-[20%] xl:left-[37%] w-[75%] z-10",
-          },
-        ]}
-      />
-      <RealPropertyPotential
-        title="Descubre el verdadero valor de tu alquiler vacacional."
-        description="Completa el formulario a continuación para obtener una  estimación personalizada de tus ingresos anuales."
-        descriptionClassName="xl:max-w-125!"
-      />
+          imagePosition="left"
+          className="pb-36 md:pb-10"
+          descriptionClassName="text-grey-darker xl:max-w-[520px] mb-10"
+          textClassName="mt-15 mx-2 mr-6 text-green-normal"
+          featuresIcon="bg-green-normal w-[50px] h-[50px]"
+          featuresTextClassName="text-grey-darker"
+          imagesContainerClassName="md:mb-10"
+          features={[
+            { text: "Administración de listados", icon: <TrendingRoundIcon /> },
+            { text: "Gestión de reservas", icon: <NoteIcon /> },
+            {
+              text: "Limpieza y mantenimiento profesional",
+              icon: <CleanIcon />,
+            },
+            {
+              text: "Optimización de ingresos",
+              icon: <NoteTimeIcon />,
+            },
+          ]}
+          imagesConfig={[
+            {
+              src: rentalManagement1,
+              alt: "Top",
+              className:
+                "absolute top-[29%] left-0 sm:-left-10 xl:left-0 w-[70%] object-contain z-20",
+            },
+            {
+              src: rentalManagement2,
+              alt: "Base",
+              className:
+                "absolute top-[0%] left-[30%] sm:left-[20%] xl:left-[37%] w-[75%] z-10",
+            },
+          ]}
+        />
+        <RealPropertyPotential
+          title="Descubre el verdadero valor de tu alquiler vacacional."
+          description="Completa el formulario a continuación para obtener una  estimación personalizada de tus ingresos anuales."
+          descriptionClassName="xl:max-w-125!"
+        />
 
-      <KeyMetrics
-        className="justify-center! space-x-5"
-        metrics={METRICS}
-        bgColor="bg-grey-light"
-      />
+        <KeyMetrics
+          className="justify-center! space-x-5"
+          metrics={METRICS}
+          bgColor="bg-grey-light"
+        />
 
-      <BackedExperience />
-      <FrequentlyQuestions data={DataPropertyManagment} />
+        <BackedExperience />
+        <FrequentlyQuestions data={DataPropertyManagment} />
 
-      <InfoSection
-        title="Convierte tu propiedad  en un activo rentable"
-        description="Nos encargamos de la gestión completa de tu inmueble para que tú obtengas ingresos constantes sin preocuparte por la operación diaria."
-        image={RentProperty}
-        imageAlt="RentProperty"
-        imagePosition="left"
-        className="bg-green-dark-hover"
-        descriptionClassName="text-grey-light"
-        textClassName="mt-15 mx-2 mr-6 text-grey-light"
-        buttonProps={{
-          children: "Contáctanos",
-          className: "text-gold-dark!",
-          textWeight: "bold",
-          circleButtonClassName: "bg-grey-light!",
-          href: `/${locale}/contact`,
-        }}
-      />
-    </main>
+        <InfoSection
+          title="Convierte tu propiedad  en un activo rentable"
+          description="Nos encargamos de la gestión completa de tu inmueble para que tú obtengas ingresos constantes sin preocuparte por la operación diaria."
+          image={RentProperty}
+          imageAlt="RentProperty"
+          imagePosition="left"
+          className="bg-green-dark-hover"
+          descriptionClassName="text-grey-light"
+          textClassName="mt-15 mx-2 mr-6 text-grey-light"
+          buttonProps={{
+            children: "Contáctanos",
+            className: "text-gold-dark!",
+            textWeight: "bold",
+            circleButtonClassName: "bg-grey-light!",
+            href: `/${locale}/contact`,
+          }}
+        />
+      </main>
     </>
   );
 }

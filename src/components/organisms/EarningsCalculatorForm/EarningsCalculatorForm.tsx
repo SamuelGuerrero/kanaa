@@ -420,7 +420,9 @@ export const EarningsCalculatorForm = () => {
               </Text>
             )}
             {catalogError && (
-              <Text font="gilroy" size="xs" className="mt-1 text-red-200">{catalogError}</Text>
+              <Text font="gilroy" size="xs" className="mt-1 text-red-200">
+                {catalogError}
+              </Text>
             )}
           </div>
           <div className="col-span-1">
@@ -564,7 +566,11 @@ export const EarningsCalculatorForm = () => {
           </div>
 
           {predictionError && (
-            <Text font="gilroy" size="sm" className="col-span-2 mt-1 text-red-200">
+            <Text
+              font="gilroy"
+              size="sm"
+              className="col-span-2 mt-1 text-red-200"
+            >
               {predictionError}
             </Text>
           )}
@@ -748,7 +754,8 @@ export const EarningsCalculatorForm = () => {
                   font="gilroy"
                   className="mx-auto mt-6 max-w-100 text-white"
                 >
-                  Basado en propiedades similares en tu zona y niveles promedio de ocupación.
+                  Basado en propiedades similares en tu zona y niveles promedio
+                  de ocupación.
                 </Text>
               </div>
 
