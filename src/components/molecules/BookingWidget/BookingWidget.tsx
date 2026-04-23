@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { ChevronRight } from "lucide-react";
+import { CheckCircle, ChevronRight, Tag } from "lucide-react";
 import { useEffect, useRef, useState, type TouchEvent } from "react";
 
 import { CircleButton, RatingBadge, Text } from "@/components/atoms";
@@ -18,6 +18,13 @@ import { usePriceDetails, type PriceDetails } from "@/hooks/usePriceDetails";
 import { useI18n } from "@/i18n";
 
 import { Button } from "../Button";
+
+const COMPONENT_LABEL: Record<string, { es: string; en: string }> = {
+  baseRate: { es: "Tarifa base", en: "Base rate" },
+  cleaningFee: { es: "Cargo de limpieza", en: "Cleaning fee" },
+  lodgingTax: { es: "Impuesto de hospedaje", en: "Lodging tax" },
+  salesTax: { es: "Impuesto sobre ventas", en: "Sales tax" },
+};
 
 type BookingWidgetProps = {
   price: number;
@@ -45,6 +52,22 @@ export type BookingData = {
   propertyRating?: number;
   pricePerNight?: number;
   priceBreakdown?: PriceDetails;
+  couponCode?: string;
+  reservationCouponId?: number;
+  discountPercent?: number;
+};
+
+type AppliedCoupon = {
+  code: string;
+  reservationCouponId: number;
+  discountPercent: number;
+};
+
+const formatDateKey = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 };
 
 export const BookingWidget = ({
@@ -73,6 +96,15 @@ export const BookingWidget = ({
   const [canDragSheet, setCanDragSheet] = useState(false);
   const closeTimeoutRef = useRef<number | null>(null);
   const [sheetDragY, setSheetDragY] = useState(0);
+
+  // Coupon state
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(
+    null,
+  );
+  const [couponError, setCouponError] = useState("");
+  const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
+  const [preCouponTotal, setPreCouponTotal] = useState<number | null>(null);
 
   const {
     showCalendar,
@@ -106,9 +138,20 @@ export const BookingWidget = ({
     }
   };
 
+  // Reset coupon when dates change
+  useEffect(() => {
+    setAppliedCoupon(null);
+    setPreCouponTotal(null);
+    setCouponError("");
+  }, [dateRange.startDate, dateRange.endDate]);
+
+  const toDay = (d: Date) =>
+    new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
   const handleDateClick = (date: Date) => {
+    const clickedDay = toDay(date);
     const isOccupied = occupiedDates.some(
-      (d) => d.toDateString() === date.toDateString(),
+      (d) => toDay(d).getTime() === clickedDay.getTime(),
     );
     if (isOccupied) return;
 
@@ -116,10 +159,16 @@ export const BookingWidget = ({
       setDateRange({ startDate: date, endDate: null });
       setActiveField("checkout");
     } else if (activeField === "checkout") {
-      if (dateRange.startDate && date <= dateRange.startDate) {
+      if (dateRange.startDate && clickedDay <= toDay(dateRange.startDate)) {
         setDateRange({ startDate: date, endDate: null });
         setActiveField("checkout");
       } else {
+        const startDay = toDay(dateRange.startDate!);
+        const hasOccupiedInRange = occupiedDates.some((d) => {
+          const day = toDay(d);
+          return day > startDay && day < clickedDay;
+        });
+        if (hasOccupiedInRange) return;
         setDateRange({ ...dateRange, endDate: date });
         closeCalendar();
       }
@@ -133,6 +182,7 @@ export const BookingWidget = ({
             (1000 * 60 * 60 * 24),
         )
       : 1;
+
   const stayNightsLabel =
     totalNights > 0
       ? locale === "en"
@@ -166,6 +216,7 @@ export const BookingWidget = ({
           return total;
         })()
       : nightlyPrice.price;
+
   const totalGuests = guests.adults + guests.children + guests.infants;
 
   const { priceDetails, isLoading: isPriceLoading } = usePriceDetails(
@@ -173,17 +224,90 @@ export const BookingWidget = ({
     dateRange.startDate,
     dateRange.endDate,
     Math.max(1, guests.adults + guests.children),
+    appliedCoupon?.reservationCouponId ?? null,
   );
 
   const totalPrice = priceDetails?.totalPrice ?? nightlyTotal;
+
+  const discountComponent = priceDetails?.components?.find(
+    (c) => c.type === "discount",
+  );
+
   const shouldShowNoChargeText =
     !dateRange.startDate || !dateRange.endDate || totalGuests === 0;
   const showMobileSheet = showCalendar || showGuestSelector;
 
-  const handleBookingClick = () => {
-    if (disableCheckout || isPriceLoading) {
+  const handleApplyCoupon = async () => {
+    const code = couponInput.trim().toUpperCase();
+    if (!code) return;
+
+    if (!dateRange.startDate || !dateRange.endDate) {
+      setCouponError(
+        locale === "en"
+          ? "Select dates to apply a coupon"
+          : "Selecciona fechas para aplicar un cupón",
+      );
       return;
     }
+
+    setIsValidatingCoupon(true);
+    setCouponError("");
+
+    try {
+      const response = await fetch("/api/hostaway/coupons/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          couponName: code,
+          listingMapId: Number(listingMapId),
+          startingDate: formatDateKey(dateRange.startDate),
+          endingDate: formatDateKey(dateRange.endDate),
+        }),
+      });
+
+      const data = (await response.json()) as {
+        success: boolean;
+        reservationCouponId?: number;
+        couponCode?: string;
+        discountPercent?: number;
+        error?: string;
+      };
+
+      if (!data.success || !data.reservationCouponId) {
+        setCouponError(
+          data.error ??
+            (locale === "en" ? "Invalid coupon" : "Cupón no válido"),
+        );
+        return;
+      }
+
+      // Store current total before coupon re-fetch
+      setPreCouponTotal(totalPrice);
+      setAppliedCoupon({
+        code,
+        reservationCouponId: data.reservationCouponId,
+        discountPercent: data.discountPercent ?? 0,
+      });
+    } catch {
+      setCouponError(
+        locale === "en"
+          ? "Error validating coupon. Try again."
+          : "Error al validar el cupón. Intenta de nuevo.",
+      );
+    } finally {
+      setIsValidatingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setPreCouponTotal(null);
+    setCouponError("");
+    setCouponInput("");
+  };
+
+  const handleBookingClick = () => {
+    if (disableCheckout || isPriceLoading) return;
     if (!dateRange.startDate || !dateRange.endDate) {
       alert(t("Por favor selecciona las fechas de tu estadía"));
       return;
@@ -197,6 +321,9 @@ export const BookingWidget = ({
       totalPrice,
       listingMapId,
       priceBreakdown: priceDetails ?? undefined,
+      couponCode: appliedCoupon?.code,
+      reservationCouponId: appliedCoupon?.reservationCouponId,
+      discountPercent: appliedCoupon?.discountPercent ?? undefined,
     };
 
     onBookingClick?.(bookingData);
@@ -246,7 +373,6 @@ export const BookingWidget = ({
       target.closest("[data-sheet-scroll]"),
     );
     const scrollTop = sheetScrollRef.current?.scrollTop ?? 0;
-
     setCanDragSheet(!startedInScrollableArea || scrollTop === 0);
     setTouchStartY(touch.clientY);
   };
@@ -256,20 +382,16 @@ export const BookingWidget = ({
     const touch = e.touches[0];
     if (!touch) return;
     const delta = touch.clientY - touchStartY;
-    if (delta > 0) {
-      e.preventDefault();
-    }
+    if (delta > 0) e.preventDefault();
     setSheetDragY(delta > 0 ? delta : 0);
   };
 
   const handleSheetTouchEnd = () => {
     setCanDragSheet(false);
-
     if (sheetDragY > 120) {
       closeMobileSheet();
       return;
     }
-
     setSheetDragY(0);
     setTouchStartY(null);
   };
@@ -310,14 +432,28 @@ export const BookingWidget = ({
     };
   }, []);
 
+  const isLoadingPrice =
+    (isPriceLoading && dateRange.startDate && dateRange.endDate) ??
+    (nightlyPrice.isLoading && !dateRange.startDate && !dateRange.endDate);
+
   return (
     <figure
       className={`bg-green-normal h-auto rounded-[10px] px-6 py-10 sm:w-154 sm:px-12.5 ${className}`}
     >
-      <div className="flex space-x-2.5">
+      {/* Price header */}
+      <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+        {appliedCoupon && preCouponTotal && !isPriceLoading && (
+          <Text
+            size="2xl"
+            font="gilroy"
+            weight="bold"
+            className="text-white/50 line-through"
+          >
+            ${new Intl.NumberFormat("es-MX").format(preCouponTotal)} MXN
+          </Text>
+        )}
         <Text size="4xl" font="gilroy" weight="bold" className="text-white">
-          {(isPriceLoading && dateRange.startDate && dateRange.endDate) ||
-          (nightlyPrice.isLoading && !dateRange.startDate && !dateRange.endDate) ? (
+          {isLoadingPrice ? (
             <span className="inline-block h-8 w-32 animate-pulse rounded bg-white/20" />
           ) : (
             `$${new Intl.NumberFormat("es-MX").format(totalPrice)} MXN`
@@ -335,6 +471,7 @@ export const BookingWidget = ({
         />
       </div>
 
+      {/* Dates + guests card */}
       <div className="relative mt-5">
         <figure className="w-full overflow-hidden rounded-[10px] border border-gray-300 bg-white shadow-sm">
           <div className="grid grid-cols-2 divide-x divide-gray-300">
@@ -447,16 +584,154 @@ export const BookingWidget = ({
         )}
       </div>
 
+      <Text font="gilroy" size="sm" className="mt-3 text-center text-white">
+        {locale === "en"
+          ? "Prices may vary based on date and availability."
+          : "Los precios pueden variar según la fecha y disponibilidad."}
+      </Text>
+
+      <div className="mt-3">
+        {appliedCoupon ? (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between rounded-[10px] bg-white/10 px-4 py-3">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 shrink-0 text-green-300" />
+                <span className="font-gilroy text-sm font-bold text-white">
+                  {appliedCoupon.code}
+                </span>
+                {appliedCoupon.discountPercent ? (
+                  <span className="rounded-full bg-green-500/25 px-2 py-0.5 text-xs font-semibold text-green-300">
+                    {appliedCoupon.discountPercent}%{" "}
+                    {locale === "en" ? "discount" : "descuento"}
+                  </span>
+                ) : null}
+              </div>
+              <button
+                type="button"
+                aria-label="Quitar cupón"
+                onClick={handleRemoveCoupon}
+                className="text-white/50 transition-colors hover:text-white"
+              >
+                <XMarkIcon className="h-4 w-4" />
+              </button>
+            </div>
+
+            {!isPriceLoading && priceDetails?.components && (
+              <div className="mt-2 space-y-1.5 rounded-[10px] bg-white/5 px-4 py-3">
+                {priceDetails.components
+                  .filter((c) => c.type !== "discount")
+                  .map((c) => {
+                    const label =
+                      COMPONENT_LABEL[c.name]?.[locale as "es" | "en"] ??
+                      c.title;
+                    const isBaseRate = c.name === "baseRate";
+                    const netAmount = isBaseRate
+                      ? c.total + (discountComponent?.total ?? 0)
+                      : c.total;
+                    return (
+                      <div
+                        key={c.name}
+                        className="flex items-center justify-between"
+                      >
+                        <Text font="gilroy" size="sm" className="text-white/70">
+                          {label}
+                        </Text>
+                        <div className="flex items-center gap-1.5">
+                          {isBaseRate && discountComponent && (
+                            <Text
+                              font="gilroy"
+                              size="sm"
+                              className="text-white/40 line-through"
+                            >
+                              $
+                              {new Intl.NumberFormat("es-MX").format(
+                                c.total,
+                              )}{" "}
+                            </Text>
+                          )}
+                          <Text
+                            font="gilroy"
+                            size="sm"
+                            className={
+                              isBaseRate && discountComponent
+                                ? "text-green-300"
+                                : "text-white/70"
+                            }
+                          >
+                            ${new Intl.NumberFormat("es-MX").format(netAmount)}{" "}
+                            MXN
+                          </Text>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            <div
+              className={`flex h-13.5 items-center rounded-[10px] border bg-white/10 px-4 py-2.5 transition-colors ${
+                couponError ? "border-red-400" : "border-white/40"
+              }`}
+            >
+              <Tag
+                className={`h-6 w-6 shrink-0 ${couponError ? "text-red-400" : "text-white"}`}
+                strokeWidth={1.5}
+              />
+              <input
+                type="text"
+                value={couponInput}
+                onChange={(e) => {
+                  setCouponInput(e.target.value.toUpperCase());
+                  setCouponError("");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") void handleApplyCoupon();
+                }}
+                placeholder={locale === "en" ? "Enter coupon" : "Ingresa cupón"}
+                className="mx-[9.52px] flex-1 bg-transparent text-[16.33px] font-bold text-white uppercase outline-none placeholder:text-white placeholder:normal-case"
+              />
+              <button
+                type="button"
+                onClick={() => void handleApplyCoupon()}
+                disabled={isValidatingCoupon || !couponInput.trim()}
+                className="shrink-0 cursor-pointer text-[16.33px] font-normal text-white transition-colors hover:text-white/70 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {isValidatingCoupon ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                ) : locale === "en" ? (
+                  "Apply"
+                ) : (
+                  "Aplicar"
+                )}
+              </button>
+            </div>
+            {couponError && (
+              <Text
+                font="gilroy"
+                size="sm"
+                className="mt-1.5 pl-1 text-red-300"
+              >
+                {couponError}
+              </Text>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Book button */}
       <div className="mt-5 flex w-full flex-col items-center">
         <Button
           variant="secondary"
           textClassName="text-base font-medium"
-          className="w-fit"
+          className="flex w-full justify-center"
           disabled={
             disableCheckout ||
             isPriceLoading ||
             !dateRange.startDate ||
-            !dateRange.endDate
+            !dateRange.endDate ||
+            (couponInput.trim().length > 0 && !appliedCoupon)
           }
           onClick={handleBookingClick}
           icon={
@@ -480,6 +755,7 @@ export const BookingWidget = ({
         )}
       </div>
 
+      {/* Mobile sheet */}
       {showMobileSheet && (
         <div className="fixed inset-0 z-70 sm:hidden">
           <button

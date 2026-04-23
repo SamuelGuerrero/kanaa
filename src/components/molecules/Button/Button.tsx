@@ -43,6 +43,7 @@ export const Button = (props: ButtonProps) => {
     textWeight = "normal",
     textSize = "base",
     textClassName = "",
+    disabled = false,
     ...rest
   } = props;
 
@@ -64,46 +65,40 @@ export const Button = (props: ButtonProps) => {
         }
       : {};
 
-  return (
+  const content = (
     <>
-      {href ? (
-        <Link
-          href={href}
-          className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
-        >
-          {icon && iconPosition === "left" && icon}
-
-          <Text
-            font="gilroy"
-            weight={textVariantOverrides.weight ?? textWeight}
-            size={textSize}
-            className={`${textVariantOverrides.className ?? ""} ${textClassName}`}
-          >
-            {children}
-          </Text>
-
-          {icon && iconPosition === "right" && icon}
-        </Link>
-      ) : (
-        <button
-          {...rest}
-          type={props.type ?? "button"}
-          className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
-        >
-          {icon && iconPosition === "left" && icon}
-
-          <Text
-            font="gilroy"
-            weight={textVariantOverrides.weight ?? textWeight}
-            size={textSize}
-            className={`${textVariantOverrides.className ?? ""} ${textClassName}`}
-          >
-            {children}
-          </Text>
-
-          {icon && iconPosition === "right" && icon}
-        </button>
-      )}
+      {icon && iconPosition === "left" && icon}
+      <Text
+        font="gilroy"
+        weight={textVariantOverrides.weight ?? textWeight}
+        size={textSize}
+        className={`${textVariantOverrides.className ?? ""} ${textClassName}`}
+      >
+        {children}
+      </Text>
+      {icon && iconPosition === "right" && icon}
     </>
+  );
+
+  if (href && !disabled) {
+    return (
+      <Link
+        href={href}
+        className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      {...rest}
+      disabled={disabled}
+      type={props.type ?? "button"}
+      className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
+    >
+      {content}
+    </button>
   );
 };

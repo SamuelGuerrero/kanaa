@@ -492,6 +492,7 @@ export const enTranslations: Record<string, string> = {
     "Unexpected error cancelling the reservation",
   "Reserva por": "Booking for ",
   Propiedad: "Property",
+  Modificar: "Modify",
   México: "Mexico",
   "Detalles de tu reserva": "Your reservation details",
 
