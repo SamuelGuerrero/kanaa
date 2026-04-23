@@ -35,6 +35,7 @@ export function usePriceDetails(
   startDate: Date | null,
   endDate: Date | null,
   numberOfGuests: number,
+  reservationCouponId?: number | null,
 ): PriceDetailsState {
   const [state, setState] = useState<PriceDetailsState>({
     priceDetails: null,
@@ -52,7 +53,7 @@ export function usePriceDetails(
 
     const startKey = formatDateKey(startDate);
     const endKey = formatDateKey(endDate);
-    const cacheKey = `${listingId}:${startKey}:${endKey}:${numberOfGuests}`;
+    const cacheKey = `${listingId}:${startKey}:${endKey}:${numberOfGuests}:${reservationCouponId ?? ""}`;
 
     const cached = cache.get(cacheKey);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
@@ -76,6 +77,7 @@ export function usePriceDetails(
           startDate: startKey,
           endDate: endKey,
           numberOfGuests,
+          ...(reservationCouponId != null && { reservationCouponId }),
         }),
         signal: controller.signal,
       })
@@ -108,7 +110,7 @@ export function usePriceDetails(
       if (debounceRef.current) clearTimeout(debounceRef.current);
       if (abortRef.current) abortRef.current.abort();
     };
-  }, [listingId, startDate, endDate, numberOfGuests]);
+  }, [listingId, startDate, endDate, numberOfGuests, reservationCouponId]);
 
   return state;
 }

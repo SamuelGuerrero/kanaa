@@ -8,6 +8,7 @@ interface PriceDetailsBody {
   startDate: string;
   endDate: string;
   numberOfGuests: number;
+  reservationCouponId?: number | null;
 }
 
 interface HostawayPriceDetailsResponse {
@@ -27,7 +28,7 @@ export async function POST(
   try {
     const { id } = await params;
     const body = (await request.json()) as PriceDetailsBody;
-    const { startDate, endDate, numberOfGuests } = body;
+    const { startDate, endDate, numberOfGuests, reservationCouponId } = body;
 
     if (!startDate || !endDate || !numberOfGuests) {
       return NextResponse.json(
@@ -51,6 +52,7 @@ export async function POST(
           startingDate: startDate,
           endingDate: endDate,
           numberOfGuests,
+          ...(reservationCouponId != null && { reservationCouponId }),
         }),
       },
     );
