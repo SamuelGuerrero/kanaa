@@ -33,24 +33,29 @@ const formatDateForApi = (date: Date | null): string => {
   return `${year}-${month}-${day}`;
 };
 
-const checkoutSchema = z
-  .object({
-    firstName: z.string().min(1, "El nombre es requerido"),
-    lastName: z.string().min(1, "Los apellidos son requeridos"),
-    email: z.string().email("Correo electrónico inválido"),
-    confirmEmail: z.string().email("Correo electrónico inválido"),
-    phone: z.string().min(7, "Número de teléfono inválido"),
-    country: z.string().min(1, "Selecciona un país"),
-    acceptedTerms: z.literal(true, {
-      errorMap: () => ({ message: "Debes aceptar los términos y condiciones y la política de cancelación" }),
-    }),
-  })
-  .refine((data) => data.email === data.confirmEmail, {
-    message: "Los correos no coinciden",
-    path: ["confirmEmail"],
-  });
+const makeCheckoutSchema = (en: boolean) =>
+  z
+    .object({
+      firstName: z.string().min(1, en ? "First name is required" : "El nombre es requerido"),
+      lastName: z.string().min(1, en ? "Last name is required" : "Los apellidos son requeridos"),
+      email: z.string().email(en ? "Invalid email address" : "Correo electrónico inválido"),
+      confirmEmail: z.string().email(en ? "Invalid email address" : "Correo electrónico inválido"),
+      phone: z.string().min(7, en ? "Invalid phone number" : "Número de teléfono inválido"),
+      country: z.string().min(1, en ? "Select a country" : "Selecciona un país"),
+      acceptedTerms: z.literal(true, {
+        errorMap: () => ({
+          message: en
+            ? "You must accept the terms and conditions and the cancellation policy"
+            : "Debes aceptar los términos y condiciones y la política de cancelación",
+        }),
+      }),
+    })
+    .refine((data) => data.email === data.confirmEmail, {
+      message: en ? "Emails do not match" : "Los correos no coinciden",
+      path: ["confirmEmail"],
+    });
 
-type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+type CheckoutFormValues = z.infer<ReturnType<typeof makeCheckoutSchema>>;
 
 type BillingData = {
   rfc: string;
@@ -116,22 +121,31 @@ export const CheckoutPaymentForm = ({
 
   const getBillingErrors = () => {
     const errors: Record<string, string> = {};
-    if (!billingData?.rfc?.trim()) errors.rfc = "RFC requerido";
+    if (!billingData?.rfc?.trim())
+      errors.rfc = locale === "en" ? "RFC required" : "RFC requerido";
     if (!billingData?.razonSocial?.trim())
-      errors.razonSocial = "Nombre o razón social requerido";
+      errors.razonSocial =
+        locale === "en" ? "Name or company name required" : "Nombre o razón social requerido";
     if (!billingData?.regimenFiscal?.trim())
-      errors.regimenFiscal = "Régimen fiscal requerido";
+      errors.regimenFiscal =
+        locale === "en" ? "Tax regime required" : "Régimen fiscal requerido";
     if (!billingData?.codigoPostal?.trim())
-      errors.codigoPostal = "Código postal requerido";
-    if (!billingData?.usoCFDI?.trim()) errors.usoCFDI = "Uso de CFDI requerido";
+      errors.codigoPostal =
+        locale === "en" ? "Zip code required" : "Código postal requerido";
+    if (!billingData?.usoCFDI?.trim())
+      errors.usoCFDI =
+        locale === "en" ? "CFDI use required" : "Uso de CFDI requerido";
     if (!billingData?.direccion?.trim())
-      errors.direccion = "Dirección requerida";
+      errors.direccion =
+        locale === "en" ? "Address required" : "Dirección requerida";
     if (!billingData?.emailFacturacion?.trim()) {
-      errors.emailFacturacion = "Correo de facturación requerido";
+      errors.emailFacturacion =
+        locale === "en" ? "Billing email required" : "Correo de facturación requerido";
     } else if (
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(billingData.emailFacturacion)
     ) {
-      errors.emailFacturacion = "Correo electrónico inválido";
+      errors.emailFacturacion =
+        locale === "en" ? "Invalid email address" : "Correo electrónico inválido";
     }
     return errors;
   };
@@ -143,7 +157,7 @@ export const CheckoutPaymentForm = ({
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<CheckoutFormValues>({
-    resolver: zodResolver(checkoutSchema),
+    resolver: zodResolver(makeCheckoutSchema(locale === "en")),
     mode: "onTouched",
     defaultValues: {
       firstName: "",
@@ -482,7 +496,7 @@ export const CheckoutPaymentForm = ({
                       weight="bold"
                       className="text-green-darker leading-5"
                     >
-                      País de residencia
+                      {locale === "en" ? "Country of residence" : "País de residencia"}
                     </Text>
                     <Controller
                       name="country"
@@ -495,7 +509,7 @@ export const CheckoutPaymentForm = ({
                           className="font-gilroy text-green-darker w-full appearance-none bg-transparent text-base leading-4.75 font-medium outline-none"
                         >
                           <option value="" disabled>
-                            Selecciona un país
+                            {locale === "en" ? "Select a country" : "Selecciona un país"}
                           </option>
                           {COUNTRIES.map((c) => (
                             <option key={c.value} value={c.value}>
@@ -540,7 +554,7 @@ export const CheckoutPaymentForm = ({
               </div>
             </div>
             <Text font="gilroy" size="base" className="text-green-darker">
-              Añadir tus datos para facturación
+              {locale === "en" ? "Add your billing information" : "Añadir tus datos para facturación"}
             </Text>
           </label>
 
@@ -552,7 +566,7 @@ export const CheckoutPaymentForm = ({
                 weight="bold"
                 className="text-green-normal mb-4"
               >
-                Datos de facturación
+                {locale === "en" ? "Billing information" : "Datos de facturación"}
               </Text>
               <div className="border-grey-normal rounded-2xl border bg-white p-6">
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -607,7 +621,7 @@ export const CheckoutPaymentForm = ({
                         weight="bold"
                         className="text-green-darker leading-5"
                       >
-                        Nombre completo o razón social
+                        {locale === "en" ? "Full name or company name" : "Nombre completo o razón social"}
                       </Text>
                       <input
                         type="text"
@@ -649,7 +663,7 @@ export const CheckoutPaymentForm = ({
                         weight="bold"
                         className="text-green-darker leading-5"
                       >
-                        Régimen Fiscal
+                        {locale === "en" ? "Tax Regime" : "Régimen Fiscal"}
                       </Text>
                       <select
                         value={billingData.regimenFiscal}
@@ -668,7 +682,7 @@ export const CheckoutPaymentForm = ({
                         className="font-gilroy text-green-darker w-full appearance-none bg-transparent text-base font-medium outline-none"
                       >
                         <option value="" disabled>
-                          Selecciona un régimen
+                          {locale === "en" ? "Select a regime" : "Selecciona un régimen"}
                         </option>
                         <option value="601">
                           601 - General de Ley Personas Morales
@@ -718,7 +732,7 @@ export const CheckoutPaymentForm = ({
                         weight="bold"
                         className="text-green-darker leading-5"
                       >
-                        Código postal del domicilio
+                        {locale === "en" ? "Address zip code" : "Código postal del domicilio"}
                       </Text>
                       <input
                         type="text"
@@ -763,7 +777,7 @@ export const CheckoutPaymentForm = ({
                         weight="bold"
                         className="text-green-darker leading-5"
                       >
-                        Uso de CFDI
+                        {locale === "en" ? "CFDI Use" : "Uso de CFDI"}
                       </Text>
                       <select
                         value={billingData.usoCFDI}
@@ -782,7 +796,7 @@ export const CheckoutPaymentForm = ({
                         className="font-gilroy text-green-darker w-full appearance-none bg-transparent text-base font-medium outline-none"
                       >
                         <option value="" disabled>
-                          Selecciona un uso
+                          {locale === "en" ? "Select a use" : "Selecciona un uso"}
                         </option>
                         <option value="G01">
                           G01 - Adquisición de mercancias
@@ -817,7 +831,7 @@ export const CheckoutPaymentForm = ({
                         weight="bold"
                         className="text-green-darker leading-5"
                       >
-                        Dirección de facturación
+                        {locale === "en" ? "Billing address" : "Dirección de facturación"}
                       </Text>
                       <input
                         type="text"
@@ -834,7 +848,7 @@ export const CheckoutPaymentForm = ({
                             direccion: true,
                           })
                         }
-                        placeholder="Calle, número, colonia, ciudad"
+                        placeholder={locale === "en" ? "Street, number, neighborhood, city" : "Calle, número, colonia, ciudad"}
                         className="font-gilroy text-green-darker w-full bg-transparent text-base font-medium placeholder-[#6a6a6acd] outline-none"
                       />
                     </div>
@@ -858,7 +872,7 @@ export const CheckoutPaymentForm = ({
                         weight="bold"
                         className="text-green-darker leading-5"
                       >
-                        Correo electrónico para recibir PDF y XML
+                        {locale === "en" ? "Email to receive PDF and XML" : "Correo electrónico para recibir PDF y XML"}
                       </Text>
                       <input
                         type="email"

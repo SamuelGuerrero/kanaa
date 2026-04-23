@@ -36,8 +36,9 @@ const formatDateRange = (start: Date | null, end: Date | null) => {
   return `${s} – ${e}`;
 };
 
-const formatGuests = (guests: BookingData["guests"]) => {
+const formatGuests = (guests: BookingData["guests"], locale: string) => {
   const total = guests.adults + guests.children;
+  if (locale === "en") return `${total} ${total === 1 ? "Guest" : "Guests"}`;
   return `${total} ${total === 1 ? "Adulto" : "Adultos"}`;
 };
 
@@ -46,6 +47,7 @@ const COMPONENT_TITLE_TRANSLATIONS_ES: Record<string, string> = {
   "cleaning fee": "Cargo de limpieza",
   "lodging tax": "Impuesto de hospedaje",
   "sales tax": "Impuesto sobre ventas",
+  "coupon discount": "Descuento con cupón",
 };
 
 const normalizeComponentTitle = (title: string) =>
@@ -58,14 +60,14 @@ const translateComponentTitle = (title: string, locale: string) => {
   );
 };
 
-function ModifyButton({ onClick }: { onClick?: () => void }) {
+function ModifyButton({ onClick, locale }: { onClick?: () => void; locale: string }) {
   return (
     <button
       type="button"
       onClick={onClick}
       className="font-gilroy hover:bg-gold-light h-11.75 w-29.25 shrink-0 cursor-pointer rounded-[10px] border border-[#A59973] bg-white px-6 py-3.5 text-base font-medium text-[#A59973] transition-colors"
     >
-      Modificar
+      {locale === "en" ? "Modify" : "Modificar"}
     </button>
   );
 }
@@ -191,6 +193,7 @@ export const CheckoutBookingSummary = ({
               </Text>
             </div>
             <ModifyButton
+              locale={locale}
               onClick={() => {
                 setShowGuestSelector(false);
                 if (showCalendar) closeCalendar();
@@ -229,10 +232,11 @@ export const CheckoutBookingSummary = ({
                 Huéspedes
               </Text>
               <Text font="gilroy" size="sm" className="text-grey-darker mt-0.5">
-                {formatGuests(displayedGuests)}
+                {formatGuests(displayedGuests, locale)}
               </Text>
             </div>
             <ModifyButton
+              locale={locale}
               onClick={() => {
                 closeCalendar();
                 setShowGuestSelector((prev) => !prev);
