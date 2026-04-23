@@ -53,6 +53,7 @@ export default function CheckoutPage() {
     bookingData?.startDate ?? null,
     bookingData?.endDate ?? null,
     Math.max(1, numberOfGuests),
+    bookingData?.reservationCouponId ?? null,
   );
 
   useEffect(() => {
