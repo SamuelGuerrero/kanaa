@@ -9,6 +9,8 @@ import { BlogFilters } from "./BlogFilters";
 
 import type { Metadata } from "next";
 
+type BlogPageProps = { params: Promise<{ locale: string }> };
+
 export const metadata: Metadata = createPageMetadata({
   title: "Blog",
   description:
@@ -25,7 +27,7 @@ const FEATURED = {
     "Entre plazas empedradas, cenotes escondidos y cocinas que huelen a recado rojo, Mérida se vive mejor cuando se camina despacio. Te contamos cómo convertir tu estancia en una experiencia que se queda.",
   image:
     "https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop",
-  href: "#",
+  slug: "merida-sin-prisa",
 };
 
 const ARTICLES = [
@@ -37,7 +39,7 @@ const ARTICLES = [
     date: "20 de agosto, 2025",
     image:
       "https://images.unsplash.com/photo-1583418007992-a1c1e5b93c78?q=80&w=1200&auto=format&fit=crop",
-    href: "#",
+    slug: "merida-sin-prisa",
   },
   {
     category: "Para propietarios",
@@ -47,7 +49,7 @@ const ARTICLES = [
     date: "20 de agosto, 2025",
     image:
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop",
-    href: "#",
+    slug: "merida-sin-prisa",
   },
   {
     category: "Lifestyle",
@@ -57,7 +59,7 @@ const ARTICLES = [
     date: "20 de agosto, 2025",
     image:
       "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=1200&auto=format&fit=crop",
-    href: "#",
+    slug: "merida-sin-prisa",
   },
   {
     category: "Gestión",
@@ -67,7 +69,7 @@ const ARTICLES = [
     date: "12 de agosto, 2025",
     image:
       "https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=1200&auto=format&fit=crop",
-    href: "#",
+    slug: "merida-sin-prisa",
   },
   {
     category: "Mérida",
@@ -77,7 +79,7 @@ const ARTICLES = [
     date: "5 de agosto, 2025",
     image:
       "https://images.unsplash.com/photo-1551776235-dde6d482980b?q=80&w=1200&auto=format&fit=crop",
-    href: "#",
+    slug: "merida-sin-prisa",
   },
   {
     category: "Para propietarios",
@@ -87,11 +89,12 @@ const ARTICLES = [
     date: "28 de julio, 2025",
     image:
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
-    href: "#",
+    slug: "merida-sin-prisa",
   },
 ];
 
-export default function BlogPage() {
+export default async function BlogPage({ params }: BlogPageProps) {
+  const { locale } = await params;
   return (
     <main className="bg-gold-light min-h-screen">
       {/* ── HERO ── */}
@@ -122,7 +125,7 @@ export default function BlogPage() {
       <section className="px-4 pt-16 pb-10 md:px-8 lg:px-16">
         <div className="mx-auto max-w-7xl">
           <Link
-            href={FEATURED.href}
+            href={`/${locale}/blog/${FEATURED.slug}`}
             className="group grid items-center gap-14 md:grid-cols-[1.1fr_1fr]"
           >
             {/* Image */}
@@ -183,7 +186,7 @@ export default function BlogPage() {
             {ARTICLES.map((article, i) => (
               <Link
                 key={i}
-                href={article.href}
+                href={`/${locale}/blog/${article.slug}`}
                 className="group flex flex-col gap-5"
               >
                 <div className="bg-gold-light-hover relative aspect-4/3 overflow-hidden rounded-md">
