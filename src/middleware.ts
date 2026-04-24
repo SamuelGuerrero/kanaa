@@ -9,6 +9,7 @@ const defaultLocale: Locale = "es";
 function detectLocale(request: NextRequest): Locale {
   const cookie = request.cookies.get("kanaa_locale")?.value;
   if (cookie === "en") return "en";
+  if (cookie === "es") return "es";
 
   const acceptLanguage = request.headers.get("accept-language") ?? "";
   if (acceptLanguage.toLowerCase().startsWith("en")) return "en";
