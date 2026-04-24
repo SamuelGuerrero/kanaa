@@ -8,9 +8,10 @@ export type JobCardProps = {
   title: string;
   description: string;
   type: string;
+  applyUrl?: string;
 };
 
-export const CardJob = ({ title, description, type }: JobCardProps) => {
+export const CardJob = ({ title, description, type, applyUrl }: JobCardProps) => {
   return (
     <div className="border-gold-light-active flex w-full flex-col gap-6 rounded-2xl border bg-white px-4 py-6 shadow-sm md:flex-row md:items-center md:justify-between md:p-8">
       <div>
@@ -46,6 +47,9 @@ export const CardJob = ({ title, description, type }: JobCardProps) => {
         variant="secondary"
         textClassName="text-base font-bold text-gold-dark!"
         className="bg-gold-light-hover! w-fit rounded-[10px]"
+        href={applyUrl}
+        target={applyUrl ? "_blank" : undefined}
+        rel={applyUrl ? "noopener noreferrer" : undefined}
         icon={
           <CircleButton className="bg-grey-light!">
             <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

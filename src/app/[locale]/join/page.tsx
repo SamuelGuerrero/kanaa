@@ -34,6 +34,7 @@ export default async function JoinPage({ params }: JoinPageProps) {
     title: doc.title,
     description: doc.description,
     type: doc.type,
+    applyUrl: doc.applyUrl ?? undefined,
   }));
 
   return (
