@@ -33,24 +33,24 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Kanaa",
     links: [
-      { href: "", label: "Sobre nosotros" },
-      { href: "", label: "Nuestro equipo" },
-      { href: "", label: "Bolsa de trabajo" },
+      { href: "/about", label: "Sobre nosotros" },
+      { href: "/about", label: "Nuestro equipo" },
+      { href: "/vacancies", label: "Bolsa de trabajo" },
     ],
   },
   {
     title: "Propiedades",
     links: [
-      { href: "", label: "Listado de propiedades" },
-      { href: "", label: "Destacadas" },
-      { href: "", label: "Guías y tips de viaje" },
+      { href: "/properties", label: "Listado de propiedades" },
+      { href: "/properties", label: "Destacadas" },
+      { href: "/blog", label: "Guías y tips de viaje" },
     ],
   },
   {
     title: "Gestión de propiedades",
     links: [
-      { href: "", label: "Únete como propietario" },
-      { href: "", label: "Calculadora de ingresos" },
+      { href: "/join", label: "Únete como propietario" },
+      { href: "/calculator", label: "Calculadora de ingresos" },
     ],
   },
   {
