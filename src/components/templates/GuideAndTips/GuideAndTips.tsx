@@ -41,6 +41,7 @@ type GuideAndTipsProps = {
   description?: string;
   buttonText?: string;
   cards?: CmsCard[];
+  locale?: string;
 };
 
 export const GuideAndTips = ({
@@ -48,6 +49,7 @@ export const GuideAndTips = ({
   description = "Artículos, tips y recomendaciones para tomar mejores decisiones al momento de reservar.",
   buttonText = "Visita nuestro blog",
   cards,
+  locale = "es",
 }: GuideAndTipsProps) => {
   const displayCards: GuideCardProps[] = cards
     ? cards.map((c, i) => ({
@@ -81,7 +83,7 @@ export const GuideAndTips = ({
         variant="primary"
         textWeight="bold"
         className="text-gold-dark! mt-10 w-fit font-bold"
-        href="/blog"
+        href={`/${locale}/blog`}
         icon={
           <CircleButton>
             <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />

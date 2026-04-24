@@ -266,6 +266,7 @@ export default async function HomePage({ params }: HomePageProps) {
               ?.buttonText
           }
           cards={guideCards.length > 0 ? guideCards : undefined}
+          locale={locale}
         />
 
         <FrequentlyQuestions
