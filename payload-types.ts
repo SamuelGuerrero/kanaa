@@ -259,6 +259,10 @@ export interface JobVacancy {
    * Ej: "Tiempo Completo", "Medio Tiempo", "Freelance"
    */
   type: string;
+  /**
+   * Enlace externo al formulario o página de aplicación
+   */
+  applyUrl?: string | null;
   isActive?: boolean | null;
   order?: number | null;
   updatedAt: string;
@@ -467,6 +471,7 @@ export interface JobVacanciesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   type?: T;
+  applyUrl?: T;
   isActive?: T;
   order?: T;
   updatedAt?: T;

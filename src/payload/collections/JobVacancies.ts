@@ -38,6 +38,14 @@ export const JobVacancies: CollectionConfig = {
       },
     },
     {
+      name: "applyUrl",
+      type: "text",
+      label: "URL para aplicar",
+      admin: {
+        description: "Enlace externo al formulario o página de aplicación",
+      },
+    },
+    {
       name: "isActive",
       type: "checkbox",
       label: "Activa",
