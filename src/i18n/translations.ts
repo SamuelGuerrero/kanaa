@@ -531,6 +531,18 @@ export const enTranslations: Record<string, string> = {
     "Enter your reservation number and email to check your reservation status",
   "Número de reservación": "Reservation number",
   "Buscar reservación": "Search reservation",
+
+  // --- Error / Not found pages ---
+  Volver: "Back",
+  "Volver al inicio": "Back to home",
+  "Ver propiedades": "View properties",
+  "Página no encontrada": "Page not found",
+  "Lo sentimos, la página que buscas no existe o fue movida.":
+    "Sorry, the page you're looking for doesn't exist or has been moved.",
+  "Algo salió mal": "Something went wrong",
+  "Ocurrió un error inesperado. Puedes intentarlo de nuevo o regresar al inicio.":
+    "An unexpected error occurred. You can try again or go back home.",
+  "Intentar de nuevo": "Try again",
 };
 
 const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
