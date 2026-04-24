@@ -228,7 +228,7 @@ export const CheckoutPaymentForm = ({
               address: { country: values.country },
             },
           },
-          return_url: `${window.location.origin}/${window.location.pathname.split("/")[1]}/booking-success/${bookingData.listingMapId}`,
+          return_url: `${window.location.origin}/${locale}/booking-success/${bookingData.listingMapId}`,
         },
       });
 
@@ -326,7 +326,7 @@ export const CheckoutPaymentForm = ({
         }
       }
 
-      window.location.href = `/${window.location.pathname.split("/")[1]}/booking-success/${bookingData.listingMapId}?payment_intent=${paymentIntent.id}&reservation_id=${reservationData.reservationId}`;
+      window.location.href = `/${locale}/booking-success/${bookingData.listingMapId}?payment_intent=${paymentIntent.id}&reservation_id=${reservationData.reservationId}`;
     } catch (err) {
       setStripeError(
         err instanceof Error

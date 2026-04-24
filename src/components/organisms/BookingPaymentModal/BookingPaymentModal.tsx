@@ -11,6 +11,7 @@ import { X } from "lucide-react";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 
 import { Text } from "@/components/atoms";
+import { useI18n } from "@/i18n";
 
 import type { BookingData } from "@/components/molecules";
 
@@ -38,6 +39,7 @@ function PaymentForm({
 }) {
   const stripe = useStripe();
   const elements = useElements();
+  const { locale } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -57,7 +59,7 @@ function PaymentForm({
         elements,
         redirect: "if_required",
         confirmParams: {
-          return_url: `${window.location.origin}/booking-confirmation`,
+          return_url: `${window.location.origin}/${locale}/booking-confirmation`,
         },
       });
 
