@@ -20,7 +20,7 @@ export const NewsletterForm = () => {
         e.preventDefault();
         setSubmitted(true);
       }}
-      className="mx-auto flex max-w-[460px] rounded-full border border-white/10 p-1.5"
+      className="mx-auto flex max-w-115 rounded-full border border-white/10 p-1.5"
       style={{ background: "rgba(255,255,255,0.08)" }}
     >
       <input

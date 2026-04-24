@@ -126,7 +126,7 @@ export default function BlogPage() {
             className="group grid items-center gap-14 md:grid-cols-[1.1fr_1fr]"
           >
             {/* Image */}
-            <div className="bg-gold-light-hover relative aspect-[4/3] overflow-hidden rounded-lg">
+            <div className="bg-gold-light-hover relative aspect-4/3 overflow-hidden rounded-lg">
               <span className="bg-gold-light text-gold-dark font-gilroy absolute top-5 left-5 z-10 rounded-full px-3.5 py-2 text-[11px] font-semibold tracking-[0.12em] uppercase">
                 Destacado
               </span>
@@ -144,9 +144,9 @@ export default function BlogPage() {
             <div>
               <div className="font-gilroy text-beige-dark mb-5 flex items-center gap-3 text-sm">
                 <span>{FEATURED.category}</span>
-                <span className="bg-beige-dark h-[3px] w-[3px] rounded-full" />
+                <span className="bg-beige-dark h-0.75 w-0.75 rounded-full" />
                 <span>{FEATURED.readTime}</span>
-                <span className="bg-beige-dark h-[3px] w-[3px] rounded-full" />
+                <span className="bg-beige-dark h-0.75 w-0.75 rounded-full" />
                 <span>{FEATURED.date}</span>
               </div>
 
@@ -186,7 +186,7 @@ export default function BlogPage() {
                 href={article.href}
                 className="group flex flex-col gap-5"
               >
-                <div className="bg-gold-light-hover relative aspect-[4/3] overflow-hidden rounded-md">
+                <div className="bg-gold-light-hover relative aspect-4/3 overflow-hidden rounded-md">
                   <Image
                     src={article.image}
                     alt={article.title}
