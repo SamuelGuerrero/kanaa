@@ -13,53 +13,53 @@
  * via the `definition` "supportedTimezones".
  */
 export type SupportedTimezones =
-  | "Pacific/Midway"
-  | "Pacific/Niue"
-  | "Pacific/Honolulu"
-  | "Pacific/Rarotonga"
-  | "America/Anchorage"
-  | "Pacific/Gambier"
-  | "America/Los_Angeles"
-  | "America/Tijuana"
-  | "America/Denver"
-  | "America/Phoenix"
-  | "America/Chicago"
-  | "America/Guatemala"
-  | "America/New_York"
-  | "America/Bogota"
-  | "America/Caracas"
-  | "America/Santiago"
-  | "America/Buenos_Aires"
-  | "America/Sao_Paulo"
-  | "Atlantic/South_Georgia"
-  | "Atlantic/Azores"
-  | "Atlantic/Cape_Verde"
-  | "Europe/London"
-  | "Europe/Berlin"
-  | "Africa/Lagos"
-  | "Europe/Athens"
-  | "Africa/Cairo"
-  | "Europe/Moscow"
-  | "Asia/Riyadh"
-  | "Asia/Dubai"
-  | "Asia/Baku"
-  | "Asia/Karachi"
-  | "Asia/Tashkent"
-  | "Asia/Calcutta"
-  | "Asia/Dhaka"
-  | "Asia/Almaty"
-  | "Asia/Jakarta"
-  | "Asia/Bangkok"
-  | "Asia/Shanghai"
-  | "Asia/Singapore"
-  | "Asia/Tokyo"
-  | "Asia/Seoul"
-  | "Australia/Brisbane"
-  | "Australia/Sydney"
-  | "Pacific/Guam"
-  | "Pacific/Noumea"
-  | "Pacific/Auckland"
-  | "Pacific/Fiji";
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Brisbane'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
 
 export interface Config {
   auth: {
@@ -70,49 +70,38 @@ export interface Config {
     users: User;
     media: Media;
     testimonials: Testimonial;
-    "guide-cards": GuideCard;
-    "faq-items": FaqItem;
-    "payload-kv": PayloadKv;
-    "payload-locked-documents": PayloadLockedDocument;
-    "payload-preferences": PayloadPreference;
-    "payload-migrations": PayloadMigration;
+    'guide-cards': GuideCard;
+    'faq-items': FaqItem;
+    'job-vacancies': JobVacancy;
+    'payload-kv': PayloadKv;
+    'payload-locked-documents': PayloadLockedDocument;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
-    "guide-cards": GuideCardsSelect<false> | GuideCardsSelect<true>;
-    "faq-items": FaqItemsSelect<false> | FaqItemsSelect<true>;
-    "payload-kv": PayloadKvSelect<false> | PayloadKvSelect<true>;
-    "payload-locked-documents":
-      | PayloadLockedDocumentsSelect<false>
-      | PayloadLockedDocumentsSelect<true>;
-    "payload-preferences":
-      | PayloadPreferencesSelect<false>
-      | PayloadPreferencesSelect<true>;
-    "payload-migrations":
-      | PayloadMigrationsSelect<false>
-      | PayloadMigrationsSelect<true>;
+    'guide-cards': GuideCardsSelect<false> | GuideCardsSelect<true>;
+    'faq-items': FaqItemsSelect<false> | FaqItemsSelect<true>;
+    'job-vacancies': JobVacanciesSelect<false> | JobVacanciesSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: number;
   };
-  fallbackLocale:
-    | ("false" | "none" | "null")
-    | false
-    | null
-    | ("es" | "en")
-    | ("es" | "en")[];
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('es' | 'en') | ('es' | 'en')[];
   globals: {
-    "home-page-content": HomePageContent;
+    'home-page-content': HomePageContent;
   };
   globalsSelect: {
-    "home-page-content":
-      | HomePageContentSelect<false>
-      | HomePageContentSelect<true>;
+    'home-page-content': HomePageContentSelect<false> | HomePageContentSelect<true>;
   };
-  locale: "es" | "en";
+  locale: 'es' | 'en';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -166,7 +155,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-  collection: "users";
+  collection: 'users';
 }
 /**
  * Imágenes y archivos multimedia del sitio
@@ -251,7 +240,26 @@ export interface FaqItem {
   id: number;
   question: string;
   answer: string;
-  page: "home" | "property-management" | "calculator";
+  page: 'home' | 'property-management' | 'calculator';
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Posiciones abiertas que aparecen en la página Únete al equipo
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-vacancies".
+ */
+export interface JobVacancy {
+  id: number;
+  title: string;
+  description: string;
+  /**
+   * Ej: "Tiempo Completo", "Medio Tiempo", "Freelance"
+   */
+  type: string;
+  isActive?: boolean | null;
   order?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -281,28 +289,32 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: "users";
+        relationTo: 'users';
         value: number | User;
       } | null)
     | ({
-        relationTo: "media";
+        relationTo: 'media';
         value: number | Media;
       } | null)
     | ({
-        relationTo: "testimonials";
+        relationTo: 'testimonials';
         value: number | Testimonial;
       } | null)
     | ({
-        relationTo: "guide-cards";
+        relationTo: 'guide-cards';
         value: number | GuideCard;
       } | null)
     | ({
-        relationTo: "faq-items";
+        relationTo: 'faq-items';
         value: number | FaqItem;
+      } | null)
+    | ({
+        relationTo: 'job-vacancies';
+        value: number | JobVacancy;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: number | User;
   };
   updatedAt: string;
@@ -315,7 +327,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: number;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: number | User;
   };
   key?: string | null;
@@ -443,6 +455,19 @@ export interface FaqItemsSelect<T extends boolean = true> {
   question?: T;
   answer?: T;
   page?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-vacancies_select".
+ */
+export interface JobVacanciesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  type?: T;
+  isActive?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -619,7 +644,7 @@ export interface CollectionsWidget {
   data?: {
     [k: string]: unknown;
   };
-  width: "full";
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -629,6 +654,7 @@ export interface Auth {
   [k: string]: unknown;
 }
 
-declare module "payload" {
+
+declare module 'payload' {
   export interface GeneratedTypes extends Config {}
 }

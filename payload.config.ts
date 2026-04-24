@@ -8,6 +8,7 @@ import sharp from "sharp";
 
 import { FAQItems } from "./src/payload/collections/FAQItems";
 import { GuideCards } from "./src/payload/collections/GuideCards";
+import { JobVacancies } from "./src/payload/collections/JobVacancies";
 import { Media } from "./src/payload/collections/Media";
 import { Testimonials } from "./src/payload/collections/Testimonials";
 import { Users } from "./src/payload/collections/Users";
@@ -37,7 +38,7 @@ export default buildConfig({
     fallback: true,
   },
 
-  collections: [Users, Media, Testimonials, GuideCards, FAQItems],
+  collections: [Users, Media, Testimonials, GuideCards, FAQItems, JobVacancies],
 
   globals: [HomePageContent],
 
