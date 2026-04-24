@@ -12,6 +12,8 @@ type ButtonProps = DetailedHTMLProps<
   HTMLButtonElement
 > & {
   href?: string;
+  target?: string;
+  rel?: string;
   variant: "primary" | "secondary";
   icon?: ReactNode;
   iconPosition?: "left" | "right";
@@ -35,6 +37,8 @@ type ButtonProps = DetailedHTMLProps<
 export const Button = (props: ButtonProps) => {
   const {
     href,
+    target,
+    rel,
     variant,
     className,
     children,
@@ -84,6 +88,8 @@ export const Button = (props: ButtonProps) => {
     return (
       <Link
         href={href}
+        target={target}
+        rel={rel}
         className={`${baseStyles} ${variantStyles} ${className ?? ""}`}
       >
         {content}
