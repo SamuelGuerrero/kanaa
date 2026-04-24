@@ -1,9 +1,17 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
+import { translateText } from "@/i18n/translations";
 
 export default function NotFound() {
+  const pathname = usePathname();
+  const locale = pathname?.split("/")[1] === "en" ? "en" : "es";
+  const t = (text: string) => translateText(text, locale);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center">
       <span
@@ -20,29 +28,31 @@ export default function NotFound() {
         as="h1"
         className="text-green-normal mt-2"
       >
-        Página no encontrada
+        {t("Página no encontrada")}
       </Text>
 
       <Text font="gilroy" size="lg" className="text-grey-darker mt-4 max-w-md">
-        Lo sentimos, la página que buscas no existe o fue movida.
+        {t(
+          "Lo sentimos, la página que buscas no existe o fue movida.",
+        )}
       </Text>
 
       <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
         <Button
           variant="primary"
-          href="/"
+          href={`/${locale}`}
           icon={
             <CircleButton>
               <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
             </CircleButton>
           }
         >
-          Volver al inicio
+          {t("Volver al inicio")}
         </Button>
 
         <Button
           variant="secondary"
-          href="/properties"
+          href={`/${locale}/properties`}
           className="border-gold-light-active border"
           icon={
             <CircleButton className="bg-gold-light-hover">
@@ -50,7 +60,7 @@ export default function NotFound() {
             </CircleButton>
           }
         >
-          Ver propiedades
+          {t("Ver propiedades")}
         </Button>
       </div>
     </main>

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import {
   ArrowRightIcon,
   ExclamationTriangleIcon,
@@ -7,6 +8,7 @@ import {
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";
+import { translateText } from "@/i18n/translations";
 
 type ErrorPageProps = {
   error: Error & { digest?: string };
@@ -14,6 +16,10 @@ type ErrorPageProps = {
 };
 
 export default function ErrorPage({ reset }: ErrorPageProps) {
+  const pathname = usePathname();
+  const locale = pathname?.split("/")[1] === "en" ? "en" : "es";
+  const t = (text: string) => translateText(text, locale);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center">
       <div className="bg-gold-light-active flex h-20 w-20 items-center justify-center rounded-full">
@@ -27,12 +33,13 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
         as="h1"
         className="text-green-normal mt-6"
       >
-        Algo salió mal
+        {t("Algo salió mal")}
       </Text>
 
       <Text font="gilroy" size="lg" className="text-grey-darker mt-4 max-w-md">
-        Ocurrió un error inesperado. Puedes intentarlo de nuevo o regresar al
-        inicio.
+        {t(
+          "Ocurrió un error inesperado. Puedes intentarlo de nuevo o regresar al inicio.",
+        )}
       </Text>
 
       <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
@@ -45,12 +52,12 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
             </CircleButton>
           }
         >
-          Intentar de nuevo
+          {t("Intentar de nuevo")}
         </Button>
 
         <Button
           variant="secondary"
-          href="/"
+          href={`/${locale}`}
           className="border-gold-light-active border"
           icon={
             <CircleButton className="bg-gold-light-hover">
@@ -58,7 +65,7 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
             </CircleButton>
           }
         >
-          Volver al inicio
+          {t("Volver al inicio")}
         </Button>
       </div>
     </main>
