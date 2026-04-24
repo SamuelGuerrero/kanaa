@@ -1,11 +1,11 @@
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
+import { NewsletterForm } from "@/components/organisms";
 import { createPageMetadata } from "@/lib/seo";
 
 import { BlogFilters } from "./BlogFilters";
-import { NewsletterForm } from "./NewsletterForm";
 
 import type { Metadata } from "next";
 
@@ -95,20 +95,20 @@ export default function BlogPage() {
   return (
     <main className="bg-gold-light min-h-screen">
       {/* ── HERO ── */}
-      <section className="px-4 pb-0 pt-20 md:px-8 lg:px-16">
+      <section className="px-4 pt-20 pb-0 md:px-8 lg:px-16">
         <div className="mx-auto max-w-7xl">
-          <p className="mb-6 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.15em] text-beige-darker font-gilroy">
-            <span className="h-px w-7 bg-gold-normal" />
+          <p className="text-beige-darker font-gilroy mb-6 flex items-center gap-3 text-xs font-medium tracking-[0.15em] uppercase">
+            <span className="bg-gold-normal h-px w-7" />
             Nuestro diario
           </p>
 
-          <h1 className="font-roboto max-w-4xl text-[clamp(40px,6vw,80px)] font-normal leading-[0.98] tracking-tight text-green-dark-active">
+          <h1 className="font-roboto text-green-dark-active max-w-4xl text-[clamp(40px,6vw,80px)] leading-[0.98] font-normal tracking-tight">
             Historias para viajar{" "}
-            <em className="font-light italic text-gold-normal">despacio</em>,
+            <em className="text-gold-normal font-light italic">despacio</em>,
             vivir bonito y hospedar mejor.
           </h1>
 
-          <p className="mt-7 max-w-lg font-gilroy text-lg leading-relaxed text-beige-darker">
+          <p className="font-gilroy text-beige-darker mt-7 max-w-lg text-lg leading-relaxed">
             Guías, consejos y lecturas pensadas para quienes buscan experiencias
             auténticas, y para propietarios que quieren hacer de su espacio un
             hogar para otros.
@@ -119,15 +119,15 @@ export default function BlogPage() {
       </section>
 
       {/* ── FEATURED ── */}
-      <section className="px-4 pb-10 pt-16 md:px-8 lg:px-16">
+      <section className="px-4 pt-16 pb-10 md:px-8 lg:px-16">
         <div className="mx-auto max-w-7xl">
           <Link
             href={FEATURED.href}
             className="group grid items-center gap-14 md:grid-cols-[1.1fr_1fr]"
           >
             {/* Image */}
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gold-light-hover">
-              <span className="absolute left-5 top-5 z-10 rounded-full bg-gold-light px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-gold-dark font-gilroy">
+            <div className="bg-gold-light-hover relative aspect-[4/3] overflow-hidden rounded-lg">
+              <span className="bg-gold-light text-gold-dark font-gilroy absolute top-5 left-5 z-10 rounded-full px-3.5 py-2 text-[11px] font-semibold tracking-[0.12em] uppercase">
                 Destacado
               </span>
               <Image
@@ -142,23 +142,23 @@ export default function BlogPage() {
 
             {/* Content */}
             <div>
-              <div className="mb-5 flex items-center gap-3 font-gilroy text-sm text-beige-dark">
+              <div className="font-gilroy text-beige-dark mb-5 flex items-center gap-3 text-sm">
                 <span>{FEATURED.category}</span>
-                <span className="h-[3px] w-[3px] rounded-full bg-beige-dark" />
+                <span className="bg-beige-dark h-[3px] w-[3px] rounded-full" />
                 <span>{FEATURED.readTime}</span>
-                <span className="h-[3px] w-[3px] rounded-full bg-beige-dark" />
+                <span className="bg-beige-dark h-[3px] w-[3px] rounded-full" />
                 <span>{FEATURED.date}</span>
               </div>
 
-              <h2 className="font-roboto mb-5 text-[clamp(28px,3.2vw,46px)] font-normal leading-[1.05] tracking-tight text-green-dark-active">
+              <h2 className="font-roboto text-green-dark-active mb-5 text-[clamp(28px,3.2vw,46px)] leading-[1.05] font-normal tracking-tight">
                 {FEATURED.title}
               </h2>
 
-              <p className="mb-7 font-gilroy text-[17px] leading-[1.7] text-beige-darker">
+              <p className="font-gilroy text-beige-darker mb-7 text-[17px] leading-[1.7]">
                 {FEATURED.excerpt}
               </p>
 
-              <span className="inline-flex items-center gap-2.5 font-gilroy text-sm font-medium text-green-dark-active transition-all duration-200 group-hover:gap-4">
+              <span className="font-gilroy text-green-dark-active inline-flex items-center gap-2.5 text-sm font-medium transition-all duration-200 group-hover:gap-4">
                 Leer artículo
                 <ArrowRightIcon className="h-4 w-4" />
               </span>
@@ -168,13 +168,13 @@ export default function BlogPage() {
       </section>
 
       {/* ── ARTICLES GRID ── */}
-      <section className="px-4 pb-24 pt-10 md:px-8 lg:px-16">
+      <section className="px-4 pt-10 pb-24 md:px-8 lg:px-16">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 flex flex-wrap items-baseline justify-between gap-6">
-            <h3 className="font-roboto text-[32px] font-normal tracking-tight text-green-dark-active">
+            <h3 className="font-roboto text-green-dark-active text-[32px] font-normal tracking-tight">
               Artículos recientes
             </h3>
-            <p className="font-gilroy text-sm text-beige-dark">
+            <p className="font-gilroy text-beige-dark text-sm">
               Publicamos cada semana. Suscríbete y no te pierdas ninguno.
             </p>
           </div>
@@ -186,7 +186,7 @@ export default function BlogPage() {
                 href={article.href}
                 className="group flex flex-col gap-5"
               >
-                <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-gold-light-hover">
+                <div className="bg-gold-light-hover relative aspect-[4/3] overflow-hidden rounded-md">
                   <Image
                     src={article.image}
                     alt={article.title}
@@ -198,16 +198,16 @@ export default function BlogPage() {
                 </div>
 
                 <div className="flex flex-col gap-2.5">
-                  <span className="font-gilroy text-xs font-medium uppercase tracking-[0.08em] text-gold-dark">
+                  <span className="font-gilroy text-gold-dark text-xs font-medium tracking-[0.08em] uppercase">
                     {article.category}
                   </span>
-                  <h4 className="font-roboto text-[22px] font-medium leading-[1.2] tracking-tight text-green-dark-active transition-colors duration-200 group-hover:text-gold-dark">
+                  <h4 className="font-roboto text-green-dark-active group-hover:text-gold-dark text-[22px] leading-[1.2] font-medium tracking-tight transition-colors duration-200">
                     {article.title}
                   </h4>
-                  <p className="font-gilroy text-[15px] leading-relaxed text-beige-darker">
+                  <p className="font-gilroy text-beige-darker text-[15px] leading-relaxed">
                     {article.excerpt}
                   </p>
-                  <span className="mt-1 font-gilroy text-[13px] text-beige-dark">
+                  <span className="font-gilroy text-beige-dark mt-1 text-[13px]">
                     {article.date}
                   </span>
                 </div>
@@ -220,10 +220,10 @@ export default function BlogPage() {
             {["←", "1", "2", "3", "4", "→"].map((label, i) => (
               <button
                 key={i}
-                className={`flex h-10 min-w-10 items-center justify-center rounded-full border font-gilroy text-sm transition-all duration-200 ${
+                className={`font-gilroy flex h-10 min-w-10 items-center justify-center rounded-full border text-sm transition-all duration-200 ${
                   label === "1"
                     ? "border-green-dark-active bg-green-dark-active text-gold-light"
-                    : "border-transparent text-beige-darker hover:border-gold-light-active hover:text-green-dark-active"
+                    : "text-beige-darker hover:border-gold-light-active hover:text-green-dark-active border-transparent"
                 }`}
               >
                 {label}
@@ -234,11 +234,11 @@ export default function BlogPage() {
       </section>
 
       {/* ── NEWSLETTER ── */}
-      <section className="relative overflow-hidden bg-green-dark-active px-4 py-24 md:px-8 lg:px-16">
+      <section className="bg-green-dark-active relative overflow-hidden px-4 py-24 md:px-8 lg:px-16">
         {/* decorative glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full"
+          className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full"
           style={{
             background:
               "radial-gradient(circle, rgba(165,153,115,0.18) 0%, transparent 70%)",
@@ -246,19 +246,19 @@ export default function BlogPage() {
         />
 
         <div className="relative mx-auto max-w-2xl text-center">
-          <p className="mb-6 flex items-center justify-center gap-3 font-gilroy text-xs font-medium uppercase tracking-[0.15em] text-gold-light/60">
-            <span className="h-px w-7 bg-gold-normal" />
+          <p className="font-gilroy text-gold-light/60 mb-6 flex items-center justify-center gap-3 text-xs font-medium tracking-[0.15em] uppercase">
+            <span className="bg-gold-normal h-px w-7" />
             Newsletter
-            <span className="h-px w-7 bg-gold-normal" />
+            <span className="bg-gold-normal h-px w-7" />
           </p>
 
-          <h2 className="font-roboto mb-5 text-[clamp(32px,5vw,54px)] font-normal leading-[1.05] tracking-tight text-gold-light">
+          <h2 className="font-roboto text-gold-light mb-5 text-[clamp(32px,5vw,54px)] leading-[1.05] font-normal tracking-tight">
             Recibe nuestras{" "}
-            <em className="font-light italic text-gold-normal">mejores</em>{" "}
+            <em className="text-gold-normal font-light italic">mejores</em>{" "}
             historias
           </h2>
 
-          <p className="mx-auto mb-9 max-w-md font-gilroy text-[17px] leading-relaxed text-gold-light/70">
+          <p className="font-gilroy text-gold-light/70 mx-auto mb-9 max-w-md text-[17px] leading-relaxed">
             Una vez al mes, te enviamos una selección cuidada: nuevos destinos,
             lecturas para propietarios y descuentos exclusivos para
             suscriptores.
