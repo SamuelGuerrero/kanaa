@@ -5,6 +5,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { createPageMetadata } from "@/lib/seo";
 
 import { BlogFilters } from "./BlogFilters";
+import { NewsletterForm } from "./NewsletterForm";
 
 import type { Metadata } from "next";
 
@@ -261,23 +262,7 @@ export default function BlogPage() {
             suscriptores.
           </p>
 
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="mx-auto flex max-w-[460px] rounded-full border border-white/12 bg-white/8 p-1.5"
-          >
-            <input
-              type="email"
-              placeholder="tu@correo.com"
-              required
-              className="flex-1 bg-transparent px-5 py-3 font-gilroy text-[15px] text-gold-light placeholder:text-gold-light/50 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="rounded-full bg-gold-normal px-7 py-3 font-gilroy text-sm font-medium text-gold-light transition-colors duration-200 hover:bg-gold-dark"
-            >
-              Suscribirme
-            </button>
-          </form>
+          <NewsletterForm />
         </div>
       </section>
     </main>
