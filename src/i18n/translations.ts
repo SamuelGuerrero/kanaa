@@ -177,7 +177,6 @@ export const enTranslations: Record<string, string> = {
   "Trabajamos con esquemas transparentes y decisiones basadas en datos.":
     "We work with transparent schemes and data-driven decisions.",
   "Únete a nuestro equipo": "Join our team",
-  "Conoce nuestras vacantes": "Discover our vacancies",
   "Convierte tu propiedad en un activo rentable":
     "Turn your property into a profitable asset",
   "Administra tu propiedad sin complicaciones y con el respaldo de expertos en rentas de alta demanda.":

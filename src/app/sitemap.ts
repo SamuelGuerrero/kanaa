@@ -19,7 +19,6 @@ const PUBLIC_ROUTES: StaticRoute[] = [
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
   { path: "/join", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/vacancies", changeFrequency: "weekly", priority: 0.5 },
 ];
 
 const LOCALES = ["es", "en"] as const;

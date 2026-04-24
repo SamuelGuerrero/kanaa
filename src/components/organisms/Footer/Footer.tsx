@@ -35,7 +35,7 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
     links: [
       { href: "/about", label: "Sobre nosotros" },
       { href: "/about", label: "Nuestro equipo" },
-      { href: "/vacancies", label: "Bolsa de trabajo" },
+      { href: "/join", label: "Bolsa de trabajo" },
     ],
   },
   {
@@ -49,7 +49,7 @@ const FOOTER_SECTIONS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Gestión de propiedades",
     links: [
-      { href: "/join", label: "Únete como propietario" },
+      { href: "/calculator", label: "Únete como propietario" },
       { href: "/calculator", label: "Calculadora de ingresos" },
     ],
   },
