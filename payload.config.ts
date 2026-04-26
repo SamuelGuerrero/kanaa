@@ -6,6 +6,8 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
+import { Authors } from "./src/payload/collections/Authors";
+import { BlogPosts } from "./src/payload/collections/BlogPosts";
 import { FAQItems } from "./src/payload/collections/FAQItems";
 import { GuideCards } from "./src/payload/collections/GuideCards";
 import { JobVacancies } from "./src/payload/collections/JobVacancies";
@@ -38,7 +40,16 @@ export default buildConfig({
     fallback: true,
   },
 
-  collections: [Users, Media, Testimonials, GuideCards, FAQItems, JobVacancies],
+  collections: [
+    Users,
+    Media,
+    Testimonials,
+    GuideCards,
+    FAQItems,
+    JobVacancies,
+    Authors,
+    BlogPosts,
+  ],
 
   globals: [HomePageContent],
 
