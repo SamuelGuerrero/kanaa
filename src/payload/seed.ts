@@ -4,21 +4,15 @@ export async function seed(payload: Payload): Promise<void> {
   const { totalDocs: testimonialCount } = await payload.count({
     collection: "testimonials",
   });
-  const { totalDocs: blogCount } = await payload.count({
-    collection: "blog-posts",
-  });
-
-  if (testimonialCount > 0 && blogCount > 0) return;
-
-  payload.logger.info("Seeding Payload CMS data…");
 
   if (testimonialCount === 0) {
+    payload.logger.info("Seeding Payload CMS data…");
     await seedInitialData(payload);
   }
-  if (blogCount === 0) {
-    await seedBlogData(payload);
-  }
 
+  // Blog seed runs every boot but is idempotent per slug —
+  // it only inserts what's missing.
+  await seedBlogData(payload);
 }
 
 async function seedInitialData(payload: Payload): Promise<void> {
@@ -525,6 +519,53 @@ async function seedInitialData(payload: Payload): Promise<void> {
 async function seedBlogData(payload: Payload): Promise<void> {
   payload.logger.info("Seeding blog posts…");
 
+  // ── Categories ────────────────────────────────────────────────────────────
+  const categorySeeds = [
+    { slug: "travelers", order: 1, es: "Para viajeros", en: "For travelers" },
+    {
+      slug: "owners",
+      order: 2,
+      es: "Para propietarios",
+      en: "For owners",
+    },
+    { slug: "lifestyle", order: 3, es: "Lifestyle", en: "Lifestyle" },
+    { slug: "management", order: 4, es: "Gestión", en: "Management" },
+    { slug: "merida", order: 5, es: "Mérida", en: "Mérida" },
+    { slug: "gastronomy", order: 6, es: "Gastronomía", en: "Gastronomy" },
+  ];
+
+  const categoryIds: Record<string, number> = {};
+  const { totalDocs: existingCategories } = await payload.count({
+    collection: "categories",
+  });
+  if (existingCategories === 0) {
+    for (const cat of categorySeeds) {
+      const doc = await payload.create({
+        collection: "categories",
+        data: { slug: cat.slug, label: cat.es, order: cat.order },
+        locale: "es",
+      });
+      await payload.update({
+        collection: "categories",
+        id: doc.id,
+        data: { label: cat.en },
+        locale: "en",
+      });
+      categoryIds[cat.slug] = doc.id as number;
+    }
+  } else {
+    // Reuse existing categories by slug
+    const existing = await payload.find({
+      collection: "categories",
+      limit: 100,
+      pagination: false,
+      depth: 0,
+    });
+    for (const c of existing.docs) {
+      categoryIds[c.slug] = c.id as number;
+    }
+  }
+
   // ── Authors ───────────────────────────────────────────────────────────────
   const authorSeeds = [
     {
@@ -573,6 +614,16 @@ async function seedBlogData(payload: Payload): Promise<void> {
 
   const authorIds: Record<string, number> = {};
   for (const author of authorSeeds) {
+    const existing = await payload.find({
+      collection: "authors",
+      where: { name: { equals: author.name } },
+      limit: 1,
+      depth: 0,
+    });
+    if (existing.docs[0]) {
+      authorIds[author.key] = existing.docs[0].id as number;
+      continue;
+    }
     const doc = await payload.create({
       collection: "authors",
       data: {
@@ -653,7 +704,7 @@ async function seedBlogData(payload: Payload): Promise<void> {
       heroCaption: string;
       readTime: string;
       tags: string[];
-      toc: { id: string; label: string }[];
+      toc: { anchor: string; label: string }[];
       content: ReturnType<typeof doc>;
       metaTitle?: string;
       metaDescription?: string;
@@ -665,7 +716,7 @@ async function seedBlogData(payload: Payload): Promise<void> {
       heroCaption: string;
       readTime: string;
       tags: string[];
-      toc: { id: string; label: string }[];
+      toc: { anchor: string; label: string }[];
       content: ReturnType<typeof doc>;
       metaTitle?: string;
       metaDescription?: string;
@@ -691,11 +742,11 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "8 min de lectura",
         tags: ["Mérida", "Guía de viaje", "Yucatán", "Gastronomía", "Cenotes"],
         toc: [
-          { id: "llegando", label: "Cómo llegar y moverse" },
-          { id: "barrios", label: "Los barrios que valen la pena" },
-          { id: "gastronomia", label: "Qué comer (y dónde)" },
-          { id: "cenotes", label: "Los cenotes cercanos" },
-          { id: "consejos", label: "Consejos para viajeros lentos" },
+          { anchor: "llegando", label: "Cómo llegar y moverse" },
+          { anchor: "barrios", label: "Los barrios que valen la pena" },
+          { anchor: "gastronomia", label: "Qué comer (y dónde)" },
+          { anchor: "cenotes", label: "Los cenotes cercanos" },
+          { anchor: "consejos", label: "Consejos para viajeros lentos" },
         ],
         content: doc(
           p(
@@ -744,11 +795,11 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "8 min read",
         tags: ["Mérida", "Travel guide", "Yucatán", "Food", "Cenotes"],
         toc: [
-          { id: "llegando", label: "Getting there and around" },
-          { id: "barrios", label: "Neighborhoods worth your time" },
-          { id: "gastronomia", label: "What to eat (and where)" },
-          { id: "cenotes", label: "The nearby cenotes" },
-          { id: "consejos", label: "Tips for slow travelers" },
+          { anchor: "llegando", label: "Getting there and around" },
+          { anchor: "barrios", label: "Neighborhoods worth your time" },
+          { anchor: "gastronomia", label: "What to eat (and where)" },
+          { anchor: "cenotes", label: "The nearby cenotes" },
+          { anchor: "consejos", label: "Tips for slow travelers" },
         ],
         content: doc(
           p(
@@ -807,9 +858,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "5 min de lectura",
         tags: ["Mérida", "Fin de semana", "Planes"],
         toc: [
-          { id: "viernes", label: "Viernes: noche meridana" },
-          { id: "sabado", label: "Sábado: mercado y cenote" },
-          { id: "domingo", label: "Domingo: bici y brunch" },
+          { anchor: "viernes", label: "Viernes: noche meridana" },
+          { anchor: "sabado", label: "Sábado: mercado y cenote" },
+          { anchor: "domingo", label: "Domingo: bici y brunch" },
         ],
         content: doc(
           p(
@@ -846,9 +897,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "5 min read",
         tags: ["Mérida", "Weekend", "Things to do"],
         toc: [
-          { id: "viernes", label: "Friday: Meridano night" },
-          { id: "sabado", label: "Saturday: market and cenote" },
-          { id: "domingo", label: "Sunday: bike and brunch" },
+          { anchor: "viernes", label: "Friday: Meridano night" },
+          { anchor: "sabado", label: "Saturday: market and cenote" },
+          { anchor: "domingo", label: "Sunday: bike and brunch" },
         ],
         content: doc(
           p(
@@ -895,9 +946,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "6 min de lectura",
         tags: ["Propietarios", "Rentabilidad", "Gestión"],
         toc: [
-          { id: "precios", label: "Precios sin datos" },
-          { id: "fotos", label: "Fotos amateurs" },
-          { id: "resenas", label: "Ignorar las reseñas" },
+          { anchor: "precios", label: "Precios sin datos" },
+          { anchor: "fotos", label: "Fotos amateurs" },
+          { anchor: "resenas", label: "Ignorar las reseñas" },
         ],
         content: doc(
           p(
@@ -934,9 +985,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "6 min read",
         tags: ["Owners", "Profitability", "Management"],
         toc: [
-          { id: "precios", label: "Pricing without data" },
-          { id: "fotos", label: "Amateur photos" },
-          { id: "resenas", label: "Ignoring reviews" },
+          { anchor: "precios", label: "Pricing without data" },
+          { anchor: "fotos", label: "Amateur photos" },
+          { anchor: "resenas", label: "Ignoring reviews" },
         ],
         content: doc(
           p(
@@ -983,9 +1034,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "4 min de lectura",
         tags: ["Familia", "Mascotas", "Viajes"],
         toc: [
-          { id: "espacio", label: "Espacio y distribución" },
-          { id: "entorno", label: "Entorno pet-friendly" },
-          { id: "basicos", label: "Los básicos que importan" },
+          { anchor: "espacio", label: "Espacio y distribución" },
+          { anchor: "entorno", label: "Entorno pet-friendly" },
+          { anchor: "basicos", label: "Los básicos que importan" },
         ],
         content: doc(
           p(
@@ -1022,9 +1073,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "4 min read",
         tags: ["Family", "Pets", "Travel"],
         toc: [
-          { id: "espacio", label: "Space and layout" },
-          { id: "entorno", label: "Pet-friendly surroundings" },
-          { id: "basicos", label: "The basics that matter" },
+          { anchor: "espacio", label: "Space and layout" },
+          { anchor: "entorno", label: "Pet-friendly surroundings" },
+          { anchor: "basicos", label: "The basics that matter" },
         ],
         content: doc(
           p(
@@ -1071,9 +1122,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "7 min de lectura",
         tags: ["Propietarios", "Equipamiento", "Operación"],
         toc: [
-          { id: "esenciales", label: "Esenciales sin excusa" },
-          { id: "cocina", label: "La cocina" },
-          { id: "detalles", label: "Los detalles que sobresalen" },
+          { anchor: "esenciales", label: "Esenciales sin excusa" },
+          { anchor: "cocina", label: "La cocina" },
+          { anchor: "detalles", label: "Los detalles que sobresalen" },
         ],
         content: doc(
           p(
@@ -1110,9 +1161,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "7 min read",
         tags: ["Owners", "Setup", "Operations"],
         toc: [
-          { id: "esenciales", label: "No-excuse essentials" },
-          { id: "cocina", label: "The kitchen" },
-          { id: "detalles", label: "Details that stand out" },
+          { anchor: "esenciales", label: "No-excuse essentials" },
+          { anchor: "cocina", label: "The kitchen" },
+          { anchor: "detalles", label: "Details that stand out" },
         ],
         content: doc(
           p(
@@ -1159,9 +1210,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "6 min de lectura",
         tags: ["Cenotes", "Mérida", "Naturaleza", "Yucatán"],
         toc: [
-          { id: "xlacah", label: "Cenote Xlacah" },
-          { id: "sambula", label: "Cenote Sambulá" },
-          { id: "yokdzonot", label: "Cenote Yokdzonot" },
+          { anchor: "xlacah", label: "Cenote Xlacah" },
+          { anchor: "sambula", label: "Cenote Sambulá" },
+          { anchor: "yokdzonot", label: "Cenote Yokdzonot" },
         ],
         content: doc(
           p(
@@ -1198,9 +1249,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "6 min read",
         tags: ["Cenotes", "Mérida", "Nature", "Yucatán"],
         toc: [
-          { id: "xlacah", label: "Cenote Xlacah" },
-          { id: "sambula", label: "Cenote Sambulá" },
-          { id: "yokdzonot", label: "Cenote Yokdzonot" },
+          { anchor: "xlacah", label: "Cenote Xlacah" },
+          { anchor: "sambula", label: "Cenote Sambulá" },
+          { anchor: "yokdzonot", label: "Cenote Yokdzonot" },
         ],
         content: doc(
           p(
@@ -1247,9 +1298,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "5 min de lectura",
         tags: ["Propietarios", "Métricas", "Rentabilidad"],
         toc: [
-          { id: "ocupacion", label: "Tasa de ocupación" },
-          { id: "adr", label: "Tarifa promedio" },
-          { id: "revpar", label: "RevPAR" },
+          { anchor: "ocupacion", label: "Tasa de ocupación" },
+          { anchor: "adr", label: "Tarifa promedio" },
+          { anchor: "revpar", label: "RevPAR" },
         ],
         content: doc(
           p(
@@ -1286,9 +1337,9 @@ async function seedBlogData(payload: Payload): Promise<void> {
         readTime: "5 min read",
         tags: ["Owners", "Metrics", "Profitability"],
         toc: [
-          { id: "ocupacion", label: "Occupancy rate" },
-          { id: "adr", label: "Average daily rate" },
-          { id: "revpar", label: "RevPAR" },
+          { anchor: "ocupacion", label: "Occupancy rate" },
+          { anchor: "adr", label: "Average daily rate" },
+          { anchor: "revpar", label: "RevPAR" },
         ],
         content: doc(
           p(
@@ -1317,17 +1368,735 @@ async function seedBlogData(payload: Payload): Promise<void> {
         ),
       },
     },
+
+    // ─ POST 8 ──────────────────────────────────────────────────────────────
+    {
+      slug: "merida-nomadas-digitales",
+      category: "lifestyle",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop",
+      publishedAt: "2025-07-15",
+      authorKey: "lucia",
+      es: {
+        title: "Por qué Mérida atrae a tantos nómadas digitales",
+        excerpt:
+          "Internet estable, costo de vida razonable y un ritmo que invita a quedarse: la fórmula que está cambiando la ciudad.",
+        lead: "En los últimos cinco años Mérida pasó de ser destino de jubilados a base de operaciones para profesionales remotos de medio mundo.",
+        heroCaption: "Una mañana cualquiera en una cafetería de Santa Ana.",
+        readTime: "5 min de lectura",
+        tags: ["Mérida", "Nómadas digitales", "Lifestyle"],
+        toc: [
+          { anchor: "infraestructura", label: "Infraestructura" },
+          { anchor: "comunidad", label: "Comunidad" },
+          { anchor: "logistica", label: "Logística diaria" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "Mérida no estaba en el mapa nómada hace una década. Hoy hay listas de espera para coworkings y cafeterías con menú en inglés.",
+            ),
+          ),
+          h2("infraestructura", "Infraestructura"),
+          p(
+            txt(
+              "Fibra óptica casi en cualquier barrio del centro y planes que no se caen al primer apagón. La velocidad promedio supera lo que se consigue en muchas capitales latinoamericanas.",
+            ),
+          ),
+          h2("comunidad", "Comunidad"),
+          p(
+            txt(
+              "Eventos semanales, grupos de Slack locales, encuentros temáticos. La red existe y es accesible.",
+            ),
+          ),
+          h2("logistica", "Logística diaria"),
+          p(
+            txt(
+              "Trámites bancarios, sim cards, gimnasios mensuales: todo se resuelve en pocas horas. La fricción para empezar es mínima.",
+            ),
+          ),
+        ),
+      },
+      en: {
+        title: "Why Mérida attracts so many digital nomads",
+        excerpt:
+          "Stable internet, reasonable cost of living, and a pace that invites you to stay — the formula reshaping the city.",
+        lead: "In the past five years Mérida went from retiree haven to operating base for remote professionals from around the world.",
+        heroCaption: "Any morning in a Santa Ana coffee shop.",
+        readTime: "5 min read",
+        tags: ["Mérida", "Digital nomads", "Lifestyle"],
+        toc: [
+          { anchor: "infraestructura", label: "Infrastructure" },
+          { anchor: "comunidad", label: "Community" },
+          { anchor: "logistica", label: "Daily logistics" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "Mérida wasn't on the nomad map a decade ago. Today coworkings have waitlists and many cafés print menus in English.",
+            ),
+          ),
+          h2("infraestructura", "Infrastructure"),
+          p(
+            txt(
+              "Fiber in nearly every central neighborhood and plans that don't drop at the first outage. Average speeds beat many Latin American capitals.",
+            ),
+          ),
+          h2("comunidad", "Community"),
+          p(
+            txt(
+              "Weekly events, local Slack groups, themed meet-ups. The network exists and is easy to plug into.",
+            ),
+          ),
+          h2("logistica", "Daily logistics"),
+          p(
+            txt(
+              "Banking, SIM cards, month-to-month gyms — all sorted in hours, not days. Friction to start is minimal.",
+            ),
+          ),
+        ),
+      },
+    },
+
+    // ─ POST 9 ──────────────────────────────────────────────────────────────
+    {
+      slug: "el-check-in-perfecto",
+      category: "management",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop",
+      publishedAt: "2025-07-08",
+      authorKey: "mateo",
+      es: {
+        title: "El check-in perfecto: el ritual que define el resto de la estancia",
+        excerpt:
+          "Los primeros quince minutos en una propiedad valen más que cualquier descripción del listado.",
+        lead: "Si el huésped llega cansado y algo no está claro, ya partes en desventaja. Esta es la coreografía que recomendamos.",
+        heroCaption: "El primer minuto de la estancia decide casi todo.",
+        readTime: "6 min de lectura",
+        tags: ["Operación", "Check-in", "Hospitalidad"],
+        toc: [
+          { anchor: "antes", label: "Antes de que llegue" },
+          { anchor: "llegada", label: "El minuto cero" },
+          { anchor: "primeras-horas", label: "Las primeras horas" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "Un check-in bien diseñado se siente como entrar a casa de un amigo organizado: nada es excesivo, todo está donde debería.",
+            ),
+          ),
+          h2("antes", "Antes de que llegue"),
+          p(
+            txt(
+              "Mensaje el día anterior con la dirección exacta, instrucciones del cerrojo y dos números de contacto. Sin sorpresas.",
+            ),
+          ),
+          h2("llegada", "El minuto cero"),
+          p(
+            txt(
+              "Aire acondicionado encendido, luces tenues, agua fría a la vista. Cero esfuerzo de decodificación al llegar.",
+            ),
+          ),
+          h2("primeras-horas", "Las primeras horas"),
+          p(
+            txt(
+              "Una nota corta con tres recomendaciones del barrio escritas a mano. No un libro de bienvenida de veinte páginas.",
+            ),
+          ),
+        ),
+      },
+      en: {
+        title: "The perfect check-in: the ritual that shapes the rest of the stay",
+        excerpt:
+          "The first fifteen minutes in a property matter more than any listing description.",
+        lead: "If guests arrive tired and something isn't clear, you start at a disadvantage. Here's the choreography we recommend.",
+        heroCaption: "The first minute of the stay decides almost everything.",
+        readTime: "6 min read",
+        tags: ["Operations", "Check-in", "Hospitality"],
+        toc: [
+          { anchor: "antes", label: "Before they arrive" },
+          { anchor: "llegada", label: "The first minute" },
+          { anchor: "primeras-horas", label: "The first hours" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "A well-designed check-in feels like walking into the home of an organized friend: nothing is excessive, everything is where it should be.",
+            ),
+          ),
+          h2("antes", "Before they arrive"),
+          p(
+            txt(
+              "A message the day before with exact address, lock instructions and two contact numbers. No surprises.",
+            ),
+          ),
+          h2("llegada", "The first minute"),
+          p(
+            txt(
+              "AC running, soft lights, cold water in sight. Zero decoding required on arrival.",
+            ),
+          ),
+          h2("primeras-horas", "The first hours"),
+          p(
+            txt(
+              "A short handwritten note with three neighborhood picks. Not a twenty-page welcome book.",
+            ),
+          ),
+        ),
+      },
+    },
+
+    // ─ POST 10 ─────────────────────────────────────────────────────────────
+    {
+      slug: "una-semana-en-la-costa-yucateca",
+      category: "travelers",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop",
+      publishedAt: "2025-06-28",
+      authorKey: "valeria",
+      es: {
+        title: "Una semana en la costa yucateca: de Progreso a Sisal",
+        excerpt:
+          "Pueblos pesqueros, playas vacías y atardeceres que parecen pintados. La costa yucateca a tu propio ritmo.",
+        lead: "Si tienes una semana, este es el itinerario que armaríamos para descubrir la costa norte sin prisa.",
+        heroCaption: "El malecón de Progreso a media tarde.",
+        readTime: "7 min de lectura",
+        tags: ["Costa", "Progreso", "Sisal", "Yucatán"],
+        toc: [
+          { anchor: "progreso", label: "Progreso" },
+          { anchor: "telchac", label: "Telchac y Chuburná" },
+          { anchor: "sisal", label: "Sisal" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "La costa yucateca tiene un encanto distinto al del Caribe mexicano. Menos arena blanca de postal y más vida cotidiana frente al mar.",
+            ),
+          ),
+          h2("progreso", "Progreso"),
+          p(
+            txt(
+              "El puerto que cambió mucho con los cruceros pero todavía tiene su lado pueblo. El malecón al atardecer no decepciona.",
+            ),
+          ),
+          h2("telchac", "Telchac y Chuburná"),
+          p(
+            txt(
+              "Pueblos pesqueros donde encontrar pescado fresco recién bajado de la lancha. Ritmo lento, cero infraestructura turística.",
+            ),
+          ),
+          h2("sisal", "Sisal"),
+          p(
+            txt(
+              "Pueblo Mágico desde 2020 y aun así sin perder esencia. Manglares, flamencos cercanos y un faro que merece la caminata.",
+            ),
+          ),
+        ),
+      },
+      en: {
+        title: "A week along the Yucatán coast: from Progreso to Sisal",
+        excerpt:
+          "Fishing villages, empty beaches and sunsets that look painted. The Yucatán coast at your own pace.",
+        lead: "If you have a week, this is the itinerary we'd build to discover the northern coast slowly.",
+        heroCaption: "Progreso boardwalk in the afternoon.",
+        readTime: "7 min read",
+        tags: ["Coast", "Progreso", "Sisal", "Yucatán"],
+        toc: [
+          { anchor: "progreso", label: "Progreso" },
+          { anchor: "telchac", label: "Telchac and Chuburná" },
+          { anchor: "sisal", label: "Sisal" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "The Yucatán coast has a different charm from the Mexican Caribbean. Less white-sand postcard and more everyday life facing the sea.",
+            ),
+          ),
+          h2("progreso", "Progreso"),
+          p(
+            txt(
+              "The port has changed a lot with cruise ships but still keeps its small-town feel. The boardwalk at sunset never disappoints.",
+            ),
+          ),
+          h2("telchac", "Telchac and Chuburná"),
+          p(
+            txt(
+              "Fishing towns where you can buy fish straight off the boat. Slow rhythm, no tourist infrastructure.",
+            ),
+          ),
+          h2("sisal", "Sisal"),
+          p(
+            txt(
+              "A Pueblo Mágico since 2020 yet still itself. Mangroves, flamingos nearby and a lighthouse worth the walk.",
+            ),
+          ),
+        ),
+      },
+    },
+
+    // ─ POST 11 ─────────────────────────────────────────────────────────────
+    {
+      slug: "cantinas-con-historia-merida",
+      category: "gastronomy",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1200&auto=format&fit=crop",
+      publishedAt: "2025-06-20",
+      authorKey: "lucia",
+      es: {
+        title: "Cantinas con historia: dónde beber un trago a la antigua en Mérida",
+        excerpt:
+          "Cantinas centenarias, botanas que entran solas y una forma de beber que se niega a desaparecer.",
+        lead: "La cantina meridana sigue viva. Estos son los lugares donde la tradición no se actuó: se heredó.",
+        heroCaption: "Una cantina del centro un viernes a las 7 pm.",
+        readTime: "5 min de lectura",
+        tags: ["Mérida", "Cantinas", "Tradición"],
+        toc: [
+          { anchor: "la-negrita", label: "La Negrita" },
+          { anchor: "el-cardenal", label: "El Cardenal" },
+          { anchor: "etiqueta", label: "Etiqueta básica" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "En Mérida, ir a la cantina es un acto cultural. La regla es simple: cada trago trae botana, y la conversación nunca para.",
+            ),
+          ),
+          h2("la-negrita", "La Negrita"),
+          p(
+            txt(
+              "Más de un siglo de existencia, paredes con fotos amarillentas y trova en vivo casi todos los días.",
+            ),
+          ),
+          h2("el-cardenal", "El Cardenal"),
+          p(
+            txt(
+              "Cantina de barrio en Itzimná. Sin pretensiones, con clientes que llevan décadas yendo el mismo día de la semana.",
+            ),
+          ),
+          h2("etiqueta", "Etiqueta básica"),
+          p(
+            txt(
+              "Saluda al barman, paga la cuenta antes de irte, propina razonable. Lo demás se aprende mirando.",
+            ),
+          ),
+        ),
+      },
+      en: {
+        title: "Old cantinas: where to drink the traditional way in Mérida",
+        excerpt:
+          "Century-old cantinas, snacks that arrive on their own and a way of drinking that refuses to disappear.",
+        lead: "The Mérida cantina is alive and well. These are the places where tradition wasn't performed — it was inherited.",
+        heroCaption: "A downtown cantina on a Friday at 7 pm.",
+        readTime: "5 min read",
+        tags: ["Mérida", "Cantinas", "Tradition"],
+        toc: [
+          { anchor: "la-negrita", label: "La Negrita" },
+          { anchor: "el-cardenal", label: "El Cardenal" },
+          { anchor: "etiqueta", label: "Basic etiquette" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "In Mérida, going to a cantina is a cultural act. The rule is simple: every drink brings free snacks, and the conversation never stops.",
+            ),
+          ),
+          h2("la-negrita", "La Negrita"),
+          p(
+            txt(
+              "Over a century in operation, walls full of yellowing photos and live trova almost every day.",
+            ),
+          ),
+          h2("el-cardenal", "El Cardenal"),
+          p(
+            txt(
+              "Neighborhood cantina in Itzimná. Unpretentious, with regulars who've been showing up the same weekday for decades.",
+            ),
+          ),
+          h2("etiqueta", "Basic etiquette"),
+          p(
+            txt(
+              "Greet the bartender, settle up before leaving, tip reasonably. Everything else you learn by watching.",
+            ),
+          ),
+        ),
+      },
+    },
+
+    // ─ POST 12 ─────────────────────────────────────────────────────────────
+    {
+      slug: "elegir-tu-primera-propiedad-de-renta",
+      category: "owners",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop",
+      publishedAt: "2025-06-10",
+      authorKey: "mateo",
+      es: {
+        title: "Qué buscar al elegir tu primera propiedad para renta vacacional",
+        excerpt:
+          "La ubicación importa. La distribución importa más. Los detalles que separan una buena compra de una decisión costosa.",
+        lead: "Antes de firmar, conviene mirar la propiedad con ojos de huésped, no solo de propietario.",
+        heroCaption: "La decisión empieza mucho antes de la escritura.",
+        readTime: "6 min de lectura",
+        tags: ["Inversión", "Renta vacacional", "Mérida"],
+        toc: [
+          { anchor: "ubicacion", label: "Ubicación real, no nominal" },
+          { anchor: "layout", label: "Distribución" },
+          { anchor: "potencial", label: "Potencial de mejora" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "Una propiedad para renta no es la misma que una para vivirla. Lo que te enamora puede no ser lo que paga la renta.",
+            ),
+          ),
+          h2("ubicacion", "Ubicación real, no nominal"),
+          p(
+            txt(
+              'Estar "en el centro" suena bien hasta que el huésped no puede caminar a un café decente. Camina la zona a distintas horas antes de comprar.',
+            ),
+          ),
+          h2("layout", "Distribución"),
+          p(
+            txt(
+              "Dos baños bien repartidos valen más que un tercer cuarto. La cocina abierta gana sobre la cocina cerrada.",
+            ),
+          ),
+          h2("potencial", "Potencial de mejora"),
+          p(
+            txt(
+              "Un patio que se puede transformar en alberca cambia el listado. Un tinaco oxidado lo hunde.",
+            ),
+          ),
+        ),
+      },
+      en: {
+        title: "What to look for when choosing your first vacation rental property",
+        excerpt:
+          "Location matters. Layout matters more. The details that separate a good buy from an expensive mistake.",
+        lead: "Before signing, look at the property with guest eyes — not just owner eyes.",
+        heroCaption: "The decision starts long before the deed.",
+        readTime: "6 min read",
+        tags: ["Investment", "Vacation rental", "Mérida"],
+        toc: [
+          { anchor: "ubicacion", label: "Real, not nominal location" },
+          { anchor: "layout", label: "Layout" },
+          { anchor: "potencial", label: "Upside" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "A rental property isn't the same as one you'd live in. What you fall in love with may not be what pays the rent.",
+            ),
+          ),
+          h2("ubicacion", "Real, not nominal location"),
+          p(
+            txt(
+              'Being "downtown" sounds good until guests can\'t walk to a decent coffee. Walk the area at different hours before buying.',
+            ),
+          ),
+          h2("layout", "Layout"),
+          p(
+            txt(
+              "Two well-placed bathrooms beat a third bedroom. Open kitchen wins over closed kitchen.",
+            ),
+          ),
+          h2("potencial", "Upside"),
+          p(
+            txt(
+              "A patio that can become a pool transforms the listing. A rusted water tank tanks it.",
+            ),
+          ),
+        ),
+      },
+    },
+
+    // ─ POST 13 ─────────────────────────────────────────────────────────────
+    {
+      slug: "el-barrio-de-santiago",
+      category: "merida",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1604608672516-f1b9b1d1f4f4?q=80&w=1200&auto=format&fit=crop",
+      publishedAt: "2025-05-28",
+      authorKey: "valeria",
+      es: {
+        title: "El barrio de Santiago: la Mérida que no sale en las guías",
+        excerpt:
+          "Sin bares de diseño, sin menús en inglés. Solo vecinos, parques y la mejor torta cubana del centro.",
+        lead: "Si quieres ver cómo viven los meridanos cuando nadie los mira, Santiago es el barrio.",
+        heroCaption: "Parque de Santiago al atardecer.",
+        readTime: "5 min de lectura",
+        tags: ["Mérida", "Barrios", "Local"],
+        toc: [
+          { anchor: "parque", label: "El parque" },
+          { anchor: "comer", label: "Dónde comer" },
+          { anchor: "ritmo", label: "El ritmo" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "Santiago no se vende. Por eso vale la pena.",
+            ),
+          ),
+          h2("parque", "El parque"),
+          p(
+            txt(
+              "Los martes y jueves hay baile para adultos mayores. Llega y siéntate sin pedir permiso.",
+            ),
+          ),
+          h2("comer", "Dónde comer"),
+          p(
+            txt(
+              'La torta cubana de "El Colorín" lleva tres generaciones siendo la misma. No le cambies el orden.',
+            ),
+          ),
+          h2("ritmo", "El ritmo"),
+          p(
+            txt(
+              "A las 9 pm el barrio duerme. Es parte de su encanto, no un defecto.",
+            ),
+          ),
+        ),
+      },
+      en: {
+        title: "Santiago: the Mérida the guidebooks don't show",
+        excerpt:
+          "No design bars, no English menus. Just neighbors, parks and the best torta cubana downtown.",
+        lead: "If you want to see how meridanos live when no one's watching, Santiago is the neighborhood.",
+        heroCaption: "Santiago park at dusk.",
+        readTime: "5 min read",
+        tags: ["Mérida", "Neighborhoods", "Local"],
+        toc: [
+          { anchor: "parque", label: "The park" },
+          { anchor: "comer", label: "Where to eat" },
+          { anchor: "ritmo", label: "The pace" },
+        ],
+        content: doc(
+          p(txt("Santiago doesn't market itself. That's why it's worth your time.")),
+          h2("parque", "The park"),
+          p(
+            txt(
+              "Tuesdays and Thursdays there's dancing for older folks. Show up, sit down, no permission needed.",
+            ),
+          ),
+          h2("comer", "Where to eat"),
+          p(
+            txt(
+              'El Colorín\'s torta cubana has been the same for three generations. Don\'t mess with the order.',
+            ),
+          ),
+          h2("ritmo", "The pace"),
+          p(
+            txt(
+              "By 9 pm the neighborhood sleeps. That's part of the charm, not a flaw.",
+            ),
+          ),
+        ),
+      },
+    },
+
+    // ─ POST 14 ─────────────────────────────────────────────────────────────
+    {
+      slug: "merida-en-modo-retiro",
+      category: "lifestyle",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?q=80&w=1200&auto=format&fit=crop",
+      publishedAt: "2025-05-15",
+      authorKey: "valeria",
+      es: {
+        title: "Cómo desconectarse de verdad: Mérida en modo retiro",
+        excerpt:
+          "Hospedajes con jardín, mañanas sin pantalla y el ritual de no hacer nada como objetivo principal.",
+        lead: "Si vienes a apagar el ruido, hay una forma de hacer Mérida que ayuda mucho.",
+        heroCaption: "Hamaca y silencio: la combinación oficial.",
+        readTime: "4 min de lectura",
+        tags: ["Lifestyle", "Mérida", "Retiro"],
+        toc: [
+          { anchor: "donde", label: "Dónde quedarte" },
+          { anchor: "rutina", label: "La rutina" },
+          { anchor: "salir", label: "Salir, pero poco" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "Desconectar tiene poca técnica y mucha disciplina. Mérida ayuda porque pone la velocidad en tu favor.",
+            ),
+          ),
+          h2("donde", "Dónde quedarte"),
+          p(
+            txt(
+              "Casa con jardín y hamaca, lejos del centro. Idealmente en un barrio donde no escuches motores antes de las 8 am.",
+            ),
+          ),
+          h2("rutina", "La rutina"),
+          p(
+            txt(
+              "Café temprano, lectura, una caminata sin destino antes del calor. Comida fuerte al mediodía. Siesta. Repetir.",
+            ),
+          ),
+          h2("salir", "Salir, pero poco"),
+          p(
+            txt(
+              "Una salida cultural cada dos días. No más. El propósito es no llenar el calendario.",
+            ),
+          ),
+        ),
+      },
+      en: {
+        title: "How to actually unplug: Mérida in retreat mode",
+        excerpt:
+          "Garden stays, screen-free mornings and the ritual of doing nothing as the main goal.",
+        lead: "If you're here to turn the noise down, there's a way to do Mérida that really helps.",
+        heroCaption: "Hammock and silence: the official combo.",
+        readTime: "4 min read",
+        tags: ["Lifestyle", "Mérida", "Retreat"],
+        toc: [
+          { anchor: "donde", label: "Where to stay" },
+          { anchor: "rutina", label: "The routine" },
+          { anchor: "salir", label: "Going out, a little" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "Unplugging is light on technique and heavy on discipline. Mérida helps by tilting the pace in your favor.",
+            ),
+          ),
+          h2("donde", "Where to stay"),
+          p(
+            txt(
+              "A house with a garden and hammock, away from downtown. Ideally a block where engines don't start before 8 am.",
+            ),
+          ),
+          h2("rutina", "The routine"),
+          p(
+            txt(
+              "Early coffee, reading, an aimless walk before the heat. Big meal at noon. Nap. Repeat.",
+            ),
+          ),
+          h2("salir", "Going out, a little"),
+          p(
+            txt(
+              "One cultural outing every other day. No more. The point is not to fill the calendar.",
+            ),
+          ),
+        ),
+      },
+    },
+
+    // ─ POST 15 ─────────────────────────────────────────────────────────────
+    {
+      slug: "despensa-yucateca",
+      category: "gastronomy",
+      coverImageUrl:
+        "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=1200&auto=format&fit=crop",
+      publishedAt: "2025-05-02",
+      authorKey: "lucia",
+      es: {
+        title: "Recados, achiote y chiles: la despensa básica de la cocina yucateca",
+        excerpt:
+          "Una mirada a los ingredientes que hacen que la cocina yucateca sea inconfundible — y cómo arrancar la tuya.",
+        lead: "No vas a cocinar yucateco con ingredientes globales. Esta es la despensa mínima que vale la pena armar.",
+        heroCaption: "Un mercado local, en un martes cualquiera.",
+        readTime: "6 min de lectura",
+        tags: ["Cocina", "Yucatán", "Ingredientes"],
+        toc: [
+          { anchor: "recados", label: "Los recados" },
+          { anchor: "chiles", label: "Los chiles" },
+          { anchor: "extras", label: "Lo que no falta" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "La cocina yucateca tiene unos cuantos ingredientes-firma. Sin ellos, no hay manera.",
+            ),
+          ),
+          h2("recados", "Los recados"),
+          p(
+            txt(
+              "Recado rojo, recado negro, recado de bistec. Pastas de especias que cambian todo. Cómpralos en el mercado, no en supermercado.",
+            ),
+          ),
+          h2("chiles", "Los chiles"),
+          p(
+            txt(
+              "Habanero fresco para casi todo, x'catic para cocina suave, chile dulce yucateco para guisos. El chile en polvo no aplica.",
+            ),
+          ),
+          h2("extras", "Lo que no falta"),
+          p(
+            txt(
+              "Naranja agria, hoja de plátano, achiote en pasta y un poco de manteca de cerdo de buena fuente. Con eso ya cocinas.",
+            ),
+          ),
+        ),
+      },
+      en: {
+        title: "Recados, achiote and chiles: the Yucatecan kitchen pantry",
+        excerpt:
+          "A look at the ingredients that make Yucatecan cooking unmistakable — and how to start your own.",
+        lead: "You won't cook Yucatecan food with global ingredients. Here's the minimum pantry worth assembling.",
+        heroCaption: "A local market on any given Tuesday.",
+        readTime: "6 min read",
+        tags: ["Cooking", "Yucatán", "Ingredients"],
+        toc: [
+          { anchor: "recados", label: "The recados" },
+          { anchor: "chiles", label: "The chiles" },
+          { anchor: "extras", label: "Always on hand" },
+        ],
+        content: doc(
+          p(
+            txt(
+              "Yucatecan cooking has a handful of signature ingredients. Without them, there's no way.",
+            ),
+          ),
+          h2("recados", "The recados"),
+          p(
+            txt(
+              "Recado rojo, recado negro, recado de bistec. Spice pastes that change everything. Buy them at the market, not the supermarket.",
+            ),
+          ),
+          h2("chiles", "The chiles"),
+          p(
+            txt(
+              "Fresh habanero for almost everything, x'catic for milder cooking, sweet Yucatecan chile for stews. Powdered chile doesn't apply.",
+            ),
+          ),
+          h2("extras", "Always on hand"),
+          p(
+            txt(
+              "Sour orange, banana leaf, achiote paste and a bit of good-quality lard. That's your starter kit.",
+            ),
+          ),
+        ),
+      },
+    },
   ];
 
-  // Create posts in ES first, then translate to EN. Related posts assigned in second pass.
+  // Create posts in ES first, then translate to EN. Skip slugs that already exist.
   const postIds: Record<string, number> = {};
   for (const post of postSeeds) {
-    const created = await payload.create({
+    const existing = await payload.find({
+      collection: "blog-posts",
+      where: { slug: { equals: post.slug } },
+      limit: 1,
+      depth: 0,
+    });
+    if (existing.docs[0]) {
+      postIds[post.slug] = existing.docs[0].id as number;
+      continue;
+    }
+    const categoryId = categoryIds[post.category];
+    if (!categoryId) {
+      payload.logger.warn(
+        `Skipping post "${post.slug}": missing category "${post.category}". Check the categories collection.`,
+      );
+      continue;
+    }
+    try {
+      const created = await payload.create({
       collection: "blog-posts",
       draft: false,
       data: {
         slug: post.slug,
-        category: post.category,
+        category: categoryId,
         coverImageUrl: post.coverImageUrl,
         publishedAt: post.publishedAt,
         isFeatured: post.isFeatured ?? false,
@@ -1369,6 +2138,11 @@ async function seedBlogData(payload: Payload): Promise<void> {
       locale: "en",
     });
     postIds[post.slug] = created.id as number;
+    } catch (err) {
+      payload.logger.error(
+        `Failed to seed post "${post.slug}": ${(err as Error).message}`,
+      );
+    }
   }
 
   // Link related posts (pick 3 other posts for each)
