@@ -1,14 +1,5 @@
 import type { CollectionConfig } from "payload";
 
-const CATEGORY_OPTIONS = [
-  { label: "Para viajeros", value: "travelers" },
-  { label: "Para propietarios", value: "owners" },
-  { label: "Lifestyle", value: "lifestyle" },
-  { label: "Gestión", value: "management" },
-  { label: "Mérida", value: "merida" },
-  { label: "Gastronomía", value: "gastronomy" },
-];
-
 export const BlogPosts: CollectionConfig = {
   slug: "blog-posts",
   labels: {
@@ -26,6 +17,20 @@ export const BlogPosts: CollectionConfig = {
       "isPublished",
     ],
     description: "Entradas publicadas en /blog y /blog/[slug]",
+    livePreview: {
+      url: ({ data, locale }) => {
+        const base =
+          process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000";
+        const lang = locale?.code === "en" ? "en" : "es";
+        const slug = (data?.slug as string | undefined) ?? "";
+        return `${base}/${lang}/blog/${slug}`;
+      },
+      breakpoints: [
+        { label: "Móvil", name: "mobile", width: 375, height: 667 },
+        { label: "Tablet", name: "tablet", width: 768, height: 1024 },
+        { label: "Desktop", name: "desktop", width: 1440, height: 900 },
+      ],
+    },
   },
 
   fields: [
@@ -124,13 +129,13 @@ export const BlogPosts: CollectionConfig = {
           fields: [
             {
               name: "category",
-              type: "select",
+              type: "relationship",
+              relationTo: "categories",
               label: "Categoría",
               required: true,
-              options: CATEGORY_OPTIONS,
               admin: {
                 description:
-                  "Aparece como etiqueta de categoría y sirve de filtro",
+                  "Aparece como etiqueta y filtro. Se administra desde la colección Categorías.",
               },
             },
             {
@@ -198,13 +203,13 @@ export const BlogPosts: CollectionConfig = {
               localized: true,
               admin: {
                 description:
-                  "Lista de anclas que aparece en la columna derecha. El id debe coincidir con el id de la sección en el cuerpo del artículo.",
+                  "Lista de anclas que aparece en la columna derecha. El anchor debe coincidir con el id de la sección en el cuerpo del artículo.",
               },
               fields: [
                 {
-                  name: "id",
+                  name: "anchor",
                   type: "text",
-                  label: "ID (ancla)",
+                  label: "Anchor",
                   required: true,
                   admin: {
                     description: 'Ej: "gastronomia", "cenotes"',

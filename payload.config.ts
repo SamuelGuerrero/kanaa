@@ -8,6 +8,7 @@ import sharp from "sharp";
 
 import { Authors } from "./src/payload/collections/Authors";
 import { BlogPosts } from "./src/payload/collections/BlogPosts";
+import { Categories } from "./src/payload/collections/Categories";
 import { FAQItems } from "./src/payload/collections/FAQItems";
 import { GuideCards } from "./src/payload/collections/GuideCards";
 import { JobVacancies } from "./src/payload/collections/JobVacancies";
@@ -48,6 +49,7 @@ export default buildConfig({
     FAQItems,
     JobVacancies,
     Authors,
+    Categories,
     BlogPosts,
   ],
 

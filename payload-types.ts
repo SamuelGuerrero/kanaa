@@ -74,6 +74,7 @@ export interface Config {
     'faq-items': FaqItem;
     'job-vacancies': JobVacancy;
     authors: Author;
+    categories: Category;
     'blog-posts': BlogPost;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -89,6 +90,7 @@ export interface Config {
     'faq-items': FaqItemsSelect<false> | FaqItemsSelect<true>;
     'job-vacancies': JobVacanciesSelect<false> | JobVacanciesSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -301,6 +303,29 @@ export interface Author {
   createdAt: string;
 }
 /**
+ * Categorías de artículos del blog. Aparecen como filtros en /blog y como etiqueta en cada post.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  /**
+   * Identificador estable usado en la URL (?cat=...). Ej: "travelers", "owners".
+   */
+  slug: string;
+  /**
+   * Texto visible en los filtros y tarjetas
+   */
+  label: string;
+  /**
+   * Posición en la barra de filtros. Menor = aparece primero.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Entradas publicadas en /blog y /blog/[slug]
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -349,9 +374,9 @@ export interface BlogPost {
    */
   heroCaption?: string | null;
   /**
-   * Aparece como etiqueta de categoría y sirve de filtro
+   * Aparece como etiqueta y filtro. Se administra desde la colección Categorías.
    */
-  category: 'travelers' | 'owners' | 'lifestyle' | 'management' | 'merida' | 'gastronomy';
+  category: number | Category;
   /**
    * Chips que aparecen al pie del artículo. Pueden traducirse.
    */
@@ -371,15 +396,16 @@ export interface BlogPost {
   publishedAt: string;
   author: number | Author;
   /**
-   * Lista de anclas que aparece en la columna derecha. El id debe coincidir con el id de la sección en el cuerpo del artículo.
+   * Lista de anclas que aparece en la columna derecha. El anchor debe coincidir con el id de la sección en el cuerpo del artículo.
    */
   tableOfContents?:
     | {
         /**
          * Ej: "gastronomia", "cenotes"
          */
-        id: string;
+        anchor: string;
         label: string;
+        id?: string | null;
       }[]
     | null;
   /**
@@ -462,6 +488,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'authors';
         value: number | Author;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
       } | null)
     | ({
         relationTo: 'blog-posts';
@@ -643,6 +673,17 @@ export interface AuthorsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  slug?: T;
+  label?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "blog-posts_select".
  */
 export interface BlogPostsSelect<T extends boolean = true> {
@@ -667,8 +708,9 @@ export interface BlogPostsSelect<T extends boolean = true> {
   tableOfContents?:
     | T
     | {
-        id?: T;
+        anchor?: T;
         label?: T;
+        id?: T;
       };
   relatedPosts?: T;
   seo?:
