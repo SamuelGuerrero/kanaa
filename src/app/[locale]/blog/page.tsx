@@ -7,7 +7,11 @@ import { BlogFilters, NewsletterForm } from "@/components/organisms";
 import { createPageMetadata, type SiteLocale } from "@/lib/seo";
 import configPromise from "@payload-config";
 
-import type { BlogPost, Media } from "../../../../payload-types";
+import type {
+  BlogPost,
+  Category,
+  Media,
+} from "../../../../payload-types";
 import type { Where } from "payload";
 import type { Metadata } from "next";
 
@@ -28,15 +32,6 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 const PAGE_SIZE = 6;
-
-const CATEGORY_LABELS: Record<string, { es: string; en: string }> = {
-  travelers: { es: "Para viajeros", en: "For travelers" },
-  owners: { es: "Para propietarios", en: "For owners" },
-  lifestyle: { es: "Lifestyle", en: "Lifestyle" },
-  management: { es: "Gestión", en: "Management" },
-  merida: { es: "Mérida", en: "Mérida" },
-  gastronomy: { es: "Gastronomía", en: "Gastronomy" },
-};
 
 const UI_COPY = {
   es: {
@@ -104,10 +99,11 @@ const getMediaUrl = (media?: number | Media | null) =>
 const getCoverImageUrl = (post: BlogPost) =>
   getMediaUrl(post.coverImage) ?? post.coverImageUrl;
 
-const getCategoryLabel = (
-  category: BlogPost["category"],
-  locale: SiteLocale,
-) => CATEGORY_LABELS[category]?.[locale] ?? category;
+const getCategoryRelation = (post: BlogPost): Category | null =>
+  typeof post.category === "object" ? post.category : null;
+
+const getCategoryLabel = (post: BlogPost) =>
+  getCategoryRelation(post)?.label ?? "";
 
 const buildQs = (params: Record<string, string | undefined>) => {
   const usp = new URLSearchParams();
@@ -122,6 +118,18 @@ type Filters = {
   page: number;
   category?: string;
   search?: string;
+};
+
+const fetchCategories = async (locale: SiteLocale) => {
+  const payload = await getPayload({ config: configPromise });
+  const result = await payload.find({
+    collection: "categories",
+    sort: "order",
+    limit: 100,
+    pagination: false,
+    locale,
+  });
+  return result.docs;
 };
 
 const fetchListing = async (locale: SiteLocale, filters: Filters) => {
@@ -149,7 +157,7 @@ const fetchListing = async (locale: SiteLocale, filters: Filters) => {
   const conditions: Where[] = [{ isPublished: { equals: true } }];
   if (featured) conditions.push({ id: { not_equals: featured.id } });
   if (filters.category) {
-    conditions.push({ category: { equals: filters.category } });
+    conditions.push({ "category.slug": { equals: filters.category } });
   }
   if (filters.search) {
     conditions.push({
@@ -193,15 +201,20 @@ export default async function BlogPage({
   const search = q?.trim() || undefined;
   const isFiltered = Boolean(category || search);
 
-  const { featured, articles, totalPages, currentPage } = await fetchListing(
-    siteLocale,
-    { page, category, search },
-  );
+  const [{ featured, articles, totalPages, currentPage }, categoryDocs] =
+    await Promise.all([
+      fetchListing(siteLocale, { page, category, search }),
+      fetchCategories(siteLocale),
+    ]);
 
-  const categories = Object.entries(CATEGORY_LABELS).map(([value, labels]) => ({
-    value,
-    label: labels[siteLocale],
+  const categories = categoryDocs.map((c) => ({
+    value: c.slug,
+    label: c.label,
   }));
+
+  const activeCategoryLabel = category
+    ? (categoryDocs.find((c) => c.slug === category)?.label ?? category)
+    : null;
 
   return (
     <main className="bg-gold-light min-h-screen">
@@ -262,7 +275,7 @@ export default async function BlogPage({
 
               <div>
                 <div className="font-gilroy text-beige-dark mb-5 flex items-center gap-3 text-sm">
-                  <span>{getCategoryLabel(featured.category, siteLocale)}</span>
+                  <span>{getCategoryLabel(featured)}</span>
                   <span className="bg-beige-dark h-0.75 w-0.75 rounded-full" />
                   <span>{featured.readTime}</span>
                   <span className="bg-beige-dark h-0.75 w-0.75 rounded-full" />
@@ -297,10 +310,8 @@ export default async function BlogPage({
             <p className="font-gilroy text-beige-dark text-sm">
               {isFiltered
                 ? [
-                    category
-                      ? copy.resultsForCategory(
-                          CATEGORY_LABELS[category]?.[siteLocale] ?? category,
-                        )
+                    activeCategoryLabel
+                      ? copy.resultsForCategory(activeCategoryLabel)
                       : null,
                     search ? copy.resultsForSearch(search) : null,
                   ]
@@ -343,7 +354,7 @@ export default async function BlogPage({
 
                   <div className="flex flex-col gap-2.5">
                     <span className="font-gilroy text-gold-dark text-xs font-medium tracking-[0.08em] uppercase">
-                      {getCategoryLabel(article.category, siteLocale)}
+                      {getCategoryLabel(article)}
                     </span>
                     <h4 className="font-roboto text-green-dark-active group-hover:text-gold-dark text-[22px] leading-[1.2] font-medium tracking-tight transition-colors duration-200">
                       {article.title}
