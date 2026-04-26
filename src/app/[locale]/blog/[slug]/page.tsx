@@ -13,7 +13,12 @@ import configPromise from "@payload-config";
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import type { Author, BlogPost, Media } from "../../../../../payload-types";
+import type {
+  Author,
+  BlogPost,
+  Category,
+  Media,
+} from "../../../../../payload-types";
 
 type BlogPostPageProps = {
   params: Promise<{ locale: string; slug: string }>;
@@ -39,15 +44,6 @@ type RichTextNode = {
     url?: string | null;
   };
   children?: RichTextNode[];
-};
-
-const CATEGORY_LABELS: Record<string, { es: string; en: string }> = {
-  travelers: { es: "Para viajeros", en: "For travelers" },
-  owners: { es: "Para propietarios", en: "For owners" },
-  lifestyle: { es: "Lifestyle", en: "Lifestyle" },
-  management: { es: "Gestión", en: "Management" },
-  merida: { es: "Mérida", en: "Mérida" },
-  gastronomy: { es: "Gastronomía", en: "Gastronomy" },
 };
 
 const UI_COPY = {
@@ -99,10 +95,11 @@ const getAuthor = (author: number | Author): Author | null =>
 const getRelatedPost = (post: number | BlogPost): BlogPost | null =>
   typeof post === "object" ? post : null;
 
-const getCategoryLabel = (
-  category: BlogPost["category"],
-  locale: SiteLocale,
-) => CATEGORY_LABELS[category]?.[locale] ?? category;
+const getCategoryRelation = (post: BlogPost): Category | null =>
+  typeof post.category === "object" ? post.category : null;
+
+const getCategoryLabel = (post: BlogPost) =>
+  getCategoryRelation(post)?.label ?? "";
 
 const getCoverImageUrl = (post: BlogPost) =>
   getMediaUrl(post.coverImage) ?? post.coverImageUrl;
@@ -248,12 +245,14 @@ const getFallbackRelatedPosts = async (
   locale: SiteLocale,
 ) => {
   const payload = await getPayload({ config: configPromise });
+  const categoryId =
+    typeof post.category === "object" ? post.category.id : post.category;
   const result = await payload.find({
     collection: "blog-posts",
     where: {
       and: [
         { isPublished: { equals: true } },
-        { category: { equals: post.category } },
+        { category: { equals: categoryId } },
         { id: { not_equals: post.id } },
       ],
     },
@@ -321,7 +320,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const author = getAuthor(post.author);
   const authorAvatar = getAuthorAvatarUrl(author);
   const coverImageUrl = getCoverImageUrl(post);
-  const tocItems = (post.tableOfContents ?? []) as TocItem[];
+  const tocItems: TocItem[] = (post.tableOfContents ?? []).map((t) => ({
+    id: t.anchor,
+    label: t.label,
+  }));
 
   const explicitRelated = (post.relatedPosts ?? [])
     .map(getRelatedPost)
@@ -378,7 +380,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               weight="semibold"
               className="mb-5 inline-block uppercase tracking-[0.14em] text-gold-dark"
             >
-              {getCategoryLabel(post.category, siteLocale)}
+              {getCategoryLabel(post)}
             </Text>
 
             <Text
@@ -600,7 +602,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         weight="semibold"
                         className="uppercase tracking-[0.08em] text-gold-dark"
                       >
-                        {getCategoryLabel(relatedPost.category, siteLocale)}
+                        {getCategoryLabel(relatedPost)}
                       </Text>
                       <Text
                         as="h3"
