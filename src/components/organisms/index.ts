@@ -16,3 +16,5 @@ export * from "./CheckoutPaymentForm";
 export * from "./LanguageSwitcher";
 export * from "./ShareModal";
 export * from "./NewsletterForm";
+export * from "./BlogFilters";
+export * from "./PropertyDetailsClient";
