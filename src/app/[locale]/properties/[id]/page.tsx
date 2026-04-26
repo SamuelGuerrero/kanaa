@@ -1,9 +1,8 @@
 import { StructuredData } from "@/components/atoms";
+import { PropertyDetailsClient } from "@/components/organisms";
 import { breadcrumbSchema, vacationRentalSchema } from "@/lib/schemas";
 import { createPageMetadata, toAbsoluteUrl, type SiteLocale } from "@/lib/seo";
 import { getListingById } from "@/server/hostaway/listings";
-
-import { PropertyDetailsClient } from "./PropertyDetailsClient";
 
 import type { Metadata } from "next";
 
