@@ -17,20 +17,6 @@ export const BlogPosts: CollectionConfig = {
       "isPublished",
     ],
     description: "Entradas publicadas en /blog y /blog/[slug]",
-    livePreview: {
-      url: ({ data, locale }) => {
-        const base =
-          process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000";
-        const lang = locale?.code === "en" ? "en" : "es";
-        const slug = (data?.slug as string | undefined) ?? "";
-        return `${base}/${lang}/blog/${slug}`;
-      },
-      breakpoints: [
-        { label: "Móvil", name: "mobile", width: 375, height: 667 },
-        { label: "Tablet", name: "tablet", width: 768, height: 1024 },
-        { label: "Desktop", name: "desktop", width: 1440, height: 900 },
-      ],
-    },
   },
 
   fields: [

@@ -27,6 +27,8 @@
     "@hookform/resolvers": "^5.2.2",
     "@libsql/client": "^0.17.0",
     "@payloadcms/db-sqlite": "^3.83.0",
+    "@payloadcms/live-preview": "3.83.0",
+    "@payloadcms/live-preview-react": "3.83.0",
     "@payloadcms/next": "^3.83.0",
     "@payloadcms/richtext-lexical": "^3.83.0",
     "@prisma/adapter-better-sqlite3": "^7.4.0",
