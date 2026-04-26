@@ -12,8 +12,8 @@ import type {
   Category,
   Media,
 } from "../../../../payload-types";
-import type { Where } from "payload";
 import type { Metadata } from "next";
+import type { Where } from "payload";
 
 type BlogPageProps = {
   params: Promise<{ locale: string }>;
@@ -134,7 +134,8 @@ const fetchCategories = async (locale: SiteLocale) => {
 
 const fetchListing = async (locale: SiteLocale, filters: Filters) => {
   const payload = await getPayload({ config: configPromise });
-  const isFiltered = Boolean(filters.category || filters.search);
+  const isFiltered =
+    (filters.category?.length ?? 0) > 0 || (filters.search?.length ?? 0) > 0;
   const showFeatured = !isFiltered && filters.page === 1;
 
   let featured: BlogPost | null = null;
@@ -197,9 +198,11 @@ export default async function BlogPage({
   const basePath = `/${locale}/blog`;
   const parsedPage = Number.parseInt(pageParam ?? "1", 10);
   const page = Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
-  const category = cat?.trim() || undefined;
-  const search = q?.trim() || undefined;
-  const isFiltered = Boolean(category || search);
+  const rawCategory = cat?.trim();
+  const rawSearch = q?.trim();
+  const category = rawCategory && rawCategory.length > 0 ? rawCategory : undefined;
+  const search = rawSearch && rawSearch.length > 0 ? rawSearch : undefined;
+  const isFiltered = (category?.length ?? 0) > 0 || (search?.length ?? 0) > 0;
 
   const [{ featured, articles, totalPages, currentPage }, categoryDocs] =
     await Promise.all([

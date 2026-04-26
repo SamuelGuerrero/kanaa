@@ -22,8 +22,8 @@ import {
   type TocItem,
 } from "./utils";
 
-import type { ReactNode } from "react";
 import type { BlogPost } from "../../../../payload-types";
+import type { ReactNode } from "react";
 
 type BlogPostViewProps = {
   /** Initial post fetched server-side (RSC). Live preview overrides this. */
@@ -392,7 +392,7 @@ export function BlogPostView({
           </div>
         </div>
 
-        {(post.tags?.length || author?.bio) && (
+        {((post.tags?.length ?? 0) > 0 || Boolean(author?.bio)) && (
           <div className="border-t border-gold-light-active px-4 py-12 md:px-8 lg:px-16">
             <div className="mx-auto max-w-3xl">
               {post.tags && post.tags.length > 0 && (
@@ -412,7 +412,7 @@ export function BlogPostView({
                 </div>
               )}
 
-              {author && author.bio && (
+              {author?.bio && (
                 <div className="flex gap-5 rounded-xl border border-gold-light-active bg-gold-light-hover p-6">
                   <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-full">
                     {authorAvatar && (

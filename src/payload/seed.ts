@@ -551,7 +551,7 @@ async function seedBlogData(payload: Payload): Promise<void> {
         data: { label: cat.en },
         locale: "en",
       });
-      categoryIds[cat.slug] = doc.id as number;
+      categoryIds[cat.slug] = doc.id;
     }
   } else {
     // Reuse existing categories by slug
@@ -562,7 +562,7 @@ async function seedBlogData(payload: Payload): Promise<void> {
       depth: 0,
     });
     for (const c of existing.docs) {
-      categoryIds[c.slug] = c.id as number;
+      categoryIds[c.slug] = c.id;
     }
   }
 
@@ -621,7 +621,7 @@ async function seedBlogData(payload: Payload): Promise<void> {
       depth: 0,
     });
     if (existing.docs[0]) {
-      authorIds[author.key] = existing.docs[0].id as number;
+      authorIds[author.key] = existing.docs[0].id;
       continue;
     }
     const doc = await payload.create({
@@ -640,7 +640,7 @@ async function seedBlogData(payload: Payload): Promise<void> {
       data: { role: author.en.role, bio: author.en.bio },
       locale: "en",
     });
-    authorIds[author.key] = doc.id as number;
+    authorIds[author.key] = doc.id;
   }
 
   // ── Blog Posts ────────────────────────────────────────────────────────────
@@ -2080,7 +2080,7 @@ async function seedBlogData(payload: Payload): Promise<void> {
       depth: 0,
     });
     if (existing.docs[0]) {
-      postIds[post.slug] = existing.docs[0].id as number;
+      postIds[post.slug] = existing.docs[0].id;
       continue;
     }
     const categoryId = categoryIds[post.category];
@@ -2137,7 +2137,7 @@ async function seedBlogData(payload: Payload): Promise<void> {
       },
       locale: "en",
     });
-    postIds[post.slug] = created.id as number;
+    postIds[post.slug] = created.id;
     } catch (err) {
       payload.logger.error(
         `Failed to seed post "${post.slug}": ${(err as Error).message}`,

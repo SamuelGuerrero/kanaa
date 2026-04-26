@@ -1,10 +1,10 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import {
   ArrowRightIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/solid";
+import { usePathname } from "next/navigation";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button } from "@/components/molecules";

@@ -1,10 +1,10 @@
-import type { SiteLocale } from "@/lib/seo";
 import type {
   Author,
   BlogPost,
   Category,
   Media,
 } from "../../../../payload-types";
+import type { SiteLocale } from "@/lib/seo";
 
 export type RichTextNode = {
   type: string;

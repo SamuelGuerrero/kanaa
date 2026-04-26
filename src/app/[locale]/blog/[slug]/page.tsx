@@ -1,5 +1,5 @@
-import { getPayload } from "payload";
 import { notFound } from "next/navigation";
+import { getPayload } from "payload";
 
 import { BlogPostView } from "@/components/templates/BlogPostView";
 import {
@@ -93,8 +93,8 @@ export async function generateMetadata({
   }
 
   return createPageMetadata({
-    title: post.seo?.metaTitle || post.title,
-    description: post.seo?.metaDescription || post.excerpt,
+    title: post.seo?.metaTitle ?? post.title,
+    description: post.seo?.metaDescription ?? post.excerpt,
     path: `/blog/${post.slug}`,
     image: toAbsoluteUrl(getCoverImageUrl(post)),
     locale: siteLocale,
