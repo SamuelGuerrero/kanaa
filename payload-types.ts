@@ -73,6 +73,9 @@ export interface Config {
     'guide-cards': GuideCard;
     'faq-items': FaqItem;
     'job-vacancies': JobVacancy;
+    authors: Author;
+    categories: Category;
+    'blog-posts': BlogPost;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +89,9 @@ export interface Config {
     'guide-cards': GuideCardsSelect<false> | GuideCardsSelect<true>;
     'faq-items': FaqItemsSelect<false> | FaqItemsSelect<true>;
     'job-vacancies': JobVacanciesSelect<false> | JobVacanciesSelect<true>;
+    authors: AuthorsSelect<false> | AuthorsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -269,6 +275,169 @@ export interface JobVacancy {
   createdAt: string;
 }
 /**
+ * Autores que firman los artículos del blog
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors".
+ */
+export interface Author {
+  id: number;
+  name: string;
+  /**
+   * Ej: "Editora de viajes"
+   */
+  role: string;
+  /**
+   * Aparece en la tarjeta de autor al pie del artículo
+   */
+  bio?: string | null;
+  /**
+   * URL pública de la foto de perfil (usar Media si se prefiere subir)
+   */
+  avatarUrl: string;
+  /**
+   * Opcional: sobreescribe avatarUrl si se sube una imagen aquí
+   */
+  avatar?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Categorías de artículos del blog. Aparecen como filtros en /blog y como etiqueta en cada post.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  /**
+   * Identificador estable usado en la URL (?cat=...). Ej: "travelers", "owners".
+   */
+  slug: string;
+  /**
+   * Texto visible en los filtros y tarjetas
+   */
+  label: string;
+  /**
+   * Posición en la barra de filtros. Menor = aparece primero.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Entradas publicadas en /blog y /blog/[slug]
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: number;
+  /**
+   * Identificador único en la URL. Ej: "merida-sin-prisa"
+   */
+  slug: string;
+  title: string;
+  /**
+   * Aparece en la tarjeta del listado. 1-2 líneas.
+   */
+  excerpt: string;
+  /**
+   * Párrafo introductorio que aparece debajo del título en la página del artículo.
+   */
+  lead: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * URL pública del hero + card del listado
+   */
+  coverImageUrl: string;
+  /**
+   * Opcional: sobreescribe coverImageUrl cuando se sube archivo
+   */
+  coverImage?: (number | null) | Media;
+  /**
+   * Texto que aparece debajo de la imagen principal
+   */
+  heroCaption?: string | null;
+  /**
+   * Aparece como etiqueta y filtro. Se administra desde la colección Categorías.
+   */
+  category: number | Category;
+  /**
+   * Chips que aparecen al pie del artículo. Pueden traducirse.
+   */
+  tags?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Ej: "8 min de lectura"
+   */
+  readTime: string;
+  /**
+   * Fecha visible en el listado y en el post
+   */
+  publishedAt: string;
+  author: number | Author;
+  /**
+   * Lista de anclas que aparece en la columna derecha. El anchor debe coincidir con el id de la sección en el cuerpo del artículo.
+   */
+  tableOfContents?:
+    | {
+        /**
+         * Ej: "gastronomia", "cenotes"
+         */
+        anchor: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hasta 3 artículos que aparecerán al pie del post. Si queda vacío se toman los últimos de la misma categoría.
+   */
+  relatedPosts?: (number | BlogPost)[] | null;
+  seo?: {
+    /**
+     * Si se deja vacío se usa el título del artículo
+     */
+    metaTitle?: string | null;
+    /**
+     * Si se deja vacío se usa el resumen (excerpt)
+     */
+    metaDescription?: string | null;
+  };
+  /**
+   * Marca el artículo como el destacado del listado
+   */
+  isFeatured?: boolean | null;
+  /**
+   * Si está desactivado no aparece en /blog
+   */
+  isPublished?: boolean | null;
+  /**
+   * Orden manual dentro del listado. 0 = ordenar por fecha.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -315,6 +484,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'job-vacancies';
         value: number | JobVacancy;
+      } | null)
+    | ({
+        relationTo: 'authors';
+        value: number | Author;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'blog-posts';
+        value: number | BlogPost;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -473,6 +654,73 @@ export interface JobVacanciesSelect<T extends boolean = true> {
   type?: T;
   applyUrl?: T;
   isActive?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors_select".
+ */
+export interface AuthorsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  bio?: T;
+  avatarUrl?: T;
+  avatar?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  slug?: T;
+  label?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  slug?: T;
+  title?: T;
+  excerpt?: T;
+  lead?: T;
+  content?: T;
+  coverImageUrl?: T;
+  coverImage?: T;
+  heroCaption?: T;
+  category?: T;
+  tags?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  readTime?: T;
+  publishedAt?: T;
+  author?: T;
+  tableOfContents?:
+    | T
+    | {
+        anchor?: T;
+        label?: T;
+        id?: T;
+      };
+  relatedPosts?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  isFeatured?: T;
+  isPublished?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;

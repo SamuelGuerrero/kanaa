@@ -6,6 +6,9 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
+import { Authors } from "./src/payload/collections/Authors";
+import { BlogPosts } from "./src/payload/collections/BlogPosts";
+import { Categories } from "./src/payload/collections/Categories";
 import { FAQItems } from "./src/payload/collections/FAQItems";
 import { GuideCards } from "./src/payload/collections/GuideCards";
 import { JobVacancies } from "./src/payload/collections/JobVacancies";
@@ -18,7 +21,12 @@ import { seed } from "./src/payload/seed";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+const serverURL =
+  process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000";
+
 export default buildConfig({
+  serverURL,
+
   admin: {
     user: Users.slug,
     importMap: {
@@ -26,6 +34,22 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: "— Kanaa CMS",
+    },
+    livePreview: {
+      url: ({ data, locale, collectionConfig }) => {
+        const lang = locale?.code === "en" ? "en" : "es";
+        if (collectionConfig?.slug === "blog-posts") {
+          const slug = (data?.slug as string | undefined) ?? "";
+          return `${serverURL}/${lang}/blog/${slug}`;
+        }
+        return `${serverURL}/${lang}`;
+      },
+      collections: ["blog-posts"],
+      breakpoints: [
+        { label: "Móvil", name: "mobile", width: 375, height: 667 },
+        { label: "Tablet", name: "tablet", width: 768, height: 1024 },
+        { label: "Desktop", name: "desktop", width: 1440, height: 900 },
+      ],
     },
   },
 
@@ -38,7 +62,17 @@ export default buildConfig({
     fallback: true,
   },
 
-  collections: [Users, Media, Testimonials, GuideCards, FAQItems, JobVacancies],
+  collections: [
+    Users,
+    Media,
+    Testimonials,
+    GuideCards,
+    FAQItems,
+    JobVacancies,
+    Authors,
+    Categories,
+    BlogPosts,
+  ],
 
   globals: [HomePageContent],
 
