@@ -67,6 +67,30 @@ const UI_COPY = {
 
 /* ── Lexical → React renderer ─────────────────────────────────────────── */
 
+// Lexical serialises element-level alignment as the string `format` on
+// paragraph/heading/quote/list/listitem nodes. Text-level format on `text`
+// nodes is a numeric bitmask — handled in renderTextNode.
+const alignClass = (format?: number | string) => {
+  if (typeof format !== "string" || format.length === 0) return "";
+  switch (format) {
+    case "center":
+      return "text-center";
+    case "right":
+    case "end":
+      return "text-right";
+    case "left":
+    case "start":
+      return "text-left";
+    case "justify":
+      return "text-justify";
+    default:
+      return "";
+  }
+};
+
+const cn = (...classes: Array<string | false | undefined | null>) =>
+  classes.filter(Boolean).join(" ");
+
 const getLinkHref = (node: RichTextNode) => {
   if (node.fields?.linkType === "custom" && node.fields.url) {
     return node.fields.url;
@@ -101,7 +125,12 @@ const renderRichTextNode = (node: RichTextNode, key: string): ReactNode => {
       return <br key={key} />;
     case "paragraph":
       return (
-        <Text key={key} as="p" font="gilroy" className="text-beige-darker">
+        <Text
+          key={key}
+          as="p"
+          font="gilroy"
+          className={cn("text-beige-darker", alignClass(node.format))}
+        >
           {renderRichTextChildren(node.children)}
         </Text>
       );
@@ -113,7 +142,7 @@ const renderRichTextNode = (node: RichTextNode, key: string): ReactNode => {
           as={Tag}
           id={node.id}
           font="roboto"
-          className="text-green-dark-active"
+          className={cn("text-green-dark-active", alignClass(node.format))}
         >
           {renderRichTextChildren(node.children)}
         </Text>
@@ -125,18 +154,30 @@ const renderRichTextNode = (node: RichTextNode, key: string): ReactNode => {
           key={key}
           as="blockquote"
           font="roboto"
-          className="blog-pullquote"
+          className={cn("blog-pullquote", alignClass(node.format))}
         >
           {renderRichTextChildren(node.children)}
         </Text>
       );
     case "list":
       if (node.tag === "ol") {
-        return <ol key={key}>{renderRichTextChildren(node.children)}</ol>;
+        return (
+          <ol key={key} className={cn(alignClass(node.format))}>
+            {renderRichTextChildren(node.children)}
+          </ol>
+        );
       }
-      return <ul key={key}>{renderRichTextChildren(node.children)}</ul>;
+      return (
+        <ul key={key} className={cn(alignClass(node.format))}>
+          {renderRichTextChildren(node.children)}
+        </ul>
+      );
     case "listitem":
-      return <li key={key}>{renderRichTextChildren(node.children)}</li>;
+      return (
+        <li key={key} className={cn(alignClass(node.format))}>
+          {renderRichTextChildren(node.children)}
+        </li>
+      );
     case "link": {
       const href = getLinkHref(node);
       const children = renderRichTextChildren(node.children);
@@ -225,12 +266,12 @@ export function BlogPostView({
     <>
       <BlogProgress />
 
-      <main className="bg-gold-light min-h-screen">
-        <nav className="border-b border-gold-light-active px-4 py-4 md:px-8 lg:px-16">
-          <div className="mx-auto flex max-w-7xl items-center gap-2 font-gilroy text-xs text-beige-dark">
+      <main className="bg-gold-light min-h-screen pt-30">
+        <nav className="border-gold-light-active border-b px-4 py-4 md:px-8 lg:px-16">
+          <div className="font-gilroy text-beige-dark mx-auto flex max-w-7xl items-center gap-2 text-xs">
             <Link
               href={`/${locale}`}
-              className="transition-colors hover:text-green-dark-active"
+              className="hover:text-green-dark-active transition-colors"
             >
               <Text as="span" font="gilroy" size="xs" className="text-inherit">
                 {copy.home}
@@ -239,7 +280,7 @@ export function BlogPostView({
             <span>/</span>
             <Link
               href={`/${locale}/blog`}
-              className="transition-colors hover:text-green-dark-active"
+              className="hover:text-green-dark-active transition-colors"
             >
               <Text as="span" font="gilroy" size="xs" className="text-inherit">
                 {copy.blog}
@@ -264,7 +305,7 @@ export function BlogPostView({
               font="gilroy"
               size="xxs"
               weight="semibold"
-              className="mb-5 inline-block uppercase tracking-[0.14em] text-gold-dark"
+              className="text-gold-dark mb-5 inline-block tracking-[0.14em] uppercase"
             >
               {getCategoryLabel(post)}
             </Text>
@@ -314,7 +355,7 @@ export function BlogPostView({
                         as="p"
                         font="gilroy"
                         size="xs"
-                        className="text-beige-dark leading-none mt-1"
+                        className="text-beige-dark mt-1 leading-none"
                       >
                         {author.role}
                       </Text>
@@ -323,9 +364,9 @@ export function BlogPostView({
                 </div>
               )}
 
-              <span className="h-4 w-px bg-beige-normal hidden sm:block" />
+              <span className="bg-beige-normal hidden h-4 w-px sm:block" />
 
-              <div className="flex items-center gap-3 font-gilroy text-sm text-beige-dark">
+              <div className="font-gilroy text-beige-dark flex items-center gap-3 text-sm">
                 <Text
                   as="span"
                   font="gilroy"
@@ -334,7 +375,7 @@ export function BlogPostView({
                 >
                   {formatPublishedDate(post.publishedAt, siteLocale)}
                 </Text>
-                <span className="h-0.75 w-0.75 rounded-full bg-beige-dark" />
+                <span className="bg-beige-dark h-0.75 w-0.75 rounded-full" />
                 <Text
                   as="span"
                   font="gilroy"
@@ -368,7 +409,7 @@ export function BlogPostView({
                 as="p"
                 font="gilroy"
                 size="xs"
-                className="mt-3 text-center text-beige-dark italic"
+                className="text-beige-dark mt-3 text-center italic"
               >
                 {post.heroCaption}
               </Text>
@@ -393,7 +434,7 @@ export function BlogPostView({
         </div>
 
         {((post.tags?.length ?? 0) > 0 || Boolean(author?.bio)) && (
-          <div className="border-t border-gold-light-active px-4 py-12 md:px-8 lg:px-16">
+          <div className="border-gold-light-active border-t px-4 py-12 md:px-8 lg:px-16">
             <div className="mx-auto max-w-3xl">
               {post.tags && post.tags.length > 0 && (
                 <div className="mb-10 flex flex-wrap gap-2">
@@ -404,7 +445,7 @@ export function BlogPostView({
                       font="gilroy"
                       size="xs"
                       weight="medium"
-                      className="rounded-full border border-gold-light-active px-4 py-1.5 font-gilroy text-xs font-medium text-beige-darker transition-colors hover:border-gold-normal hover:text-green-dark-active cursor-default"
+                      className="border-gold-light-active font-gilroy text-beige-darker hover:border-gold-normal hover:text-green-dark-active cursor-default rounded-full border px-4 py-1.5 text-xs font-medium transition-colors"
                     >
                       {tag.label}
                     </Text>
@@ -413,7 +454,7 @@ export function BlogPostView({
               )}
 
               {author?.bio && (
-                <div className="flex gap-5 rounded-xl border border-gold-light-active bg-gold-light-hover p-6">
+                <div className="border-gold-light-active bg-gold-light-hover flex gap-5 rounded-xl border p-6">
                   <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-full">
                     {authorAvatar && (
                       <Image
@@ -431,7 +472,7 @@ export function BlogPostView({
                       font="gilroy"
                       size="xxs"
                       weight="semibold"
-                      className="uppercase tracking-[0.1em] text-gold-dark mb-1"
+                      className="text-gold-dark mb-1 tracking-[0.1em] uppercase"
                     >
                       {copy.aboutAuthor}
                     </Text>
@@ -440,7 +481,7 @@ export function BlogPostView({
                       font="roboto"
                       size="lg"
                       weight="medium"
-                      className="text-green-dark-active leading-tight mb-1"
+                      className="text-green-dark-active mb-1 leading-tight"
                     >
                       {author.name}
                     </Text>
@@ -472,7 +513,7 @@ export function BlogPostView({
                 </Text>
                 <Link
                   href={`/${locale}/blog`}
-                  className="font-gilroy inline-flex items-center gap-2 text-sm text-beige-darker transition-all duration-200 hover:gap-3 hover:text-green-dark-active"
+                  className="font-gilroy text-beige-darker hover:text-green-dark-active inline-flex items-center gap-2 text-sm transition-all duration-200 hover:gap-3"
                 >
                   <Text
                     as="span"
@@ -493,7 +534,7 @@ export function BlogPostView({
                     href={`/${locale}/blog/${relatedPost.slug}`}
                     className="group flex flex-col gap-4"
                   >
-                    <div className="relative aspect-4/3 overflow-hidden rounded-lg bg-gold-light-active">
+                    <div className="bg-gold-light-active relative aspect-4/3 overflow-hidden rounded-lg">
                       {getCoverImageUrl(relatedPost) && (
                         <Image
                           src={getCoverImageUrl(relatedPost)}
@@ -511,14 +552,14 @@ export function BlogPostView({
                         font="gilroy"
                         size="xxs"
                         weight="semibold"
-                        className="uppercase tracking-[0.08em] text-gold-dark"
+                        className="text-gold-dark tracking-[0.08em] uppercase"
                       >
                         {getCategoryLabel(relatedPost)}
                       </Text>
                       <Text
                         as="h3"
                         font="roboto"
-                        className="text-green-dark-active text-[20px] leading-[1.2] font-medium tracking-tight transition-colors group-hover:text-gold-dark"
+                        className="text-green-dark-active group-hover:text-gold-dark text-[20px] leading-[1.2] font-medium tracking-tight transition-colors"
                       >
                         {relatedPost.title}
                       </Text>
@@ -532,7 +573,7 @@ export function BlogPostView({
                       <Text
                         as="span"
                         font="gilroy"
-                        className="text-[13px] text-beige-dark mt-1"
+                        className="text-beige-dark mt-1 text-[13px]"
                       >
                         {formatPublishedDate(
                           relatedPost.publishedAt,
@@ -563,11 +604,11 @@ export function BlogPostView({
               font="gilroy"
               size="xs"
               weight="medium"
-              className="mb-5 flex items-center justify-center gap-3 uppercase tracking-[0.15em] text-gold-light/60"
+              className="text-gold-light/60 mb-5 flex items-center justify-center gap-3 tracking-[0.15em] uppercase"
             >
-              <span className="h-px w-7 bg-gold-normal" />
+              <span className="bg-gold-normal h-px w-7" />
               {copy.ctaEyebrow}
-              <span className="h-px w-7 bg-gold-normal" />
+              <span className="bg-gold-normal h-px w-7" />
             </Text>
 
             <Text
@@ -589,7 +630,7 @@ export function BlogPostView({
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
                 href={`/${locale}/properties`}
-                className="font-gilroy inline-flex items-center gap-2.5 rounded-full bg-gold-normal px-7 py-3.5 text-sm font-semibold text-green-dark-active transition-all duration-200 hover:bg-gold-dark hover:gap-4"
+                className="font-gilroy bg-gold-normal text-green-dark-active hover:bg-gold-dark inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-semibold transition-all duration-200 hover:gap-4"
               >
                 <Text
                   as="span"
@@ -604,7 +645,7 @@ export function BlogPostView({
               </Link>
               <Link
                 href={`/${locale}/contact`}
-                className="font-gilroy inline-flex items-center gap-2.5 rounded-full border border-gold-light/30 px-7 py-3.5 text-sm font-semibold text-gold-light transition-all duration-200 hover:border-gold-light/60 hover:gap-4"
+                className="font-gilroy border-gold-light/30 text-gold-light hover:border-gold-light/60 inline-flex items-center gap-2.5 rounded-full border px-7 py-3.5 text-sm font-semibold transition-all duration-200 hover:gap-4"
               >
                 <Text
                   as="span"
