@@ -65,7 +65,7 @@ export const Button = (props: ButtonProps) => {
     variant === "secondary"
       ? {
           weight: "bold" as const,
-          className: "text-gold-normal text-gold-normal!",
+          className: "text-gold-normal",
         }
       : {};
 

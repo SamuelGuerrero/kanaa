@@ -345,18 +345,26 @@ export const Navbar = () => {
             );
           })}
 
-          <Link href={`/${locale}/properties`}>
-            <Button
-              variant="primary"
-              icon={
-                <CircleButton>
-                  <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
-                </CircleButton>
-              }
-            >
-              {t("Reserva ahora")}
-            </Button>
-          </Link>
+          <Button
+            href={`/${locale}/properties`}
+            variant="secondary"
+            className="border-gold-light border bg-white/10"
+            textClassName="text text-gold-light! font-extralight!"
+          >
+            {t("Ver reserva")}
+          </Button>
+
+          <Button
+            href={`/${locale}/properties`}
+            variant="primary"
+            icon={
+              <CircleButton>
+                <ArrowRightIcon className="text-gold-normal-hover w-5 drop-shadow-[0_0_0.5px_currentColor]" />
+              </CircleButton>
+            }
+          >
+            {t("Reserva ahora")}
+          </Button>
         </div>
 
         <button
@@ -473,11 +481,20 @@ export const Navbar = () => {
             );
           })}
 
-          <Link
-            href={`/${locale}/properties`}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
+          <div onClick={() => setIsMobileMenuOpen(false)}>
             <Button
+              href={`/${locale}/properties`}
+              variant="secondary"
+              className="xl:border-gold-light flex w-full items-center! justify-center border border-black xl:w-fit xl:bg-white/10"
+              textClassName="text-black! font-extralight!"
+            >
+              {t("Ver reserva")}
+            </Button>
+          </div>
+
+          <div onClick={() => setIsMobileMenuOpen(false)}>
+            <Button
+              href={`/${locale}/properties`}
               variant="primary"
               className="mt-2 w-full justify-center"
               icon={
@@ -488,7 +505,7 @@ export const Navbar = () => {
             >
               {t("Reserva ahora")}
             </Button>
-          </Link>
+          </div>
         </div>
       </nav>
     </>
