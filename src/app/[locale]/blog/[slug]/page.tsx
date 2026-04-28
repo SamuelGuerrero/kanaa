@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
+import { cache } from "react";
 
 import { BlogPostView } from "@/components/templates/BlogPostView";
 import {
@@ -16,10 +17,15 @@ type BlogPostPageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
+// Re-validate every 60s so editor changes propagate without a redeploy.
+export const revalidate = 60;
+
 const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000";
 
-const getPostBySlug = async (slug: string, locale: SiteLocale) => {
+// React cache deduplicates calls within a single request — generateMetadata
+// and the page component both call getPostBySlug; this collapses to one DB hit.
+const getPostBySlug = cache(async (slug: string, locale: SiteLocale) => {
   const payload = await getPayload({ config: configPromise });
   const result = await payload.find({
     collection: "blog-posts",
@@ -31,7 +37,7 @@ const getPostBySlug = async (slug: string, locale: SiteLocale) => {
     locale,
   });
   return result.docs[0] ?? null;
-};
+});
 
 const getFallbackRelatedPosts = async (
   post: BlogPost,

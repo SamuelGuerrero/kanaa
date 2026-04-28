@@ -2,16 +2,13 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { getPayload } from "payload";
+import { cache } from "react";
 
 import { BlogFilters, NewsletterForm } from "@/components/organisms";
 import { createPageMetadata, type SiteLocale } from "@/lib/seo";
 import configPromise from "@payload-config";
 
-import type {
-  BlogPost,
-  Category,
-  Media,
-} from "../../../../payload-types";
+import type { BlogPost, Category, Media } from "../../../../payload-types";
 import type { Metadata } from "next";
 import type { Where } from "payload";
 
@@ -31,6 +28,9 @@ export const metadata: Metadata = createPageMetadata({
   path: "/blog",
 });
 
+// Re-validate every 60s so editor changes propagate without a redeploy.
+export const revalidate = 60;
+
 const PAGE_SIZE = 6;
 
 const UI_COPY = {
@@ -44,7 +44,8 @@ const UI_COPY = {
     featuredBadge: "Destacado",
     readArticle: "Leer artículo",
     recentTitle: "Artículos recientes",
-    recentSubtitle: "Publicamos cada semana. Suscríbete y no te pierdas ninguno.",
+    recentSubtitle:
+      "Publicamos cada semana. Suscríbete y no te pierdas ninguno.",
     resultsTitle: "Resultados",
     resultsForCategory: (label: string) => `Categoría: ${label}`,
     resultsForSearch: (q: string) => `Búsqueda: "${q}"`,
@@ -96,13 +97,16 @@ const formatPublishedDate = (value: string, locale: SiteLocale) =>
 const getMediaUrl = (media?: number | Media | null) =>
   media && typeof media === "object" && media.url ? media.url : null;
 
-const getCoverImageUrl = (post: BlogPost) =>
-  getMediaUrl(post.coverImage) ?? post.coverImageUrl;
+const getCoverImageUrl = (
+  post: Pick<BlogPost, "coverImage" | "coverImageUrl">,
+): string => getMediaUrl(post.coverImage) ?? post.coverImageUrl ?? "";
 
-const getCategoryRelation = (post: BlogPost): Category | null =>
+const getCategoryRelation = (
+  post: Pick<BlogPost, "category">,
+): Category | null =>
   typeof post.category === "object" ? post.category : null;
 
-const getCategoryLabel = (post: BlogPost) =>
+const getCategoryLabel = (post: Pick<BlogPost, "category">) =>
   getCategoryRelation(post)?.label ?? "";
 
 const buildQs = (params: Record<string, string | undefined>) => {
@@ -120,48 +124,66 @@ type Filters = {
   search?: string;
 };
 
-const fetchCategories = async (locale: SiteLocale) => {
+// Listing-only payload shape: drops heavy fields (content, lead, heroCaption,
+// tableOfContents, seo, relatedPosts) that we never render in cards. Cuts the
+// row size by ~70% per row.
+const LISTING_SELECT = {
+  slug: true,
+  title: true,
+  excerpt: true,
+  category: true,
+  coverImage: true,
+  coverImageUrl: true,
+  readTime: true,
+  publishedAt: true,
+  isFeatured: true,
+} as const;
+
+const fetchCategories = cache(async (locale: SiteLocale) => {
   const payload = await getPayload({ config: configPromise });
   const result = await payload.find({
     collection: "categories",
     sort: "order",
     limit: 100,
     pagination: false,
+    depth: 0,
     locale,
   });
   return result.docs;
-};
+});
 
-const fetchListing = async (locale: SiteLocale, filters: Filters) => {
+const fetchListing = cache(async (locale: SiteLocale, filters: Filters) => {
   const payload = await getPayload({ config: configPromise });
   const isFiltered =
     (filters.category?.length ?? 0) > 0 || (filters.search?.length ?? 0) > 0;
   const showFeatured = !isFiltered && filters.page === 1;
 
-  let featured: BlogPost | null = null;
-  if (showFeatured) {
-    const featuredResult = await payload.find({
-      collection: "blog-posts",
-      where: {
-        and: [
-          { isFeatured: { equals: true } },
-          { isPublished: { equals: true } },
-        ],
-      },
-      sort: "-publishedAt",
-      limit: 1,
-      locale,
-    });
-    featured = featuredResult.docs[0] ?? null;
-  }
+  // Featured + grid run in parallel; we drop the featured doc from the grid
+  // afterwards if it would have appeared, instead of waiting on the featured
+  // ID to filter the grid query.
+  const featuredQuery = showFeatured
+    ? payload.find({
+        collection: "blog-posts",
+        where: {
+          and: [
+            { isFeatured: { equals: true } },
+            { isPublished: { equals: true } },
+          ],
+        },
+        sort: "-publishedAt",
+        limit: 1,
+        depth: 1,
+        select: LISTING_SELECT,
+        locale,
+      })
+    : Promise.resolve(null);
 
-  const conditions: Where[] = [{ isPublished: { equals: true } }];
-  if (featured) conditions.push({ id: { not_equals: featured.id } });
+  const gridConditions: Where[] = [{ isPublished: { equals: true } }];
   if (filters.category) {
-    conditions.push({ "category.slug": { equals: filters.category } });
+    gridConditions.push({ "category.slug": { equals: filters.category } });
   }
   if (filters.search) {
-    conditions.push({
+    gridConditions.push({
       or: [
         { title: { like: filters.search } },
         { excerpt: { like: filters.search } },
@@ -169,22 +191,40 @@ const fetchListing = async (locale: SiteLocale, filters: Filters) => {
     });
   }
 
-  const gridResult = await payload.find({
+  // Pull one extra row when featuring so we still serve a full PAGE_SIZE
+  // grid even after dropping the featured entry.
+  const gridLimit = showFeatured ? PAGE_SIZE + 1 : PAGE_SIZE;
+
+  const gridQuery = payload.find({
     collection: "blog-posts",
-    where: { and: conditions },
+    where: { and: gridConditions },
     sort: "-publishedAt",
     page: filters.page,
-    limit: PAGE_SIZE,
+    limit: gridLimit,
+    depth: 1,
+    select: LISTING_SELECT,
     locale,
   });
 
+  const [featuredResult, gridResult] = await Promise.all([
+    featuredQuery,
+    gridQuery,
+  ]);
+
+  const featured = featuredResult?.docs[0] ?? null;
+  const articles = featured
+    ? gridResult.docs
+        .filter((doc) => doc.id !== featured.id)
+        .slice(0, PAGE_SIZE)
+    : gridResult.docs;
+
   return {
     featured,
-    articles: gridResult.docs,
+    articles,
     totalPages: gridResult.totalPages,
     currentPage: gridResult.page ?? filters.page,
   };
-};
+});
 
 export default async function BlogPage({
   params,
@@ -200,7 +240,8 @@ export default async function BlogPage({
   const page = Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
   const rawCategory = cat?.trim();
   const rawSearch = q?.trim();
-  const category = rawCategory && rawCategory.length > 0 ? rawCategory : undefined;
+  const category =
+    rawCategory && rawCategory.length > 0 ? rawCategory : undefined;
   const search = rawSearch && rawSearch.length > 0 ? rawSearch : undefined;
   const isFiltered = (category?.length ?? 0) > 0 || (search?.length ?? 0) > 0;
 
@@ -282,7 +323,9 @@ export default async function BlogPage({
                   <span className="bg-beige-dark h-0.75 w-0.75 rounded-full" />
                   <span>{featured.readTime}</span>
                   <span className="bg-beige-dark h-0.75 w-0.75 rounded-full" />
-                  <span>{formatPublishedDate(featured.publishedAt, siteLocale)}</span>
+                  <span>
+                    {formatPublishedDate(featured.publishedAt, siteLocale)}
+                  </span>
                 </div>
 
                 <h2 className="font-roboto text-green-dark-active mb-5 text-[clamp(28px,3.2vw,46px)] leading-[1.05] font-normal tracking-tight">
@@ -331,7 +374,7 @@ export default async function BlogPage({
               </p>
               <Link
                 href={basePath}
-                className="font-gilroy text-sm text-green-dark-active underline underline-offset-4 transition-colors hover:text-gold-dark"
+                className="font-gilroy text-green-dark-active hover:text-gold-dark text-sm underline underline-offset-4 transition-colors"
               >
                 {copy.clearFilters}
               </Link>
@@ -405,8 +448,8 @@ export default async function BlogPage({
                       aria-disabled={disabled}
                       className={`font-gilroy flex h-10 min-w-10 items-center justify-center rounded-full border text-sm transition-all duration-200 ${
                         disabled
-                          ? "pointer-events-none border-transparent text-beige-normal"
-                          : "border-transparent text-beige-darker hover:border-gold-light-active hover:text-green-dark-active"
+                          ? "text-beige-normal pointer-events-none border-transparent"
+                          : "text-beige-darker hover:border-gold-light-active hover:text-green-dark-active border-transparent"
                       }`}
                     >
                       ←
@@ -431,8 +474,8 @@ export default async function BlogPage({
                       aria-disabled={disabled}
                       className={`font-gilroy flex h-10 min-w-10 items-center justify-center rounded-full border text-sm transition-all duration-200 ${
                         disabled
-                          ? "pointer-events-none border-transparent text-beige-normal"
-                          : "border-transparent text-beige-darker hover:border-gold-light-active hover:text-green-dark-active"
+                          ? "text-beige-normal pointer-events-none border-transparent"
+                          : "text-beige-darker hover:border-gold-light-active hover:text-green-dark-active border-transparent"
                       }`}
                     >
                       →

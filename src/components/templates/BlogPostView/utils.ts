@@ -53,14 +53,17 @@ export const getRelatedPost = (
   post: number | BlogPost | null | undefined,
 ): BlogPost | null => (post && typeof post === "object" ? post : null);
 
-export const getCategoryRelation = (post: BlogPost): Category | null =>
+export const getCategoryRelation = (
+  post: Pick<BlogPost, "category">,
+): Category | null =>
   post.category && typeof post.category === "object" ? post.category : null;
 
-export const getCategoryLabel = (post: BlogPost) =>
+export const getCategoryLabel = (post: Pick<BlogPost, "category">) =>
   getCategoryRelation(post)?.label ?? "";
 
-export const getCoverImageUrl = (post: BlogPost) =>
-  getMediaUrl(post.coverImage) ?? post.coverImageUrl ?? "";
+export const getCoverImageUrl = (
+  post: Pick<BlogPost, "coverImage" | "coverImageUrl">,
+) => getMediaUrl(post.coverImage) ?? post.coverImageUrl ?? "";
 
 export const getAuthorAvatarUrl = (author: Author | null) =>
   getMediaUrl(author?.avatar) ?? author?.avatarUrl ?? "";
