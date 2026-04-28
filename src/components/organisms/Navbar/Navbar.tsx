@@ -346,7 +346,7 @@ export const Navbar = () => {
           })}
 
           <Button
-            href={`/${locale}/properties`}
+            href={`/${locale}/reservation-tracking`}
             variant="secondary"
             className="border-gold-light border bg-white/10"
             textClassName="text text-gold-light! font-extralight!"
@@ -483,7 +483,7 @@ export const Navbar = () => {
 
           <div onClick={() => setIsMobileMenuOpen(false)}>
             <Button
-              href={`/${locale}/properties`}
+              href={`/${locale}/reservation-tracking`}
               variant="secondary"
               className="xl:border-gold-light flex w-full items-center! justify-center border border-black xl:w-fit xl:bg-white/10"
               textClassName="text-black! font-extralight!"
