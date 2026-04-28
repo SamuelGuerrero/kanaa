@@ -17,7 +17,6 @@ import { Media } from "./src/payload/collections/Media";
 import { Testimonials } from "./src/payload/collections/Testimonials";
 import { Users } from "./src/payload/collections/Users";
 import { HomePageContent } from "./src/payload/globals/HomePageContent";
-import { seed } from "./src/payload/seed";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -123,6 +122,9 @@ export default buildConfig({
   },
 
   onInit: async (payload) => {
+    if (process.env.PAYLOAD_SEED_ON_INIT !== "true") return;
+
+    const { seed } = await import("./src/payload/seed");
     await seed(payload);
   },
 });
