@@ -34,6 +34,7 @@ type CmsCard = {
   category: string;
   date: string;
   imageUrl?: string | null;
+  href?: string;
 };
 
 type GuideAndTipsProps = {
@@ -58,6 +59,7 @@ export const GuideAndTips = ({
         date: c.date,
         image:
           c.imageUrl ?? STATIC_IMAGES[i % STATIC_IMAGES.length] ?? GuideAndTip1,
+        href: c.href,
       }))
     : DEFAULT_CARDS;
 

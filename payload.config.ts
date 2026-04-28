@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { s3Storage } from "@payloadcms/storage-s3";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
@@ -16,7 +17,6 @@ import { Media } from "./src/payload/collections/Media";
 import { Testimonials } from "./src/payload/collections/Testimonials";
 import { Users } from "./src/payload/collections/Users";
 import { HomePageContent } from "./src/payload/globals/HomePageContent";
-import { seed } from "./src/payload/seed";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -76,6 +76,32 @@ export default buildConfig({
 
   globals: [HomePageContent],
 
+  plugins: [
+    s3Storage({
+      collections: {
+        media: {
+          // Files are publicly readable from S3, so the served URL is the
+          // direct S3 object URL — no signed URLs.
+          disableLocalStorage: true,
+          generateFileURL: ({ filename, prefix }) => {
+            const bucket = process.env.S3_BUCKET ?? "";
+            const region = process.env.S3_REGION ?? "us-east-1";
+            const key = prefix ? `${prefix}/${filename}` : filename;
+            return `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+          },
+        },
+      },
+      bucket: process.env.S3_BUCKET ?? "",
+      config: {
+        region: process.env.S3_REGION ?? "us-east-1",
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID ?? "",
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ?? "",
+        },
+      },
+    }),
+  ],
+
   db: sqliteAdapter({
     client: {
       url: process.env.PAYLOAD_DATABASE_URL ?? "file:./prisma/payload.db",
@@ -96,6 +122,9 @@ export default buildConfig({
   },
 
   onInit: async (payload) => {
+    if (process.env.PAYLOAD_SEED_ON_INIT !== "true") return;
+
+    const { seed } = await import("./src/payload/seed");
     await seed(payload);
   },
 });

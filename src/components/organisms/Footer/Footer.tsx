@@ -90,7 +90,7 @@ export const Footer = () => {
         </div>
 
         {/* CTA buttons */}
-        <div className="flex flex-row justify-center gap-4 md:flex-col md:justify-start md:space-y-0 lg:flex-col lg:space-y-6">
+        <div className="flex flex-col justify-center gap-4 md:flex-col md:justify-start md:space-y-0 lg:flex-col lg:space-y-6">
           <Button
             variant="primary"
             textWeight="bold"

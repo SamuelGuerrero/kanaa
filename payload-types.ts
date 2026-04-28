@@ -164,7 +164,7 @@ export interface User {
   collection: 'users';
 }
 /**
- * Imágenes y archivos multimedia del sitio
+ * Imágenes y archivos multimedia del sitio (S3)
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -292,13 +292,13 @@ export interface Author {
    */
   bio?: string | null;
   /**
-   * URL pública de la foto de perfil (usar Media si se prefiere subir)
-   */
-  avatarUrl: string;
-  /**
-   * Opcional: sobreescribe avatarUrl si se sube una imagen aquí
+   * Sube la foto de perfil del autor
    */
   avatar?: (number | null) | Media;
+  /**
+   * Campo de respaldo histórico. Para autores nuevos usa Avatar.
+   */
+  avatarUrl?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -362,13 +362,13 @@ export interface BlogPost {
     [k: string]: unknown;
   };
   /**
-   * URL pública del hero + card del listado
-   */
-  coverImageUrl: string;
-  /**
-   * Opcional: sobreescribe coverImageUrl cuando se sube archivo
+   * Sube la imagen del hero y de la tarjeta del listado
    */
   coverImage?: (number | null) | Media;
+  /**
+   * Campo de respaldo histórico. Para artículos nuevos usa Imagen de portada.
+   */
+  coverImageUrl?: string | null;
   /**
    * Texto que aparece debajo de la imagen principal
    */
@@ -426,6 +426,10 @@ export interface BlogPost {
    * Marca el artículo como el destacado del listado
    */
   isFeatured?: boolean | null;
+  /**
+   * Aparece en la sección de Guías del home. Máximo 3 artículos pueden estar activos.
+   */
+  showOnLanding?: boolean | null;
   /**
    * Si está desactivado no aparece en /blog
    */
@@ -666,8 +670,8 @@ export interface AuthorsSelect<T extends boolean = true> {
   name?: T;
   role?: T;
   bio?: T;
-  avatarUrl?: T;
   avatar?: T;
+  avatarUrl?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -692,8 +696,8 @@ export interface BlogPostsSelect<T extends boolean = true> {
   excerpt?: T;
   lead?: T;
   content?: T;
-  coverImageUrl?: T;
   coverImage?: T;
+  coverImageUrl?: T;
   heroCaption?: T;
   category?: T;
   tags?:
@@ -720,6 +724,7 @@ export interface BlogPostsSelect<T extends boolean = true> {
         metaDescription?: T;
       };
   isFeatured?: T;
+  showOnLanding?: T;
   isPublished?: T;
   order?: T;
   updatedAt?: T;

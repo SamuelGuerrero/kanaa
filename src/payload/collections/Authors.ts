@@ -37,23 +37,22 @@ export const Authors: CollectionConfig = {
       },
     },
     {
-      name: "avatarUrl",
-      type: "text",
-      label: "URL del avatar",
-      required: true,
+      name: "avatar",
+      type: "upload",
+      label: "Avatar",
+      relationTo: "media",
       admin: {
-        description:
-          "URL pública de la foto de perfil (usar Media si se prefiere subir)",
+        description: "Sube la foto de perfil del autor",
       },
     },
     {
-      name: "avatar",
-      type: "upload",
-      label: "Avatar (upload)",
-      relationTo: "media",
+      name: "avatarUrl",
+      type: "text",
+      label: "URL del avatar (legado)",
       admin: {
+        hidden: true,
         description:
-          "Opcional: sobreescribe avatarUrl si se sube una imagen aquí",
+          "Campo de respaldo histórico. Para autores nuevos usa Avatar.",
       },
     },
   ],

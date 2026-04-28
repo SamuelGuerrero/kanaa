@@ -58,7 +58,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
   const payloadLocale = locale === "en" ? "en" : "es";
 
-  const [homeContent, testimonialsResult, guideCardsResult, faqResult] =
+  const [homeContent, testimonialsResult, landingBlogResult, faqResult] =
     await Promise.all([
       payload.findGlobal({ slug: "home-page-content", locale: payloadLocale }),
       payload.find({
@@ -69,9 +69,16 @@ export default async function HomePage({ params }: HomePageProps) {
         locale: payloadLocale,
       }),
       payload.find({
-        collection: "guide-cards",
-        sort: "order",
+        collection: "blog-posts",
+        where: {
+          and: [
+            { showOnLanding: { equals: true } },
+            { isPublished: { equals: true } },
+          ],
+        },
+        sort: "-publishedAt",
         limit: 3,
+        depth: 1,
         locale: payloadLocale,
       }),
       payload.find({
@@ -92,15 +99,30 @@ export default async function HomePage({ params }: HomePageProps) {
     avatarUrl: (t.avatarUrl as string | undefined) ?? "",
   }));
 
-  const guideCards = guideCardsResult.docs.map((g) => ({
-    name: g.name,
-    category: g.category,
-    date: g.date,
-    imageUrl:
-      g.image && typeof g.image === "object" && "url" in g.image
-        ? g.image.url!
-        : null,
-  }));
+  const dateFormatter = new Intl.DateTimeFormat(
+    payloadLocale === "en" ? "en-US" : "es-MX",
+    { day: "numeric", month: "long", year: "numeric" },
+  );
+
+  const guideCards = landingBlogResult.docs.map((post) => {
+    const cover =
+      post.coverImage &&
+      typeof post.coverImage === "object" &&
+      "url" in post.coverImage
+        ? (post.coverImage.url ?? null)
+        : null;
+    const categoryLabel =
+      post.category && typeof post.category === "object"
+        ? post.category.label
+        : "";
+    return {
+      name: post.title,
+      category: categoryLabel,
+      date: dateFormatter.format(new Date(post.publishedAt)),
+      imageUrl: cover ?? post.coverImageUrl ?? null,
+      href: `/${locale}/blog/${post.slug}`,
+    };
+  });
 
   const faqItems = faqResult.docs.map((f) => ({
     question: f.question,

@@ -1,4 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
+import Link from "next/link";
 
 import { Text } from "@/components/atoms";
 
@@ -7,10 +8,17 @@ export type GuideCardProps = {
   category: string;
   date: string;
   image: StaticImageData | string;
+  href?: string;
 };
 
-export const GuideCard = ({ name, image, category, date }: GuideCardProps) => {
-  return (
+export const GuideCard = ({
+  name,
+  image,
+  category,
+  date,
+  href,
+}: GuideCardProps) => {
+  const card = (
     <div className="mx-auto w-full rounded-xl border bg-white p-2 pb-4 text-left lg:h-120 lg:w-98 lg:p-0">
       <Image
         className="mx-auto w-full rounded-xl rounded-b-none lg:mt-4 lg:h-60 lg:w-90 lg:rounded-none"
@@ -50,5 +58,13 @@ export const GuideCard = ({ name, image, category, date }: GuideCardProps) => {
         </Text>
       </div>
     </div>
+  );
+
+  if (!href) return card;
+
+  return (
+    <Link href={href} className="block transition-opacity hover:opacity-90">
+      {card}
+    </Link>
   );
 };

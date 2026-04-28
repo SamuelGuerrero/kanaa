@@ -8,8 +8,7 @@ export const BlogProgress = () => {
   useEffect(() => {
     const update = () => {
       const scrolled = window.scrollY;
-      const height =
-        document.documentElement.scrollHeight - window.innerHeight;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(height > 0 ? (scrolled / height) * 100 : 0);
     };
 
@@ -20,7 +19,7 @@ export const BlogProgress = () => {
   return (
     <div
       aria-hidden
-      className="fixed left-0 top-0 z-[200] h-[2px] bg-gold-normal transition-[width] duration-100"
+      className="bg-gold-normal fixed top-0 left-0 z-200 h-0.5 transition-[width] duration-100"
       style={{ width: `${progress}%` }}
     />
   );
