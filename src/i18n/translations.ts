@@ -495,6 +495,7 @@ export const enTranslations: Record<string, string> = {
   Modificar: "Modify",
   México: "Mexico",
   "Detalles de tu reserva": "Your reservation details",
+  "Ver reserva": "View reservation",
 
   // --- Formularios (ContactanosForm / BecomeHostForm) ---
   "Escribe tu nombre.": "Enter your name.",
