@@ -1,19 +1,15 @@
-import path from "path";
-import { fileURLToPath } from "url";
-
 import type { CollectionConfig } from "payload";
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 export const Media: CollectionConfig = {
   slug: "media",
   admin: {
     group: "Sistema",
-    description: "Imágenes y archivos multimedia del sitio",
+    description: "Imágenes y archivos multimedia del sitio (S3)",
   },
   upload: {
-    staticDir: path.resolve(dirname, "../../../public/media"),
+    // Storage is handled by the s3Storage plugin in payload.config.ts.
+    // Image sizes are still generated locally with sharp and uploaded
+    // to S3 alongside the original.
     imageSizes: [
       { name: "thumbnail", width: 400, height: 300, position: "centre" },
       { name: "card", width: 768, height: 576, position: "centre" },

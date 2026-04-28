@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { s3Storage } from "@payloadcms/storage-s3";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
@@ -75,6 +76,32 @@ export default buildConfig({
   ],
 
   globals: [HomePageContent],
+
+  plugins: [
+    s3Storage({
+      collections: {
+        media: {
+          // Files are publicly readable from S3, so the served URL is the
+          // direct S3 object URL — no signed URLs.
+          disableLocalStorage: true,
+          generateFileURL: ({ filename, prefix }) => {
+            const bucket = process.env.S3_BUCKET ?? "";
+            const region = process.env.S3_REGION ?? "us-east-1";
+            const key = prefix ? `${prefix}/${filename}` : filename;
+            return `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+          },
+        },
+      },
+      bucket: process.env.S3_BUCKET ?? "",
+      config: {
+        region: process.env.S3_REGION ?? "us-east-1",
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID ?? "",
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ?? "",
+        },
+      },
+    }),
+  ],
 
   db: sqliteAdapter({
     client: {

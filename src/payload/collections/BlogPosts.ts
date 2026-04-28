@@ -81,22 +81,23 @@ export const BlogPosts: CollectionConfig = {
           label: "Portada",
           fields: [
             {
-              name: "coverImageUrl",
-              type: "text",
-              label: "URL de la imagen de portada",
-              required: true,
-              admin: {
-                description: "URL pública del hero + card del listado",
-              },
-            },
-            {
               name: "coverImage",
               type: "upload",
-              label: "Imagen de portada (upload)",
+              label: "Imagen de portada",
               relationTo: "media",
               admin: {
                 description:
-                  "Opcional: sobreescribe coverImageUrl cuando se sube archivo",
+                  "Sube la imagen del hero y de la tarjeta del listado",
+              },
+            },
+            {
+              name: "coverImageUrl",
+              type: "text",
+              label: "URL de la imagen (legado)",
+              admin: {
+                hidden: true,
+                description:
+                  "Campo de respaldo histórico. Para artículos nuevos usa Imagen de portada.",
               },
             },
             {
@@ -271,6 +272,33 @@ export const BlogPosts: CollectionConfig = {
       admin: {
         position: "sidebar",
         description: "Marca el artículo como el destacado del listado",
+      },
+    },
+    {
+      name: "showOnLanding",
+      type: "checkbox",
+      label: "Aparecer en landing",
+      defaultValue: false,
+      admin: {
+        position: "sidebar",
+        description:
+          "Aparece en la sección de Guías del home. Máximo 3 artículos pueden estar activos.",
+      },
+      validate: async (value, { req, id }) => {
+        if (!value) return true;
+        // Count other docs already flagged. Exclude current doc when editing.
+        const where: Record<string, unknown> = {
+          showOnLanding: { equals: true },
+        };
+        if (id) where.id = { not_equals: id };
+        const existing = await req.payload.count({
+          collection: "blog-posts",
+          where: where as never,
+        });
+        if (existing.totalDocs >= 3) {
+          return "Ya hay 3 artículos marcados para landing. Desmarca uno antes de activar este.";
+        }
+        return true;
       },
     },
     {

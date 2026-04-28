@@ -41,6 +41,10 @@ const config = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "kanaa-media.s3.us-east-1.amazonaws.com",
+      },
     ],
   },
 
