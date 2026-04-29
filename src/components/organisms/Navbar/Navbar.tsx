@@ -224,7 +224,7 @@ export const Navbar = () => {
       ],
     },
     {
-      label: t("Inversión"),
+      label: t("Propietarios"),
       items: [
         {
           href: `/${locale}/property-management`,
