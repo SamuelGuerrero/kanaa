@@ -3,6 +3,8 @@ import { z } from "zod";
 
 import { env } from "@/env";
 
+const LEADS_TO_EMAIL = "hola@kanaa.house";
+
 const leadSchema = z.object({
   propertyAddress: z.string().min(1),
   postalCode: z.string().min(1),
@@ -160,7 +162,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         from: env.RESEND_FROM_EMAIL,
-        to: [env.LEADS_TO_EMAIL],
+        to: [LEADS_TO_EMAIL],
         subject: "Kanaa | Nuevo lead de gestion de propiedades",
         headers: {
           "X-Priority": "1",

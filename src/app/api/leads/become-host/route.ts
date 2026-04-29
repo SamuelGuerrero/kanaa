@@ -3,6 +3,8 @@ import { z } from "zod";
 
 import { env } from "@/env";
 
+const LEADS_TO_EMAIL = "hola@kanaa.house";
+
 const becomeHostSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
@@ -120,7 +122,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         from: env.RESEND_FROM_EMAIL,
-        to: [env.LEADS_TO_EMAIL],
+        to: [LEADS_TO_EMAIL],
         subject: "Kanaa | Nuevo lead de formulario principal",
         headers: {
           "X-Priority": "1",
