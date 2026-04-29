@@ -12,7 +12,7 @@ import type { BookingData } from "@/components/molecules";
 
 const COMPONENT_TITLE_ES: Record<string, string> = {
   "base rate": "Tarifa base",
-  "cleaning fee": "Cargo de limpieza",
+  "cleaning fee": "Tarifa de limpieza",
   "lodging tax": "Impuesto de hospedaje",
   "sales tax": "Impuesto sobre ventas",
 };

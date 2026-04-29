@@ -517,7 +517,7 @@ export const enTranslations: Record<string, string> = {
   "Selecciona un estado": "Select a state",
   "Inversión": "Investment",
   "Tarifa base": "Base rate",
-  "Cargo de limpieza": "Cleaning fee",
+  "Tarifa de limpieza": "Cleaning fee",
   "Impuesto de hospedaje": "Lodging tax",
   "Impuesto sobre ventas": "Sales tax",
   "Estado de pago:": "Payment status:",

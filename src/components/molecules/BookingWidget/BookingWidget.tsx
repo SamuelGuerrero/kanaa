@@ -21,7 +21,7 @@ import { Button } from "../Button";
 
 const COMPONENT_LABEL: Record<string, { es: string; en: string }> = {
   baseRate: { es: "Tarifa base", en: "Base rate" },
-  cleaningFee: { es: "Cargo de limpieza", en: "Cleaning fee" },
+  cleaningFee: { es: "Tarifa de limpieza", en: "Cleaning fee" },
   lodgingTax: { es: "Impuesto de hospedaje", en: "Lodging tax" },
   salesTax: { es: "Impuesto sobre ventas", en: "Sales tax" },
 };

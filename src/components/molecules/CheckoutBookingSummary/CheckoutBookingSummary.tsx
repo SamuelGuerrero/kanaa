@@ -44,7 +44,7 @@ const formatGuests = (guests: BookingData["guests"], locale: string) => {
 
 const COMPONENT_TITLE_TRANSLATIONS_ES: Record<string, string> = {
   "base rate": "Tarifa base",
-  "cleaning fee": "Cargo de limpieza",
+  "cleaning fee": "Tarifa de limpieza",
   "lodging tax": "Impuesto de hospedaje",
   "sales tax": "Impuesto sobre ventas",
   "coupon discount": "Descuento con cupón",
