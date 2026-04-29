@@ -7,6 +7,7 @@ import {
   getCoverImageUrl,
   getRelatedPost,
 } from "@/components/templates/BlogPostView/utils";
+import { isPayloadAdminPreviewRequest } from "@/lib/payloadPreview";
 import { createPageMetadata, toAbsoluteUrl, type SiteLocale } from "@/lib/seo";
 import configPromise from "@payload-config";
 
@@ -17,8 +18,7 @@ type BlogPostPageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-// Re-validate every 60s so editor changes propagate without a redeploy.
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000";
@@ -108,6 +108,8 @@ export async function generateMetadata({
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  if (!(await isPayloadAdminPreviewRequest())) notFound();
+
   const { locale, slug } = await params;
   const siteLocale = (locale === "en" ? "en" : "es") as SiteLocale;
 

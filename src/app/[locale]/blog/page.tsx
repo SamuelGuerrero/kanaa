@@ -1,10 +1,12 @@
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import { cache } from "react";
 
 import { BlogFilters, NewsletterForm } from "@/components/organisms";
+import { isPayloadAdminPreviewRequest } from "@/lib/payloadPreview";
 import { createPageMetadata, type SiteLocale } from "@/lib/seo";
 import configPromise from "@payload-config";
 
@@ -28,8 +30,7 @@ export const metadata: Metadata = createPageMetadata({
   path: "/blog",
 });
 
-// Re-validate every 60s so editor changes propagate without a redeploy.
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 6;
 
@@ -230,6 +231,8 @@ export default async function BlogPage({
   params,
   searchParams,
 }: BlogPageProps) {
+  if (!(await isPayloadAdminPreviewRequest())) notFound();
+
   const { locale } = await params;
   const { page: pageParam, cat, q } = await searchParams;
   const siteLocale = (locale === "en" ? "en" : "es") as SiteLocale;
