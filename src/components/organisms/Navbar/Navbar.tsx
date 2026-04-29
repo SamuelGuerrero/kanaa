@@ -224,20 +224,22 @@ export const Navbar = () => {
       ],
     },
     {
-      href: `/${locale}/property-management`,
-      label: t("Gestión de propiedades"),
-    },
-    {
-      href: `/${locale}/calculator`,
-      label: t("Calculadora de ingresos"),
+      label: t("Inversión"),
+      items: [
+        {
+          href: `/${locale}/property-management`,
+          label: t("Gestión de propiedades"),
+        },
+        {
+          href: `/${locale}/calculator`,
+          label: t("Calculadora de ingresos"),
+        },
+      ],
     },
   ];
 
-  const navTextClass = isMounted
-    ? isLightBackground
-      ? "text-black"
-      : "text-white"
-    : "text-white";
+  const shouldUseDarkNavText = isMounted && isLightBackground;
+  const navTextClass = shouldUseDarkNavText ? "text-black" : "text-white";
 
   return (
     <>
@@ -348,8 +350,8 @@ export const Navbar = () => {
           <Button
             href={`/${locale}/reservation-tracking`}
             variant="secondary"
-            className="border-gold-light border bg-white/10"
-            textClassName="text text-gold-light! font-extralight!"
+            className="border-current bg-white/10"
+            textClassName="text-current! font-extralight!"
           >
             {t("Ver reserva")}
           </Button>
