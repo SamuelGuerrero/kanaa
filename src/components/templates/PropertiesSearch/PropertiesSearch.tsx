@@ -22,7 +22,11 @@ export const PropertiesSearch = () => {
   const [totalCount, setTotalCount] = useState(0);
   const itemsPerPage = 16;
 
-  const fetchProperties = async (filters?: SearchFilters, page = 1) => {
+  const fetchProperties = async (
+    filters?: SearchFilters,
+    page = 1,
+    propertyType?: number,
+  ) => {
     try {
       setIsLoading(true);
       setError(null);
@@ -53,6 +57,10 @@ export const PropertiesSearch = () => {
         if (Number.isFinite(numericGuests)) {
           params.append("availabilityGuestNumber", String(numericGuests));
         }
+      }
+
+      if (propertyType) {
+        params.append("propertyTypeId", String(propertyType));
       }
 
       const response = await fetch(
@@ -126,14 +134,15 @@ export const PropertiesSearch = () => {
     return Number.isFinite(raw) && raw > 0 ? raw : 1;
   }, [searchParams]);
 
+  const currentPropertyType = useMemo(() => {
+    const raw = Number(searchParams.get("propertyType") ?? "");
+    return Number.isFinite(raw) && raw > 0 ? raw : undefined;
+  }, [searchParams]);
+
   useEffect(() => {
     const filters = buildFiltersFromParams(searchParams);
-    if (filters) {
-      void fetchProperties(filters, currentPage);
-      return;
-    }
-    void fetchProperties(undefined, currentPage);
-  }, [buildFiltersFromParams, currentPage, searchParams]);
+    void fetchProperties(filters ?? undefined, currentPage, currentPropertyType);
+  }, [buildFiltersFromParams, currentPage, currentPropertyType, searchParams]);
 
   const handleSearch = (filters: SearchFilters) => {
     const params = new URLSearchParams();
@@ -143,6 +152,20 @@ export const PropertiesSearch = () => {
     params.append("adults", String(filters.guestCounts.adults));
     params.append("children", String(filters.guestCounts.children));
     params.append("infants", String(filters.guestCounts.infants));
+    if (currentPropertyType) {
+      params.append("propertyType", String(currentPropertyType));
+    }
+    params.set("page", "1");
+    router.push(`/${locale}/properties?${params.toString()}`);
+  };
+
+  const handlePropertyTypeChange = (next: number | undefined) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (next) {
+      params.set("propertyType", String(next));
+    } else {
+      params.delete("propertyType");
+    }
     params.set("page", "1");
     router.push(`/${locale}/properties?${params.toString()}`);
   };
@@ -166,6 +189,8 @@ export const PropertiesSearch = () => {
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}
+        propertyType={currentPropertyType}
+        onPropertyTypeChange={handlePropertyTypeChange}
       />
     </main>
   );

@@ -9,6 +9,7 @@ import {
   type ReservationSearchInitialFilters,
   type SearchFilters,
 } from "@/components/organisms";
+import { PropertyTypeFilter } from "@/components/organisms/PropertyTypeFilter";
 import { useI18n } from "@/i18n";
 
 import type { Property } from "@/types/property";
@@ -24,6 +25,8 @@ type PropertyListTemplateProps = {
   itemsPerPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
+  propertyType?: number;
+  onPropertyTypeChange?: (next: number | undefined) => void;
 };
 
 export const PropertyListTemplate = ({
@@ -37,6 +40,8 @@ export const PropertyListTemplate = ({
   itemsPerPage,
   currentPage,
   onPageChange,
+  propertyType,
+  onPropertyTypeChange,
 }: PropertyListTemplateProps) => {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -70,8 +75,17 @@ export const PropertyListTemplate = ({
             Explora nuestro catálogo y encuentra tu propiedad ideal.
           </Text>
 
+          {onPropertyTypeChange && (
+            <div className="mt-6 flex w-full justify-end md:max-w-205.75">
+              <PropertyTypeFilter
+                value={propertyType}
+                onChange={onPropertyTypeChange}
+              />
+            </div>
+          )}
+
           <ReservationSearch
-            className="mt-10 w-full border-[#ddd] p-0! sm:border"
+            className="mt-4 w-full border-[#ddd] p-0! sm:border"
             onSearch={handleSearch}
             initialFilters={initialFilters}
           />
