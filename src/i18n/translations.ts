@@ -1,4 +1,5 @@
 export const enTranslations: Record<string, string> = {
+  "Todos los tipos": "All types",
   Inicio: "Home",
   Propiedades: "Properties",
   Nosotros: "About Us",
