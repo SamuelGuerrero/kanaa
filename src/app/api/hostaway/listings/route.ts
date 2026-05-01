@@ -70,6 +70,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    if (searchParams.get("propertyTypeId")) {
+      hostawayParams.append(
+        "propertyTypeId",
+        searchParams.get("propertyTypeId")!,
+      );
+    }
+
     const cacheKey = hostawayParams.toString();
     const now = Date.now();
     const cached = listingsCache.get(cacheKey);
@@ -85,7 +92,8 @@ export async function GET(request: NextRequest) {
         Boolean(searchParams.get("country")) ||
         Boolean(searchParams.get("availabilityDateStart")) ||
         Boolean(searchParams.get("availabilityDateEnd")) ||
-        Boolean(searchParams.get("availabilityGuestNumber"));
+        Boolean(searchParams.get("availabilityGuestNumber")) ||
+        Boolean(searchParams.get("propertyTypeId"));
 
       const shouldPrioritizeListings =
         !hasFilters && requestOffset === "0" && requestLimit <= 12;
