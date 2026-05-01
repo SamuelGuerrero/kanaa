@@ -126,6 +126,19 @@ export const ReservationSearch = ({
     });
   };
 
+  const handleDestinationChange = (value: string) => {
+    setDestination(value);
+    // Auto-fire search on destination change so the user doesn't need to
+    // press the magnifier button — uses the fresh value to avoid stale state.
+    onSearch?.({
+      destination: value,
+      checkIn: formatDate(dateRange.startDate),
+      checkOut: formatDate(dateRange.endDate),
+      guests: formatGuestsText(guests, locale),
+      guestCounts: guests,
+    });
+  };
+
   const parseDate = (value?: string) => {
     if (!value) return null;
     const isoMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
@@ -362,7 +375,7 @@ export const ReservationSearch = ({
           </Text>
           <select
             value={destination}
-            onChange={(e) => setDestination(e.target.value)}
+            onChange={(e) => handleDestinationChange(e.target.value)}
             disabled={destinationsLoading}
             className={`appearance-none pr-6 ${selectorTextClass}`}
           >
