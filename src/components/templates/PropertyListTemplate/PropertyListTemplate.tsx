@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Text } from "@/components/atoms";
 import { PropertyCard } from "@/components/molecules";
@@ -9,7 +10,11 @@ import {
   type ReservationSearchInitialFilters,
   type SearchFilters,
 } from "@/components/organisms";
-import { PropertyTypeFilter } from "@/components/organisms/PropertyTypeFilter";
+import {
+  PropertyTypeFilter,
+  PropertyTypeFilterPanel,
+  type PropertyType,
+} from "@/components/organisms/PropertyTypeFilter";
 import { useI18n } from "@/i18n";
 
 import type { Property } from "@/types/property";
@@ -45,6 +50,36 @@ export const PropertyListTemplate = ({
 }: PropertyListTemplateProps) => {
   const router = useRouter();
   const { t, locale } = useI18n();
+
+  // Filter panel state — lifted here so the panel can render as a sibling of
+  // the search bar (matching the mockup) and span the full search-row width.
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [propertyTypes, setPropertyTypes] = useState<PropertyType[]>([]);
+  const [typesLoading, setTypesLoading] = useState(false);
+
+  useEffect(() => {
+    if (!onPropertyTypeChange) return;
+    let cancelled = false;
+    const controller = new AbortController();
+    setTypesLoading(true);
+    fetch("/api/hostaway/property-types", { signal: controller.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("HTTP"))))
+      .then((data: { result?: PropertyType[] }) => {
+        if (!cancelled) setPropertyTypes(data.result ?? []);
+      })
+      .catch((err) => {
+        if ((err as Error).name === "AbortError") return;
+        console.error("PropertyTypes fetch:", err);
+      })
+      .finally(() => {
+        if (!cancelled) setTypesLoading(false);
+      });
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
+  }, [onPropertyTypeChange]);
+
   const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
   const paginationPages = (() => {
     const pages: number[] = [];
@@ -75,20 +110,38 @@ export const PropertyListTemplate = ({
             Explora nuestro catálogo y encuentra tu propiedad ideal.
           </Text>
 
-          {onPropertyTypeChange && (
-            <div className="mt-6 flex w-full justify-end md:max-w-205.75">
+          {/* Search row: search bar + filter button side-by-side */}
+          <div className="mt-10 flex w-full max-w-220 flex-col items-stretch gap-3 md:flex-row md:items-center md:gap-2.5">
+            <ReservationSearch
+              className="w-full border-[#ddd] p-0! sm:border"
+              onSearch={handleSearch}
+              initialFilters={initialFilters}
+            />
+
+            {onPropertyTypeChange && (
               <PropertyTypeFilter
                 value={propertyType}
-                onChange={onPropertyTypeChange}
+                open={filterOpen}
+                onToggle={() => setFilterOpen((prev) => !prev)}
+              />
+            )}
+          </div>
+
+          {/* Panel: rendered below the row, spans the same max width */}
+          {onPropertyTypeChange && filterOpen && (
+            <div className="mt-4 w-full max-w-220">
+              <PropertyTypeFilterPanel
+                types={propertyTypes}
+                loading={typesLoading}
+                value={propertyType}
+                onApply={(next) => {
+                  onPropertyTypeChange(next);
+                  setFilterOpen(false);
+                }}
+                onClose={() => setFilterOpen(false)}
               />
             </div>
           )}
-
-          <ReservationSearch
-            className="mt-4 w-full border-[#ddd] p-0! sm:border"
-            onSearch={handleSearch}
-            initialFilters={initialFilters}
-          />
         </div>
 
         <div className="sn:px-3 py-5 sm:px-14">
