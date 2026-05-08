@@ -1,174 +1,208 @@
 "use client";
 
-import { HomeModernIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 
 import { Text } from "@/components/atoms";
 import { useI18n } from "@/i18n";
 
-type PropertyType = { id: number; name: string };
+export type PropertyType = { id: number; name: string };
 
-const PROPERTY_TYPE_ES: Record<string, string> = {
-  Apartment: "Apartamento",
-  House: "Casa",
-  Condo: "Condominio",
-  Condominium: "Condominio",
-  Villa: "Villa",
-  Cabin: "Cabaña",
-  Cottage: "Cabaña",
-  Studio: "Estudio",
-  Townhouse: "Casa adosada",
-  Loft: "Loft",
-  Penthouse: "Penthouse",
-  Resort: "Resort",
-  Hotel: "Hotel",
-  "Guest House": "Casa de huéspedes",
-  Guesthouse: "Casa de huéspedes",
-  Bungalow: "Bungalow",
-  Chalet: "Chalet",
-  Hostel: "Hostal",
-  "Bed and Breakfast": "Bed & Breakfast",
-  Farm: "Granja",
-  Boat: "Barco",
-  Camper: "Autocaravana",
-  Tent: "Tienda de campaña",
-  Other: "Otro",
+/* ── Friendly labels + emoji icons ───────────────────────────────────── */
+
+const TYPE_PRESENTATION: Record<
+  string,
+  { es: string; en: string; icon: string }
+> = {
+  Apartment: { es: "Departamento", en: "Apartment", icon: "🏢" },
+  House: { es: "Casa", en: "House", icon: "🏠" },
+  Condominium: { es: "Condominio", en: "Condominium", icon: "🏘️" },
+  Loft: { es: "Loft", en: "Loft", icon: "🌆" },
+  Cabin: { es: "Cabaña", en: "Cabin", icon: "🌲" },
+  Villa: { es: "Villa", en: "Villa", icon: "🏖️" },
+  Hotel: { es: "Hotel", en: "Hotel", icon: "🏨" },
+  "Boutique hotel": { es: "Hotel boutique", en: "Boutique hotel", icon: "✨" },
+  Bungalow: { es: "Bungalow", en: "Bungalow", icon: "🌴" },
+  Cottage: { es: "Cottage", en: "Cottage", icon: "🏡" },
+  Townhouse: { es: "Townhouse", en: "Townhouse", icon: "🏘️" },
+  Aparthotel: { es: "Aparthotel", en: "Aparthotel", icon: "🏨" },
 };
 
+const presentTypeName = (name: string, locale: "es" | "en") =>
+  TYPE_PRESENTATION[name]?.[locale] ?? name;
+
+const presentTypeIcon = (name: string) => TYPE_PRESENTATION[name]?.icon ?? "🏠";
+
+/* ── Funnel icon (matching mockup: 3 decreasing horizontal lines) ────── */
+
+const FunnelLinesIcon = ({ className = "" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <line x1="4" y1="6" x2="20" y2="6" />
+    <line x1="8" y1="12" x2="16" y2="12" />
+    <line x1="11" y1="18" x2="13" y2="18" />
+  </svg>
+);
+
+/* ── Button (trigger) ────────────────────────────────────────────────── */
+
 type PropertyTypeFilterProps = {
-  /** Currently selected propertyTypeId, or undefined for "All" */
+  /** Selected type id (applied) */
   value?: number;
-  /** Called when the user picks a type or clears the filter */
-  onChange: (next: number | undefined) => void;
+  /** Whether the panel is open */
+  open: boolean;
+  /** Toggle panel visibility */
+  onToggle: () => void;
 };
 
 export const PropertyTypeFilter = ({
   value,
-  onChange,
+  open,
+  onToggle,
 }: PropertyTypeFilterProps) => {
+  const { t } = useI18n();
+  const isActive = value !== undefined;
+
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-haspopup="dialog"
+      aria-expanded={open}
+      className={`flex h-14 shrink-0 items-center gap-2 rounded-full border bg-white px-4.5 text-sm font-medium whitespace-nowrap shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-colors ${
+        isActive || open
+          ? "border-[1.5px] border-[#2d4a3e] text-[#2d4a3e]"
+          : "border-gray-200 text-[#1F1F1F] hover:border-gray-400"
+      }`}
+    >
+      <FunnelLinesIcon className="h-4 w-4 shrink-0" />
+      <span>{t("Tipo de propiedad")}</span>
+      {isActive && (
+        <span className="ml-1 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[#2d4a3e] text-[10px] font-medium text-white">
+          1
+        </span>
+      )}
+    </button>
+  );
+};
+
+/* ── Panel (the popover with the grid of cards) ──────────────────────── */
+
+type PropertyTypeFilterPanelProps = {
+  types: PropertyType[];
+  loading: boolean;
+  /** Currently applied type id */
+  value?: number;
+  className?: string;
+  onApply: (next: number | undefined) => void;
+  onClose: () => void;
+};
+
+export const PropertyTypeFilterPanel = ({
+  types,
+  loading,
+  value,
+  className = "",
+  onApply,
+  onClose,
+}: PropertyTypeFilterPanelProps) => {
   const { t, locale } = useI18n();
-  const translateType = (name: string) =>
-    locale === "es" ? (PROPERTY_TYPE_ES[name] ?? name) : name;
-  const [open, setOpen] = useState(false);
-  const [types, setTypes] = useState<PropertyType[]>([]);
-  const [loading, setLoading] = useState(false);
-  const popoverRef = useRef<HTMLDivElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  // Local draft selection — applied only when user clicks "Aplicar".
+  const [selected, setSelected] = useState<number | undefined>(value);
 
-  // Fetch types once on mount. The endpoint is server-cached for an hour so
-  // the cost is negligible, and avoiding a strict-mode re-entrance loop on
-  // the popover is worth the small upfront request.
-  useEffect(() => {
-    let cancelled = false;
-    const controller = new AbortController();
-    setLoading(true);
-    fetch("/api/hostaway/property-types", { signal: controller.signal })
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("HTTP"))))
-      .then((data: { result?: PropertyType[] }) => {
-        if (!cancelled) setTypes(data.result ?? []);
-      })
-      .catch((err) => {
-        if ((err as Error).name === "AbortError") return;
-        console.error("PropertyTypeFilter:", err);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, []);
+  // Re-sync when the applied value changes externally.
+  useEffect(() => setSelected(value), [value]);
 
-  // Click outside to close
+  // Click outside to dismiss without applying.
   useEffect(() => {
-    if (!open) return;
     const handler = (e: MouseEvent) => {
-      if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
-        setOpen(false);
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+        onClose();
       }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
-
-  const selectedLabel = (() => {
-    const found = types.find((type) => type.id === value);
-    return found ? translateType(found.name) : undefined;
-  })();
+  }, [onClose]);
 
   return (
-    <div ref={popoverRef} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-          value
-            ? "border-green-normal bg-green-normal text-white"
-            : "border-gray-300 bg-white text-gray-700 hover:border-green-normal hover:text-green-normal"
-        }`}
-        aria-haspopup="dialog"
-        aria-expanded={open}
+    <div
+      ref={panelRef}
+      role="dialog"
+      className={`rounded-[20px] border border-gray-200 bg-white p-6 shadow-[0_8px_32px_rgba(0,0,0,0.10)] ${className}`}
+    >
+      <Text
+        as="p"
+        font="gilroy"
+        size="xs"
+        weight="medium"
+        className="mb-3 text-gray-500"
       >
-        <HomeModernIcon className="h-4 w-4" />
-        <span>{t("Tipo de propiedad")}</span>
-        {value && selectedLabel && (
-          <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
-            1
-          </span>
-        )}
-      </button>
+        {t("Elige el tipo de propiedad")}
+      </Text>
 
-      {open && (
-        <div
-          role="dialog"
-          className="absolute right-0 z-50 mt-2 w-72 rounded-xl border border-gray-200 bg-white p-4 shadow-xl"
-        >
-          <Text
-            as="p"
-            font="gilroy"
-            size="xs"
-            weight="semibold"
-            className="mb-3 uppercase tracking-wide text-gray-500"
-          >
-            {t("Tipo de propiedad")}
+      {loading && types.length === 0 ? (
+        <div className="py-8 text-center">
+          <Text as="span" font="gilroy" size="sm" className="text-gray-400">
+            {t("Cargando…")}
           </Text>
-
-          <div className="relative">
-            <select
-              value={value ?? ""}
-              onChange={(e) => {
-                const raw = e.target.value;
-                onChange(raw === "" ? undefined : Number(raw));
-                setOpen(false);
-              }}
-              disabled={loading}
-              className="w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2 pr-8 text-sm focus:border-green-normal focus:outline-none disabled:opacity-60"
-            >
-              <option value="">
-                {loading ? t("Cargando…") : t("Todos los tipos")}
-              </option>
-              {types.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {translateType(type.name)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {value && (
-            <button
-              type="button"
-              onClick={() => {
-                onChange(undefined);
-                setOpen(false);
-              }}
-              className="mt-3 text-xs font-medium text-green-normal underline-offset-2 hover:underline"
-            >
-              {t("Limpiar filtros")}
-            </button>
-          )}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-6">
+          {types.map((type) => {
+            const isSelected = selected === type.id;
+            return (
+              <button
+                key={type.id}
+                type="button"
+                onClick={() =>
+                  setSelected((prev) =>
+                    prev === type.id ? undefined : type.id,
+                  )
+                }
+                className={`flex flex-col items-center gap-1.5 rounded-[14px] border px-2 pt-3.5 pb-3 text-center transition-colors ${
+                  isSelected
+                    ? "border-[1.5px] border-[#2d4a3e] bg-[#f0f5f2]"
+                    : "border-gray-200 hover:border-gray-400 hover:bg-gray-50"
+                }`}
+              >
+                <span className="text-2xl leading-none">
+                  {presentTypeIcon(type.name)}
+                </span>
+                <span className="text-[11px] leading-tight font-medium text-[#1F1F1F]">
+                  {presentTypeName(type.name, locale)}
+                </span>
+              </button>
+            );
+          })}
         </div>
       )}
+
+      <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4">
+        <button
+          type="button"
+          onClick={() => setSelected(undefined)}
+          disabled={selected === undefined}
+          className="text-sm font-medium text-gray-500 underline-offset-2 hover:underline disabled:no-underline disabled:opacity-40"
+        >
+          {t("Limpiar")}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onApply(selected)}
+          className="rounded-full bg-[#2d4a3e] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#1f3329]"
+        >
+          {t("Aplicar filtro")}
+        </button>
+      </div>
     </div>
   );
 };
