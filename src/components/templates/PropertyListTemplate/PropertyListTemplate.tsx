@@ -110,8 +110,8 @@ export const PropertyListTemplate = ({
             Explora nuestro catálogo y encuentra tu propiedad ideal.
           </Text>
 
-          {/* Search row: search bar + filter button side-by-side */}
-          <div className="mt-10 flex w-full max-w-220 flex-col items-stretch gap-3 md:flex-row md:items-center md:gap-2.5">
+          {/* Search row: search bar + filter button side-by-side, centered */}
+          <div className="mx-auto mt-10 flex w-full max-w-5xl flex-col items-stretch gap-3 md:flex-row md:items-center md:gap-2.5">
             <ReservationSearch
               className="w-full border-[#ddd] p-0! sm:border"
               onSearch={handleSearch}
@@ -127,9 +127,9 @@ export const PropertyListTemplate = ({
             )}
           </div>
 
-          {/* Panel: rendered below the row, spans the same max width */}
+          {/* Panel: rendered below the row, same width and centered */}
           {onPropertyTypeChange && filterOpen && (
-            <div className="mt-4 w-full max-w-220">
+            <div className="mx-auto mt-4 w-full max-w-5xl">
               <PropertyTypeFilterPanel
                 types={propertyTypes}
                 loading={typesLoading}
