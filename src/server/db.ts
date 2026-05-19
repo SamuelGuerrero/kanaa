@@ -7,7 +7,7 @@ import { PrismaClient } from "../../generated/prisma";
 const createPrismaClient = () =>
   new PrismaClient({
     adapter: new PrismaLibSql({
-      url: process.env.TURSO_DATABASE_URL ?? "",
+      url: process.env.TURSO_DATABASE_URL ?? "libsql://cnbv-samuelguerrero.aws-us-west-2.turso.io",
       authToken: process.env.TURSO_AUTH_TOKEN,
     }),
     log:
