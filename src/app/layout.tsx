@@ -3,7 +3,11 @@ import { Roboto_Serif } from "next/font/google";
 import localFont from "next/font/local";
 import { cookies, headers } from "next/headers";
 
-import { StructuredData } from "@/components/atoms";
+import {
+  GoogleTagManagerNoscript,
+  GoogleTagManagerScript,
+  StructuredData,
+} from "@/components/atoms";
 import { organizationSchema, webSiteSchema } from "@/lib/schemas";
 import { siteConfig, toAbsoluteUrl } from "@/lib/seo";
 
@@ -164,8 +168,13 @@ export default async function RootLayout({
         {/* Global JSON-LD structured data */}
         <StructuredData data={organizationSchema()} />
         <StructuredData data={webSiteSchema()} />
+
+        {/* Google Tag Manager — head snippet */}
+        <GoogleTagManagerScript />
       </head>
       <body className="bg-[url('/svg/main.svg')] bg-contain bg-top bg-repeat p-1.5 xl:p-4">
+        {/* GTM noscript — must be the first child of <body> */}
+        <GoogleTagManagerNoscript />
         {children}
       </body>
     </html>
