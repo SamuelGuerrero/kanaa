@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { env } from "@/env";
 import { buildReservationConfirmationHtml } from "@/server/email/templates/reservation-confirmation";
 import { getHostawayAuthorizationHeader } from "@/server/hostaway/auth";
+import { fakeSandboxReservationId, isSandboxMode } from "@/server/sandbox";
 
 const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
 const SITE_URL = "https://kanaa.house";
@@ -71,6 +72,29 @@ export async function POST(request: Request) {
         { error: "Faltan campos requeridos para crear la reservación" },
         { status: 400 },
       );
+    }
+
+    // ── Sandbox short-circuit ─────────────────────────────────────────────
+    // In sandbox mode we don't touch Hostaway or Resend so the tracking team
+    // can complete the booking flow with Stripe test cards without polluting
+    // the production calendar or sending guest emails.
+    if (isSandboxMode()) {
+      const mockReservationId = fakeSandboxReservationId();
+      console.info("[sandbox] mocked Hostaway reservation:", mockReservationId);
+      return NextResponse.json({
+        success: true,
+        sandbox: true,
+        reservationId: mockReservationId,
+        reservation: {
+          id: mockReservationId,
+          listingMapId,
+          arrivalDate,
+          departureDate,
+          totalPrice,
+          currency: "MXN",
+          guestName: `${guestFirstName} ${guestLastName}`,
+        },
+      });
     }
 
     const authorization = await getHostawayAuthorizationHeader();

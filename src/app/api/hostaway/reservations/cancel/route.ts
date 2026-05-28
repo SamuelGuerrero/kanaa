@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 import { getHostawayAuthorizationHeader } from "@/server/hostaway/auth";
+import { isSandboxMode } from "@/server/sandbox";
 
 const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
 
@@ -61,7 +62,19 @@ export async function POST(request: Request) {
     }
   }
 
-  // 2. Cancel reservation in Hostaway
+  // 2. Cancel reservation in Hostaway — skipped in sandbox mode since the
+  //    reservation never existed in the first place. The Stripe refund above
+  //    already succeeded against the test PaymentIntent.
+  if (isSandboxMode()) {
+    console.info("[sandbox] mocked Hostaway cancellation:", reservationId);
+    return NextResponse.json({
+      success: true,
+      sandbox: true,
+      reservation: { id: reservationId, status: "cancelled" },
+      refundId,
+    });
+  }
+
   let authorization: string;
   try {
     authorization = await getHostawayAuthorizationHeader();
