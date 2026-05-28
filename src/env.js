@@ -23,6 +23,13 @@ export const env = createEnv({
     RESEND_FROM_EMAIL: z.string().email(),
     LEADS_TO_EMAIL: z.string().email(),
     STRIPE_SECRET_KEY: z.string().min(1),
+    /**
+     * When set to "1" or "true" the booking flow skips real Hostaway calls
+     * (mocked reservations) so the tracking team can validate Purchase events
+     * without polluting the live calendar. Stripe keys should also be swapped
+     * to test (`sk_test_*` / `pk_test_*`) in the same environment.
+     */
+    KANAA_SANDBOX_MODE: z.string().optional(),
   },
 
   /**
@@ -50,6 +57,7 @@ export const env = createEnv({
     RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
     LEADS_TO_EMAIL: process.env.LEADS_TO_EMAIL,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    KANAA_SANDBOX_MODE: process.env.KANAA_SANDBOX_MODE,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   },
