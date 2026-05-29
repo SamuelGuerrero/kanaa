@@ -1,14 +1,10 @@
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
 
 import { getHostawayAuthorizationHeader } from "@/server/hostaway/auth";
 import { isSandboxMode } from "@/server/sandbox";
+import { getStripeClient } from "@/server/stripe";
 
 const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-03-25.dahlia",
-});
 
 interface CancelReservationBody {
   reservationId: number;
@@ -46,6 +42,7 @@ export async function POST(request: Request) {
   let refundId: string | null = null;
   if (paymentIntentId) {
     try {
+      const stripe = await getStripeClient();
       const refund = await stripe.refunds.create({
         payment_intent: paymentIntentId,
       });

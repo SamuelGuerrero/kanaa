@@ -13,9 +13,31 @@ import { usePriceDetails } from "@/hooks/usePriceDetails";
 
 import type { BookingData } from "@/components/molecules";
 
-const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
-  : null;
+// Hostnames that should use Stripe's test publishable key. Keep in sync with
+// `SANDBOX_HOSTS` in `src/server/sandbox.ts` so client and server agree on
+// which key is in play for a given URL.
+const SANDBOX_HOSTS = new Set<string>(["kanaa-eight.vercel.app"]);
+
+// Both publishable keys are inlined at build time. The actual one used is
+// picked at runtime from `window.location.hostname` so the same bundle can
+// serve kanaa.house (live) and kanaa-eight.vercel.app (test).
+const resolveStripePublishableKey = (): string | null => {
+  const liveKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? null;
+  const testKey =
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST ?? null;
+
+  if (typeof window === "undefined") return liveKey;
+
+  const host = window.location.hostname.toLowerCase();
+  if (SANDBOX_HOSTS.has(host) && testKey) return testKey;
+  return liveKey;
+};
+
+const stripePromise = (() => {
+  if (typeof window === "undefined") return null;
+  const key = resolveStripePublishableKey();
+  return key ? loadStripe(key) : null;
+})();
 
 export default function CheckoutPage() {
   const router = useRouter();

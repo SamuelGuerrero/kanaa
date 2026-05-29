@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-03-25.dahlia",
-});
+import { getStripeClient } from "@/server/stripe";
 
 interface CreatePaymentIntentBody {
   amount: number;
@@ -43,6 +40,8 @@ export async function POST(request: Request) {
 
     // Stripe expects amount in the smallest currency unit (centavos for MXN)
     const amountInCents = Math.round(amount * 100);
+
+    const stripe = await getStripeClient();
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amountInCents,

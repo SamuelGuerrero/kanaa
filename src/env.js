@@ -24,6 +24,12 @@ export const env = createEnv({
     LEADS_TO_EMAIL: z.string().email(),
     STRIPE_SECRET_KEY: z.string().min(1),
     /**
+     * Stripe test secret key — used only when the request comes from a
+     * sandbox host (see `src/server/sandbox.ts`). Optional in environments
+     * that aren't running the sandbox.
+     */
+    STRIPE_SECRET_KEY_TEST: z.string().optional(),
+    /**
      * When set to "1" or "true" the booking flow skips real Hostaway calls
      * (mocked reservations) so the tracking team can validate Purchase events
      * without polluting the live calendar. Stripe keys should also be swapped
@@ -39,6 +45,11 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
+    /**
+     * Stripe test publishable key — bundled together with the live one so
+     * the checkout page can swap at runtime based on `window.location.hostname`.
+     */
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST: z.string().optional(),
   },
 
   /**
@@ -57,9 +68,12 @@ export const env = createEnv({
     RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
     LEADS_TO_EMAIL: process.env.LEADS_TO_EMAIL,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_SECRET_KEY_TEST: process.env.STRIPE_SECRET_KEY_TEST,
     KANAA_SANDBOX_MODE: process.env.KANAA_SANDBOX_MODE,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
