@@ -2,13 +2,19 @@
 
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 import { CircleButton, Text } from "@/components/atoms";
 import { Button, Input, PhoneInput } from "@/components/molecules";
+import { pushPurchase } from "@/lib/dataLayer";
 
 import type { BookingData } from "@/components/molecules";
+
+// Sandbox hostnames — kept in sync with src/server/sandbox.ts and the
+// checkout page so we can flag tracking events that come from the
+// marketing-test deployment.
+const SANDBOX_HOSTS = new Set<string>(["kanaa-eight.vercel.app"]);
 
 const COMPONENT_TITLE_ES: Record<string, string> = {
   "base rate": "Tarifa base",
@@ -66,6 +72,8 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 
 function BookingSuccessInner() {
   const searchParams = useSearchParams();
+  const params = useParams();
+  const propertyIdParam = (params?.propertyId as string | undefined) ?? "";
   const paymentIntentId = searchParams.get("payment_intent") ?? "";
   const reservationId = searchParams.get("reservation_id") ?? "";
   const bookingNumber = reservationId
@@ -75,6 +83,10 @@ function BookingSuccessInner() {
       : "#—";
 
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
+  // Guards against firing the purchase event twice when the user back-forwards
+  // or React Strict Mode re-runs the effect. Keyed by transaction id so a
+  // separate booking on the same browser tab still tracks.
+  const trackedTxRef = useRef<string | null>(null);
   const [guestData, setGuestData] = useState<GuestData>({
     firstName: "",
     lastName: "",
@@ -153,8 +165,36 @@ function BookingSuccessInner() {
   }, []);
 
   const totalGuests = bookingData
-    ? bookingData.guests.adults + bookingData.guests.children
+    ? bookingData.guests.adults +
+      bookingData.guests.children +
+      bookingData.guests.infants
     : 0;
+
+  // Fire the GA4 `purchase` event once the booking data is available. GTM
+  // listens on the dataLayer and maps it to GA4 + Meta Pixel without code
+  // changes on our side.
+  useEffect(() => {
+    if (!bookingData || !paymentIntentId) return;
+    if (trackedTxRef.current === paymentIntentId) return;
+    trackedTxRef.current = paymentIntentId;
+
+    const host =
+      typeof window !== "undefined"
+        ? window.location.hostname.toLowerCase()
+        : "";
+
+    pushPurchase({
+      transactionId: paymentIntentId,
+      reservationId: reservationId || undefined,
+      value: bookingData.totalPrice,
+      currency: "MXN",
+      propertyId: bookingData.listingMapId || propertyIdParam,
+      propertyName: bookingData.propertyName,
+      nights: bookingData.totalNights,
+      guests: totalGuests,
+      sandbox: SANDBOX_HOSTS.has(host),
+    });
+  }, [bookingData, paymentIntentId, reservationId, propertyIdParam, totalGuests]);
 
   return (
     <div className="min-h-screen bg-[#F2F0EA] p-5">
