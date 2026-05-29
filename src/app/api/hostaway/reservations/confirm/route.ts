@@ -78,7 +78,7 @@ export async function POST(request: Request) {
     // In sandbox mode we don't touch Hostaway or Resend so the tracking team
     // can complete the booking flow with Stripe test cards without polluting
     // the production calendar or sending guest emails.
-    if (isSandboxMode()) {
+    if (await isSandboxMode()) {
       const mockReservationId = fakeSandboxReservationId();
       console.info("[sandbox] mocked Hostaway reservation:", mockReservationId);
       return NextResponse.json({

@@ -8,6 +8,6 @@ import { isSandboxMode } from "@/server/sandbox";
  * sandbox URL really have the flag?  does production really not?).
  * Exposes no secrets — only the resolved boolean.
  */
-export function GET() {
-  return NextResponse.json({ sandbox: isSandboxMode() });
+export async function GET() {
+  return NextResponse.json({ sandbox: await isSandboxMode() });
 }

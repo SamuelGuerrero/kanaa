@@ -65,7 +65,7 @@ export async function POST(request: Request) {
   // 2. Cancel reservation in Hostaway — skipped in sandbox mode since the
   //    reservation never existed in the first place. The Stripe refund above
   //    already succeeded against the test PaymentIntent.
-  if (isSandboxMode()) {
+  if (await isSandboxMode()) {
     console.info("[sandbox] mocked Hostaway cancellation:", reservationId);
     return NextResponse.json({
       success: true,

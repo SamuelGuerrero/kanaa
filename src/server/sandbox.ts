@@ -1,16 +1,44 @@
+import { headers } from "next/headers";
+
 import { env } from "@/env";
 
 /**
- * Whether the current deployment is the tracking-only sandbox.
- *
- * When this returns `true`, code paths that would otherwise hit Hostaway or
- * send guest-facing emails should short-circuit with a mocked response so the
- * tracking team can validate Purchase / revenue events without touching the
- * production calendar.
+ * Hostnames that should always behave as the tracking sandbox regardless of
+ * env vars. The Vercel-assigned alias is kept here so the marketing team can
+ * test against a stable URL without us having to push env-var changes.
  */
-export const isSandboxMode = (): boolean => {
+const SANDBOX_HOSTS = new Set<string>(["kanaa-eight.vercel.app"]);
+
+const envFlagEnabled = (): boolean => {
   const raw = env.KANAA_SANDBOX_MODE?.toLowerCase();
   return raw === "1" || raw === "true";
+};
+
+/**
+ * Whether the current request should run in tracking-sandbox mode.
+ *
+ * Two ways to enter the sandbox:
+ * 1. Request host matches one of `SANDBOX_HOSTS` (e.g. the Vercel preview alias).
+ * 2. `KANAA_SANDBOX_MODE` is set on the deployment env (escape hatch for
+ *    dedicated sandbox environments).
+ *
+ * Production (`kanaa.house`) never hits either branch unless the env flag is
+ * intentionally set, so guest bookings keep flowing through Hostaway + Resend.
+ */
+export const isSandboxMode = async (): Promise<boolean> => {
+  if (envFlagEnabled()) return true;
+  try {
+    const headerStore = await headers();
+    const host = (
+      headerStore.get("x-forwarded-host") ?? headerStore.get("host") ?? ""
+    )
+      .toLowerCase()
+      .split(":")[0];
+    return host ? SANDBOX_HOSTS.has(host) : false;
+  } catch {
+    // No request context (e.g. build-time analysis). Default to real mode.
+    return false;
+  }
 };
 
 /**
