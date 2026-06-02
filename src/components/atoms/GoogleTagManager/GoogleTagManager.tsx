@@ -1,22 +1,28 @@
-import Script from "next/script";
-
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-PH7N8G6B";
 
 /**
- * Inline Google Tag Manager bootloader. Rendered in the document `<head>`
- * via Next.js' Script component with `afterInteractive` strategy so it
- * doesn't block hydration. The container id falls back to the hard-coded
- * value the marketing team provided, but can be overridden by setting
+ * Inline Google Tag Manager bootloader, rendered as a raw `<script>` directly
+ * in `<head>`. We deliberately do NOT use `next/script` here because:
+ *
+ * 1. In App Router, `next/script` with `strategy="afterInteractive"` for
+ *    inline scripts injects the tag post-hydration, which causes Tag
+ *    Assistant to report the container as "not found" on some routes
+ *    (notably `/booking-success/`, where marketing was hitting it).
+ * 2. The official GTM snippet is meant to be a synchronous `<script>` at
+ *    the top of `<head>` — that's the form Tag Assistant, GA4, and Meta
+ *    Pixel all assume when they look for `window.google_tag_manager`.
+ *
+ * The snippet itself is kept verbatim against the one GTM hands out, with
+ * the container id interpolated. The container id falls back to the
+ * hard-coded value marketing provided but can be overridden via
  * `NEXT_PUBLIC_GTM_ID` (useful when staging needs a different container).
  */
 export const GoogleTagManagerScript = () => {
   if (!GTM_ID) return null;
   return (
-    <Script
+    <script
       id="gtm-bootstrap"
-      strategy="afterInteractive"
-      // The snippet GTM hands out — kept verbatim so it can be audited
-      // against marketing's reference. The container id is interpolated.
+      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
         __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
