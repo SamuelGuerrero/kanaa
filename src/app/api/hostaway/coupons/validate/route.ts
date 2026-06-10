@@ -139,9 +139,10 @@ export async function POST(request: NextRequest) {
 
     const authorization = await getHostawayAuthorizationHeader();
 
-    // Fetch coupon details first to validate conditions locally
+    // Fetch coupon list and find by exact name — Hostaway's ?name= filter
+    // is unreliable; fetching all and matching client-side is the safe approach.
     const couponInfoRes = await fetch(
-      `${HOSTAWAY_API_URL}/coupons?name=${encodeURIComponent(couponName)}&limit=1`,
+      `${HOSTAWAY_API_URL}/coupons?limit=100`,
       {
         headers: { Authorization: authorization, "Cache-Control": "no-cache" },
       },
@@ -159,7 +160,9 @@ export async function POST(request: NextRequest) {
 
     const couponInfo =
       (await couponInfoRes.json()) as HostawayCouponListResponse;
-    const coupon = couponInfo.result?.[0];
+    const coupon = couponInfo.result?.find(
+      (c) => c.name.toUpperCase() === couponName.toUpperCase(),
+    );
 
     if (!coupon) {
       return NextResponse.json(
