@@ -251,7 +251,7 @@ function LookupForm({
   };
 
   return (
-    <div className="flex min-h-screen items-center bg-[#F2F0EA] p-5">
+    <div className="mt-15 flex min-h-screen items-center bg-[#F2F0EA] p-5">
       <section className="mx-auto max-w-xl rounded-2xl bg-white px-8 pt-28 pb-16 md:px-16 md:pt-36">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex h-32.5 w-32.5 items-center justify-center rounded-full bg-[#EDEEEC]">
