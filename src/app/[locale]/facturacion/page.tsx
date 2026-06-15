@@ -178,7 +178,7 @@ function LookupStep({
               labelClassName="text-green-darker leading-5"
               value={reservationId}
               onChange={setReservationId}
-              placeholder="Ej: 12345678 o HMJ3SXMCDX"
+              placeholder="Ej: 12345678 o HMXXXXXXXX"
               className="border-grey-normal mt-1.5 rounded-[10px] border px-4 py-3.5"
             />
           </div>
