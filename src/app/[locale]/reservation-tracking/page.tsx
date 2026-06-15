@@ -173,11 +173,13 @@ function LookupForm({
     }) => {
       setError("");
 
+      // Accept Hostaway's internal numeric id OR a channel reservation
+      // code (Airbnb "HMJ3SXMCDX", Booking, etc.). The backend decides
+      // how to query Hostaway based on the shape of the value.
       const normalizedReservationId = rawReservationId.replace("#", "").trim();
       const trimmedEmail = rawEmail.trim();
-      const id = Number(normalizedReservationId);
 
-      if (!id || isNaN(id)) {
+      if (!normalizedReservationId) {
         setError("Ingresa un número de reservación válido");
         return false;
       }
@@ -187,7 +189,7 @@ function LookupForm({
       }
 
       const params = new URLSearchParams(searchParams.toString());
-      params.set("reservationId", String(id));
+      params.set("reservationId", normalizedReservationId);
       params.set("email", trimmedEmail);
       router.replace(`${pathname}?${params.toString()}`, {
         scroll: false,
@@ -199,7 +201,10 @@ function LookupForm({
         const response = await fetch("/api/hostaway/reservations/lookup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ reservationId: id, email: trimmedEmail }),
+          body: JSON.stringify({
+            reservationId: normalizedReservationId,
+            email: trimmedEmail,
+          }),
         });
 
         const data = (await response.json()) as {

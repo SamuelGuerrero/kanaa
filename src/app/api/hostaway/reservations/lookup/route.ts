@@ -5,8 +5,18 @@ import { getHostawayAuthorizationHeader } from "@/server/hostaway/auth";
 const HOSTAWAY_API_URL = "https://api.hostaway.com/v1";
 
 interface LookupBody {
-  reservationId: number;
+  // Accepts either Hostaway's internal numeric id (e.g. 41234567) or a
+  // channel reservation code (e.g. Airbnb's "HMJ3SXMCDX"). The frontend
+  // sends whatever the guest types — the backend decides how to query
+  // Hostaway based on the shape of the value.
+  reservationId: string | number;
   email: string;
+}
+
+interface HostawayReservationListResponse {
+  status: string;
+  result?: HostawayReservation[];
+  message?: string;
 }
 
 interface HostawayReservation {
@@ -54,7 +64,14 @@ export async function POST(request: Request) {
 
   const { reservationId, email } = body;
 
-  if (!reservationId || typeof reservationId !== "number") {
+  const rawId =
+    typeof reservationId === "number"
+      ? String(reservationId)
+      : typeof reservationId === "string"
+        ? reservationId.trim().replace(/^#/, "")
+        : "";
+
+  if (!rawId) {
     return NextResponse.json(
       { error: "El número de reservación es requerido" },
       { status: 400 },
@@ -79,51 +96,101 @@ export async function POST(request: Request) {
     );
   }
 
-  let response: Response;
-  try {
-    response = await fetch(
-      `${HOSTAWAY_API_URL}/reservations/${reservationId}`,
-      {
+  // All-digits → Hostaway internal id, lookup directly.
+  // Anything else → channel reservation code (Airbnb's "HMJ...", Booking,
+  // Vrbo, etc.), search the list endpoint by channelReservationId.
+  const isNumericId = /^\d+$/.test(rawId);
+
+  let reservation: HostawayReservation | undefined;
+
+  if (isNumericId) {
+    let response: Response;
+    try {
+      response = await fetch(`${HOSTAWAY_API_URL}/reservations/${rawId}`, {
         method: "GET",
         headers: {
           Authorization: authorization,
           "Content-Type": "application/json",
           "Cache-Control": "no-cache",
         },
-      },
-    );
-  } catch (error) {
-    console.error("Error de red al buscar reservación:", error);
-    return NextResponse.json(
-      { error: "No se pudo conectar con el servicio" },
-      { status: 502 },
-    );
-  }
-
-  if (!response.ok) {
-    if (response.status === 404) {
+      });
+    } catch (error) {
+      console.error("Error de red al buscar reservación:", error);
       return NextResponse.json(
-        { error: "No se encontró la reservación" },
-        { status: 404 },
+        { error: "No se pudo conectar con el servicio" },
+        { status: 502 },
       );
     }
-    return NextResponse.json(
-      { error: "Error al buscar la reservación" },
-      { status: response.status },
-    );
-  }
 
-  let data: HostawayReservationResponse;
-  try {
-    data = (await response.json()) as HostawayReservationResponse;
-  } catch {
-    return NextResponse.json(
-      { error: "Respuesta inválida del servicio" },
-      { status: 502 },
-    );
-  }
+    if (!response.ok) {
+      if (response.status === 404) {
+        return NextResponse.json(
+          { error: "No se encontró la reservación" },
+          { status: 404 },
+        );
+      }
+      return NextResponse.json(
+        { error: "Error al buscar la reservación" },
+        { status: response.status },
+      );
+    }
 
-  const reservation = data.result;
+    let data: HostawayReservationResponse;
+    try {
+      data = (await response.json()) as HostawayReservationResponse;
+    } catch {
+      return NextResponse.json(
+        { error: "Respuesta inválida del servicio" },
+        { status: 502 },
+      );
+    }
+
+    reservation = data.result;
+  } else {
+    // Hostaway exposes a `channelReservationId` filter on the listing
+    // endpoint; one channel code maps to exactly one reservation in
+    // practice, so we take the first hit.
+    const url = new URL(`${HOSTAWAY_API_URL}/reservations`);
+    url.searchParams.set("channelReservationId", rawId);
+    url.searchParams.set("limit", "1");
+
+    let response: Response;
+    try {
+      response = await fetch(url.toString(), {
+        method: "GET",
+        headers: {
+          Authorization: authorization,
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
+        },
+      });
+    } catch (error) {
+      console.error("Error de red al buscar reservación por canal:", error);
+      return NextResponse.json(
+        { error: "No se pudo conectar con el servicio" },
+        { status: 502 },
+      );
+    }
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: "Error al buscar la reservación" },
+        { status: response.status },
+      );
+    }
+
+    let data: HostawayReservationListResponse;
+    try {
+      data = (await response.json()) as HostawayReservationListResponse;
+    } catch {
+      return NextResponse.json(
+        { error: "Respuesta inválida del servicio" },
+        { status: 502 },
+      );
+    }
+
+    reservation = data.result?.[0];
+  }
 
   if (!reservation) {
     return NextResponse.json(

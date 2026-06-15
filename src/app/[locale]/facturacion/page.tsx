@@ -113,8 +113,11 @@ function LookupStep({
     e.preventDefault();
     setError("");
 
-    const id = Number(reservationId.replace("#", "").trim());
-    if (!id || isNaN(id)) {
+    // Accept Hostaway's internal numeric id OR a channel reservation code
+    // (Airbnb's "HMJ3SXMCDX", Booking codes, etc.). The backend decides
+    // how to query Hostaway based on the shape of the value.
+    const id = reservationId.replace("#", "").trim();
+    if (!id) {
       setError("Ingresa un número de reservación válido");
       return;
     }
