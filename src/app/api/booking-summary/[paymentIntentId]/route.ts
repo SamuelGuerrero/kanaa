@@ -19,7 +19,7 @@ export async function GET(
 ) {
   const { paymentIntentId } = await params;
 
-  if (!paymentIntentId || !paymentIntentId.startsWith("pi_")) {
+  if (!paymentIntentId?.startsWith("pi_")) {
     return NextResponse.json(
       { error: "paymentIntentId inválido" },
       { status: 400 },

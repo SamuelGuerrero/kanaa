@@ -201,7 +201,9 @@ function BookingSuccessInner() {
             },
           });
         })
-        .catch(() => {});
+        .catch((err: unknown) => {
+          console.warn("booking-summary fallback failed", err);
+        });
     }
   }, [paymentIntentId, propertyIdParam]);
 
