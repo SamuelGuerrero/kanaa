@@ -11,6 +11,16 @@ import { pushPurchase } from "@/lib/dataLayer";
 
 import type { BookingData } from "@/components/molecules";
 
+type BookingSummary = {
+  value: number;
+  currency: string;
+  listingId: string | null;
+  nights: number | null;
+  guests: number | null;
+  arrivalDate: string | null;
+  departureDate: string | null;
+};
+
 // Sandbox hostnames — kept in sync with src/server/sandbox.ts and the
 // checkout page so we can flag tracking events that come from the
 // marketing-test deployment.
@@ -146,6 +156,7 @@ function BookingSuccessInner() {
   useEffect(() => {
     setPaymentDate(new Date().toLocaleString("es-MX"));
     const raw = sessionStorage.getItem("bookingData");
+    let hydratedFromSession = false;
     if (raw) {
       try {
         const parsed = JSON.parse(raw) as BookingData;
@@ -154,6 +165,7 @@ function BookingSuccessInner() {
           startDate: parsed.startDate ? new Date(parsed.startDate) : null,
           endDate: parsed.endDate ? new Date(parsed.endDate) : null,
         });
+        hydratedFromSession = true;
       } catch {}
     }
     const guestRaw = sessionStorage.getItem("guestData");
@@ -162,7 +174,36 @@ function BookingSuccessInner() {
         setGuestData(JSON.parse(guestRaw) as GuestData);
       } catch {}
     }
-  }, []);
+
+    // Fallback: if we didn't get bookingData from sessionStorage but the
+    // URL carries a PaymentIntent id, fetch the minimum needed to fire the
+    // GA4 `purchase` event from Stripe metadata. Covers refresh, link
+    // shared by email, and Tag Assistant auditing the URL directly.
+    if (!hydratedFromSession && paymentIntentId.startsWith("pi_")) {
+      void fetch(`/api/booking-summary/${paymentIntentId}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((summary: BookingSummary | null) => {
+          if (!summary) return;
+          setBookingData({
+            listingMapId: summary.listingId ?? propertyIdParam,
+            startDate: summary.arrivalDate
+              ? new Date(summary.arrivalDate)
+              : null,
+            endDate: summary.departureDate
+              ? new Date(summary.departureDate)
+              : null,
+            totalNights: summary.nights ?? 0,
+            totalPrice: summary.value,
+            guests: {
+              adults: summary.guests ?? 1,
+              children: 0,
+              infants: 0,
+            },
+          });
+        })
+        .catch(() => {});
+    }
+  }, [paymentIntentId, propertyIdParam]);
 
   const totalGuests = bookingData
     ? bookingData.guests.adults +
