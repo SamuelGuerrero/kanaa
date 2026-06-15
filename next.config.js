@@ -18,6 +18,14 @@ const config = {
   },
 
   images: {
+    // Bypass Vercel's image optimizer (`/_next/image`). The Hobby plan's
+    // monthly transformation quota was exhausted and Vercel started
+    // returning HTTP 402 for every image — including the property
+    // thumbnails on booking-success, /facturacion and /ver-reserva.
+    // Loading direct-from-origin loses the AVIF/WebP transcode but keeps
+    // the site usable. Revisit when we move to a paid plan or set up a
+    // custom image loader.
+    unoptimized: true,
     // Next.js image formats — prefer AVIF, fallback to WebP
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
