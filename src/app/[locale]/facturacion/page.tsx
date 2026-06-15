@@ -105,7 +105,6 @@ function LookupStep({
   onFound: (reservation: ReservationData) => void;
 }) {
   const [reservationId, setReservationId] = useState("");
-  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -121,17 +120,13 @@ function LookupStep({
       setError("Ingresa un número de reservación válido");
       return;
     }
-    if (!email.trim()) {
-      setError("Ingresa tu correo electrónico");
-      return;
-    }
 
     setIsLoading(true);
     try {
       const res = await fetch("/api/hostaway/reservations/lookup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reservationId: id, email: email.trim() }),
+        body: JSON.stringify({ reservationId: id }),
       });
 
       const data = (await res.json()) as {
@@ -169,8 +164,8 @@ function LookupStep({
             Solicitud de factura
           </Text>
           <Text font="gilroy" size="lg" className="text-green-normal">
-            Ingresa tu número de reserva y correo electrónico para continuar con
-            tu solicitud de facturación.
+            Ingresa tu número de reserva para continuar con tu solicitud de
+            facturación.
           </Text>
         </div>
 
@@ -183,20 +178,7 @@ function LookupStep({
               labelClassName="text-green-darker leading-5"
               value={reservationId}
               onChange={setReservationId}
-              placeholder="Ej: 12345678"
-              className="border-grey-normal mt-1.5 rounded-[10px] border px-4 py-3.5"
-            />
-          </div>
-          <div>
-            <Input
-              label="Correo electrónico"
-              labelSize="base"
-              labelWeight="bold"
-              labelClassName="text-green-darker leading-5"
-              value={email}
-              onChange={setEmail}
-              placeholder="tu@correo.com"
-              type="email"
+              placeholder="Ej: 12345678 o HMJ3SXMCDX"
               className="border-grey-normal mt-1.5 rounded-[10px] border px-4 py-3.5"
             />
           </div>

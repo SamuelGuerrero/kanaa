@@ -10,7 +10,13 @@ interface LookupBody {
   // sends whatever the guest types — the backend decides how to query
   // Hostaway based on the shape of the value.
   reservationId: string | number;
-  email: string;
+  // Optional. When present we verify it matches the guest's email on
+  // the Hostaway reservation (used by /reservation-tracking, where the
+  // guest is managing their own booking). The invoice form
+  // (/facturacion) omits it — Airbnb guests don't always remember which
+  // email they used when they booked, and the page that follows is
+  // billing-only (no booking actions exposed).
+  email?: string;
 }
 
 interface HostawayReservationListResponse {
@@ -78,12 +84,8 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!email || typeof email !== "string") {
-    return NextResponse.json(
-      { error: "El correo electrónico es requerido" },
-      { status: 400 },
-    );
-  }
+  const normalizedEmail =
+    typeof email === "string" && email.trim() ? email.trim() : null;
 
   let authorization: string;
   try {
@@ -199,8 +201,13 @@ export async function POST(request: Request) {
     );
   }
 
-  // Validate email matches (case-insensitive)
-  if (reservation.guestEmail?.toLowerCase() !== email.toLowerCase()) {
+  // Email is optional. When the caller provides it (reservation-tracking)
+  // we verify the guest owns the booking. The invoice form omits it on
+  // purpose (Airbnb guests don't remember which email they used).
+  if (
+    normalizedEmail &&
+    reservation.guestEmail?.toLowerCase() !== normalizedEmail.toLowerCase()
+  ) {
     return NextResponse.json(
       { error: "El correo electrónico no coincide con la reservación" },
       { status: 403 },
