@@ -48,6 +48,10 @@ interface HostawayReservation {
   comment: string | null;
   source: string | null;
   channelId: number;
+  // Channel's short confirmation code, e.g. Airbnb's "HMJ3SXMCDX". This
+  // is what guests see in their booking confirmation and what they type
+  // into our invoice/lookup forms.
+  confirmationCode: string | null;
 }
 
 interface HostawayReservationResponse {
@@ -149,49 +153,70 @@ export async function POST(request: Request) {
 
     reservation = data.result;
   } else {
-    // Hostaway exposes a `channelReservationId` filter on the listing
-    // endpoint; one channel code maps to exactly one reservation in
-    // practice, so we take the first hit.
-    const url = new URL(`${HOSTAWAY_API_URL}/reservations`);
-    url.searchParams.set("channelReservationId", rawId);
-    url.searchParams.set("limit", "1");
+    // Hostaway's `/reservations` listing endpoint ignores every
+    // search-style query param we tried (`channelReservationId`,
+    // `confirmationCode`, `q`, `search`…) — it just returns the default
+    // page. There's also no dedicated lookup-by-code endpoint. So the
+    // only reliable way to resolve a channel code (Airbnb "HMJ3SXMCDX",
+    // Booking, etc.) is to paginate and match locally against the
+    // reservation's `confirmationCode` field.
+    //
+    // ~3k reservations at limit=500 → 6 pages worst case. We bail as soon
+    // as we find the match and cap iterations to avoid runaway loops.
+    const upperId = rawId.toUpperCase();
+    const PAGE_SIZE = 500;
+    const MAX_PAGES = 20;
+    let offset = 0;
 
-    let response: Response;
-    try {
-      response = await fetch(url.toString(), {
-        method: "GET",
-        headers: {
-          Authorization: authorization,
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache",
-        },
-      });
-    } catch (error) {
-      console.error("Error de red al buscar reservación por canal:", error);
-      return NextResponse.json(
-        { error: "No se pudo conectar con el servicio" },
-        { status: 502 },
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const url = new URL(`${HOSTAWAY_API_URL}/reservations`);
+      url.searchParams.set("limit", String(PAGE_SIZE));
+      url.searchParams.set("offset", String(offset));
+
+      let response: Response;
+      try {
+        response = await fetch(url.toString(), {
+          method: "GET",
+          headers: {
+            Authorization: authorization,
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache",
+          },
+        });
+      } catch (error) {
+        console.error("Error de red al paginar reservaciones:", error);
+        return NextResponse.json(
+          { error: "No se pudo conectar con el servicio" },
+          { status: 502 },
+        );
+      }
+
+      if (!response.ok) {
+        return NextResponse.json(
+          { error: "Error al buscar la reservación" },
+          { status: response.status },
+        );
+      }
+
+      let data: HostawayReservationListResponse;
+      try {
+        data = (await response.json()) as HostawayReservationListResponse;
+      } catch {
+        return NextResponse.json(
+          { error: "Respuesta inválida del servicio" },
+          { status: 502 },
+        );
+      }
+
+      const batch = data.result ?? [];
+      reservation = batch.find(
+        (r) => r.confirmationCode?.toUpperCase() === upperId,
       );
-    }
 
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Error al buscar la reservación" },
-        { status: response.status },
-      );
+      if (reservation) break;
+      if (batch.length < PAGE_SIZE) break;
+      offset += batch.length;
     }
-
-    let data: HostawayReservationListResponse;
-    try {
-      data = (await response.json()) as HostawayReservationListResponse;
-    } catch {
-      return NextResponse.json(
-        { error: "Respuesta inválida del servicio" },
-        { status: 502 },
-      );
-    }
-
-    reservation = data.result?.[0];
   }
 
   if (!reservation) {
