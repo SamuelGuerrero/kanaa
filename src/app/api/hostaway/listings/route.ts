@@ -10,6 +10,21 @@ const CACHE_STALE_MS = 5 * 60 * 1000;
 const PRIORITY_LISTING_IDS = [448506, 488293, 396219];
 const GENERAL_LISTINGS_LIMIT = 100;
 
+// Listings tagged with this name in Hostaway are excluded from the public
+// /properties grid. The detail page `/properties/[id]` stays reachable so
+// operations can still share the link manually to specific guests.
+const HIDDEN_TAG_NAME = "Ocultar";
+
+const isHidden = (listing: { listingTags?: unknown }) =>
+  Array.isArray(listing.listingTags) &&
+  listing.listingTags.some(
+    (t): t is { name: string } =>
+      typeof t === "object" &&
+      t !== null &&
+      "name" in t &&
+      (t as { name?: unknown }).name === HIDDEN_TAG_NAME,
+  );
+
 type CacheEntry = {
   data: ApiResponse<Property[]>;
   expiresAt: number;
@@ -115,7 +130,9 @@ export async function GET(request: NextRequest) {
           throw new Error(`Error de Hostaway API: ${response.status}`);
         }
 
-        return (await response.json()) as ApiResponse<Property[]>;
+        const data = (await response.json()) as ApiResponse<Property[]>;
+        const filtered = (data.result ?? []).filter((l) => !isHidden(l));
+        return { ...data, result: filtered } as ApiResponse<Property[]>;
       }
 
       const priorityResponses = await Promise.allSettled(
@@ -146,7 +163,8 @@ export async function GET(request: NextRequest) {
           (result): result is PromiseFulfilledResult<Property> =>
             result.status === "fulfilled",
         )
-        .map((result) => result.value);
+        .map((result) => result.value)
+        .filter((l) => !isHidden(l));
 
       const generalParams = new URLSearchParams({
         limit: GENERAL_LISTINGS_LIMIT.toString(),
@@ -175,7 +193,7 @@ export async function GET(request: NextRequest) {
 
       const excludedIds = new Set(PRIORITY_LISTING_IDS);
       const remainingListings = (generalData.result ?? []).filter(
-        (listing) => !excludedIds.has(listing.id),
+        (listing) => !excludedIds.has(listing.id) && !isHidden(listing),
       );
 
       const result = [...prioritizedListings, ...remainingListings].slice(
