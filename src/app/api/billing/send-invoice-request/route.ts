@@ -16,10 +16,19 @@ const schema = z.object({
     emailFacturacion: z.string().email(),
   }),
   guest: z.object({
-    firstName: z.string().min(1),
-    lastName: z.string().min(1),
-    email: z.string().email(),
-    phone: z.string(),
+    // Airbnb bookings arrive with the name intact but the email/phone
+    // stripped for privacy. We accept nulls/blanks so the invoice team
+    // can still receive the request — the PDF gets delivered to
+    // `billing.emailFacturacion` anyway, and the guest row in the
+    // template just prints "No especificado" for missing values.
+    firstName: z.string().nullish(),
+    lastName: z.string().nullish(),
+    email: z
+      .string()
+      .email()
+      .nullish()
+      .or(z.literal("")),
+    phone: z.string().nullish(),
   }),
   reservation: z.object({
     propertyName: z.string(),
@@ -109,8 +118,12 @@ const buildTemplate = (p: Payload) => {
             Datos del Huésped
           </h2>
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
-            ${row("Nombre", `${guest.firstName} ${guest.lastName}`)}
-            ${row("Correo", guest.email)}
+            ${row(
+              "Nombre",
+              `${guest.firstName ?? ""} ${guest.lastName ?? ""}`.trim() ||
+                "No especificado",
+            )}
+            ${row("Correo", guest.email || "No especificado")}
             ${row("Teléfono", guest.phone || "No especificado")}
           </table>
 
