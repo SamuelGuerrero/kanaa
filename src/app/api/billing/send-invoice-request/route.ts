@@ -78,6 +78,13 @@ const buildTemplate = (p: Payload) => {
     currency: "MXN",
   }).format(reservation.totalPrice);
 
+  // `||` (not `??`) is intentional: blank Airbnb fields arrive as `""`,
+  // not just null/undefined, and must also fall back to "No especificado".
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const guestEmail = guest.email || "No especificado";
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const guestPhone = guest.phone || "No especificado";
+
   return `
   <div style="margin:0;padding:40px 16px;background:#f4f6f4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2937;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:720px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 10px 30px rgba(0,0,0,0.05);">
@@ -123,8 +130,8 @@ const buildTemplate = (p: Payload) => {
               `${guest.firstName ?? ""} ${guest.lastName ?? ""}`.trim() ||
                 "No especificado",
             )}
-            ${row("Correo", guest.email || "No especificado")}
-            ${row("Teléfono", guest.phone || "No especificado")}
+            ${row("Correo", guestEmail)}
+            ${row("Teléfono", guestPhone)}
           </table>
 
           <!-- DATOS DE FACTURACIÓN -->
